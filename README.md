@@ -9,43 +9,59 @@ didn't happen in the good one?" Plain `diff` can't answer it: timestamps, PIDs, 
 UUIDs, ports, and line order all differ between any two runs, even two passing ones, so a
 byte-level diff of a 4,000-line CI log is 3,990 lines of noise. `logdelta` turns each line
 into a *template* by masking the variable parts, clusters the templates, and compares
-template distributions between a known-good baseline and the run you're investigating.
+template distributions between a known-good baseline and the run you're investigating. On
+the synthetic 18,000-line, three-baseline example below — a simulated parallel test run with
+a real failure buried in it — that's a 6,042-line target reduced to 10 findings, one of them
+the actual failing test.
 
-<p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output: three NEW findings for a database connection failure, a Go panic, and its stack trace line, each with the line number and raw text where it first appears in the target log"></p>
+<p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output on a simulated parallel test run: header reads 18,350 to 6,042 lines, 407 templates, 10 findings; five NEW findings (a new service alert, a new structured error event, and a buried test's traceback), one GONE finding, and a NEW VALUE finding showing one specific test's outcome flipping from PASSED in every baseline to FAILED in the target"></p>
 
 ## Quickstart
 
 ```console
 $ cargo install --git https://github.com/antonsoo/logdelta
 $ git clone https://github.com/antonsoo/logdelta && cd logdelta
-$ logdelta diff examples/k8s-service.log --target examples/k8s-service-incident.log
+$ logdelta diff examples/large/baseline-{1,2,3}.log --target examples/large/target-failure.log
 ```
 
-That last command is exactly what produced the screenshot above, against the synthetic
-fixtures committed in this repo — no setup needed, just try it.
+That last command, against the synthetic fixtures committed in this repo, is exactly what
+produced the screenshot above — no setup needed, just try it. Prebuilt binaries aren't
+published yet (`.github/workflows/release.yml` builds them for Linux/macOS/Windows on every
+`v*` tag; none has been pushed yet) — `cargo install --git` is the way to get it today.
 
 ## Features
 
 - **`logdelta diff <baseline>... --target <file>`** — reports templates that are **NEW** in
   the target, **GONE** from it (present in every baseline), or significantly **CHANGED** in
-  frequency, each with counts, the template (variables highlighted), the first matching
-  target line, and `-C N` context lines. Pass multiple baselines to down-weight templates
-  that are already noisy across passing runs, so flaky lines don't drown out real findings.
+  frequency, plus **NEW VALUE** findings for a same-frequency content flip at a
+  low-cardinality position (see [How it works](#how-it-works)) — each with counts, the
+  template (variables highlighted), the first matching target line, and `-C N` context
+  lines. Pass multiple baselines to down-weight templates that are already noisy across
+  passing runs, so flaky lines don't drown out real findings.
 - **`logdelta templates <file>`** — the top templates in a file, ranked by count, with an
   example line for each.
 - **`logdelta novel --baseline <file>... [target|-]`** — a streaming filter: prints only
   lines whose template has never appeared in the baseline(s). Flushes per line, so
   `tail -f app.log | logdelta novel --baseline last-week.log` surfaces new behavior live.
+- **Structural envelopes**: CRI/containerd (`kubectl logs`) prefixes, journald/syslog
+  headers, the Docker `json-file` wrapper, and bare leading timestamps (GitHub Actions'
+  raw-log shape) are stripped before mining, keeping only what's worth comparing on (e.g.
+  the stream name).
+- **JSON-aware**: a single-line JSON payload is flattened into `key=`/value tokens instead
+  of shredded by a whitespace split, so a quoted multi-word message clusters correctly and
+  its keys stay literal in the template while only the values wildcard.
 - **Masking**: ISO 8601/RFC 3339 and syslog timestamps, epoch seconds/ms, UUIDs, hex
   ids/hashes, IPv4 with ports, IPv6 (uncompressed and bracketed forms — see
-  [Limitations](#accuracy-and-limitations)), emails, URL query strings and numeric/hex/UUID
-  path segments, quantities and durations (`512KiB`, `12ms`, `01:23:45`), temp paths, and
-  ANSI escapes — plus `--mask REGEX` (repeatable) and `--mask-file` for your own patterns.
+  [Limitations](#accuracy-and-limitations)), emails, URL query strings, basic-auth
+  credentials, and numeric/hex/UUID path segments, quantities and durations (`512KiB`,
+  `12ms`, `01:23:45`), temp paths, and ANSI escapes — plus `--mask REGEX` (repeatable) and
+  `--mask-file` for your own patterns.
 - **Inputs**: files, stdin (`-`), and `.gz` transparently; non-UTF-8 bytes are handled
   lossily instead of crashing.
-- **Output**: colored terminal output (TTY auto-detected, override with `--color`),
-  `--json`, and `--markdown` for `$GITHUB_STEP_SUMMARY` or a PR comment.
-- Streams line-by-line: peak memory stays under ~7 MB on a 10-million-line log (see
+- **Output**: colored terminal output (TTY auto-detected, override with `--color`, raw
+  lines truncated to the real terminal width instead of wrapping mid-word), `--json`, and
+  `--markdown` for `$GITHUB_STEP_SUMMARY` or a PR comment.
+- Streams line-by-line: peak memory stays flat regardless of input size (see
   [Benchmarks](#benchmarks)).
 
 ## Usage
@@ -63,7 +79,7 @@ $ logdelta diff examples/pytest-pass.log --target examples/pytest-fail.log --mar
 ```markdown
 ### logdelta diff
 
-Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fail.log` (23 lines)
+Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fail.log` (23 lines) — 21 templates, 10 findings
 
 #### New
 
@@ -78,10 +94,21 @@ Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fai
 | Score | Baseline | Target | Template | First seen |
 |---:|---:|---:|---|---|
 | 1.2 | 1 | 0 | `============================== 7 passed in <QTY> ===============================` | — |
+
+#### New value
+
+| Template | New value | Baseline value(s) | First seen |
+|---|---|---|---|
+| `tests/test_math.py::test_divide <*> [ 57%]` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` ... |
 ```
 
-(Trimmed for the README; `--markdown` output is what's shown in this repo's own CI — see
-[`docs/github-actions.md`](docs/github-actions.md) for the full recipe.)
+The last table is the interesting one: `test_divide`'s outcome flipping from `PASSED` in the
+baseline to `FAILED` — same line, same position, same frequency — is exactly the case
+frequency-based scoring alone can't see (more in [How it works](#how-it-works)).
+
+(Trimmed for the README. This repo doesn't run `logdelta` on itself — `--markdown` is meant
+for pasting straight into `$GITHUB_STEP_SUMMARY` or a PR comment; see
+[`docs/github-actions.md`](docs/github-actions.md) for a worked recipe.)
 
 ```console
 $ tail -f service.log | logdelta novel --baseline yesterday-passing.log
@@ -94,30 +121,43 @@ happen.
 
 ```mermaid
 flowchart LR
-    A[raw line] --> B["mask (regex)"]
-    B --> C["Drain template miner"]
-    C --> D["cluster counts\nper run"]
-    D --> E["G-test scoring\n+ flakiness penalty"]
-    E --> F["NEW / GONE / CHANGED"]
+    A[raw line] --> B["strip envelope\n+ mask (regex)"]
+    B --> C["JSON? flatten to\nkey=/value tokens"]
+    C --> D["Drain template miner"]
+    D --> E["cluster + per-position\nvalue counts, per run"]
+    E --> F["G-test scoring\n+ flakiness penalty"]
+    E --> G["value tracking"]
+    F --> H["NEW / GONE / CHANGED"]
+    G --> I["NEW VALUE"]
 ```
 
-**1. Masking** (`src/mask.rs`) replaces the parts of a line that vary run-to-run —
-timestamps, ids, durations, and so on — with placeholder tokens like `<TS>` or `<UUID>`,
-using a fixed, ordered sequence of regexes (custom `--mask` patterns run first, so they take
-priority). It deliberately does *not* try to catch every variable value: short numbers (exit
-codes, HTTP statuses, retry counts) are left as literal tokens on purpose, because they're
-often the signal, not the noise, and because the next stage handles them anyway.
+**1. Masking** (`src/mask.rs`) first peels off a recognized structural envelope — a Docker
+`json-file` wrapper, a CRI/containerd `<ts> stdout F ` prefix, a journald/syslog header, or a
+bare leading timestamp (the GitHub Actions raw-log shape) — keeping only the literal part of
+it worth comparing on (e.g. the stream name), since the timestamp itself is pure noise for
+clustering. What's left is either a single-line JSON object, flattened into `key=` / value
+token pairs (so a quoted multi-word message doesn't get shredded into unrelated tokens by a
+naive whitespace split), or plain text, which then gets the same regex-masking pass as
+before: timestamps, ids, durations, and so on become placeholder tokens like `<TS>` or
+`<UUID>` (custom `--mask` patterns run first, so they take priority). It deliberately does
+*not* try to catch every variable value: short numbers (exit codes, HTTP statuses, retry
+counts) are left as literal tokens on purpose, because they're often the signal, not the
+noise, and because the next stage handles them anyway.
 
 **2. Template mining** (`src/drain.rs`) implements Drain, an online log parsing algorithm
 (P. He, J. Zhu, Z. Zheng, M. R. Lyu, "Drain: An Online Log Parsing Approach with Fixed Depth
-Tree," IEEE ICWS 2017, pp. 33-40): each masked line is tokenized by whitespace, routed to a
-small set of candidate clusters by `(token count, first token)`, compared against each
-candidate by the fraction of tokens that match exactly (a cluster's own `<*>` wildcard
-positions always count as a match), and merged into the best match above a similarity
-threshold (default `0.5`) — wildcarding any position that still disagrees — or used to start
-a new cluster if nothing matches well enough. This is where the short numbers masking left
-alone get generalized: if a position varies across enough real examples of an otherwise
-identical line, Drain wildcards it regardless of whether a regex would have caught it.
+Tree," IEEE ICWS 2017, pp. 33-40): each line's tokens are routed to a small set of candidate
+clusters by `(token count, first token)`, compared against each candidate by the fraction of
+positions that match, and merged into the best match above a similarity threshold (default
+`0.5`) — wildcarding any position that still disagrees — or used to start a new cluster if
+nothing matches well enough. This is where the short numbers masking left alone get
+generalized: if a position varies across enough real examples of an otherwise identical
+line, Drain wildcards it regardless of whether a regex would have caught it. One deliberate
+departure from a literal token-equality count: a position where *both* sides are the same
+masking placeholder (`<TS>`, `<NUM>`, ...) only counts as a match if the line has no literal
+content at all — otherwise two unrelated lines that merely both contain, say, a timestamp
+could accumulate enough incidental matches to clear the threshold and merge into a useless,
+over-generalized template.
 
 The original paper routes lines through a fixed-depth tree keyed on several leading tokens,
 with an early wildcard branch for tokens containing digits. This implementation uses a
@@ -151,19 +191,40 @@ frequency already swings between passing runs gets its score pulled down, so it 
 bigger shift in the target to still clear the significance bar. A template seen at a
 near-constant rate across baselines gets no such discount.
 
+**4. Value tracking** (`src/values.rs`) catches what frequency scoring structurally can't: a
+line whose *content* changes at the same frequency and position (the canonical case is a
+pytest line's status word flipping from `PASSED` in every baseline to `FAILED` in the
+target — the template's count doesn't move, so no G-test ever fires). For every wildcard
+position in every template, `diff` tracks the distinct literal values seen there per
+baseline run and in the target (placeholder values like `<IP>` are skipped — they're already
+canonicalized, so there's nothing to report). If the position is low-cardinality (at most 10
+distinct values across all baselines combined — a real id or free-text value blows straight
+through that cap and is left alone) and the target introduces a value that never appeared in
+any baseline, that's a **NEW VALUE** finding.
+
 ## Accuracy and limitations
 
-- **Frequency-based, not content-based.** `diff` only sees that a template's *count*
-  changed. A line whose *content* flips but whose count doesn't (e.g. pytest's own
-  `test_divide PASSED` becoming `test_divide FAILED`, same position, same frequency) won't
-  be flagged by itself — see `examples/pytest-pass.log` vs. `examples/pytest-fail.log`: the
-  status-word flip is invisible to the scorer, but everything downstream of it (the
-  `FAILURES` banner, the traceback, the changed summary line) is exactly what does get
-  flagged, which is usually enough in practice.
+- **Content flips are caught by value tracking, not by frequency scoring — and only up to a
+  point.** The G-test only sees that a template's *count* changed; a same-count content flip
+  (pytest's `test_divide PASSED` becoming `test_divide FAILED`) is what NEW VALUE findings
+  exist for instead (see "How it works" above; `examples/pytest-pass.log` vs.
+  `examples/pytest-fail.log` demonstrates it directly). But that mechanism only fires for a
+  *low-cardinality* wildcard position (at most 10 distinct values across all baselines): a
+  flip at a free-text or id-like position is invisible to it by design, the same way it would
+  be invisible to a human skimming a diff of "one value out of hundreds changed."
 - **Regex masking is necessarily incomplete.** It won't recognize a project-specific id
   format, a non-English date, or a base64 blob as a "temp path with random components"
   unless you add a `--mask`. Drain's own wildcarding is the second line of defense, but it
   only generalizes a token position once it has seen it vary.
+- **Structural-envelope stripping (CRI/journald/Docker json-file/bare leading timestamp) is
+  pattern-based, not a real parser for any of those formats.** It recognizes the common,
+  well-formed shape of each and leaves anything else untouched — a nonstandard journald
+  configuration or a hand-rolled log wrapper just won't get its prefix peeled off, which
+  degrades to "one more literal token in the template," not a crash or a wrong answer.
+- **JSON flattening only looks at single-line, top-level JSON objects** (`{"key": ...}` with
+  no embedded newlines) after any envelope is stripped. A pretty-printed multi-line JSON
+  blob, or a bare JSON array/scalar as the whole line, falls through to the plain-text
+  pipeline instead.
 - **Hex-id masking requires 7+ hex characters *and* at least one letter** (no upper bound —
   git SHAs, MD5, SHA-1/256/512 digests all match), so short (≤6 char) hex ids and
   purely-numeric hex-looking strings are not masked (the latter are usually genuine
