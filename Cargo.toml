@@ -17,6 +17,10 @@ default-run = "logdelta"
 name = "logdelta"
 path = "src/main.rs"
 
+[[example]]
+name = "gen_bench_log"
+path = "bench/gen_bench_log.rs"
+
 [lib]
 name = "logdelta"
 path = "src/lib.rs"
