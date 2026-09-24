@@ -5,8 +5,8 @@
 //! (flaky noise) instead of treating every jump as equally suspicious.
 //!
 //! Reference for the log-likelihood-ratio statistic: T. Dunning, "Accurate Methods for the
-//! Statistics of Surprise and Coincidence", Computational Linguistics 19(1), 1993. The 2x2
-//! table compared here is {this template, every other template} x {baseline run(s), target
+//! Statistics of Surprise and Coincidence", Computational Linguistics 19(1), 1993, pp. 61-74.
+//! The 2x2 table compared here is {this template, every other template} x {baseline run(s), target
 //! run}; it is the same construction Dunning uses for comparing word frequencies between two
 //! corpora, applied to log templates instead of words.
 
