@@ -1,7 +1,10 @@
 # Recipe: diff a failed job against the last successful run (GitHub Actions)
 
 **This is a worked example, not a published action.** Copy the parts you need into your own
-workflow; there is no `antonsoo/logdelta-action` to reference.
+workflow; there is no `antonsoo/logdelta-action` to reference. It also assumes a tagged
+`logdelta` release with prebuilt binaries exists (`.github/workflows/release.yml` builds
+one on every `v*` tag) — until the first tag is pushed, swap the `curl .../releases/latest`
+line below for `cargo install --git https://github.com/antonsoo/logdelta`.
 
 The idea: when a job fails, fetch its raw log, find the last run of the *same workflow +
 job* on the default branch that succeeded, fetch that log too, and run `logdelta diff`

@@ -2,7 +2,6 @@
 
 **Diff logs by meaning, not by bytes. See what's new in the failing run.**
 
-[![CI](https://github.com/antonsoo/logdelta/actions/workflows/ci.yml/badge.svg)](https://github.com/antonsoo/logdelta/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 When a CI job or a deploy fails, the useful question is "what happened in this run that
