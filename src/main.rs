@@ -22,11 +22,21 @@ fn main() -> ExitCode {
     };
     match result {
         Ok(code) => code,
+        // Piping output into `head`, `less`, or anything else that can close its end early
+        // (`logdelta diff ... | head`) makes our next write fail with EPIPE. That's not a
+        // real error - it's the reader saying "I have what I need" - so a well-behaved Unix
+        // tool exits quietly instead of printing "Broken pipe" and a failure status.
+        Err(e) if is_broken_pipe(&e) => ExitCode::SUCCESS,
         Err(e) => {
             eprintln!("logdelta: {e}");
             ExitCode::FAILURE
         }
     }
+}
+
+fn is_broken_pipe(err: &anyhow::Error) -> bool {
+    err.chain()
+        .any(|cause| matches!(cause.downcast_ref::<io::Error>(), Some(e) if e.kind() == io::ErrorKind::BrokenPipe))
 }
 
 /// `threshold` is a fraction of tokens that must match for Drain to fold a line into an

@@ -415,3 +415,39 @@ fn lower_threshold_merges_more_lines_into_fewer_templates() {
         "loose={loose_count} strict={strict_count}"
     );
 }
+
+#[test]
+fn exits_cleanly_on_a_closed_stdout_pipe() {
+    // `logdelta ... | head` closes its read end once it has what it wants; our next write
+    // then fails with EPIPE. A well-behaved Unix tool exits 0 quietly instead of printing
+    // "Broken pipe" and failing - see main.rs's `is_broken_pipe`.
+    let mut child = cmd()
+        .args([
+            "templates",
+            &fixture("large/baseline-2.log"),
+            "-n",
+            "1000",
+            "--json",
+        ])
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+
+    // Drop our end of the read pipe without reading anything: once the child's output
+    // exceeds the OS pipe buffer (a few dozen KB; this command's JSON output is well over
+    // that), its next write hits EPIPE.
+    drop(child.stdout.take());
+
+    let output = child.wait_with_output().unwrap();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        output.status.success(),
+        "expected exit 0 on a closed pipe, got {:?}; stderr: {stderr}",
+        output.status
+    );
+    assert!(
+        !stderr.to_lowercase().contains("broken pipe"),
+        "stderr should not mention the broken pipe, got: {stderr}"
+    );
+}
