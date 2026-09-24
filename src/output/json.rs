@@ -31,6 +31,7 @@ mod tests {
         let result = DiffResult {
             baseline_totals: vec![10, 12],
             target_total: 11,
+            total_templates: 3,
             findings: vec![Finding {
                 kind: FindingKind::New,
                 direction: Direction::Up,
@@ -42,6 +43,7 @@ mod tests {
                 first_target_raw: Some("boom 42".to_string()),
                 context: None,
             }],
+            value_findings: Vec::new(),
         };
         let mut buf = Vec::new();
         write_diff(&mut buf, &result).unwrap();

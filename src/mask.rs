@@ -18,6 +18,7 @@
 use std::sync::LazyLock;
 
 use regex::Regex;
+use serde_json::Value;
 
 /// A user-supplied additional mask, either from `--mask REGEX` or a config file line.
 /// The replacement defaults to `<CUSTOM>` unless the config gives `name=regex`.
@@ -130,6 +131,137 @@ lazy_re!(
     r"(?:/tmp/|/var/tmp/|/var/folders/|\\AppData\\Local\\Temp\\|\\Temp\\)[A-Za-z0-9_.=-]*(?:[/\\][A-Za-z0-9_.=-]*)*"
 );
 
+// CRI/containerd raw log lines (what `kubectl logs` shows): "<ts> stdout F <line>" or
+// "...P <partial line>". The timestamp and the F/P (full/partial) flag are pure noise for
+// clustering; the stream name is real signal (worth keeping distinct: an error on stderr is
+// a different story than the same text on stdout).
+lazy_re!(CRI_PREFIX, r"^\S+\s+(stdout|stderr)\s+[FP]\s+(.*)$");
+// journald/syslog with a hostname + process[pid]: header, e.g. "Jan 15 10:23:45 host
+// sshd[1234]: Accepted password". Drops the hostname (usually the thing being compared
+// across, not part of "what does this log line mean"); keeps the process name, with the pid
+// itself genericized since it's an id, not a template-relevant token.
+lazy_re!(
+    JOURNALD_PREFIX,
+    r"^[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}\s+\S+\s+([\w.-]+(?:\[\d+\])?):\s?(.*)$"
+);
+lazy_re!(PID_BRACKET, r"\[\d+\]");
+
+/// Strips a Docker `json-file` log driver envelope (`{"log":"...","stream":"stdout","time":
+/// "..."}`) if `s` is one, returning the stream name as a leading token and the unwrapped
+/// `log` text as the remaining payload. Requires both `log` and (`stream` or `time`) so an
+/// arbitrary application JSON log that happens to have a `log` field isn't misread as this
+/// specific envelope format.
+fn strip_docker_wrapper(s: &str) -> (Vec<String>, String) {
+    let trimmed = s.trim_start();
+    if !trimmed.starts_with('{') {
+        return (Vec::new(), s.to_string());
+    }
+    let Ok(Value::Object(map)) = serde_json::from_str::<Value>(trimmed) else {
+        return (Vec::new(), s.to_string());
+    };
+    let has_envelope_shape = map.contains_key("stream") || map.contains_key("time");
+    match map.get("log") {
+        Some(Value::String(log)) if has_envelope_shape => {
+            let prefix = map
+                .get("stream")
+                .and_then(Value::as_str)
+                .map(|s| vec![s.to_string()])
+                .unwrap_or_default();
+            (prefix, log.trim_end_matches('\n').to_string())
+        }
+        _ => (Vec::new(), s.to_string()),
+    }
+}
+
+/// A leading timestamp with nothing else structural around it (GitHub Actions' raw step
+/// logs look like this: `2024-01-15T10:23:45.1234567Z <message>`).
+fn strip_leading_timestamp(s: &str) -> Option<String> {
+    for re in [&*TS_ISO, &*TS_SYSLOG, &*TS_SLASH] {
+        if let Some(m) = re.find(s) {
+            if m.start() == 0 {
+                return Some(
+                    s[m.end()..]
+                        .trim_start_matches([' ', '\t', ':', '-'])
+                        .to_string(),
+                );
+            }
+        }
+    }
+    None
+}
+
+/// Recognizes CRI/containerd and journald/syslog headers, or else a bare leading timestamp,
+/// and strips it, returning any literal token worth keeping (e.g. the stream name) plus the
+/// remaining payload. A no-op (empty prefix, `s` returned unchanged) if nothing matches.
+fn strip_structural_prefix(s: &str) -> (Vec<String>, String) {
+    if let Some(caps) = CRI_PREFIX.captures(s) {
+        return (vec![caps[1].to_string()], caps[2].to_string());
+    }
+    if let Some(caps) = JOURNALD_PREFIX.captures(s) {
+        let process = PID_BRACKET.replace(&caps[1], "[<NUM>]").into_owned();
+        return (vec![process], caps[2].to_string());
+    }
+    if let Some(rest) = strip_leading_timestamp(s) {
+        return (Vec::new(), rest);
+    }
+    (Vec::new(), s.to_string())
+}
+
+/// Masks one JSON value for use as a single Drain token. Strings and numbers get the same
+/// treatment as free text / bare numbers elsewhere; numbers are *always* masked here (unlike
+/// the free-text `BARE_NUM` pass, which leaves short numbers alone) because a JSON value is
+/// known, structurally, to be "the variable part" rather than incidental text.
+fn mask_json_value(v: &Value) -> String {
+    match v {
+        Value::String(s) => format!("\"{}\"", mask_body(s)),
+        Value::Number(_) => "<NUM>".to_string(),
+        Value::Bool(b) => b.to_string(),
+        Value::Null => "null".to_string(),
+        Value::Array(items) => {
+            let cap = 8;
+            let inner: Vec<String> = items.iter().take(cap).map(mask_json_value).collect();
+            let more = if items.len() > cap { ",…" } else { "" };
+            format!("[{}{more}]", inner.join(","))
+        }
+        Value::Object(map) => {
+            let cap = 8;
+            let inner: Vec<String> = map
+                .iter()
+                .take(cap)
+                .map(|(k, v)| format!("{k}={}", mask_json_value(v)))
+                .collect();
+            let more = if map.len() > cap { ",…" } else { "" };
+            format!("{{{}{more}}}", inner.join(","))
+        }
+    }
+}
+
+/// If `payload` is a single-line JSON object, flattens it into `key=` / value token pairs
+/// (two tokens per field, so Drain can wildcard just the value and keep the key literal —
+/// see the module docs) instead of letting a naive whitespace split break a quoted message
+/// like `"msg":"database connection failed"` into three unrelated tokens. Returns `None` for
+/// anything that isn't a non-empty JSON object, so the caller falls back to the plain-text
+/// pipeline (this also covers JSON arrays/scalars at the top level, which are rare in logs
+/// and don't have a natural key to key a token on).
+fn flatten_json_line(payload: &str) -> Option<Vec<String>> {
+    let trimmed = payload.trim();
+    if !trimmed.starts_with('{') {
+        return None;
+    }
+    let Value::Object(map) = serde_json::from_str::<Value>(trimmed).ok()? else {
+        return None;
+    };
+    if map.is_empty() {
+        return None;
+    }
+    let mut tokens = Vec::with_capacity(map.len() * 2);
+    for (key, value) in &map {
+        tokens.push(format!("{key}="));
+        tokens.push(mask_json_value(value));
+    }
+    Some(tokens)
+}
+
 // number + unit, e.g. "512KiB", "12 ms", "3.4s", "200Mbps".
 lazy_re!(
     QUANTITY,
@@ -209,17 +341,14 @@ fn mask_url_internals(url: &str) -> String {
     out
 }
 
-/// Applies any user `custom` masks first (so they take priority over the built-ins on
-/// overlapping text), then every built-in masker, in a fixed, deterministic order.
-pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
-    let mut s = ANSI.replace_all(line, "").into_owned();
-
-    for cm in custom {
-        s = cm
-            .regex
-            .replace_all(&s, cm.placeholder.as_str())
-            .into_owned();
-    }
+/// The regex-masking pipeline: everything in this module's doc comment, applied in a fixed
+/// order, to text that's already had ANSI escapes and any custom masks handled. This is the
+/// part that's reusable for masking a *piece* of a line (a JSON field value, a URL path
+/// segment) as well as a whole one — see [`tokenize_line`], which is the real entry point
+/// for turning a raw log line into Drain tokens; [`mask_line`] (ANSI + custom + this, with no
+/// further structure) exists mainly so each masker can be unit-tested against plain text.
+fn mask_body(s: &str) -> String {
+    let mut s = s.to_string();
 
     // URLs are masked before anything else touches the rest of the line (timestamps, UUIDs,
     // emails, ...): every one of those maskers inserts a `<PLACEHOLDER>` containing `<`/`>`,
@@ -275,6 +404,56 @@ pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
     s = BARE_NUM.replace_all(&s, "<NUM>").into_owned();
 
     s
+}
+
+/// Strips ANSI escapes, applies any user `custom` masks, then [`mask_body`]. Useful on its
+/// own for testing/demonstrating a masker against plain text; real log lines should go
+/// through [`tokenize_line`] instead, which additionally strips structural envelopes and
+/// handles JSON payloads before this pipeline ever sees them.
+pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
+    let mut s = ANSI.replace_all(line, "").into_owned();
+    for cm in custom {
+        s = cm
+            .regex
+            .replace_all(&s, cm.placeholder.as_str())
+            .into_owned();
+    }
+    mask_body(&s)
+}
+
+/// The real entry point: turns one raw log line into the token sequence Drain (see
+/// [`crate::drain`]) mines templates from.
+///
+/// Order: strip ANSI and apply custom masks on the raw line, then peel off any recognized
+/// structural envelope — a Docker `json-file` wrapper, a CRI/containerd `<ts> stdout F `
+/// prefix, a journald/syslog header, or a bare leading timestamp — keeping only the literal
+/// part of it worth comparing on (e.g. the stream name) as leading tokens. What's left is
+/// either a single-line JSON object, flattened into `key=`/value token pairs so a quoted
+/// multi-word message doesn't get shredded by a naive whitespace split (see
+/// [`flatten_json_line`]), or plain text, run through [`mask_body`] and split on whitespace
+/// as before.
+pub fn tokenize_line(line: &str, custom: &[CustomMask]) -> Vec<String> {
+    let mut s = ANSI.replace_all(line, "").into_owned();
+    for cm in custom {
+        s = cm
+            .regex
+            .replace_all(&s, cm.placeholder.as_str())
+            .into_owned();
+    }
+
+    let (docker_prefix, s) = strip_docker_wrapper(&s);
+    let (struct_prefix, payload) = strip_structural_prefix(&s);
+
+    let mut tokens = Vec::with_capacity(4);
+    tokens.extend(docker_prefix);
+    tokens.extend(struct_prefix);
+
+    if let Some(json_tokens) = flatten_json_line(&payload) {
+        tokens.extend(json_tokens);
+    } else {
+        tokens.extend(mask_body(&payload).split_whitespace().map(str::to_owned));
+    }
+    tokens
 }
 
 /// True if `token` is a masking placeholder or a Drain wildcard, i.e. it should be
@@ -483,5 +662,83 @@ mod tests {
         assert!(is_placeholder("<*>"));
         assert!(!is_placeholder("plain"));
         assert!(!is_placeholder("<>"));
+    }
+
+    fn tok(s: &str) -> Vec<String> {
+        tokenize_line(s, &[])
+    }
+
+    #[test]
+    fn strips_cri_prefix_and_keeps_stream_name() {
+        assert_eq!(
+            tok("2024-03-02T08:15:00.123456789Z stdout F server ready"),
+            vec!["stdout", "server", "ready"]
+        );
+        assert_eq!(
+            tok("2024-03-02T08:15:00.123456789Z stderr F oops"),
+            vec!["stderr", "oops"]
+        );
+    }
+
+    #[test]
+    fn strips_journald_prefix_keeps_process_genericizes_pid() {
+        assert_eq!(
+            tok("Jan 15 10:23:45 host sshd[1234]: Accepted password"),
+            vec!["sshd[<NUM>]", "Accepted", "password"]
+        );
+    }
+
+    #[test]
+    fn strips_bare_leading_timestamp() {
+        // The GitHub Actions raw-log shape: an ISO timestamp with nothing else structural.
+        assert_eq!(
+            tok("2024-01-15T10:23:45.1234567Z Run actions/checkout@v7"),
+            vec!["Run", "actions/checkout@v7"]
+        );
+    }
+
+    #[test]
+    fn unwraps_docker_json_file_envelope() {
+        let line =
+            r#"{"log":"listening on :8080\n","stream":"stdout","time":"2024-01-15T10:23:45Z"}"#;
+        assert_eq!(tok(line), vec!["stdout", "listening", "on", ":<NUM>"]);
+    }
+
+    #[test]
+    fn flattens_json_payload_into_key_value_token_pairs() {
+        let line = r#"2024-03-02T08:15:00Z stdout F {"level":"info","msg":"server listening","addr":"0.0.0.0:8080"}"#;
+        assert_eq!(
+            tok(line),
+            vec![
+                "stdout",
+                "addr=",
+                "\"<IP>\"",
+                "level=",
+                "\"info\"",
+                "msg=",
+                "\"server listening\"",
+            ]
+        );
+    }
+
+    #[test]
+    fn json_numbers_are_always_masked_even_when_short() {
+        // Unlike the free-text pipeline (which leaves short numbers like exit codes alone),
+        // a JSON value is structurally "the variable part" by construction.
+        let line = r#"{"retries":3}"#;
+        assert_eq!(tok(line), vec!["retries=", "<NUM>"]);
+    }
+
+    #[test]
+    fn non_object_json_falls_back_to_plain_text_tokenizing() {
+        assert_eq!(tok("[1,2,3]"), vec!["[1,2,3]"]);
+    }
+
+    #[test]
+    fn plain_text_with_no_recognized_prefix_is_unaffected() {
+        assert_eq!(
+            tok("user alice logged in"),
+            vec!["user", "alice", "logged", "in"]
+        );
     }
 }

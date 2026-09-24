@@ -71,6 +71,13 @@ fn diff_json_has_expected_shape() {
         .iter()
         .any(|f| f["kind"] == "new" && f["template"].as_str().unwrap().contains("FAILURES")));
     assert_eq!(v["target_total"], 23);
+    assert!(v["total_templates"].as_u64().unwrap() > 0);
+
+    // The pytest status word flip (PASSED -> FAILED) is a same-count, same-position content
+    // change frequency scoring alone can't see; it should show up as a NEW VALUE finding.
+    let value_findings = v["value_findings"].as_array().unwrap();
+    assert!(value_findings.iter().any(|f| f["new_value"] == "FAILED"
+        && f["baseline_values"].as_array().unwrap() == &[serde_json::json!("PASSED")]));
 }
 
 #[test]

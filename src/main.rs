@@ -8,7 +8,7 @@ use clap::Parser;
 use logdelta::analysis::{diff_runs, mine_run, DiffOptions};
 use logdelta::context::collect_context;
 use logdelta::io::{open_source, read_line_from};
-use logdelta::mask::{mask_line, CustomMask};
+use logdelta::mask::{tokenize_line, CustomMask};
 use logdelta::output::{human, json, markdown};
 
 use cli::{Cli, ColorChoice, Command, CommonArgs, DiffArgs, NovelArgs, TemplatesArgs};
@@ -130,11 +130,13 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
 
     // Non-zero exit whenever there's anything to report, so `diff` is usable as a CI gate
     // (`logdelta diff good.log --target bad.log || echo "regressions found"`).
-    Ok(if result.findings.is_empty() {
-        ExitCode::SUCCESS
-    } else {
-        ExitCode::from(1)
-    })
+    Ok(
+        if result.findings.is_empty() && result.value_findings.is_empty() {
+            ExitCode::SUCCESS
+        } else {
+            ExitCode::from(1)
+        },
+    )
 }
 
 fn run_templates(args: TemplatesArgs) -> anyhow::Result<ExitCode> {
@@ -160,8 +162,8 @@ fn run_novel(args: NovelArgs) -> anyhow::Result<ExitCode> {
     for path in &args.baselines {
         for (i, line) in logdelta::io::read_lines(path)?.enumerate() {
             let line = line?;
-            let masked = mask_line(&line, &masks);
-            drain.add_line(&masked, i + 1, &line);
+            let tokens = tokenize_line(&line, &masks);
+            drain.add_tokens(tokens, i + 1, &line);
         }
     }
 
@@ -174,8 +176,7 @@ fn run_novel(args: NovelArgs) -> anyhow::Result<ExitCode> {
         match read_line_from(&mut src, &mut buf)? {
             None => break,
             Some(line) => {
-                let masked = mask_line(&line, &masks);
-                let tokens: Vec<String> = masked.split_whitespace().map(str::to_owned).collect();
+                let tokens = tokenize_line(&line, &masks);
                 if !drain.contains_matching_template(&tokens) {
                     found_any = true;
                     writeln!(out, "{line}")?;

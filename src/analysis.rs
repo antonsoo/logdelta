@@ -10,8 +10,9 @@ use serde::Serialize;
 use crate::context::ContextWindow;
 use crate::drain::{Cluster, Drain, DEFAULT_SIMILARITY_THRESHOLD};
 use crate::io::read_lines;
-use crate::mask::{mask_line, CustomMask};
+use crate::mask::{tokenize_line, CustomMask};
 use crate::scoring::{score_template, DEFAULT_SIGNIFICANCE};
+use crate::values::ValueTracker;
 
 /// The result of mining a single log source.
 #[derive(Serialize)]
@@ -28,8 +29,8 @@ pub fn mine_run(path: &str, custom: &[CustomMask], threshold: f64) -> io::Result
     for line in read_lines(path)? {
         let line = line?;
         total += 1;
-        let masked = mask_line(&line, custom);
-        drain.add_line(&masked, total as usize, &line);
+        let tokens = tokenize_line(&line, custom);
+        drain.add_tokens(tokens, total as usize, &line);
     }
     Ok(RunSummary {
         total_lines: total,
@@ -68,28 +69,57 @@ pub struct Finding {
     pub context: Option<ContextWindow>,
 }
 
+/// A wildcard position within an otherwise-stable template whose target-run value never
+/// appeared in any baseline — the "content flip" case frequency-based scoring alone can't
+/// see (see [`crate::values`]). Example: a pytest line's status word going from `PASSED` in
+/// every baseline to `FAILED` in the target, with the line's frequency and position
+/// otherwise unchanged.
+#[derive(Serialize)]
+pub struct ValueFinding {
+    pub template: String,
+    /// Index into `template`'s whitespace-separated tokens of the flipped position.
+    pub position: usize,
+    pub new_value: String,
+    /// Distinct values seen across all baselines at this position, sorted.
+    pub baseline_values: Vec<String>,
+    pub first_target_line_no: usize,
+    pub first_target_raw: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub context: Option<ContextWindow>,
+}
+
 #[derive(Serialize)]
 pub struct DiffResult {
     pub baseline_totals: Vec<u64>,
     pub target_total: u64,
+    /// Total distinct templates found across baselines and target combined (not just the
+    /// ones with a finding) — the "412 templates" in a summary like "3,012 → 3,104 lines ·
+    /// 412 templates · 4 findings".
+    pub total_templates: usize,
     pub findings: Vec<Finding>,
+    pub value_findings: Vec<ValueFinding>,
 }
 
 impl DiffResult {
-    /// Attaches `-C` context windows (keyed by `first_target_line_no`) to each finding.
+    /// Attaches `-C` context windows (keyed by first-target-line-number) to each finding.
     pub fn attach_context(&mut self, ctx: &HashMap<usize, ContextWindow>) {
         for f in &mut self.findings {
             if let Some(no) = f.first_target_line_no {
                 f.context = ctx.get(&no).cloned();
             }
         }
+        for v in &mut self.value_findings {
+            v.context = ctx.get(&v.first_target_line_no).cloned();
+        }
     }
 
-    /// Every `first_target_line_no` across all findings, for a single context-collection pass.
+    /// Every first-target-line-number across all findings, for a single context-collection
+    /// pass.
     pub fn wanted_line_numbers(&self) -> std::collections::BTreeSet<usize> {
         self.findings
             .iter()
             .filter_map(|f| f.first_target_line_no)
+            .chain(self.value_findings.iter().map(|v| v.first_target_line_no))
             .collect()
     }
 }
@@ -118,17 +148,19 @@ pub fn diff_runs(
     opts: &DiffOptions,
 ) -> io::Result<DiffResult> {
     let mut drain = Drain::new(opts.threshold);
+    let mut tracker = ValueTracker::with_baselines(baselines.len());
 
     let mut baseline_counts: Vec<HashMap<usize, u64>> = Vec::with_capacity(baselines.len());
     let mut baseline_totals: Vec<u64> = Vec::with_capacity(baselines.len());
-    for path in baselines {
+    for (baseline_idx, path) in baselines.iter().enumerate() {
         let mut counts: HashMap<usize, u64> = HashMap::new();
         let mut total = 0u64;
         for line in read_lines(path)? {
             let line = line?;
             total += 1;
-            let masked = mask_line(&line, custom);
-            let cid = drain.add_line(&masked, total as usize, &line);
+            let tokens = tokenize_line(&line, custom);
+            let cid = drain.add_tokens(tokens.clone(), total as usize, &line);
+            tracker.record_baseline(baseline_idx, cid, total as usize, &line, &tokens);
             *counts.entry(cid).or_insert(0) += 1;
         }
         baseline_counts.push(counts);
@@ -141,8 +173,9 @@ pub fn diff_runs(
     for line in read_lines(target)? {
         let line = line?;
         target_total += 1;
-        let masked = mask_line(&line, custom);
-        let cid = drain.add_line(&masked, target_total as usize, &line);
+        let tokens = tokenize_line(&line, custom);
+        let cid = drain.add_tokens(tokens.clone(), target_total as usize, &line);
+        tracker.record_target(cid, target_total as usize, &line, &tokens);
         *target_counts.entry(cid).or_insert(0) += 1;
         target_first
             .entry(cid)
@@ -150,7 +183,9 @@ pub fn diff_runs(
     }
 
     let n_baselines = baselines.len();
+    let total_templates = drain.clusters().len();
     let mut findings = Vec::new();
+    let mut value_findings = Vec::new();
     for cluster in drain.clusters() {
         let id = cluster.id;
         let bc: Vec<u64> = baseline_counts
@@ -224,6 +259,40 @@ pub fn diff_runs(
         });
     }
 
+    // NEW VALUE: a wildcard position in a template that's otherwise present in both baseline
+    // and target (so NEW/GONE, which are about the *template's* presence, already explain
+    // those cases) whose target-run value never appeared in any baseline. Independent of the
+    // frequency-based findings above: the whole point is to catch a content flip that a
+    // count-based test can't see because the count didn't change.
+    if n_baselines > 0 {
+        for cluster in drain.clusters() {
+            let id = cluster.id;
+            let baseline_present = baseline_counts
+                .iter()
+                .any(|m| m.get(&id).copied().unwrap_or(0) > 0);
+            let target_present = target_counts.get(&id).copied().unwrap_or(0) > 0;
+            if !baseline_present || !target_present {
+                continue;
+            }
+            for (pos, tok) in cluster.tokens.iter().enumerate() {
+                if tok != "<*>" {
+                    continue;
+                }
+                if let Some(found) = tracker.new_value_at(id, pos) {
+                    value_findings.push(ValueFinding {
+                        template: cluster.template(),
+                        position: pos,
+                        new_value: found.value,
+                        baseline_values: found.baseline_values,
+                        first_target_line_no: found.first_target_line_no,
+                        first_target_raw: found.first_target_raw,
+                        context: None,
+                    });
+                }
+            }
+        }
+    }
+
     findings.sort_by(|a, b| {
         kind_rank(a.kind).cmp(&kind_rank(b.kind)).then(
             b.score
@@ -231,11 +300,18 @@ pub fn diff_runs(
                 .unwrap_or(std::cmp::Ordering::Equal),
         )
     });
+    value_findings.sort_by(|a, b| {
+        a.template
+            .cmp(&b.template)
+            .then(a.position.cmp(&b.position))
+    });
 
     Ok(DiffResult {
         baseline_totals,
         target_total,
+        total_templates,
         findings,
+        value_findings,
     })
 }
 
@@ -319,6 +395,46 @@ mod tests {
         )
         .unwrap();
         assert!(!result.findings.iter().any(|f| f.template.contains("retry")));
+    }
+
+    #[test]
+    fn detects_a_content_flip_frequency_scoring_alone_would_miss() {
+        // Same line, same position, same frequency (1 occurrence each run) - only the value
+        // at that position changes. A count-based test alone can't see this; it's what
+        // ValueFinding (backed by `crate::values`) exists for.
+        let good = write_tmp(&["tests/test_math.py::test_divide PASSED [ 57%]"]);
+        let bad = write_tmp(&["tests/test_math.py::test_divide FAILED [ 57%]"]);
+        let result = diff_runs(
+            &[good.path().to_str().unwrap()],
+            bad.path().to_str().unwrap(),
+            &[],
+            &DiffOptions::default(),
+        )
+        .unwrap();
+        assert!(
+            result.value_findings.iter().any(|v| v.new_value == "FAILED"
+                && v.baseline_values == vec!["PASSED".to_string()]
+                && v.template.contains("test_divide")),
+            "expected a NEW VALUE finding for the PASSED->FAILED flip, got: {:?}",
+            result
+                .value_findings
+                .iter()
+                .map(|v| (&v.template, &v.new_value))
+                .collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn no_value_findings_without_a_baseline() {
+        let target = write_tmp(&["status PASSED"]);
+        let result = diff_runs(
+            &[],
+            target.path().to_str().unwrap(),
+            &[],
+            &DiffOptions::default(),
+        )
+        .unwrap();
+        assert!(result.value_findings.is_empty());
     }
 
     #[test]

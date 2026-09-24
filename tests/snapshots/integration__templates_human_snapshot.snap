@@ -4,7 +4,7 @@ expression: stdout
 ---
 logdelta templates  10 lines, 2 distinct templates
 
-9  <TS> stdout F <IP> - - <*> <*> HTTP/<NUM>" <*> <*>
+9  stdout <IP> - - <*> <*> HTTP/<NUM>" <*> <*>
    e.g. 2:2024-03-02T08:15:01.223456012Z stdout F 10.244.1.5 - - "GET /healthz HTTP/1.1" 200 2
-1  <TS> stdout F {"level":"info","msg":"server listening","addr":"<IP>"}
+1  stdout addr= "<IP>" level= "info" msg= "server listening"
    e.g. 1:2024-03-02T08:15:00.123456789Z stdout F {"level":"info","msg":"server listening","addr":"0.0.0.0:8080"}

@@ -20,8 +20,14 @@
 //! index instead of a fixed depth-N tree: it is simpler, still effectively O(1) average
 //! lookup for realistic logs, and produces identical groupings to the full-depth tree
 //! whenever the first token alone disambiguates the groups in a bucket (true in all of this
-//! crate's fixtures). The similarity function, wildcarding rule, and default 0.5 similarity
-//! threshold are otherwise unchanged from the paper.
+//! crate's fixtures). The wildcarding rule and default 0.5 similarity threshold are
+//! unchanged from the paper; the similarity function itself has one deliberate addition (see
+//! [`similarity`]'s doc comment): a position where both sides are the *same masking
+//! placeholder* doesn't count as a match unless the line has no literal content at all,
+//! because otherwise two genuinely unrelated lines that each merely contain a timestamp (or
+//! any other masked field) can accumulate enough placeholder-vs-placeholder and
+//! boilerplate-prefix matches to clear the threshold and merge into a useless,
+//! over-generalized template.
 //!
 //! Processing is single-threaded and clusters are matched/created in input order with a
 //! deterministic tie-break, so output (cluster ids, templates, counts) is a pure function of
@@ -30,6 +36,8 @@
 use std::collections::HashMap;
 
 use serde::Serialize;
+
+use crate::mask::is_placeholder;
 
 /// A discovered log template ("group" in Drain's terminology).
 #[derive(Debug, Clone, Serialize)]
@@ -86,8 +94,17 @@ impl Drain {
 
     /// Feeds one already-masked line (plus its 1-based line number and raw source text for
     /// reporting) into the miner and returns the id of the cluster it was assigned to.
+    /// Convenience wrapper around [`Self::add_tokens`] that tokenizes by whitespace; prefer
+    /// calling [`crate::mask::tokenize_line`] and [`Self::add_tokens`] directly for real log
+    /// lines (JSON payloads need token boundaries whitespace-splitting can't produce).
     pub fn add_line(&mut self, masked: &str, line_no: usize, raw: &str) -> usize {
         let tokens: Vec<String> = masked.split_whitespace().map(str::to_owned).collect();
+        self.add_tokens(tokens, line_no, raw)
+    }
+
+    /// Feeds one line's pre-built token sequence into the miner and returns the id of the
+    /// cluster it was assigned to.
+    pub fn add_tokens(&mut self, tokens: Vec<String>, line_no: usize, raw: &str) -> usize {
         if tokens.is_empty() {
             return self.upsert_empty(line_no, raw);
         }
@@ -160,18 +177,37 @@ impl Drain {
     }
 }
 
-/// Fraction of positions that match exactly, treating a `<*>` in `template` as an automatic
-/// match. Both slices must be the same length (callers only compare within a `token_count`
-/// bucket).
+/// Fraction of positions that match, treating a `<*>` in `template` as an automatic match.
+/// Both slices must be the same length (callers only compare within a `token_count` bucket).
+///
+/// A position where *both* sides equal the same masking placeholder (`<TS>`, `<NUM>`, ...)
+/// does **not** count as a match, unless the compared lines have no literal (non-placeholder)
+/// tokens at all. Two lines that share nothing but "both happen to have a timestamp
+/// somewhere" are not evidence they're the same kind of log line — almost every line does —
+/// and counting it as one let two genuinely unrelated lines (an access-log line and a JSON
+/// error event, say) accumulate enough incidental placeholder-vs-placeholder and
+/// boilerplate-prefix matches to clear the similarity threshold and merge into a single,
+/// uselessly over-generalized template. The exception (no literal tokens anywhere) keeps
+/// short, fully-templated lines like `<TS> <NUM>` still able to cluster with themselves —
+/// there, the placeholder sequence *is* the only signal available.
 fn similarity(template: &[String], line: &[String]) -> f64 {
     debug_assert_eq!(template.len(), line.len());
     if template.is_empty() {
         return 1.0;
     }
+    let has_literal_content = template.iter().any(|t| t != "<*>" && !is_placeholder(t));
     let matches = template
         .iter()
         .zip(line.iter())
-        .filter(|(t, l)| *t == "<*>" || t == l)
+        .filter(|(t, l)| {
+            if *t == "<*>" {
+                return true;
+            }
+            if t != l {
+                return false;
+            }
+            !(has_literal_content && is_placeholder(t))
+        })
         .count();
     matches as f64 / template.len() as f64
 }
@@ -262,5 +298,62 @@ mod tests {
         let got = ids(&mut d, &["", "", "a b"]);
         assert_eq!(got[0], got[1]);
         assert_ne!(got[0], got[2]);
+    }
+
+    #[test]
+    fn shared_placeholder_prefix_does_not_merge_unrelated_lines() {
+        // Regression test for the logdelta-diff hero bug: two unrelated 6-token lines that
+        // both start with "<TS> stderr F" used to merge into a near-fully-wildcarded,
+        // meaningless template (3/6 = 0.5 similarity, right at the default threshold) purely
+        // because "<TS>" matched itself and the boilerplate "stderr"/"F" tokens matched too.
+        let mut d = Drain::default();
+        let got = ids(
+            &mut d,
+            &[
+                "<TS> stderr F alpha=1 beta=2 gamma=3",
+                "<TS> stderr F goroutine 42 [running]:",
+            ],
+        );
+        assert_ne!(
+            got[0], got[1],
+            "unrelated lines sharing only a <TS> + boilerplate prefix must not merge"
+        );
+    }
+
+    #[test]
+    fn fully_templated_short_lines_still_cluster_on_placeholder_sequence_alone() {
+        // The exception to the rule above: a line with *no* literal content at all has
+        // nothing else to compare on, so an identical placeholder sequence should still count.
+        let mut d = Drain::default();
+        let got = ids(&mut d, &["<TS> <NUM>", "<TS> <NUM>"]);
+        assert_eq!(got[0], got[1]);
+        assert_eq!(d.clusters()[0].count, 2);
+    }
+
+    #[test]
+    fn literal_tokens_still_generalize_around_a_real_shared_prefix() {
+        // Sanity check that the stricter rule doesn't break the common, legitimate case: two
+        // lines that share real literal content plus one placeholder should still merge.
+        let mut d = Drain::default();
+        let got = ids(
+            &mut d,
+            &["user alice logged in at <TS>", "user bob logged in at <TS>"],
+        );
+        assert_eq!(got[0], got[1]);
+        assert_eq!(d.clusters()[0].template(), "user <*> logged in at <TS>");
+    }
+
+    #[test]
+    fn add_tokens_matches_add_line_for_plain_whitespace_tokenizing() {
+        let mut d = Drain::default();
+        let id_a = d.add_line("user alice in", 1, "user alice in");
+        let mut d2 = Drain::default();
+        let id_b = d2.add_tokens(
+            vec!["user".into(), "alice".into(), "in".into()],
+            1,
+            "user alice in",
+        );
+        assert_eq!(id_a, id_b);
+        assert_eq!(d.clusters()[0].template(), d2.clusters()[0].template());
     }
 }

@@ -15,19 +15,24 @@ pub fn write_diff<W: Write>(
     baseline_paths: &[&str],
     target_path: &str,
 ) -> io::Result<()> {
+    let n_findings = result.findings.len() + result.value_findings.len();
+
     writeln!(out, "### logdelta diff")?;
     writeln!(out)?;
     writeln!(
         out,
-        "Baseline: `{}` ({} lines) — Target: `{}` ({} lines)",
+        "Baseline: `{}` ({} lines) — Target: `{}` ({} lines) — {} templates, {} finding{}",
         baseline_paths.join("`, `"),
         result.baseline_totals.iter().sum::<u64>(),
         target_path,
         result.target_total,
+        result.total_templates,
+        n_findings,
+        if n_findings == 1 { "" } else { "s" },
     )?;
     writeln!(out)?;
 
-    if result.findings.is_empty() {
+    if n_findings == 0 {
         writeln!(out, "No significant differences found.")?;
         return Ok(());
     }
@@ -58,6 +63,32 @@ pub fn write_diff<W: Write>(
                 baseline.join("/"),
                 f.target_count,
                 escape(&f.template),
+                first_seen,
+            )?;
+        }
+        writeln!(out)?;
+    }
+
+    if !result.value_findings.is_empty() {
+        writeln!(out, "#### New value")?;
+        writeln!(out)?;
+        writeln!(
+            out,
+            "| Template | New value | Baseline value(s) | First seen |"
+        )?;
+        writeln!(out, "|---|---|---|---|")?;
+        for v in &result.value_findings {
+            let first_seen = format!(
+                "`{target_path}:{}` `{}`",
+                v.first_target_line_no,
+                escape(&v.first_target_raw)
+            );
+            writeln!(
+                out,
+                "| `{}` | `{}` | `{}` | {} |",
+                escape(&v.template),
+                escape(&v.new_value),
+                escape(&v.baseline_values.join(", ")),
                 first_seen,
             )?;
         }

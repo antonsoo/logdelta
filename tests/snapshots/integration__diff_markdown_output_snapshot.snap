@@ -4,7 +4,7 @@ expression: normalized
 ---
 ### logdelta diff
 
-Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fail.log` (23 lines)
+Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fail.log` (23 lines) — 21 templates, 10 findings
 
 #### New
 
@@ -24,3 +24,9 @@ Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fai
 | Score | Baseline | Target | Template | First seen |
 |---:|---:|---:|---|---|
 | 1.2 | 1 | 0 | `============================== 7 passed in <QTY> ===============================` | — |
+
+#### New value
+
+| Template | New value | Baseline value(s) | First seen |
+|---|---|---|---|
+| `tests/test_math.py::test_divide <*> [ 57%]` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` `tests/test_math.py::test_divide FAILED                                  [ 57%]` |
