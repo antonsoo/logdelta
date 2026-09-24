@@ -38,9 +38,10 @@ fixtures committed in this repo — no setup needed, just try it.
   lines whose template has never appeared in the baseline(s). Flushes per line, so
   `tail -f app.log | logdelta novel --baseline last-week.log` surfaces new behavior live.
 - **Masking**: ISO 8601/RFC 3339 and syslog timestamps, epoch seconds/ms, UUIDs, hex
-  ids/hashes, IPv4/IPv6 with ports, emails, URL query strings and numeric/hex/UUID path
-  segments, quantities and durations (`512KiB`, `12ms`, `01:23:45`), temp paths, and ANSI
-  escapes — plus `--mask REGEX` (repeatable) and `--mask-file` for your own patterns.
+  ids/hashes, IPv4 with ports, IPv6 (uncompressed and bracketed forms — see
+  [Limitations](#accuracy-and-limitations)), emails, URL query strings and numeric/hex/UUID
+  path segments, quantities and durations (`512KiB`, `12ms`, `01:23:45`), temp paths, and
+  ANSI escapes — plus `--mask REGEX` (repeatable) and `--mask-file` for your own patterns.
 - **Inputs**: files, stdin (`-`), and `.gz` transparently; non-UTF-8 bytes are handled
   lossily instead of crashing.
 - **Output**: colored terminal output (TTY auto-detected, override with `--color`),
@@ -167,6 +168,12 @@ near-constant rate across baselines gets no such discount.
 - **Hex-id masking requires 7-40 hex characters *and* at least one letter**, so short (≤6
   char) hex ids and purely-numeric hex-looking strings are not masked (the latter are
   usually genuine numbers, not hashes).
+- **Bare compressed IPv6 addresses (`::1`, `fe80::1`) are not masked outside brackets.**
+  `regex` (the crate) has no look-around, and `::` is also the namespace/path separator in
+  Rust, C++, and similar (`std::io::Error`, `a::b::c`) — supporting general `::`
+  compression would mask those constantly. `logdelta` masks the unambiguous cases instead:
+  fully-written-out IPv6 (`fe80:0:0:0:0:0:0:1`) and the bracketed form (`[::1]:8080`,
+  `[2001:db8::1]`) that log formats use specifically to disambiguate an address from a port.
 - **Epoch timestamp masking is a 10/13-digit heuristic** (`\b1[0-9]{9}(?:[0-9]{3})?\b`): a
   coincidental 10-13 digit number that isn't a timestamp will still be masked.
 - **`-C` context requires a re-readable target** (a real file, not stdin), since it's

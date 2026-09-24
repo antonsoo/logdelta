@@ -92,10 +92,20 @@ lazy_re!(
     IPV4,
     r"\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b(?::\d{1,5})?"
 );
-// Simplified but practical IPv6 matcher: hex groups separated by ':', allows one '::'.
+// IPv6. Deliberately conservative: matches the bracketed form (`[::1]:8080`, `[2001:db8::1]`,
+// unambiguous because of the brackets, so `::` compression is fine inside them) and the full,
+// uncompressed 8-group form with an optional zone id (`fe80:0:0:0:...:1%eth0`). It does NOT
+// try to recognize bare, compressed addresses like `::1` or `fe80::1` outside brackets:
+// `::`-compression is indistinguishable from the `::` path/namespace separator that shows up
+// constantly in real logs (`std::io::Error`, `Model::find`, `a::b::c::d`) without look-around
+// (which the `regex` crate doesn't support), and a false positive there is worse than missing
+// an occasional bare compressed address.
 lazy_re!(
     IPV6,
-    r"\b(?:[0-9a-fA-F]{1,4}:){2,7}(?:[0-9a-fA-F]{1,4})?(?:%\w+)?(?::\d{1,5})?\b|\[[0-9a-fA-F:]+\](?::\d{1,5})?"
+    concat!(
+        r"\[[0-9a-fA-F]*:[0-9a-fA-F:]*\](?::\d{1,5})?",
+        r"|\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}(?:%[0-9a-zA-Z]+)?\b",
+    )
 );
 
 lazy_re!(HEX_PREFIXED, r"\b0[xX][0-9a-fA-F]+\b");
@@ -278,8 +288,28 @@ mod tests {
     }
 
     #[test]
-    fn masks_ipv6() {
-        assert_eq!(m("peer 2001:db8::1 joined"), "peer <IP> joined");
+    fn masks_ipv6_uncompressed_and_bracketed() {
+        assert_eq!(
+            m("peer fe80:0000:0000:0000:0000:0000:0000:0001 joined"),
+            "peer <IP> joined"
+        );
+        assert_eq!(m("dial [2001:db8::1]:8443 now"), "dial <IP> now");
+        assert_eq!(m("dial [::1]:9000 now"), "dial <IP> now");
+    }
+
+    #[test]
+    fn does_not_mask_rust_style_paths_as_ipv6() {
+        // `::` is extremely common as a module-path separator; without look-around support
+        // in the `regex` crate, a bare (unbracketed) compressed IPv6 address is out of
+        // scope on purpose (see the comment on `IPV6`) to avoid this exact false positive.
+        assert_eq!(
+            m("called std::io::Read::read_to_string"),
+            "called std::io::Read::read_to_string"
+        );
+        assert_eq!(
+            m("panic in module a::b::c::d"),
+            "panic in module a::b::c::d"
+        );
     }
 
     #[test]
