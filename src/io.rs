@@ -17,7 +17,7 @@ pub fn open_source(path: &str) -> io::Result<Box<dyn BufRead>> {
     if path == "-" {
         return Ok(Box::new(BufReader::with_capacity(256 * 1024, io::stdin())));
     }
-    let file = File::open(path)?;
+    let file = File::open(path).map_err(|e| io::Error::new(e.kind(), format!("{path}: {e}")))?;
     if is_gzip(path) {
         Ok(Box::new(BufReader::with_capacity(
             256 * 1024,
@@ -138,5 +138,17 @@ mod tests {
             .map(|r| r.unwrap())
             .collect();
         assert!(lines.is_empty());
+    }
+
+    #[test]
+    fn missing_file_error_names_the_path() {
+        let err = match open_source("/definitely/does/not/exist.log") {
+            Err(e) => e,
+            Ok(_) => panic!("expected an error"),
+        };
+        assert!(
+            err.to_string().contains("/definitely/does/not/exist.log"),
+            "error should name the path, got: {err}"
+        );
     }
 }
