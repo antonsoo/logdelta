@@ -86,7 +86,13 @@ lazy_re!(
 
 lazy_re!(EMAIL, r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b");
 
-lazy_re!(URL, r#"\bhttps?://[^\s"'<>()\[\]]+"#);
+// http(s) plus the connection-string schemes that actually show up in CI/service logs
+// (database URLs, message queues, object storage), since those are exactly the URLs most
+// likely to carry credentials worth masking.
+lazy_re!(
+    URL,
+    r#"\b(?:https?|postgres(?:ql)?|mysql|mongodb(?:\+srv)?|redis|rediss|amqps?|ftp|sftp|ssh|s3)://[^\s"'<>()\[\]]+"#
+);
 
 lazy_re!(
     IPV4,
@@ -109,15 +115,19 @@ lazy_re!(
 );
 
 lazy_re!(HEX_PREFIXED, r"\b0[xX][0-9a-fA-F]+\b");
-// Hex-looking ids/hashes (git SHAs, request ids, ...): 7-40 hex chars containing at least
-// one letter a-f, so plain decimal numbers fall through to the numeric masker instead.
-// (The `regex` crate has no look-around, so the "contains a letter" check happens in the
-// replacement closure rather than the pattern itself.)
-lazy_re!(HEX_ID, r"\b[0-9a-fA-F]{7,40}\b");
+// Hex-looking ids/hashes (git SHAs, MD5/SHA-1/SHA-256/SHA-512 digests, request ids, ...): 7
+// or more hex chars containing at least one letter a-f, so plain decimal numbers fall
+// through to the numeric masker instead. No upper bound: an earlier version capped this at
+// 40 (git-SHA length), which meant longer hashes like a 64-char sha256 digest had no valid
+// `\b` inside them at all and were never masked. (The `regex` crate has no look-around, so
+// the "contains a letter" check happens in the replacement closure rather than the pattern.)
+lazy_re!(HEX_ID, r"\b[0-9a-fA-F]{7,}\b");
 
+// Path-safe characters only (not `[^\s:]*`, which used to swallow trailing punctuation like
+// a closing paren or comma straight out of the surrounding sentence into the placeholder).
 lazy_re!(
     TEMP_PATH,
-    r"(?:/tmp/|/var/tmp/|/var/folders/|\\AppData\\Local\\Temp\\|\\Temp\\)[^\s:]*"
+    r"(?:/tmp/|/var/tmp/|/var/folders/|\\AppData\\Local\\Temp\\|\\Temp\\)[A-Za-z0-9_.=-]*(?:[/\\][A-Za-z0-9_.=-]*)*"
 );
 
 // number + unit, e.g. "512KiB", "12 ms", "3.4s", "200Mbps".
@@ -135,38 +145,68 @@ lazy_re!(VERSION_NUM, r"\b\d+(?:\.\d+){1,3}\b");
 // wildcard a short-number position on its own once it sees enough differing examples.
 lazy_re!(BARE_NUM, r"\b\d{4,}\b");
 
-/// Masks the variable parts of `query` and any purely numeric / hex / UUID path segments
-/// inside a URL, keeping the scheme, host and literal path segments intact so that e.g.
-/// `/api/users/42/orders/9f1c...` and `/api/users/7/orders/aa21...` collapse to the same
-/// template while the route itself stays legible.
-fn mask_url_internals(url: &str) -> String {
-    let (path_part, query) = match url.split_once('?') {
-        Some((p, q)) => (p, Some(q)),
-        None => (url, None),
-    };
-    let masked_path = path_part
-        .split('/')
-        .map(|seg| {
-            if seg.is_empty() {
-                return seg.to_string();
-            }
-            let looks_numeric = seg.chars().all(|c| c.is_ascii_digit());
-            let looks_hex = seg.len() >= 6
-                && seg.chars().all(|c| c.is_ascii_hexdigit())
-                && seg.chars().any(|c| c.is_ascii_alphabetic());
-            let looks_uuid = UUID.is_match(seg);
-            if looks_numeric || looks_hex || looks_uuid {
-                "<ID>".to_string()
-            } else {
-                seg.to_string()
-            }
-        })
-        .collect::<Vec<_>>()
-        .join("/");
-    match query {
-        Some(q) if !q.is_empty() => format!("{masked_path}?<QUERY>"),
-        _ => masked_path,
+// URLs are masked before the line's general timestamp/UUID passes run (see the comment in
+// `mask_line`), so a URL path segment that's itself a timestamp or UUID needs its own check
+// here rather than relying on those later passes to catch it.
+fn mask_path_segment(seg: &str) -> String {
+    if seg.is_empty() {
+        return seg.to_string();
     }
+    let looks_numeric = seg.chars().all(|c| c.is_ascii_digit());
+    let looks_hex = seg.len() >= 6
+        && seg.chars().all(|c| c.is_ascii_hexdigit())
+        && seg.chars().any(|c| c.is_ascii_alphabetic());
+    if UUID.is_match(seg) {
+        return "<UUID>".to_string();
+    }
+    if TS_ISO.is_match(seg) || TS_EPOCH.is_match(seg) {
+        return "<TS>".to_string();
+    }
+    if looks_numeric || looks_hex {
+        "<ID>".to_string()
+    } else {
+        seg.to_string()
+    }
+}
+
+/// Masks the variable parts of a `scheme://[user[:pass]@]host[:port][/path][?query]` URL:
+/// basic-auth credentials in the authority, the query string, and any purely numeric / hex /
+/// UUID path segment — keeping the scheme, host, port, and literal path segments intact so
+/// that e.g. `/api/users/42/orders/9f1c...` and `/api/users/7/orders/aa21...` collapse to the
+/// same template while the route itself stays legible.
+fn mask_url_internals(url: &str) -> String {
+    let Some((scheme, rest)) = url.split_once("://") else {
+        return url.to_string();
+    };
+    let (before_query, query) = match rest.split_once('?') {
+        Some((p, q)) => (p, Some(q)),
+        None => (rest, None),
+    };
+    let (authority, path) = match before_query.split_once('/') {
+        Some((a, p)) => (a, Some(p)),
+        None => (before_query, None),
+    };
+    let masked_authority = match authority.rsplit_once('@') {
+        Some((_credentials, host)) => format!("<CRED>@{host}"),
+        None => authority.to_string(),
+    };
+
+    let mut out = format!("{scheme}://{masked_authority}");
+    if let Some(p) = path {
+        out.push('/');
+        out.push_str(
+            &p.split('/')
+                .map(mask_path_segment)
+                .collect::<Vec<_>>()
+                .join("/"),
+        );
+    }
+    if let Some(q) = query {
+        if !q.is_empty() {
+            out.push_str("?<QUERY>");
+        }
+    }
+    out
 }
 
 /// Applies any user `custom` masks first (so they take priority over the built-ins on
@@ -181,15 +221,14 @@ pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
             .into_owned();
     }
 
-    s = TS_ISO.replace_all(&s, "<TS>").into_owned();
-    s = TS_SYSLOG.replace_all(&s, "<TS>").into_owned();
-    s = TS_SLASH.replace_all(&s, "<TS>").into_owned();
-    s = TS_EPOCH.replace_all(&s, "<TS>").into_owned();
-    s = DURATION_CLOCK.replace_all(&s, "<DUR>").into_owned();
-
-    s = UUID.replace_all(&s, "<UUID>").into_owned();
-    s = EMAIL.replace_all(&s, "<EMAIL>").into_owned();
-
+    // URLs are masked before anything else touches the rest of the line (timestamps, UUIDs,
+    // emails, ...): every one of those maskers inserts a `<PLACEHOLDER>` containing `<`/`>`,
+    // and the URL matcher stops at the first `<`/`>` it sees (so it doesn't re-match text
+    // some earlier pass already masked) — so if they ran first, a URL with a timestamp or
+    // credentials in it would get truncated right before the placeholder and only half-mask.
+    // Masking URLs first means their *internal* structure (credentials, query string, id-like
+    // path segments — see `mask_url_internals`) has to be handled by dedicated logic, not by
+    // falling through to the later general-purpose passes.
     s = {
         let mut out = String::with_capacity(s.len());
         let mut last = 0;
@@ -202,6 +241,15 @@ pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
         out.push_str(&s[last..]);
         out
     };
+
+    s = TS_ISO.replace_all(&s, "<TS>").into_owned();
+    s = TS_SYSLOG.replace_all(&s, "<TS>").into_owned();
+    s = TS_SLASH.replace_all(&s, "<TS>").into_owned();
+    s = TS_EPOCH.replace_all(&s, "<TS>").into_owned();
+    s = DURATION_CLOCK.replace_all(&s, "<DUR>").into_owned();
+
+    s = UUID.replace_all(&s, "<UUID>").into_owned();
+    s = EMAIL.replace_all(&s, "<EMAIL>").into_owned();
 
     s = IPV4.replace_all(&s, "<IP>").into_owned();
     s = IPV6.replace_all(&s, "<IP>").into_owned();
@@ -319,10 +367,57 @@ mod tests {
     }
 
     #[test]
+    fn masks_hex_hash_regardless_of_length() {
+        // A 40-char git SHA-1 and a 64-char sha256 digest should both be masked; an earlier
+        // version capped the pattern at 40 chars, which meant a longer hex run had no valid
+        // `\b` boundary inside it anywhere and was silently left unmasked.
+        assert_eq!(
+            m("commit 1234567890abcdef1234567890abcdef12345678 pushed"),
+            "commit <HEX> pushed"
+        );
+        assert_eq!(
+            m("layer sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 pulled"),
+            "layer sha256:<HEX> pulled"
+        );
+    }
+
+    #[test]
     fn masks_url_query_and_ids() {
         assert_eq!(
             m("GET https://api.example.com/users/4200/orders/9f1c2b?token=xyz&x=1 200"),
             "GET https://api.example.com/users/<ID>/orders/<ID>?<QUERY> 200"
+        );
+    }
+
+    #[test]
+    fn masks_timestamp_and_uuid_inside_url_path() {
+        // URLs are masked before the line-wide timestamp/UUID passes run (see the comment
+        // in `mask_line`), so this exercises the path-segment-level fallback in
+        // `mask_path_segment` that keeps those still covered inside a URL.
+        assert_eq!(
+            m("GET https://api.example.com/events/2024-01-15T10:23:45Z 200"),
+            "GET https://api.example.com/events/<TS> 200"
+        );
+        assert_eq!(
+            m("GET https://api.example.com/jobs/123e4567-e89b-12d3-a456-426614174000 200"),
+            "GET https://api.example.com/jobs/<UUID> 200"
+        );
+    }
+
+    #[test]
+    fn masks_url_credentials_and_non_http_schemes() {
+        assert_eq!(
+            m("connecting to postgres://admin:hunter2@db.internal:5432/orders"),
+            "connecting to postgres://<CRED>@db.internal:<NUM>/orders"
+        );
+        assert_eq!(
+            m("mongo mongodb+srv://svc:s3cr3t@cluster0.example.net/mydb"),
+            "mongo mongodb+srv://<CRED>@cluster0.example.net/mydb"
+        );
+        // no credentials: authority is left alone
+        assert_eq!(
+            m("cache redis://cache.internal:6379/0"),
+            "cache redis://cache.internal:<NUM>/<ID>"
         );
     }
 
@@ -342,6 +437,19 @@ mod tests {
         assert_eq!(
             m("writing /tmp/pytest-of-root/pytest-12/test_foo0/data.json"),
             "writing <TMPPATH>"
+        );
+    }
+
+    #[test]
+    fn temp_path_does_not_swallow_trailing_punctuation() {
+        // A greedy `[^\s:]*` used to eat the closing paren/comma right along with the path.
+        assert_eq!(
+            m("(see /tmp/pytest-of-root/pytest-12/data.json) done"),
+            "(see <TMPPATH>) done"
+        );
+        assert_eq!(
+            m("wrote /tmp/out.bin, then exited"),
+            "wrote <TMPPATH>, then exited"
         );
     }
 

@@ -230,3 +230,181 @@ fn custom_mask_flag_collapses_matching_tokens() {
         .collect();
     assert!(templates.iter().any(|t| t.contains("<CUSTOM>")));
 }
+
+#[test]
+fn mask_file_supports_named_and_bare_patterns_and_skips_comments() {
+    let dir = tempfile::tempdir().unwrap();
+    let mask_path = dir.path().join("masks.txt");
+    std::fs::write(
+        &mask_path,
+        "# comment, and a blank line follow\n\nPOD=pod-[a-z0-9]+\n10\\.244\\.1\\.\\d+\n",
+    )
+    .unwrap();
+
+    let out = cmd()
+        .args([
+            "templates",
+            &fixture("k8s-service.log"),
+            "--mask-file",
+            mask_path.to_str().unwrap(),
+            "--json",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        out.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    let templates: Vec<String> = v["clusters"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| {
+            c["tokens"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|t| t.as_str().unwrap())
+                .collect::<Vec<_>>()
+                .join(" ")
+        })
+        .collect();
+    // The bare pattern falls back to the generic <CUSTOM> placeholder.
+    assert!(templates.iter().any(|t| t.contains("<CUSTOM>")));
+}
+
+#[test]
+fn mask_file_reports_the_path_and_line_on_a_bad_regex() {
+    let dir = tempfile::tempdir().unwrap();
+    let mask_path = dir.path().join("bad.txt");
+    std::fs::write(&mask_path, "fine-one\n[unterminated\n").unwrap();
+
+    cmd()
+        .args([
+            "templates",
+            &fixture("k8s-service.log"),
+            "--mask-file",
+            mask_path.to_str().unwrap(),
+        ])
+        .assert()
+        .failure()
+        .stderr(predicate::str::contains("bad.txt:2"));
+}
+
+#[test]
+fn novel_exit_code_reflects_whether_anything_was_printed() {
+    // Nothing novel: target is identical to the baseline.
+    cmd()
+        .args([
+            "novel",
+            "--baseline",
+            &fixture("k8s-service.log"),
+            &fixture("k8s-service.log"),
+        ])
+        .assert()
+        .success();
+
+    // Something novel: the incident log has lines the baseline never saw.
+    cmd()
+        .args([
+            "novel",
+            "--baseline",
+            &fixture("k8s-service.log"),
+            &fixture("k8s-service-incident.log"),
+        ])
+        .assert()
+        .code(1);
+}
+
+#[test]
+fn color_always_emits_ansi_even_when_not_a_tty() {
+    let out = cmd()
+        .args([
+            "diff",
+            &fixture("pytest-pass.log"),
+            "--target",
+            &fixture("pytest-fail.log"),
+            "--color",
+            "always",
+        ])
+        .output()
+        .unwrap();
+    let stdout = String::from_utf8(out.stdout).unwrap();
+    assert!(
+        stdout.contains("\x1b["),
+        "expected ANSI escapes in: {stdout}"
+    );
+}
+
+#[test]
+fn color_defaults_to_plain_when_not_a_tty() {
+    let out = cmd()
+        .args([
+            "diff",
+            &fixture("pytest-pass.log"),
+            "--target",
+            &fixture("pytest-fail.log"),
+        ])
+        .output()
+        .unwrap();
+    let stdout = String::from_utf8(out.stdout).unwrap();
+    assert!(
+        !stdout.contains("\x1b["),
+        "expected no ANSI escapes in: {stdout}"
+    );
+}
+
+#[test]
+fn threshold_and_significance_are_range_checked() {
+    cmd()
+        .args(["templates", &fixture("k8s-service.log"), "--threshold", "0"])
+        .assert()
+        .failure()
+        .stderr(predicate::str::contains("--threshold"));
+
+    cmd()
+        .args([
+            "diff",
+            &fixture("pytest-pass.log"),
+            "--target",
+            &fixture("pytest-fail.log"),
+            "--significance=-1",
+        ])
+        .assert()
+        .failure()
+        .stderr(predicate::str::contains("--significance"));
+}
+
+#[test]
+fn lower_threshold_merges_more_lines_into_fewer_templates() {
+    let strict = cmd()
+        .args([
+            "templates",
+            &fixture("pytest-fail.log"),
+            "--threshold",
+            "0.9",
+            "--json",
+        ])
+        .output()
+        .unwrap();
+    let loose = cmd()
+        .args([
+            "templates",
+            &fixture("pytest-fail.log"),
+            "--threshold",
+            "0.1",
+            "--json",
+        ])
+        .output()
+        .unwrap();
+    let strict_v: serde_json::Value = serde_json::from_slice(&strict.stdout).unwrap();
+    let loose_v: serde_json::Value = serde_json::from_slice(&loose.stdout).unwrap();
+    let strict_count = strict_v["clusters"].as_array().unwrap().len();
+    let loose_count = loose_v["clusters"].as_array().unwrap().len();
+    assert!(
+        loose_count <= strict_count,
+        "loose={loose_count} strict={strict_count}"
+    );
+}

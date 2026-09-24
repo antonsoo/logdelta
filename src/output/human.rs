@@ -52,7 +52,6 @@ pub fn write_diff<W: Write>(
     result: &DiffResult,
     baseline_paths: &[&str],
     target_path: &str,
-    context_lines: usize,
     use_color: bool,
 ) -> io::Result<()> {
     writeln!(
@@ -117,7 +116,6 @@ pub fn write_diff<W: Write>(
             }
         }
     }
-    let _ = context_lines;
     Ok(())
 }
 

@@ -165,9 +165,16 @@ near-constant rate across baselines gets no such discount.
   format, a non-English date, or a base64 blob as a "temp path with random components"
   unless you add a `--mask`. Drain's own wildcarding is the second line of defense, but it
   only generalizes a token position once it has seen it vary.
-- **Hex-id masking requires 7-40 hex characters *and* at least one letter**, so short (≤6
-  char) hex ids and purely-numeric hex-looking strings are not masked (the latter are
-  usually genuine numbers, not hashes).
+- **Hex-id masking requires 7+ hex characters *and* at least one letter** (no upper bound —
+  git SHAs, MD5, SHA-1/256/512 digests all match), so short (≤6 char) hex ids and
+  purely-numeric hex-looking strings are not masked (the latter are usually genuine
+  numbers, not hashes).
+- **Only credentials in a URL's `user:pass@host` authority are masked**, and only for the
+  schemes `logdelta` recognizes (`http(s)`, `postgres(ql)`, `mysql`, `mongodb(+srv)`,
+  `redis(s)`, `amqp(s)`, `ftp`, `sftp`, `ssh`, `s3`) — a bare API key or token elsewhere in
+  a line (a query parameter's value, an `Authorization: Bearer ...` header) is not
+  recognized as a credential and is not masked. Don't rely on `logdelta` to sanitize logs
+  before sharing them; it's a diffing tool, not a secret scanner.
 - **Bare compressed IPv6 addresses (`::1`, `fe80::1`) are not masked outside brackets.**
   `regex` (the crate) has no look-around, and `::` is also the namespace/path separator in
   Rust, C++, and similar (`std::io::Error`, `a::b::c`) — supporting general `::`

@@ -295,7 +295,6 @@ dependencies = [
  "clap",
  "flate2",
  "insta",
- "memchr",
  "predicates",
  "regex",
  "serde",

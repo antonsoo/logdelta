@@ -160,13 +160,16 @@ pub fn diff_runs(
         let tc = *target_counts.get(&id).unwrap_or(&0);
         let baseline_sum: u64 = bc.iter().sum();
         let present_in_every_baseline = n_baselines > 0 && bc.iter().all(|&c| c > 0);
+        // Computed unconditionally (even for NEW/GONE, which don't need it to be
+        // classified) because it's cheap and every finding reports its score either way;
+        // simpler than threading an `Option` through and computing it twice.
+        let score = score_template(&bc, &baseline_totals, tc, target_total);
 
         let kind = if tc > 0 && baseline_sum == 0 && n_baselines > 0 {
             Some(FindingKind::New)
         } else if tc == 0 && present_in_every_baseline {
             Some(FindingKind::Gone)
         } else if n_baselines > 0 {
-            let score = score_template(&bc, &baseline_totals, tc, target_total);
             if score >= opts.significance {
                 Some(FindingKind::Changed)
             } else {
@@ -179,7 +182,6 @@ pub fn diff_runs(
 
         let Some(kind) = kind else { continue };
 
-        let score = score_template(&bc, &baseline_totals, tc, target_total);
         let baseline_rate = if baseline_totals.iter().sum::<u64>() > 0 {
             baseline_sum as f64 / baseline_totals.iter().sum::<u64>() as f64
         } else {

@@ -65,3 +65,23 @@ pub fn write_diff<W: Write>(
     }
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::escape;
+
+    #[test]
+    fn escapes_pipes_so_they_dont_break_the_table() {
+        assert_eq!(escape("a | b"), "a \\| b");
+    }
+
+    #[test]
+    fn flattens_embedded_newlines() {
+        assert_eq!(escape("line one\nline two"), "line one line two");
+    }
+
+    #[test]
+    fn leaves_ordinary_text_alone() {
+        assert_eq!(escape("nothing special here"), "nothing special here");
+    }
+}

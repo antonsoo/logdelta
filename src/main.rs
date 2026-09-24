@@ -29,6 +29,27 @@ fn main() -> ExitCode {
     }
 }
 
+/// `threshold` is a fraction of tokens that must match for Drain to fold a line into an
+/// existing cluster (see `logdelta::drain`): outside `(0, 1]` it's not meaningless, just
+/// useless (`<= 0` merges everything into one cluster regardless of content, `> 1` can never
+/// be reached so every line starts its own cluster) — reject it early with a clear message
+/// instead of quietly producing a degenerate report.
+fn validate_threshold(t: f64) -> anyhow::Result<()> {
+    if t.is_finite() && t > 0.0 && t <= 1.0 {
+        Ok(())
+    } else {
+        anyhow::bail!("--threshold must be a number in (0, 1], got {t}")
+    }
+}
+
+fn validate_significance(s: f64) -> anyhow::Result<()> {
+    if s.is_finite() && s >= 0.0 {
+        Ok(())
+    } else {
+        anyhow::bail!("--significance must be a non-negative number, got {s}")
+    }
+}
+
 fn resolve_color(choice: ColorChoice) -> bool {
     match choice {
         ColorChoice::Always => true,
@@ -66,6 +87,8 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
     if args.json && args.markdown {
         anyhow::bail!("--json and --markdown are mutually exclusive");
     }
+    validate_threshold(args.threshold)?;
+    validate_significance(args.significance)?;
     let (baselines, target) = match &args.target {
         Some(t) => (args.inputs.clone(), t.clone()),
         None => {
@@ -102,14 +125,7 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
         markdown::write_diff(&mut out, &result, &baseline_refs, &target)?;
     } else {
         let use_color = resolve_color(args.common.color);
-        human::write_diff(
-            &mut out,
-            &result,
-            &baseline_refs,
-            &target,
-            args.context,
-            use_color,
-        )?;
+        human::write_diff(&mut out, &result, &baseline_refs, &target, use_color)?;
     }
 
     // Non-zero exit whenever there's anything to report, so `diff` is usable as a CI gate
@@ -122,6 +138,7 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
 }
 
 fn run_templates(args: TemplatesArgs) -> anyhow::Result<ExitCode> {
+    validate_threshold(args.threshold)?;
     let masks = load_masks(&args.common)?;
     let summary = mine_run(&args.input, &masks, args.threshold)?;
 
@@ -137,6 +154,7 @@ fn run_templates(args: TemplatesArgs) -> anyhow::Result<ExitCode> {
 }
 
 fn run_novel(args: NovelArgs) -> anyhow::Result<ExitCode> {
+    validate_threshold(args.threshold)?;
     let masks = load_masks(&args.common)?;
     let mut drain = logdelta::drain::Drain::new(args.threshold);
     for path in &args.baselines {
