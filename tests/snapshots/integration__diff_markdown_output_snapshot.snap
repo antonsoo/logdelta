@@ -4,29 +4,29 @@ expression: normalized
 ---
 ### logdelta diff
 
-Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fail.log` (23 lines) — 21 templates, 10 findings
+Baseline: `examples/pytest-pass.log` (28 lines) — Target: `examples/pytest-fail.log` (23 lines) — 21 templates, 10 findings
 
 #### New
 
 | Score | Baseline | Target | Template | First seen |
 |---:|---:|---:|---|---|
-| 0.2 | 0 | 1 | `=================================== FAILURES ====================================` | `examples/pytest-fail.log:14` `=================================== FAILURES ====================================` |
-| 0.2 | 0 | 1 | `_________________________________ test_divide ____________________________________` | `examples/pytest-fail.log:15` `_________________________________ test_divide ____________________________________` |
-| 0.2 | 0 | 1 | `def test_divide():` | `examples/pytest-fail.log:17` `    def test_divide():` |
-| 0.2 | 0 | 1 | `result = divide(10, 0)` | `examples/pytest-fail.log:18` `        result = divide(10, 0)` |
-| 0.2 | 0 | 1 | `> assert result == 0` | `examples/pytest-fail.log:19` `>       assert result == 0` |
-| 0.2 | 0 | 1 | `E ZeroDivisionError: division by zero` | `examples/pytest-fail.log:20` `E       ZeroDivisionError: division by zero` |
-| 0.2 | 0 | 1 | `tests/test_math.py:23: ZeroDivisionError` | `examples/pytest-fail.log:22` `tests/test_math.py:23: ZeroDivisionError` |
-| 0.2 | 0 | 1 | `=========================== 1 failed, 6 passed in <QTY> ==========================` | `examples/pytest-fail.log:23` `=========================== 1 failed, 6 passed in 0.51s ==========================` |
+| 0.8 | 0 | 1 | `=================================== FAILURES ====================================` | `examples/pytest-fail.log:14` `=================================== FAILURES ====================================` |
+| 0.8 | 0 | 1 | `_________________________________ test_divide ____________________________________` | `examples/pytest-fail.log:15` `_________________________________ test_divide ____________________________________` |
+| 0.8 | 0 | 1 | `def test_divide():` | `examples/pytest-fail.log:17` `    def test_divide():` |
+| 0.8 | 0 | 1 | `result = divide(10, 0)` | `examples/pytest-fail.log:18` `        result = divide(10, 0)` |
+| 0.8 | 0 | 1 | `> assert result == 0` | `examples/pytest-fail.log:19` `>       assert result == 0` |
+| 0.8 | 0 | 1 | `E ZeroDivisionError: division by zero` | `examples/pytest-fail.log:20` `E       ZeroDivisionError: division by zero` |
+| 0.8 | 0 | 1 | `tests/test_math.py:23: ZeroDivisionError` | `examples/pytest-fail.log:22` `tests/test_math.py:23: ZeroDivisionError` |
+| 0.8 | 0 | 1 | `=========================== 1 failed, 6 passed in <QTY> ==========================` | `examples/pytest-fail.log:23` `=========================== 1 failed, 6 passed in 0.51s ==========================` |
 
 #### Gone
 
 | Score | Baseline | Target | Template | First seen |
 |---:|---:|---:|---|---|
-| 1.2 | 1 | 0 | `============================== 7 passed in <QTY> ===============================` | — |
+| 1.2 | 2 | 0 | `============================== <*> passed in <QTY> ===============================` | — |
 
 #### New value
 
 | Template | New value | Baseline value(s) | First seen |
 |---|---|---|---|
-| `tests/test_math.py::test_divide <*> [ 57%]` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` `tests/test_math.py::test_divide FAILED                                  [ 57%]` |
+| `tests/test_math.py::test_divide <*> [ <*>` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` `tests/test_math.py::test_divide FAILED                                  [ 57%]` |

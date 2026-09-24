@@ -84,6 +84,10 @@ pub struct ValueFinding {
     pub baseline_values: Vec<String>,
     pub first_target_line_no: usize,
     pub first_target_raw: String,
+    /// `baseline occurrences / distinct baseline values` at this position — how established
+    /// the baseline side is. Findings are sorted by this, most established first, so the
+    /// most-confident content flips (a status seen hundreds of times, now different) lead.
+    pub established: f64,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context: Option<ContextWindow>,
 }
@@ -286,6 +290,7 @@ pub fn diff_runs(
                         baseline_values: found.baseline_values,
                         first_target_line_no: found.first_target_line_no,
                         first_target_raw: found.first_target_raw,
+                        established: found.established,
                         context: None,
                     });
                 }
@@ -300,9 +305,13 @@ pub fn diff_runs(
                 .unwrap_or(std::cmp::Ordering::Equal),
         )
     });
+    // Most-established baseline value first: a status seen hundreds of times that just
+    // changed is a stronger signal than one that barely cleared the repetition bar.
     value_findings.sort_by(|a, b| {
-        a.template
-            .cmp(&b.template)
+        b.established
+            .partial_cmp(&a.established)
+            .unwrap_or(std::cmp::Ordering::Equal)
+            .then(a.template.cmp(&b.template))
             .then(a.position.cmp(&b.position))
     });
 
@@ -399,10 +408,11 @@ mod tests {
 
     #[test]
     fn detects_a_content_flip_frequency_scoring_alone_would_miss() {
-        // Same line, same position, same frequency (1 occurrence each run) - only the value
-        // at that position changes. A count-based test alone can't see this; it's what
-        // ValueFinding (backed by `crate::values`) exists for.
-        let good = write_tmp(&["tests/test_math.py::test_divide PASSED [ 57%]"]);
+        // Same line, same position - only the value at that position changes. A count-based
+        // test alone can't see this; it's what ValueFinding (backed by `crate::values`)
+        // exists for. The baseline repeats PASSED enough times to clear
+        // `values::MIN_AVG_REPETITION`, the way a real test suite run would.
+        let good = write_tmp(&["tests/test_math.py::test_divide PASSED [ 57%]"; 6]);
         let bad = write_tmp(&["tests/test_math.py::test_divide FAILED [ 57%]"]);
         let result = diff_runs(
             &[good.path().to_str().unwrap()],

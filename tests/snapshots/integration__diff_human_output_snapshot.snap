@@ -3,35 +3,35 @@ source: tests/integration.rs
 expression: normalized
 ---
 logdelta diff  examples/pytest-pass.log → examples/pytest-fail.log
-14 → 23 lines · 21 templates · 10 findings
+28 → 23 lines · 21 templates · 10 findings
 
-NEW        baseline=0 target=1  score=0.2  =================================== FAILURES ====================================
+NEW        baseline=0 target=1  score=0.8  =================================== FAILURES ====================================
         examples/pytest-fail.log:14
         =================================== FAILURES ====================================
-NEW        baseline=0 target=1  score=0.2  _________________________________ test_divide ____________________________________
+NEW        baseline=0 target=1  score=0.8  _________________________________ test_divide ____________________________________
         examples/pytest-fail.log:15
         _________________________________ test_divide ____________________________________
-NEW        baseline=0 target=1  score=0.2  def test_divide():
+NEW        baseline=0 target=1  score=0.8  def test_divide():
         examples/pytest-fail.log:17
             def test_divide():
-NEW        baseline=0 target=1  score=0.2  result = divide(10, 0)
+NEW        baseline=0 target=1  score=0.8  result = divide(10, 0)
         examples/pytest-fail.log:18
                 result = divide(10, 0)
-NEW        baseline=0 target=1  score=0.2  > assert result == 0
+NEW        baseline=0 target=1  score=0.8  > assert result == 0
         examples/pytest-fail.log:19
         >       assert result == 0
-NEW        baseline=0 target=1  score=0.2  E ZeroDivisionError: division by zero
+NEW        baseline=0 target=1  score=0.8  E ZeroDivisionError: division by zero
         examples/pytest-fail.log:20
         E       ZeroDivisionError: division by zero
-NEW        baseline=0 target=1  score=0.2  tests/test_math.py:23: ZeroDivisionError
+NEW        baseline=0 target=1  score=0.8  tests/test_math.py:23: ZeroDivisionError
         examples/pytest-fail.log:22
         tests/test_math.py:23: ZeroDivisionError
-NEW        baseline=0 target=1  score=0.2  =========================== 1 failed, 6 passed in <QTY> ==========================
+NEW        baseline=0 target=1  score=0.8  =========================== 1 failed, 6 passed in <QTY> ==========================
         examples/pytest-fail.log:23
         =========================== 1 failed, 6 passed in 0.51s ==========================
 
-GONE       baseline=1 target=0  score=1.2  ============================== 7 passed in <QTY> ===============================
+GONE       baseline=2 target=0  score=1.2  ============================== <*> passed in <QTY> ===============================
 
-NEW VALUE  tests/test_math.py::test_divide FAILED [ 57%]  (baseline: PASSED)
+NEW VALUE  tests/test_math.py::test_divide FAILED [ <*>  (baseline: PASSED)
         examples/pytest-fail.log:9
         tests/test_math.py::test_divide FAILED                                  [ 57%]

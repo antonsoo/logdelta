@@ -451,3 +451,107 @@ fn exits_cleanly_on_a_closed_stdout_pipe() {
         "stderr should not mention the broken pipe, got: {stderr}"
     );
 }
+
+fn total_finding_count(v: &serde_json::Value) -> usize {
+    v["findings"].as_array().unwrap().len() + v["value_findings"].as_array().unwrap().len()
+}
+
+#[test]
+fn two_passing_runs_produce_almost_no_findings() {
+    // A user's first try at `diff` is often two known-good runs, before they even have a
+    // failing one to compare against - that has to be near-silent, or the tool looks broken
+    // on the very first thing someone tries. Every pair of the three large synthetic
+    // baselines is a real pass-vs-pass run of the same fixed test suite.
+    let pairs = [
+        ("large/baseline-1.log", "large/baseline-2.log"),
+        ("large/baseline-1.log", "large/baseline-3.log"),
+        ("large/baseline-2.log", "large/baseline-3.log"),
+        ("large/baseline-2.log", "large/baseline-1.log"),
+        ("large/baseline-3.log", "large/baseline-1.log"),
+        ("large/baseline-3.log", "large/baseline-2.log"),
+    ];
+    for (baseline, target) in pairs {
+        let out = cmd()
+            .args([
+                "diff",
+                &fixture(baseline),
+                "--target",
+                &fixture(target),
+                "--json",
+            ])
+            .output()
+            .unwrap();
+        let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+        let count = total_finding_count(&v);
+        assert!(
+            count <= 2,
+            "{baseline} vs {target}: expected at most 2 findings on a pass-vs-pass diff, got {count}: {v}"
+        );
+    }
+}
+
+#[test]
+fn real_failure_diff_still_flags_new_gone_and_the_content_flip() {
+    // The same three baselines against the run with an actual injected failure must still
+    // surface it clearly: this is the tightened NEW VALUE logic's other half of the bargain
+    // (near-silent on clean pairs, but not silent on a real regression).
+    let out = cmd()
+        .args([
+            "diff",
+            &fixture("large/baseline-1.log"),
+            &fixture("large/baseline-2.log"),
+            &fixture("large/baseline-3.log"),
+            "--target",
+            &fixture("large/target-failure.log"),
+            "--json",
+        ])
+        .output()
+        .unwrap();
+    let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+
+    assert!(v["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|f| f["kind"] == "new"));
+    assert!(v["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|f| f["kind"] == "gone"));
+    assert!(
+        v["value_findings"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|f| f["new_value"] == "FAILED"
+                && f["baseline_values"] == serde_json::json!(["PASSED"])),
+        "expected the PASSED -> FAILED content flip, got: {}",
+        v["value_findings"]
+    );
+}
+
+#[test]
+fn pytest_pass_vs_fail_still_flags_the_content_flip() {
+    let out = cmd()
+        .args([
+            "diff",
+            &fixture("pytest-pass.log"),
+            "--target",
+            &fixture("pytest-fail.log"),
+            "--json",
+        ])
+        .output()
+        .unwrap();
+    let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    assert!(
+        v["value_findings"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|f| f["new_value"] == "FAILED"
+                && f["baseline_values"] == serde_json::json!(["PASSED"])),
+        "expected the PASSED -> FAILED content flip on the small pytest fixture, got: {}",
+        v["value_findings"]
+    );
+}

@@ -11,10 +11,10 @@ byte-level diff of a 4,000-line CI log is 3,990 lines of noise. `logdelta` turns
 into a *template* by masking the variable parts, clusters the templates, and compares
 template distributions between a known-good baseline and the run you're investigating. On
 the synthetic 18,000-line, three-baseline example below — a simulated parallel test run with
-a real failure buried in it — that's a 6,042-line target reduced to 10 findings, one of them
-the actual failing test.
+a real failure buried in it — that's a 6,042-line target reduced to 8 findings, one of them
+the actual failing test. Two passing runs from the same example diff to 0 findings.
 
-<p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output on a simulated parallel test run: header reads 18,350 to 6,042 lines, 407 templates, 10 findings; five NEW findings (a new service alert, a new structured error event, and a buried test's traceback), one GONE finding, and a NEW VALUE finding showing one specific test's outcome flipping from PASSED in every baseline to FAILED in the target"></p>
+<p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output on a simulated parallel test run: header reads 18,350 to 6,042 lines, 407 templates, 8 findings; five NEW findings (a new service alert, a new structured error event, and a buried test's traceback), one GONE finding, and a NEW VALUE finding showing one specific test's outcome flipping from PASSED in every baseline to FAILED in the target"></p>
 
 ## Quickstart
 
@@ -79,32 +79,36 @@ $ logdelta diff examples/pytest-pass.log --target examples/pytest-fail.log --mar
 ```markdown
 ### logdelta diff
 
-Baseline: `examples/pytest-pass.log` (14 lines) — Target: `examples/pytest-fail.log` (23 lines) — 21 templates, 10 findings
+Baseline: `examples/pytest-pass.log` (28 lines) — Target: `examples/pytest-fail.log` (23 lines) — 21 templates, 10 findings
 
 #### New
 
 | Score | Baseline | Target | Template | First seen |
 |---:|---:|---:|---|---|
-| 0.2 | 0 | 1 | `=================================== FAILURES ====================================` | `examples/pytest-fail.log:14` ... |
-| 0.2 | 0 | 1 | `E ZeroDivisionError: division by zero` | `examples/pytest-fail.log:20` ... |
-| 0.2 | 0 | 1 | `=========================== 1 failed, 6 passed in <QTY> ==========================` | `examples/pytest-fail.log:23` ... |
+| 0.8 | 0 | 1 | `=================================== FAILURES ====================================` | `examples/pytest-fail.log:14` ... |
+| 0.8 | 0 | 1 | `E ZeroDivisionError: division by zero` | `examples/pytest-fail.log:20` ... |
+| 0.8 | 0 | 1 | `=========================== 1 failed, 6 passed in <QTY> ==========================` | `examples/pytest-fail.log:23` ... |
 
 #### Gone
 
 | Score | Baseline | Target | Template | First seen |
 |---:|---:|---:|---|---|
-| 1.2 | 1 | 0 | `============================== 7 passed in <QTY> ===============================` | — |
+| 1.2 | 2 | 0 | `============================== <*> passed in <QTY> ===============================` | — |
 
 #### New value
 
 | Template | New value | Baseline value(s) | First seen |
 |---|---|---|---|
-| `tests/test_math.py::test_divide <*> [ 57%]` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` ... |
+| `tests/test_math.py::test_divide <*> [ <*>` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` ... |
 ```
 
 The last table is the interesting one: `test_divide`'s outcome flipping from `PASSED` in the
 baseline to `FAILED` — same line, same position, same frequency — is exactly the case
-frequency-based scoring alone can't see (more in [How it works](#how-it-works)).
+frequency-based scoring alone can't see (more in [How it works](#how-it-works)). (This is
+also why `examples/pytest-pass.log` shows `test_divide` re-run a few extra times, as a
+stability check on a division test would really do: NEW VALUE only fires once a position's
+baseline values are established enough — see the cardinality/repetition rules below —
+so a status seen exactly once wouldn't qualify.)
 
 (Trimmed for the README. This repo doesn't run `logdelta` on itself — `--markdown` is meant
 for pasting straight into `$GITHUB_STEP_SUMMARY` or a PR comment; see
@@ -196,11 +200,18 @@ line whose *content* changes at the same frequency and position (the canonical c
 pytest line's status word flipping from `PASSED` in every baseline to `FAILED` in the
 target — the template's count doesn't move, so no G-test ever fires). For every wildcard
 position in every template, `diff` tracks the distinct literal values seen there per
-baseline run and in the target (placeholder values like `<IP>` are skipped — they're already
-canonicalized, so there's nothing to report). If the position is low-cardinality (at most 10
-distinct values across all baselines combined — a real id or free-text value blows straight
-through that cap and is left alone) and the target introduces a value that never appeared in
-any baseline, that's a **NEW VALUE** finding.
+baseline run and in the target. A value is only tracked at all if it's not a masking
+placeholder (`<IP>` etc. — already canonicalized, nothing to report) and doesn't *look* like
+an identifier rather than a status: containing a digit (a worker id like `gw3`, a shard like
+`node-7`) or a path/namespace separator (`::`, `/`, `.`, as in a test id or file path). A
+position is eligible for a finding only if it's low-cardinality (at most 10 distinct values
+across all baselines combined — an id or free-text value that slips past the filter above
+blows straight through this cap instead) *and* established — its known values recur on
+average at least 5 times across the baselines, so a value seen once or twice isn't mistaken
+for a stable status. If the target then introduces a value that never appeared in any
+baseline at such a position, that's a **NEW VALUE** finding, ranked by how established the
+baseline side was (a status seen hundreds of times that just changed ranks above one that
+barely cleared the bar).
 
 ## Accuracy and limitations
 
@@ -208,10 +219,13 @@ any baseline, that's a **NEW VALUE** finding.
   point.** The G-test only sees that a template's *count* changed; a same-count content flip
   (pytest's `test_divide PASSED` becoming `test_divide FAILED`) is what NEW VALUE findings
   exist for instead (see "How it works" above; `examples/pytest-pass.log` vs.
-  `examples/pytest-fail.log` demonstrates it directly). But that mechanism only fires for a
-  *low-cardinality* wildcard position (at most 10 distinct values across all baselines): a
-  flip at a free-text or id-like position is invisible to it by design, the same way it would
-  be invisible to a human skimming a diff of "one value out of hundreds changed."
+  `examples/pytest-fail.log` demonstrates it directly). That mechanism is deliberately
+  conservative, tuned so a diff between two *passing* runs stays near-silent: it only fires
+  for a position that's low-cardinality (at most 10 distinct values across all baselines),
+  doesn't look like an identifier (no digits, no `::`/`/`/`.`), and whose known values are
+  established (recur on average at least 5 times). A flip at a free-text, id-like, or
+  barely-seen position is invisible to it by design — the same way it would be invisible to
+  a human skimming a diff of "one value out of hundreds changed once."
 - **Regex masking is necessarily incomplete.** It won't recognize a project-specific id
   format, a non-English date, or a base64 blob as a "temp path with random components"
   unless you add a `--mask`. Drain's own wildcarding is the second line of defense, but it

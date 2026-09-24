@@ -12,3 +12,17 @@ tests/test_strings.py::test_lower PASSED                                [ 85%]
 tests/test_strings.py::test_strip PASSED                                [100%]
 
 ============================== 7 passed in 0.42s ===============================
+
+============================= test session starts ==============================
+platform linux -- Python 3.11.6, pytest-8.1.1, pluggy-1.4.0
+rootdir: /home/ci/project
+collected 6 items
+
+tests/test_math.py::test_divide PASSED                                  [ 16%]
+tests/test_math.py::test_divide PASSED                                  [ 33%]
+tests/test_math.py::test_divide PASSED                                  [ 50%]
+tests/test_math.py::test_divide PASSED                                  [ 66%]
+tests/test_math.py::test_divide PASSED                                  [ 83%]
+tests/test_math.py::test_divide PASSED                                  [ 99%]
+
+============================== 6 passed in 0.11s ===============================

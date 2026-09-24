@@ -11,8 +11,9 @@ Initial release.
 
 - `logdelta diff <baseline>... --target <file>`: NEW / GONE / CHANGED template findings,
   scored with a smoothed G-test and a flakiness penalty across multiple baselines, plus
-  NEW VALUE findings for a same-frequency content flip at a low-cardinality position
-  (e.g. a test's outcome going from `PASSED` in every baseline to `FAILED`); `-C N` context
+  NEW VALUE findings for a same-frequency content flip at a low-cardinality, established,
+  non-identifier-like position (e.g. a test's outcome going from `PASSED` in every baseline
+  to `FAILED`) — tuned so a diff between two passing runs stays near-silent; `-C N` context
   lines; human (colored, raw lines truncated to the terminal width), `--json`, and
   `--markdown` output.
 - `logdelta templates <file>`: ranked template list with counts and an example line.
