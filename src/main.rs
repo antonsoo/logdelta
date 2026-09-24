@@ -112,15 +112,12 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
         )?;
     }
 
-    let has_new_or_gone = result
-        .findings
-        .iter()
-        .any(|f| f.kind != logdelta::analysis::FindingKind::Changed)
-        || !result.findings.is_empty();
-    Ok(if has_new_or_gone {
-        ExitCode::from(1)
-    } else {
+    // Non-zero exit whenever there's anything to report, so `diff` is usable as a CI gate
+    // (`logdelta diff good.log --target bad.log || echo "regressions found"`).
+    Ok(if result.findings.is_empty() {
         ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
     })
 }
 

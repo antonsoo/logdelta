@@ -50,9 +50,11 @@ pub struct DiffArgs {
     #[arg(long, default_value_t = logdelta::scoring::DEFAULT_SIGNIFICANCE)]
     pub significance: f64,
 
+    /// Emit machine-readable JSON instead of colored terminal output.
     #[arg(long)]
     pub json: bool,
 
+    /// Emit a Markdown report, e.g. for `$GITHUB_STEP_SUMMARY` or a PR comment.
     #[arg(long)]
     pub markdown: bool,
 }
@@ -69,9 +71,11 @@ pub struct TemplatesArgs {
     #[command(flatten)]
     pub common: CommonArgs,
 
+    /// Drain similarity threshold in (0, 1]; lower merges more lines into one template.
     #[arg(long, default_value_t = logdelta::drain::DEFAULT_SIMILARITY_THRESHOLD)]
     pub threshold: f64,
 
+    /// Emit machine-readable JSON instead of colored terminal output.
     #[arg(long)]
     pub json: bool,
 }
@@ -89,6 +93,7 @@ pub struct NovelArgs {
     #[command(flatten)]
     pub common: CommonArgs,
 
+    /// Drain similarity threshold in (0, 1]; lower merges more lines into one template.
     #[arg(long, default_value_t = logdelta::drain::DEFAULT_SIMILARITY_THRESHOLD)]
     pub threshold: f64,
 }
