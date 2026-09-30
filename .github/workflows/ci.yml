@@ -31,3 +31,37 @@ jobs:
         run: cargo test --all-targets --all-features
       - name: build (release)
         run: cargo build --release
+
+  web:
+    name: web demo (wasm + Vite)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: web/wasm
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: wasm crate (fmt, clippy, test)
+        run: |
+          cargo fmt --manifest-path wasm/Cargo.toml -- --check
+          cargo clippy --manifest-path wasm/Cargo.toml --target wasm32-unknown-unknown -- -D warnings
+          cargo test --manifest-path wasm/Cargo.toml
+      - name: Install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm test
+      - name: Build (wasm + site)
+        run: npm run build

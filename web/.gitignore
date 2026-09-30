@@ -1,0 +1,5 @@
+node_modules/
+dist/
+public/logdelta.wasm
+public/examples/
+wasm/target/

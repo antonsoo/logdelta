@@ -1,0 +1,22 @@
+[package]
+name = "logdelta-wasm"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "The logdelta library compiled to WebAssembly for the browser demo."
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+logdelta = { path = "../..", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
