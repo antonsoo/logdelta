@@ -3,6 +3,26 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.2.0] - 2026-09-30
+
+### Added
+
+- A browser demo at <https://antonsoo.github.io/logdelta/> (`web/`): this crate's library
+  compiled to `wasm32-unknown-unknown` through a small C-ABI wrapper crate (`web/wasm`, no
+  wasm-bindgen), run in a Web Worker. Paste, open, or drop baseline and target logs (`.gz`
+  included), or load the bundled synthetic examples (a pytest pass/fail pair, a Kubernetes
+  incident, and the three-baseline CI run from `tests/fixtures/large`). Findings match
+  `logdelta diff --json`; consecutive new lines are grouped into one card, and the result can
+  be downloaded as JSON.
+- `diff_lines` and `mine_lines`: the diff and template mining over any
+  `Iterator<Item = io::Result<String>>`, so in-memory text needs no file. `diff_runs` is now a
+  thin wrapper over `diff_lines`.
+
+### Changed
+
+- `clap` and `terminal_size` are behind a default `cli` feature; the library builds with
+  `default-features = false` (the binary requires `cli`).
+
 ## [0.1.0] - 2026-09-24
 
 Initial release.

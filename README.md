@@ -3,6 +3,7 @@
 **Diff logs by meaning, not by bytes. See what's new in the failing run.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/live%20demo-antonsoo.github.io%2Flogdelta-c2185b)](https://antonsoo.github.io/logdelta/)
 
 When a CI job or a deploy fails, the useful question is "what happened in this run that
 didn't happen in the good one?" Plain `diff` can't answer it: timestamps, PIDs, durations,
@@ -15,6 +16,10 @@ a real failure buried in it — that's a 6,042-line target reduced to 8 findings
 the actual failing test. Two passing runs from the same example diff to 0 findings.
 
 <p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output on a simulated parallel test run: header reads 18,350 to 6,042 lines, 407 templates, 8 findings; five NEW findings (a new service alert, a new structured error event, and a buried test's traceback), one GONE finding, and a NEW VALUE finding showing one specific test's outcome flipping from PASSED in every baseline to FAILED in the target"></p>
+
+**[Try it in the browser →](https://antonsoo.github.io/logdelta/)** Paste two logs, or load one of
+the examples below. The page runs this crate's library compiled to WebAssembly, so the findings are
+the CLI's, computed in your tab; nothing is uploaded. See [Web demo](#web-demo).
 
 ## Quickstart
 
@@ -120,6 +125,28 @@ $ tail -f service.log | logdelta novel --baseline yesterday-passing.log
 
 prints only the lines whose template didn't occur in `yesterday-passing.log`, as they
 happen.
+
+## Web demo
+
+<p align="center"><img src="docs/assets/web-demo.png" width="820" alt="The logdelta web demo on the three-baseline CI example: 18,350 baseline lines to 6,042 target lines, 407 templates, 8 findings, printed on greenbar paper: a new circuit-breaker line, a new structured error event with its UUID masked, a block of three consecutive new traceback lines, the failing test's status flip, and a gone health check"></p>
+
+[antonsoo.github.io/logdelta](https://antonsoo.github.io/logdelta/) is a static page in `web/`.
+`web/wasm` wraps the library in a small C ABI (a JSON request in, the `diff` JSON out, no
+wasm-bindgen), `cargo build --target wasm32-unknown-unknown` compiles it, and a Web Worker runs
+it off the main thread. It is the same masking, mining and scoring code as the CLI: on the
+three-baseline example it reports the same 407 templates and 8 findings as
+`logdelta diff ... --json`, in about a third of a second once the 1.1 MB module has loaded. The
+library builds without the command-line dependencies (`default-features = false`; `clap` and
+`terminal_size` sit behind the default `cli` feature), and `diff_lines` / `mine_lines` take any
+line iterator, so the page diffs pasted text directly.
+
+The page groups a run of new lines no more than two lines apart (a traceback, a panic) into one
+card with a single excerpt, and lists NEW VALUE findings right after the new lines; the counts
+are the engine's. Files can be dropped or opened, `.gz` included. To run it locally:
+
+```console
+$ cd web && npm ci && npm run dev    # needs the wasm32-unknown-unknown target: rustup target add wasm32-unknown-unknown
+```
 
 ## How it works
 
@@ -293,6 +320,8 @@ The headline: **memory is flat regardless of input size** — a few MB whether t
 $ cargo test
 $ cargo fmt --all -- --check
 $ cargo clippy --all-targets --all-features -- -D warnings
+$ cargo build --lib --no-default-features   # the library alone, as the web demo uses it
+$ cd web && npm ci && npm run typecheck && npm run lint && npm test && npm run build
 ```
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
