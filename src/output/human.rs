@@ -61,10 +61,16 @@ fn format_counts(f: &Finding) -> String {
 
 /// Terminal column count: the real width when stdout is a TTY, [`DEFAULT_WIDTH`] otherwise
 /// (piping into a file or another program never reports a size).
+#[cfg(feature = "cli")]
 fn terminal_width() -> usize {
     terminal_size::terminal_size()
         .map(|(w, _)| w.0 as usize)
         .unwrap_or(DEFAULT_WIDTH)
+}
+
+#[cfg(not(feature = "cli"))]
+fn terminal_width() -> usize {
+    DEFAULT_WIDTH
 }
 
 /// Truncates `s` to at most `max_chars` *characters* (not bytes, so multi-byte UTF-8 isn't

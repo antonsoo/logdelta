@@ -25,6 +25,21 @@ pub fn collect_context(
     wanted: &BTreeSet<usize>,
     context: usize,
 ) -> io::Result<HashMap<usize, ContextWindow>> {
+    if context == 0 || wanted.is_empty() {
+        return Ok(HashMap::new());
+    }
+    collect_context_from_lines(read_lines(path)?, wanted, context)
+}
+
+/// [`collect_context`] over any source of lines, e.g. a target log already in memory.
+pub fn collect_context_from_lines<I>(
+    lines: I,
+    wanted: &BTreeSet<usize>,
+    context: usize,
+) -> io::Result<HashMap<usize, ContextWindow>>
+where
+    I: Iterator<Item = io::Result<String>>,
+{
     let mut result: HashMap<usize, ContextWindow> = HashMap::new();
     if context == 0 || wanted.is_empty() {
         return Ok(result);
@@ -33,7 +48,7 @@ pub fn collect_context(
     let mut ring: VecDeque<(usize, String)> = VecDeque::with_capacity(context);
     let mut active: Vec<usize> = Vec::new();
 
-    for (idx, line) in read_lines(path)?.enumerate() {
+    for (idx, line) in lines.enumerate() {
         let line_no = idx + 1;
         let raw = line?;
 

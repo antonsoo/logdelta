@@ -24,9 +24,17 @@ pub struct RunSummary {
 /// Masks and mines every line of `path` on its own, independent [`Drain`] instance. Used by
 /// `logdelta templates`.
 pub fn mine_run(path: &str, custom: &[CustomMask], threshold: f64) -> io::Result<RunSummary> {
+    mine_lines(read_lines(path)?, custom, threshold)
+}
+
+/// [`mine_run`] over any source of lines (a file, stdin, or text already in memory).
+pub fn mine_lines<I>(lines: I, custom: &[CustomMask], threshold: f64) -> io::Result<RunSummary>
+where
+    I: Iterator<Item = io::Result<String>>,
+{
     let mut drain = Drain::new(threshold);
     let mut total = 0u64;
-    for line in read_lines(path)? {
+    for line in lines {
         let line = line?;
         total += 1;
         let tokens = tokenize_line(&line, custom);
@@ -151,15 +159,35 @@ pub fn diff_runs(
     custom: &[CustomMask],
     opts: &DiffOptions,
 ) -> io::Result<DiffResult> {
-    let mut drain = Drain::new(opts.threshold);
-    let mut tracker = ValueTracker::with_baselines(baselines.len());
+    let baseline_lines = baselines
+        .iter()
+        .map(|path| read_lines(path))
+        .collect::<io::Result<Vec<_>>>()?;
+    diff_lines(baseline_lines, read_lines(target)?, custom, opts)
+}
 
-    let mut baseline_counts: Vec<HashMap<usize, u64>> = Vec::with_capacity(baselines.len());
-    let mut baseline_totals: Vec<u64> = Vec::with_capacity(baselines.len());
-    for (baseline_idx, path) in baselines.iter().enumerate() {
+/// [`diff_runs`] over any sources of lines: files, stdin, or text already in memory (the
+/// browser build diffs pasted logs this way).
+pub fn diff_lines<B, T>(
+    baselines: Vec<B>,
+    target: T,
+    custom: &[CustomMask],
+    opts: &DiffOptions,
+) -> io::Result<DiffResult>
+where
+    B: Iterator<Item = io::Result<String>>,
+    T: Iterator<Item = io::Result<String>>,
+{
+    let n_baselines = baselines.len();
+    let mut drain = Drain::new(opts.threshold);
+    let mut tracker = ValueTracker::with_baselines(n_baselines);
+
+    let mut baseline_counts: Vec<HashMap<usize, u64>> = Vec::with_capacity(n_baselines);
+    let mut baseline_totals: Vec<u64> = Vec::with_capacity(n_baselines);
+    for (baseline_idx, lines) in baselines.into_iter().enumerate() {
         let mut counts: HashMap<usize, u64> = HashMap::new();
         let mut total = 0u64;
-        for line in read_lines(path)? {
+        for line in lines {
             let line = line?;
             total += 1;
             let tokens = tokenize_line(&line, custom);
@@ -174,7 +202,7 @@ pub fn diff_runs(
     let mut target_counts: HashMap<usize, u64> = HashMap::new();
     let mut target_first: HashMap<usize, (usize, String)> = HashMap::new();
     let mut target_total = 0u64;
-    for line in read_lines(target)? {
+    for line in target {
         let line = line?;
         target_total += 1;
         let tokens = tokenize_line(&line, custom);
@@ -186,7 +214,6 @@ pub fn diff_runs(
             .or_insert((target_total as usize, line.clone()));
     }
 
-    let n_baselines = baselines.len();
     let total_templates = drain.clusters().len();
     let mut findings = Vec::new();
     let mut value_findings = Vec::new();
@@ -344,6 +371,37 @@ mod tests {
         }
         f.flush().unwrap();
         f
+    }
+
+    #[test]
+    fn diffing_text_in_memory_matches_diffing_the_same_files() {
+        const GOOD: [&str; 3] = [
+            "2024-01-01T00:00:00Z start",
+            "2024-01-01T00:00:01Z ok 12ms",
+            "2024-01-01T00:00:02Z ok 7ms",
+        ];
+        const BAD: [&str; 3] = [
+            "2024-01-01T00:00:00Z start",
+            "2024-01-01T00:00:01Z ok 9ms",
+            "2024-01-01T00:00:02Z FATAL: out of memory",
+        ];
+        let (good, bad) = (&GOOD, &BAD);
+        let (gf, bf) = (write_tmp(good), write_tmp(bad));
+        let opts = DiffOptions::default();
+        let from_files = diff_runs(
+            &[gf.path().to_str().unwrap()],
+            bf.path().to_str().unwrap(),
+            &[],
+            &opts,
+        )
+        .unwrap();
+        let lines = |ls: &'static [&'static str]| ls.iter().map(|l| Ok(l.to_string()));
+        let in_memory = diff_lines(vec![lines(good)], lines(bad), &[], &opts).unwrap();
+        assert_eq!(
+            serde_json::to_value(&from_files).unwrap(),
+            serde_json::to_value(&in_memory).unwrap()
+        );
+        assert_eq!(in_memory.findings.len(), from_files.findings.len());
     }
 
     #[test]
