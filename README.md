@@ -2,6 +2,7 @@
 
 **Diff logs by meaning, not by bytes. See what's new in the failing run.**
 
+[![crates.io](https://img.shields.io/crates/v/logdelta)](https://crates.io/crates/logdelta)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Live demo](https://img.shields.io/badge/live%20demo-antonsoo.github.io%2Flogdelta-c2185b)](https://antonsoo.github.io/logdelta/)
 
