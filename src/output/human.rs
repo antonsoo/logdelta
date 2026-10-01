@@ -9,7 +9,7 @@ use crate::analysis::{DiffResult, Finding, FindingKind, RunSummary};
 use crate::context::ContextWindow;
 use crate::mask::is_placeholder;
 
-use super::highlight_template;
+use super::{clip, highlight_template, MAX_SHOWN_CHARS};
 
 const INDENT: &str = "        ";
 /// Fallback content width when stdout isn't a TTY (piped into a file, `$GITHUB_STEP_SUMMARY`
@@ -152,6 +152,7 @@ fn write_context<W: Write>(
 
 /// Renders a template with the token at `position` replaced by the actual `new_value` it took
 /// in the target (styled to stand out), instead of the `<*>` wildcard it normally shows as.
+/// A long template is clipped around that value, which is the thing the finding is about.
 fn render_value_template(
     template: &str,
     position: usize,
@@ -159,20 +160,38 @@ fn render_value_template(
     use_color: bool,
 ) -> String {
     let (on, off) = style(AnsiColor::Red, true, use_color);
-    template
-        .split(' ')
-        .enumerate()
-        .map(|(i, tok)| {
-            if i == position {
-                format!("{on}{new_value}{off}")
-            } else if is_placeholder(tok) {
-                highlight_template(tok, use_color)
-            } else {
-                tok.to_string()
+    let new_value = clip(new_value, MAX_SHOWN_CHARS);
+    let mut parts: Vec<String> = Vec::new();
+    let mut shown = 0;
+    let mut hidden = 0;
+    let mut gap_marked = false;
+    for (i, tok) in template.split(' ').enumerate() {
+        if i == position {
+            parts.push(format!("{on}{new_value}{off}"));
+            gap_marked = false;
+            continue;
+        }
+        let len = tok.chars().count() + 1;
+        if shown + len > MAX_SHOWN_CHARS {
+            hidden += len;
+            if !gap_marked {
+                parts.push("…".to_string());
+                gap_marked = true;
             }
-        })
-        .collect::<Vec<_>>()
-        .join(" ")
+            continue;
+        }
+        shown += len;
+        parts.push(if is_placeholder(tok) {
+            highlight_template(tok, use_color)
+        } else {
+            tok.to_string()
+        });
+    }
+    let mut out = parts.join(" ");
+    if hidden > 0 {
+        out.push_str(&format!(" (+{hidden} more characters)"));
+    }
+    out
 }
 
 pub fn write_diff<W: Write>(
@@ -220,7 +239,7 @@ pub fn write_diff<W: Write>(
                 kind_label(f.kind, use_color),
                 format_counts(f),
                 f.score,
-                highlight_template(&f.template, use_color),
+                highlight_template(&clip(&f.template, MAX_SHOWN_CHARS), use_color),
             )?;
             if let (Some(no), Some(raw)) = (f.first_target_line_no, &f.first_target_raw) {
                 write_location_and_raw(out, content_width, target_path, no, raw, use_color)?;
@@ -242,7 +261,10 @@ pub fn write_diff<W: Write>(
                 value_label(use_color),
                 render_value_template(&v.template, v.position, &v.new_value, use_color),
                 dim(
-                    &format!("(baseline: {})", v.baseline_values.join(", ")),
+                    &format!(
+                        "(baseline: {})",
+                        clip(&v.baseline_values.join(", "), MAX_SHOWN_CHARS)
+                    ),
                     use_color
                 ),
             )?;
@@ -300,7 +322,7 @@ pub fn write_templates<W: Write>(
             out,
             "{:>width$}  {}",
             c.count,
-            highlight_template(&c.template(), use_color),
+            highlight_template(&clip(&c.template(), MAX_SHOWN_CHARS), use_color),
             width = width
         )?;
         writeln!(
@@ -309,7 +331,7 @@ pub fn write_templates<W: Write>(
             "",
             dim("e.g.", use_color),
             c.first_line_no,
-            c.first_line_raw,
+            clip(&c.first_line_raw, MAX_SHOWN_CHARS),
             width = width
         )?;
     }
@@ -355,6 +377,16 @@ mod tests {
         // "café" has a 2-byte 'é'; truncating to 3 chars must not panic or split it.
         let out = truncate("café bar", 4);
         assert_eq!(out.chars().count(), 4);
+    }
+
+    #[test]
+    fn render_value_template_keeps_the_value_when_the_template_is_long() {
+        let filler = vec!["word"; 300].join(" ");
+        let template = format!("{filler} <*> {filler}");
+        let out = render_value_template(&template, 300, "TIMEOUT", false);
+        assert!(out.contains(" … TIMEOUT … (+"), "{out}");
+        assert!(out.ends_with(" more characters)"));
+        assert!(out.chars().count() < 500);
     }
 
     #[test]

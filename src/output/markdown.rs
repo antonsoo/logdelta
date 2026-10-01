@@ -4,9 +4,14 @@
 use std::io::{self, Write};
 
 use crate::analysis::{DiffResult, FindingKind};
+use crate::output::{clip, MAX_SHOWN_CHARS};
 
+/// A template, value or log line as one table cell: clipped (a PR comment holds 65,536
+/// characters, and one minified line is longer than that), with `|` and newlines neutralized.
 fn escape(s: &str) -> String {
-    s.replace('|', "\\|").replace('\n', " ")
+    clip(s, MAX_SHOWN_CHARS)
+        .replace('|', "\\|")
+        .replace('\n', " ")
 }
 
 pub fn write_diff<W: Write>(
@@ -109,6 +114,13 @@ mod tests {
     #[test]
     fn flattens_embedded_newlines() {
         assert_eq!(escape("line one\nline two"), "line one line two");
+    }
+
+    #[test]
+    fn clips_a_cell_that_would_swamp_the_table() {
+        let cell = escape(&"x".repeat(5000));
+        assert!(cell.starts_with(&"x".repeat(400)));
+        assert!(cell.ends_with("… (+4600 more characters)"));
     }
 
     #[test]

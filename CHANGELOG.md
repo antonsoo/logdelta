@@ -3,6 +3,18 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.2.3] - 2026-10-01
+
+### Changed
+
+- Reports show at most 400 characters of a template, a value or a log line,
+  and say how much they left out. Logs do contain lines of hundreds of
+  kilobytes (a minified bundle, a base64 payload, one JSON document), and one
+  finding on such a line printed all of it: a 120 KB line made a 120 KB
+  terminal report and a 240 KB Markdown table, too large for a PR comment.
+  The same finding is now about 1 KB in either. `--json` still carries every
+  line whole, and output for ordinary logs is unchanged.
+
 ## [0.2.2] - 2026-10-01
 
 ### Added

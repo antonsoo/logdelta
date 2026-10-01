@@ -555,3 +555,50 @@ fn pytest_pass_vs_fail_still_flags_the_content_flip() {
         v["value_findings"]
     );
 }
+
+/// One line of 120 KB (a base64 payload) is a single finding. The terminal and Markdown
+/// reports must stay readable around it; `--json` keeps the line whole.
+#[test]
+fn a_huge_line_is_clipped_in_reports_and_whole_in_json() {
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("base.log");
+    let fail = dir.path().join("fail.log");
+    let ordinary = "INFO start\nINFO request ok\n".repeat(50);
+    let payload = "QUJD".repeat(30_000);
+    std::fs::write(&base, &ordinary).unwrap();
+    std::fs::write(
+        &fail,
+        format!("{ordinary}ERROR upload failed payload={payload} retry=3\n"),
+    )
+    .unwrap();
+    let run = |extra: &[&str]| {
+        let out = cmd()
+            .args(["diff", base.to_str().unwrap(), fail.to_str().unwrap()])
+            .args(extra)
+            .output()
+            .unwrap();
+        String::from_utf8(out.stdout).unwrap()
+    };
+
+    let human = run(&["--color", "never"]);
+    assert!(human.len() < 3_000, "{} bytes", human.len());
+    assert!(human.contains("ERROR upload failed payload=QUJD"));
+    assert!(human.contains("more characters)"));
+
+    let templates = String::from_utf8(
+        cmd()
+            .args(["templates", fail.to_str().unwrap(), "--color", "never"])
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap();
+    assert!(templates.len() < 3_000, "{} bytes", templates.len());
+
+    let markdown = run(&["--markdown"]);
+    assert!(markdown.len() < 3_000, "{} bytes", markdown.len());
+    assert!(markdown.contains("more characters)"));
+
+    let json = run(&["--json"]);
+    assert!(json.contains(&payload));
+}
