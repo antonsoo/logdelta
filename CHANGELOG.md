@@ -3,6 +3,13 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.2.1] - 2026-10-01
+
+### Added
+
+- Published to crates.io: `cargo install logdelta`. The crate leaves out the
+  browser demo, the screenshots and the large benchmark fixtures.
+
 ## [0.2.0] - 2026-09-30
 
 ### Added

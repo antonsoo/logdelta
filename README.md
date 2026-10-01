@@ -24,15 +24,15 @@ the CLI's, computed in your tab; nothing is uploaded. See [Web demo](#web-demo).
 ## Quickstart
 
 ```console
-$ cargo install --git https://github.com/antonsoo/logdelta
+$ cargo install logdelta
 $ git clone https://github.com/antonsoo/logdelta && cd logdelta
 $ logdelta diff examples/large/baseline-{1,2,3}.log --target examples/large/target-failure.log
 ```
 
 That last command, against the synthetic fixtures committed in this repo, is exactly what
-produced the screenshot above — no setup needed, just try it. Prebuilt binaries aren't
-published yet (`.github/workflows/release.yml` builds them for Linux/macOS/Windows on every
-`v*` tag; none has been pushed yet) — `cargo install --git` is the way to get it today.
+produced the screenshot above — no setup needed, just try it. `cargo install logdelta`
+builds the crate from [crates.io](https://crates.io/crates/logdelta) (Rust 1.80 or newer);
+there are no prebuilt binaries yet.
 
 ## Features
 

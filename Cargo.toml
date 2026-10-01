@@ -1,17 +1,21 @@
 [package]
 name = "logdelta"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 rust-version = "1.80"
-authors = ["Anton Soloviev"]
+authors = ["Anton Soloviev <anton@praviel.com>"]
 description = "Diff logs by meaning, not by bytes. See what's new in the failing run."
 license = "MIT"
 repository = "https://github.com/antonsoo/logdelta"
-homepage = "https://github.com/antonsoo/logdelta"
+homepage = "https://antonsoo.github.io/logdelta/"
+documentation = "https://docs.rs/logdelta"
 readme = "README.md"
 keywords = ["logs", "diff", "ci", "observability", "log-parsing"]
 categories = ["command-line-utilities", "development-tools"]
 default-run = "logdelta"
+# The browser demo, the screenshots and the large benchmark fixtures stay in the
+# repository; the published crate carries the code, its docs and the small examples.
+exclude = ["/web", "/docs/assets", "/.github", "/examples/large"]
 
 [[bin]]
 name = "logdelta"
