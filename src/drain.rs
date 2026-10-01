@@ -22,7 +22,7 @@
 //! whenever the first token alone disambiguates the groups in a bucket (true in all of this
 //! crate's fixtures). The wildcarding rule and default 0.5 similarity threshold are
 //! unchanged from the paper; the similarity function itself has one deliberate addition (see
-//! [`similarity`]'s doc comment): a position where both sides are the *same masking
+//! `similarity`'s doc comment): a position where both sides are the *same masking
 //! placeholder* doesn't count as a match unless the line has no literal content at all,
 //! because otherwise two genuinely unrelated lines that each merely contain a timestamp (or
 //! any other masked field) can accumulate enough placeholder-vs-placeholder and

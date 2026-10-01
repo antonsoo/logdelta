@@ -3,6 +3,18 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.2.2] - 2026-10-01
+
+### Added
+
+- Crate-level documentation with a tested example of the library API
+  (`analysis::diff_lines` over two logs in memory), so the docs.rs page opens
+  with more than a module list. The README has a short "As a library" section.
+
+### Fixed
+
+- Four documentation links pointed at private items and rendered as dead links.
+
 ## [0.2.1] - 2026-10-01
 
 ### Added

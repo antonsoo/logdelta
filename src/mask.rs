@@ -406,7 +406,7 @@ fn mask_body(s: &str) -> String {
     s
 }
 
-/// Strips ANSI escapes, applies any user `custom` masks, then [`mask_body`]. Useful on its
+/// Strips ANSI escapes, applies any user `custom` masks, then `mask_body`. Useful on its
 /// own for testing/demonstrating a masker against plain text; real log lines should go
 /// through [`tokenize_line`] instead, which additionally strips structural envelopes and
 /// handles JSON payloads before this pipeline ever sees them.
@@ -430,7 +430,7 @@ pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
 /// part of it worth comparing on (e.g. the stream name) as leading tokens. What's left is
 /// either a single-line JSON object, flattened into `key=`/value token pairs so a quoted
 /// multi-word message doesn't get shredded by a naive whitespace split (see
-/// [`flatten_json_line`]), or plain text, run through [`mask_body`] and split on whitespace
+/// `flatten_json_line`), or plain text, run through `mask_body` and split on whitespace
 /// as before.
 pub fn tokenize_line(line: &str, custom: &[CustomMask]) -> Vec<String> {
     let mut s = ANSI.replace_all(line, "").into_owned();

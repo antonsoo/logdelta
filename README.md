@@ -3,6 +3,7 @@
 **Diff logs by meaning, not by bytes. See what's new in the failing run.**
 
 [![crates.io](https://img.shields.io/crates/v/logdelta)](https://crates.io/crates/logdelta)
+[![docs.rs](https://img.shields.io/docsrs/logdelta)](https://docs.rs/logdelta)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Live demo](https://img.shields.io/badge/live%20demo-antonsoo.github.io%2Flogdelta-c2185b)](https://antonsoo.github.io/logdelta/)
 
@@ -126,6 +127,20 @@ $ tail -f service.log | logdelta novel --baseline yesterday-passing.log
 
 prints only the lines whose template didn't occur in `yesterday-passing.log`, as they
 happen.
+
+### As a library
+
+The CLI is a thin layer over the `logdelta` crate, which you can call directly. Add it
+without the command-line dependencies:
+
+```toml
+[dependencies]
+logdelta = { version = "0.2", default-features = false }
+```
+
+`logdelta::analysis::diff_lines` diffs any sources of lines (files, stdin, text in
+memory) and returns the findings as plain structs; `diff_runs` does the same over file
+paths. The [API docs](https://docs.rs/logdelta) open with a complete example.
 
 ## Web demo
 
