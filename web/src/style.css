@@ -7,7 +7,7 @@
   --band: #e3eedd;
   --ink: #1d2a22;
   --ink-soft: #4a5a4f;
-  --ink-faint: #75857a;
+  --ink-faint: #657269;
   --rule: #b9c7b3;
   --hole: #d7e0d2;
   --field: #fbfcf9;
@@ -31,7 +31,7 @@
     --band: #17221b;
     --ink: #d8e3d4;
     --ink-soft: #a9b8a6;
-    --ink-faint: #7d8d7f;
+    --ink-faint: #92a094;
     --rule: #2e3d33;
     --hole: #070a08;
     --field: #0c110e;
@@ -51,7 +51,7 @@
   --band: #17221b;
   --ink: #d8e3d4;
   --ink-soft: #a9b8a6;
-  --ink-faint: #7d8d7f;
+  --ink-faint: #92a094;
   --rule: #2e3d33;
   --hole: #070a08;
   --field: #0c110e;
@@ -276,6 +276,11 @@ code {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+/* The tabs themselves; the add and remove buttons sit beside this list, not in it. */
+.tab-list {
+  display: contents;
 }
 
 .tab {

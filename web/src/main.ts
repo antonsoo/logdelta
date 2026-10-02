@@ -91,7 +91,7 @@ function renderBaselineTabs(): void {
     )
     .join("");
   const remove = state.baselines.length > 1 ? `<button type="button" class="link-button" data-remove-baseline>Remove ${state.active + 1}</button>` : "";
-  $("baseline-tabs").innerHTML = `${tabs}<button type="button" class="tab tab-add" data-add-baseline aria-label="Add a baseline run">+</button>${remove}`;
+  $("baseline-tabs").innerHTML = `<div class="tab-list" role="tablist" aria-label="Baseline runs">${tabs}</div><button type="button" class="tab tab-add" data-add-baseline aria-label="Add a baseline run">+</button>${remove}`;
 }
 
 function renderBaselineEditor(): void {
@@ -347,7 +347,7 @@ function logLine(no: number, text: string, cls: string, times = 1): string {
 
 function contextHtml(lineNo: number | null, raw: string | null, context: ContextWindow | undefined): string {
   if (lineNo === null || raw === null) return "";
-  return `<div class="log">${(context?.before ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}${logLine(lineNo, raw, "is-hit")}${(context?.after ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}</div>`;
+  return `<div class="log" tabindex="0" role="group" aria-label="Log lines">${(context?.before ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}${logLine(lineNo, raw, "is-hit")}${(context?.after ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}</div>`;
 }
 
 const KIND_LABEL = { new: "New", gone: "Gone", changed: "Changed" } as const;
@@ -426,7 +426,7 @@ function blockHtml(block: Block, index: number, result: DiffResult): string {
           .map((f) => `<li><span class="gutter">${formatCount(lineNo(f))}</span><span class="template">${templateHtml(f.template)}</span>${times(f) > 1 ? `<span class="times">×${formatCount(times(f))}</span>` : ""}</li>`)
           .join("")}</ol>
       </details>
-      <div class="log">${log}</div>
+      <div class="log" tabindex="0" role="group" aria-label="Log lines">${log}</div>
     </li>`;
 }
 

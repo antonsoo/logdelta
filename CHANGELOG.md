@@ -26,6 +26,14 @@ The web demo only; the package is unchanged.
   engine is WebAssembly). Every control was exercised in Chromium and Firefox
   with a listener for policy violations: none.
 
+### Accessibility
+
+- Checked with axe-core (WCAG 2.1 A and AA, and its best-practice rules) in light and dark,
+  at desktop and phone widths, on each example: no findings now. The
+  faint text was 3.5:1 to 3.8:1. The baseline tab list held two buttons that
+  are not tabs (add, remove): they sit beside it now. Log excerpts that scroll
+  sideways can take keyboard focus.
+
 ## [0.3.2] - 2026-10-02
 
 ### Fixed
