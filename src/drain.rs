@@ -23,9 +23,9 @@
 //! crate's fixtures). The wildcarding rule and default 0.5 similarity threshold are
 //! unchanged from the paper; the similarity function itself has one deliberate addition (see
 //! `similarity`'s doc comment): a position where both sides are the *same masking
-//! placeholder* doesn't count as a match unless the line has no literal content at all,
-//! because otherwise two genuinely unrelated lines that each merely contain a timestamp (or
-//! any other masked field) can accumulate enough placeholder-vs-placeholder and
+//! placeholder* is left out of the comparison unless the line has no literal content at
+//! all, because otherwise two genuinely unrelated lines that each merely contain a timestamp
+//! (or any other masked field) can accumulate enough placeholder-vs-placeholder and
 //! boilerplate-prefix matches to clear the threshold and merge into a useless,
 //! over-generalized template.
 //!
@@ -105,41 +105,63 @@ impl Drain {
     /// Feeds one line's pre-built token sequence into the miner and returns the id of the
     /// cluster it was assigned to.
     pub fn add_tokens(&mut self, tokens: Vec<String>, line_no: usize, raw: &str) -> usize {
-        if tokens.is_empty() {
-            return self.upsert_empty(line_no, raw);
+        match self.fold_into_existing(&tokens) {
+            Some(cid) => cid,
+            None => self.start_cluster(tokens, line_no, raw),
         }
-        let key = (tokens.len(), tokens[0].clone());
-        let candidates = self.index.entry(key.clone()).or_default();
+    }
+
+    /// [`Self::add_tokens`] for a caller that still needs the tokens afterwards: they are
+    /// copied only when the line starts a cluster of its own, which few lines do.
+    pub fn add_token_slice(&mut self, tokens: &[String], line_no: usize, raw: &str) -> usize {
+        match self.fold_into_existing(tokens) {
+            Some(cid) => cid,
+            None => self.start_cluster(tokens.to_vec(), line_no, raw),
+        }
+    }
+
+    /// Folds a line into the existing cluster it matches best (generalizing any position
+    /// that disagrees) and returns that cluster's id; `None` when no cluster matches well
+    /// enough. A line with no tokens always has a cluster once one such line has been seen.
+    fn fold_into_existing(&mut self, tokens: &[String]) -> Option<usize> {
+        let Some(first) = tokens.first() else {
+            let cid = *self.index.get(&(0, String::new()))?.first()?;
+            self.clusters[cid].count += 1;
+            return Some(cid);
+        };
+        let candidates = self.index.get(&(tokens.len(), first.clone()))?;
 
         let mut best: Option<(usize, f64)> = None;
         for &cid in candidates.iter() {
-            let sim = similarity(&self.clusters[cid].tokens, &tokens);
+            let sim = similarity(&self.clusters[cid].tokens, tokens);
             if sim >= self.threshold && best.map(|(_, bs)| sim > bs).unwrap_or(true) {
                 best = Some((cid, sim));
             }
         }
 
-        if let Some((cid, _)) = best {
-            let cluster = &mut self.clusters[cid];
-            for (t, l) in cluster.tokens.iter_mut().zip(tokens.iter()) {
-                if t != l && t != "<*>" {
-                    *t = "<*>".to_string();
-                }
+        let (cid, _) = best?;
+        let cluster = &mut self.clusters[cid];
+        for (t, l) in cluster.tokens.iter_mut().zip(tokens.iter()) {
+            if t != l && t != "<*>" {
+                *t = "<*>".to_string();
             }
-            cluster.count += 1;
-            cid
-        } else {
-            let cid = self.clusters.len();
-            self.clusters.push(Cluster {
-                id: cid,
-                tokens,
-                count: 1,
-                first_line_no: line_no,
-                first_line_raw: raw.to_string(),
-            });
-            self.index.entry(key).or_default().push(cid);
-            cid
         }
+        cluster.count += 1;
+        Some(cid)
+    }
+
+    fn start_cluster(&mut self, tokens: Vec<String>, line_no: usize, raw: &str) -> usize {
+        let key = (tokens.len(), tokens.first().cloned().unwrap_or_default());
+        let cid = self.clusters.len();
+        self.clusters.push(Cluster {
+            id: cid,
+            tokens,
+            count: 1,
+            first_line_no: line_no,
+            first_line_raw: raw.to_string(),
+        });
+        self.index.entry(key).or_default().push(cid);
+        cid
     }
 
     /// Read-only membership query used by `logdelta novel`: true if some existing cluster's
@@ -157,59 +179,55 @@ impl Drain {
             .iter()
             .any(|&cid| similarity(&self.clusters[cid].tokens, tokens) >= self.threshold)
     }
-
-    fn upsert_empty(&mut self, line_no: usize, raw: &str) -> usize {
-        let key = (0usize, String::new());
-        if let Some(&cid) = self.index.get(&key).and_then(|v| v.first()) {
-            self.clusters[cid].count += 1;
-            return cid;
-        }
-        let cid = self.clusters.len();
-        self.clusters.push(Cluster {
-            id: cid,
-            tokens: Vec::new(),
-            count: 1,
-            first_line_no: line_no,
-            first_line_raw: raw.to_string(),
-        });
-        self.index.entry(key).or_default().push(cid);
-        cid
-    }
 }
 
-/// Fraction of positions that match, treating a `<*>` in `template` as an automatic match.
-/// Both slices must be the same length (callers only compare within a `token_count` bucket).
+/// Fraction of the positions that say something which match, treating a `<*>` in `template`
+/// as an automatic match. Both slices must be the same length (callers only compare within a
+/// `token_count` bucket).
 ///
 /// A position where *both* sides equal the same masking placeholder (`<TS>`, `<NUM>`, ...)
-/// does **not** count as a match, unless the compared lines have no literal (non-placeholder)
-/// tokens at all. Two lines that share nothing but "both happen to have a timestamp
-/// somewhere" are not evidence they're the same kind of log line — almost every line does —
-/// and counting it as one let two genuinely unrelated lines (an access-log line and a JSON
-/// error event, say) accumulate enough incidental placeholder-vs-placeholder and
-/// boilerplate-prefix matches to clear the similarity threshold and merge into a single,
-/// uselessly over-generalized template. The exception (no literal tokens anywhere) keeps
-/// short, fully-templated lines like `<TS> <NUM>` still able to cluster with themselves —
-/// there, the placeholder sequence *is* the only signal available.
+/// says nothing either way, and is left out of the fraction altogether, unless the template
+/// has no literal (non-placeholder) tokens at all. Two lines that share nothing but "both
+/// happen to have a timestamp somewhere" are not evidence they're the same kind of log line
+/// (almost every line does), and counting it as a match let two genuinely unrelated lines
+/// (an access-log line and a JSON error event, say) accumulate enough incidental
+/// placeholder-vs-placeholder and boilerplate-prefix matches to clear the similarity
+/// threshold and merge into a single, uselessly over-generalized template.
+///
+/// Leaving such a position out is not the same as counting it as a mismatch, which is what
+/// this function did until 0.3.0: a line that is mostly placeholders, `<NUM> <NUM> <HEX> ok`,
+/// then scored 1/4 against *itself*, never joined the template it had just started, and a
+/// log of a hundred thousand such lines became a hundred thousand templates, each compared
+/// against every one before it.
+///
+/// The exception (no literal tokens anywhere) keeps short, fully-templated lines like
+/// `<TS> <NUM>` able to cluster with themselves: there, the placeholder sequence *is* the
+/// only signal available.
 fn similarity(template: &[String], line: &[String]) -> f64 {
     debug_assert_eq!(template.len(), line.len());
     if template.is_empty() {
         return 1.0;
     }
     let has_literal_content = template.iter().any(|t| t != "<*>" && !is_placeholder(t));
-    let matches = template
-        .iter()
-        .zip(line.iter())
-        .filter(|(t, l)| {
-            if *t == "<*>" {
-                return true;
-            }
-            if t != l {
-                return false;
-            }
-            !(has_literal_content && is_placeholder(t))
-        })
-        .count();
-    matches as f64 / template.len() as f64
+    let mut counted = 0usize;
+    let mut matches = 0usize;
+    for (t, l) in template.iter().zip(line.iter()) {
+        if t == "<*>" {
+            counted += 1;
+            matches += 1;
+        } else if t != l {
+            counted += 1;
+        } else if !(has_literal_content && is_placeholder(t)) {
+            counted += 1;
+            matches += 1;
+        }
+    }
+    if counted == 0 {
+        // Unreachable while `has_literal_content` means a literal token exists (it is counted
+        // whether or not it matches); kept so the division below can never be 0/0.
+        return 1.0;
+    }
+    matches as f64 / counted as f64
 }
 
 #[cfg(test)]
@@ -318,6 +336,70 @@ mod tests {
             got[0], got[1],
             "unrelated lines sharing only a <TS> + boilerplate prefix must not merge"
         );
+    }
+
+    #[test]
+    fn a_line_that_is_mostly_placeholders_joins_its_own_template() {
+        // One literal token in four. The masked positions say nothing about whether two lines
+        // are the same kind of line; they must not count against it either.
+        let mut d = Drain::default();
+        let got = ids(
+            &mut d,
+            &[
+                "<NUM> <NUM> <HEX> ok",
+                "<NUM> <NUM> <HEX> ok",
+                "<NUM> <NUM> <HEX> ok",
+            ],
+        );
+        assert_eq!(got, vec![0, 0, 0]);
+        assert_eq!(d.clusters()[0].template(), "<NUM> <NUM> <HEX> ok");
+        // The read-only query `novel` uses agrees.
+        let tokens: Vec<String> = "<NUM> <NUM> <HEX> ok"
+            .split(' ')
+            .map(str::to_owned)
+            .collect();
+        assert!(d.contains_matching_template(&tokens));
+    }
+
+    #[test]
+    fn every_line_matches_the_template_it_started() {
+        // Whatever mix of literals and placeholders a line is, seeing it again must not start
+        // a second template.
+        let placeholders = ["<TS>", "<NUM>", "<HEX>", "<IP>", "<UUID>"];
+        let literals = ["GET", "ok", "user", "conn", "x=1", "(<QTY>),"];
+        let mut state = 0x9e37_79b9_7f4a_7c15u64;
+        let mut next = |n: usize| {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            (state % n as u64) as usize
+        };
+        for _ in 0..2000 {
+            let len = 1 + next(8);
+            let line: Vec<&str> = (0..len)
+                .map(|_| {
+                    if next(3) == 0 {
+                        literals[next(literals.len())]
+                    } else {
+                        placeholders[next(placeholders.len())]
+                    }
+                })
+                .collect();
+            let line = line.join(" ");
+            let mut d = Drain::default();
+            let got = ids(&mut d, &[&line, &line]);
+            assert_eq!(got[0], got[1], "{line:?} did not join its own template");
+        }
+    }
+
+    #[test]
+    fn one_matching_word_among_placeholders_is_not_enough_to_merge_different_lines() {
+        let mut d = Drain::default();
+        let got = ids(
+            &mut d,
+            &["<NUM> <NUM> <HEX> ok", "<NUM> <NUM> <HEX> failed"],
+        );
+        assert_ne!(got[0], got[1]);
     }
 
     #[test]
