@@ -32,6 +32,20 @@ jobs:
       - name: build (release)
         run: cargo build --release
 
+  msrv:
+    name: minimum supported Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # `rust-version` in Cargo.toml is a promise the stable toolchain never tests. It is
+      # the highest `rust-version` among the locked dependencies (clap, since 4.6).
+      - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: Swatinem/rust-cache@v2
+      - name: build and test with the locked dependencies
+        run: |
+          cargo build --locked
+          cargo test --locked
+
   web:
     name: web demo (wasm + Vite)
     runs-on: ubuntu-latest

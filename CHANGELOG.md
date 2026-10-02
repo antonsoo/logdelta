@@ -3,6 +3,16 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.1] - 2026-10-02
+
+### Fixed
+
+- The minimum Rust version. `rust-version` said 1.80, and on 1.80
+  `cargo install logdelta` stopped inside a dependency: `failed to parse manifest ...
+  clap_derive-4.6.7/Cargo.toml: feature edition2024 is required`. clap has needed Rust 1.85
+  since 4.6. `rust-version` is 1.85 now, so an older toolchain is told that in one line, and
+  CI has a job that builds and tests on 1.85.0 with the locked dependencies. No code changed.
+
 ## [0.3.0] - 2026-10-01
 
 Checked against real CI logs for the first time: a failing `pytest` job of the pytest

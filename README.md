@@ -41,7 +41,7 @@ $ logdelta diff examples/large/baseline-{1,2,3}.log --target examples/large/targ
 
 That last command, against the synthetic fixtures committed in this repo, is exactly what
 produced the screenshot above — no setup needed, just try it. `cargo install logdelta`
-builds the crate from [crates.io](https://crates.io/crates/logdelta) (Rust 1.80 or newer);
+builds the crate from [crates.io](https://crates.io/crates/logdelta) (Rust 1.85 or newer);
 there are no prebuilt binaries yet.
 
 ## Features

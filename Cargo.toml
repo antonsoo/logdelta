@@ -1,8 +1,8 @@
 [package]
 name = "logdelta"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
-rust-version = "1.80"
+rust-version = "1.85"
 authors = ["Anton Soloviev <anton@praviel.com>"]
 description = "Diff logs by meaning, not by bytes. See what's new in the failing run."
 license = "MIT"
