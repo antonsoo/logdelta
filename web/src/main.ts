@@ -1,4 +1,5 @@
 import "./style.css";
+import { decodeLog } from "./decode";
 import { runDiff, type DiffOutcome } from "./engine";
 import { EXAMPLES, loadExample, type Example } from "./examples";
 import { baselineCounts, formatCount, headAndTail, lineCount, printable, templateParts } from "./template";
@@ -64,9 +65,9 @@ async function readLogFile(file: File): Promise<string> {
   // The CLI reads .gz transparently; so does the page (gzip magic bytes, whatever the name).
   if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
-    return new Response(stream).text();
+    return decodeLog(new Uint8Array(await new Response(stream).arrayBuffer()));
   }
-  return new TextDecoder().decode(bytes);
+  return decodeLog(bytes);
 }
 
 function editorHtml(id: string, value: string, label: string, placeholder: string): string {

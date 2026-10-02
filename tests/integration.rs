@@ -950,3 +950,66 @@ fn a_new_value_inside_a_block_is_part_of_the_block() {
     let flat = stdout_of(&["diff", base, fail, "--color", "never", "--flat"]);
     assert!(flat.contains("NEW VALUE  > raise"), "{flat}");
 }
+
+/// The JSON report of `baseline` against `target`, with the paths (which differ between the
+/// copies under test) taken out.
+fn diff_json_without_paths(baseline: &str, target: &str) -> serde_json::Value {
+    let out = cmd()
+        .args(["diff", baseline, "--target", target, "--json"])
+        .output()
+        .unwrap();
+    // Like diff(1): 1 says there are findings; anything above is an error.
+    assert!(
+        matches!(out.status.code(), Some(0 | 1)),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let text = String::from_utf8(out.stdout)
+        .unwrap()
+        .replace(baseline, "BASELINE")
+        .replace(target, "TARGET");
+    serde_json::from_str(&text).unwrap()
+}
+
+#[test]
+fn logs_saved_by_windows_tools_give_the_same_report() {
+    // `pytest > run.log` in Windows PowerShell writes UTF-16 with a byte-order mark and CRLF
+    // line endings; other tools put a mark in front of UTF-8. The mark used to make the
+    // first line a template of its own, and a UTF-16 target shared no line with a UTF-8
+    // baseline: every line of it was reported as new.
+    let dir = tempfile::tempdir().unwrap();
+    let plain_pass = fixture("pytest-pass.log");
+    let plain_fail = fixture("pytest-fail.log");
+    let expected = diff_json_without_paths(&plain_pass, &plain_fail);
+    assert!(total_finding_count(&expected) > 0);
+
+    let save = |name: &str, source: &str, encode: &dyn Fn(&str) -> Vec<u8>| -> String {
+        let text = std::fs::read_to_string(source)
+            .unwrap()
+            .replace('\n', "\r\n");
+        let path = dir.path().join(name);
+        std::fs::write(&path, encode(&text)).unwrap();
+        path.to_str().unwrap().to_string()
+    };
+    let utf8_bom = |text: &str| [&[0xEF, 0xBB, 0xBF][..], text.as_bytes()].concat();
+    let utf16_le = |text: &str| {
+        let mut bytes = vec![0xFF, 0xFE];
+        bytes.extend(text.encode_utf16().flat_map(u16::to_le_bytes));
+        bytes
+    };
+    let utf16_be = |text: &str| {
+        let mut bytes = vec![0xFE, 0xFF];
+        bytes.extend(text.encode_utf16().flat_map(u16::to_be_bytes));
+        bytes
+    };
+
+    let pass_bom = save("pass-bom.log", &plain_pass, &utf8_bom);
+    let fail_bom = save("fail-bom.log", &plain_fail, &utf8_bom);
+    assert_eq!(diff_json_without_paths(&pass_bom, &fail_bom), expected);
+
+    let fail_16 = save("fail-utf16.log", &plain_fail, &utf16_le);
+    // The usual mix: baselines from CI as UTF-8, the failing run captured by hand.
+    assert_eq!(diff_json_without_paths(&plain_pass, &fail_16), expected);
+    let pass_16be = save("pass-utf16be.log", &plain_pass, &utf16_be);
+    assert_eq!(diff_json_without_paths(&pass_16be, &fail_16), expected);
+}

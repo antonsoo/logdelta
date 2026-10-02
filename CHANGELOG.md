@@ -3,6 +3,18 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.2] - 2026-10-02
+
+### Fixed
+
+- Logs saved by Windows tools. `pytest > run.log` in Windows PowerShell writes UTF-16 with a
+  byte-order mark: compared with UTF-8 baselines from CI, such a target shared no line with
+  them and all of it was reported as new (34 templates and 9 findings for the pytest example,
+  which has 21 and 3). A mark in front of UTF-8 made the log's first line a template of its
+  own, one extra finding. Both encodings are recognized by the mark and read as the text
+  they hold, in files, in `.gz` files and on stdin; the reports are then identical to those
+  for the plain files. The web demo reads dropped files the same way.
+
 ## [0.3.1] - 2026-10-02
 
 ### Fixed
