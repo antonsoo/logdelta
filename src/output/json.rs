@@ -41,8 +41,12 @@ mod tests {
                 target_count: 1,
                 first_target_line_no: Some(7),
                 first_target_raw: Some("boom 42".to_string()),
+                first_baseline_line_no: None,
+                first_baseline_raw: None,
+                block: None,
                 context: None,
             }],
+            blocks: Vec::new(),
             value_findings: Vec::new(),
         };
         let mut buf = Vec::new();
@@ -54,5 +58,9 @@ mod tests {
         assert_eq!(v["findings"][0]["template"], "boom <NUM>");
         // context is None and should be omitted entirely, not emitted as `null`.
         assert!(v["findings"][0].get("context").is_none());
+        // So are the fields that only a GONE finding or a finding inside a block has.
+        assert!(v["findings"][0].get("first_baseline_raw").is_none());
+        assert!(v["findings"][0].get("block").is_none());
+        assert_eq!(v["blocks"], serde_json::json!([]));
     }
 }

@@ -7,11 +7,12 @@ use std::io;
 
 use serde::Serialize;
 
+use crate::blocks::{gone_blocks, Block, Extent, NewRuns, ProtoBlock};
 use crate::context::ContextWindow;
 use crate::drain::{Cluster, Drain, DEFAULT_SIMILARITY_THRESHOLD};
 use crate::io::read_lines;
 use crate::mask::{tokenize_line, CustomMask};
-use crate::scoring::{score_template, DEFAULT_SIGNIFICANCE};
+use crate::scoring::{count_g_test, score_template, DEFAULT_SIGNIFICANCE};
 use crate::values::ValueTracker;
 
 /// The result of mining a single log source.
@@ -73,6 +74,16 @@ pub struct Finding {
     /// 1-based line number of the first line in the target that matched this template.
     pub first_target_line_no: Option<usize>,
     pub first_target_raw: Option<String>,
+    /// For a GONE finding, the line the target no longer has: the template's first line in
+    /// the first baseline, by 1-based number and as written.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub first_baseline_line_no: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub first_baseline_raw: Option<String>,
+    /// Index into [`DiffResult::blocks`] when this finding is one line of a larger event (a
+    /// traceback, a skipped step) that reports show as a whole. See [`crate::blocks`].
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub block: Option<usize>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context: Option<ContextWindow>,
 }
@@ -96,6 +107,10 @@ pub struct ValueFinding {
     /// the baseline side is. Findings are sorted by this, most established first, so the
     /// most-confident content flips (a status seen hundreds of times, now different) lead.
     pub established: f64,
+    /// Index into [`DiffResult::blocks`] when the line is inside a NEW block: a line of a
+    /// traceback that happens to fit a template the baselines have. Reports show the block.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub block: Option<usize>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context: Option<ContextWindow>,
 }
@@ -108,7 +123,11 @@ pub struct DiffResult {
     /// ones with a finding) — the "412 templates" in a summary like "3,012 → 3,104 lines ·
     /// 412 templates · 4 findings".
     pub total_templates: usize,
+    /// One entry per template that differs. A finding with a `block` is part of that block.
     pub findings: Vec<Finding>,
+    /// Findings that are one event in the log, grouped: see [`crate::blocks`]. Empty when
+    /// [`DiffOptions::group`] is off.
+    pub blocks: Vec<Block>,
     pub value_findings: Vec<ValueFinding>,
 }
 
@@ -125,20 +144,46 @@ impl DiffResult {
         }
     }
 
-    /// Every first-target-line-number across all findings, for a single context-collection
-    /// pass.
+    /// Every first-target-line-number a report shows context around, for a single
+    /// context-collection pass. A finding inside a block is shown with the block's own
+    /// lines around it, so it asks for none.
     pub fn wanted_line_numbers(&self) -> std::collections::BTreeSet<usize> {
         self.findings
             .iter()
+            .filter(|f| f.block.is_none())
             .filter_map(|f| f.first_target_line_no)
-            .chain(self.value_findings.iter().map(|v| v.first_target_line_no))
+            .chain(self.ungrouped_values().map(|v| v.first_target_line_no))
             .collect()
+    }
+
+    /// The findings a report lists on their own: those that are not part of a block.
+    pub fn ungrouped_findings(&self) -> impl Iterator<Item = &Finding> {
+        self.findings.iter().filter(|f| f.block.is_none())
+    }
+
+    /// The new values a report lists on their own: those not on a line inside a block.
+    pub fn ungrouped_values(&self) -> impl Iterator<Item = &ValueFinding> {
+        self.value_findings.iter().filter(|v| v.block.is_none())
+    }
+
+    /// How many things a report has to show: blocks, and the findings and new values outside
+    /// any block. Equal to the number of findings when nothing was grouped.
+    pub fn report_count(&self) -> usize {
+        self.blocks.len() + self.ungrouped_findings().count() + self.ungrouped_values().count()
+    }
+
+    /// How many findings there are before grouping: one per template that differs, and one
+    /// per new value.
+    pub fn finding_count(&self) -> usize {
+        self.findings.len() + self.value_findings.len()
     }
 }
 
 pub struct DiffOptions {
     pub threshold: f64,
     pub significance: f64,
+    /// Group findings whose lines sit together into [`Block`]s (on by default).
+    pub group: bool,
 }
 
 impl Default for DiffOptions {
@@ -146,6 +191,7 @@ impl Default for DiffOptions {
         DiffOptions {
             threshold: DEFAULT_SIMILARITY_THRESHOLD,
             significance: DEFAULT_SIGNIFICANCE,
+            group: true,
         }
     }
 }
@@ -182,8 +228,13 @@ where
     let mut drain = Drain::new(opts.threshold);
     let mut tracker = ValueTracker::with_baselines(n_baselines);
 
+    // Without a baseline every line is new and there is nothing to set a block apart from.
+    let group = opts.group && n_baselines > 0;
+
     let mut baseline_counts: Vec<HashMap<usize, u64>> = Vec::with_capacity(n_baselines);
     let mut baseline_totals: Vec<u64> = Vec::with_capacity(n_baselines);
+    // Each template's last line in the first baseline (its first is the cluster's own).
+    let mut first_baseline_last: HashMap<usize, usize> = HashMap::new();
     for (baseline_idx, lines) in baselines.into_iter().enumerate() {
         let mut counts: HashMap<usize, u64> = HashMap::new();
         let mut total = 0u64;
@@ -191,14 +242,20 @@ where
             let line = line?;
             total += 1;
             let tokens = tokenize_line(&line, custom);
-            let cid = drain.add_tokens(tokens.clone(), total as usize, &line);
+            let cid = drain.add_token_slice(&tokens, total as usize, &line);
             tracker.record_baseline(baseline_idx, cid, total as usize, &line, &tokens);
             *counts.entry(cid).or_insert(0) += 1;
+            if group && baseline_idx == 0 {
+                first_baseline_last.insert(cid, total as usize);
+            }
         }
         baseline_counts.push(counts);
         baseline_totals.push(total);
     }
 
+    // A cluster the target creates has an id past every baseline's: its lines are new.
+    let baseline_clusters = drain.clusters().len();
+    let mut new_runs = NewRuns::default();
     let mut target_counts: HashMap<usize, u64> = HashMap::new();
     let mut target_first: HashMap<usize, (usize, String)> = HashMap::new();
     let mut target_total = 0u64;
@@ -206,16 +263,22 @@ where
         let line = line?;
         target_total += 1;
         let tokens = tokenize_line(&line, custom);
-        let cid = drain.add_tokens(tokens.clone(), target_total as usize, &line);
+        let cid = drain.add_token_slice(&tokens, target_total as usize, &line);
         tracker.record_target(cid, target_total as usize, &line, &tokens);
         *target_counts.entry(cid).or_insert(0) += 1;
-        target_first
-            .entry(cid)
-            .or_insert((target_total as usize, line.clone()));
+        let first_of_cluster = !target_first.contains_key(&cid);
+        if first_of_cluster {
+            target_first.insert(cid, (target_total as usize, line.clone()));
+        }
+        if group {
+            let is_new = cid >= baseline_clusters;
+            new_runs.line(target_total as usize, cid, is_new, first_of_cluster);
+        }
     }
 
     let total_templates = drain.clusters().len();
-    let mut findings = Vec::new();
+    // Each finding with the id of its cluster, which is how a block names its members.
+    let mut findings: Vec<(usize, Finding)> = Vec::new();
     let mut value_findings = Vec::new();
     for cluster in drain.clusters() {
         let id = cluster.id;
@@ -231,12 +294,43 @@ where
         // simpler than threading an `Option` through and computing it twice.
         let score = score_template(&bc, &baseline_totals, tc, target_total);
 
+        let baseline_rate = if baseline_totals.iter().sum::<u64>() > 0 {
+            baseline_sum as f64 / baseline_totals.iter().sum::<u64>() as f64
+        } else {
+            0.0
+        };
+        let target_rate = if target_total > 0 {
+            tc as f64 / target_total as f64
+        } else {
+            0.0
+        };
+        let share_direction = if target_rate > baseline_rate {
+            Direction::Up
+        } else if target_rate < baseline_rate {
+            Direction::Down
+        } else {
+            Direction::Flat
+        };
+        // Per run: the target's count against the mean of the baselines'.
+        let count_direction = match (tc * n_baselines as u64).cmp(&baseline_sum) {
+            std::cmp::Ordering::Greater => Direction::Up,
+            std::cmp::Ordering::Less => Direction::Down,
+            std::cmp::Ordering::Equal => Direction::Flat,
+        };
+
         let kind = if tc > 0 && baseline_sum == 0 && n_baselines > 0 {
             Some(FindingKind::New)
         } else if tc == 0 && present_in_every_baseline {
             Some(FindingKind::Gone)
         } else if n_baselines > 0 {
-            if score >= opts.significance {
+            // Changed: its share of the log moved, and so did its count, the same way. The
+            // share alone moves whenever the run is shorter or longer for other reasons (a
+            // job that fails early prints its setup lines as often as ever, in a shorter
+            // log); the count alone moves whenever the whole run is bigger with the same mix.
+            if score >= opts.significance
+                && count_g_test(&bc, tc) >= opts.significance
+                && share_direction == count_direction
+            {
                 Some(FindingKind::Changed)
             } else {
                 None
@@ -248,28 +342,10 @@ where
 
         let Some(kind) = kind else { continue };
 
-        let baseline_rate = if baseline_totals.iter().sum::<u64>() > 0 {
-            baseline_sum as f64 / baseline_totals.iter().sum::<u64>() as f64
-        } else {
-            0.0
-        };
-        let target_rate = if target_total > 0 {
-            tc as f64 / target_total as f64
-        } else {
-            0.0
-        };
         let direction = match kind {
             FindingKind::New => Direction::Up,
             FindingKind::Gone => Direction::Down,
-            FindingKind::Changed => {
-                if target_rate > baseline_rate {
-                    Direction::Up
-                } else if target_rate < baseline_rate {
-                    Direction::Down
-                } else {
-                    Direction::Flat
-                }
-            }
+            FindingKind::Changed => share_direction,
         };
 
         let (line_no, raw) = target_first
@@ -277,17 +353,34 @@ where
             .map(|(n, r)| (Some(*n), Some(r.clone())))
             .unwrap_or((None, None));
 
-        findings.push(Finding {
-            kind,
-            direction,
-            template: cluster.template(),
-            score,
-            baseline_counts: bc,
-            target_count: tc,
-            first_target_line_no: line_no,
-            first_target_raw: raw,
-            context: None,
-        });
+        // A gone template was in every baseline, so it was first seen in the first one and
+        // the cluster's own first line is a line of that run.
+        let (baseline_line_no, baseline_raw) = if kind == FindingKind::Gone {
+            (
+                Some(cluster.first_line_no),
+                Some(cluster.first_line_raw.clone()),
+            )
+        } else {
+            (None, None)
+        };
+
+        findings.push((
+            id,
+            Finding {
+                kind,
+                direction,
+                template: cluster.template(),
+                score,
+                baseline_counts: bc,
+                target_count: tc,
+                first_target_line_no: line_no,
+                first_target_raw: raw,
+                first_baseline_line_no: baseline_line_no,
+                first_baseline_raw: baseline_raw,
+                block: None,
+                context: None,
+            },
+        ));
     }
 
     // NEW VALUE: a wildcard position in a template that's otherwise present in both baseline
@@ -318,6 +411,7 @@ where
                         first_target_line_no: found.first_target_line_no,
                         first_target_raw: found.first_target_raw,
                         established: found.established,
+                        block: None,
                         context: None,
                     });
                 }
@@ -325,13 +419,62 @@ where
         }
     }
 
-    findings.sort_by(|a, b| {
+    findings.sort_by(|(_, a), (_, b)| {
         kind_rank(a.kind).cmp(&kind_rank(b.kind)).then(
             b.score
                 .partial_cmp(&a.score)
                 .unwrap_or(std::cmp::Ordering::Equal),
         )
     });
+    let (cluster_ids, mut findings): (Vec<usize>, Vec<Finding>) = findings.into_iter().unzip();
+
+    let mut blocks = Vec::new();
+    if group {
+        let index_of: HashMap<usize, usize> = cluster_ids
+            .iter()
+            .enumerate()
+            .map(|(index, cid)| (*cid, index))
+            .collect();
+        let gone = findings
+            .iter()
+            .zip(&cluster_ids)
+            .filter(|(f, _)| f.kind == FindingKind::Gone)
+            .filter_map(|(f, cid)| {
+                Some(Extent {
+                    cid: *cid,
+                    first: f.first_baseline_line_no?,
+                    last: *first_baseline_last.get(cid)?,
+                    count: f.baseline_counts.first().copied()?,
+                })
+            })
+            .collect();
+        let found = [
+            (FindingKind::New, new_runs.finish(&target_counts)),
+            (FindingKind::Gone, gone_blocks(gone)),
+        ];
+        for (kind, protos) in found {
+            for proto in protos {
+                if let Some(block) = build_block(kind, &proto, &index_of, &findings) {
+                    blocks.push(block);
+                }
+            }
+        }
+        blocks.sort_by(|a, b| {
+            kind_rank(a.kind)
+                .cmp(&kind_rank(b.kind))
+                .then(
+                    b.score
+                        .partial_cmp(&a.score)
+                        .unwrap_or(std::cmp::Ordering::Equal),
+                )
+                .then(a.first_line_no.cmp(&b.first_line_no))
+        });
+        for (index, block) in blocks.iter().enumerate() {
+            for &member in &block.findings {
+                findings[member].block = Some(index);
+            }
+        }
+    }
     // Most-established baseline value first: a status seen hundreds of times that just
     // changed is a stronger signal than one that barely cleared the repetition bar.
     value_findings.sort_by(|a, b| {
@@ -342,12 +485,57 @@ where
             .then(a.position.cmp(&b.position))
     });
 
+    for v in &mut value_findings {
+        v.block = blocks.iter().position(|b| {
+            b.kind == FindingKind::New
+                && (b.first_line_no..=b.last_line_no).contains(&v.first_target_line_no)
+        });
+    }
+
     Ok(DiffResult {
         baseline_totals,
         target_total,
         total_templates,
         findings,
+        blocks,
         value_findings,
+    })
+}
+
+/// A [`Block`] from the cluster ids of its members. `None` when fewer than two of them are
+/// findings of the block's kind, which a block found for that kind never is.
+fn build_block(
+    kind: FindingKind,
+    proto: &ProtoBlock,
+    index_of: &HashMap<usize, usize>,
+    findings: &[Finding],
+) -> Option<Block> {
+    let line_no = |f: &Finding| match kind {
+        FindingKind::Gone => f.first_baseline_line_no,
+        _ => f.first_target_line_no,
+    };
+    let mut members: Vec<usize> = proto
+        .members
+        .iter()
+        .filter_map(|cid| index_of.get(cid).copied())
+        .filter(|&index| findings[index].kind == kind)
+        .collect();
+    if members.len() < crate::blocks::MIN_BLOCK_TEMPLATES {
+        return None;
+    }
+    members.sort_by_key(|&index| line_no(&findings[index]));
+    let lines = |f: &Finding| match kind {
+        FindingKind::Gone => f.baseline_counts.first().copied().unwrap_or(0),
+        _ => f.target_count,
+    };
+    Some(Block {
+        kind,
+        first_line_no: proto.first,
+        last_line_no: proto.last,
+        line_count: members.iter().map(|&index| lines(&findings[index])).sum(),
+        lines_elsewhere: proto.lines_elsewhere,
+        score: members.iter().map(|&index| findings[index].score).sum(),
+        findings: members,
     })
 }
 
@@ -462,6 +650,60 @@ mod tests {
         )
         .unwrap();
         assert!(!result.findings.iter().any(|f| f.template.contains("retry")));
+    }
+
+    fn lines_of(parts: &[(&str, usize)]) -> Vec<String> {
+        parts
+            .iter()
+            .flat_map(|(line, times)| std::iter::repeat_n(line.to_string(), *times))
+            .collect()
+    }
+
+    fn changed(baselines: &[Vec<String>], target: &[String]) -> Vec<String> {
+        let sources: Vec<_> = baselines
+            .iter()
+            .map(|b| b.iter().cloned().map(Ok))
+            .collect();
+        let result = diff_lines(
+            sources,
+            target.iter().cloned().map(Ok),
+            &[],
+            &DiffOptions::default(),
+        )
+        .unwrap();
+        result
+            .findings
+            .iter()
+            .filter(|f| f.kind == FindingKind::Changed)
+            .map(|f| f.template.clone())
+            .collect()
+    }
+
+    #[test]
+    fn a_run_that_stops_early_does_not_change_the_lines_it_did_print() {
+        // The job fetches 250 branches, then runs 1,000 steps. The target fails after 100
+        // of them: the fetch lines are a much larger share of it and exactly as many.
+        let good = lines_of(&[("fetched branch ok", 250), ("step finished fine", 1000)]);
+        let bad = lines_of(&[("fetched branch ok", 250), ("step finished fine", 100)]);
+        let found = changed(&[good.clone(), good.clone(), good], &bad);
+        assert_eq!(found, vec!["step finished fine".to_string()]);
+    }
+
+    #[test]
+    fn a_bigger_run_with_the_same_mix_changes_nothing() {
+        let good = lines_of(&[("request served", 300), ("cache hit", 100), ("retry", 20)]);
+        let bad = lines_of(&[("request served", 900), ("cache hit", 300), ("retry", 60)]);
+        assert_eq!(changed(&[good.clone(), good], &bad), Vec::<String>::new());
+    }
+
+    #[test]
+    fn a_line_printed_far_more_often_in_a_run_of_the_same_size_is_changed() {
+        let good = lines_of(&[("request served", 400), ("retry", 3)]);
+        let bad = lines_of(&[("request served", 363), ("retry", 40)]);
+        assert_eq!(
+            changed(&[good.clone(), good.clone(), good], &bad),
+            vec!["retry".to_string()]
+        );
     }
 
     #[test]

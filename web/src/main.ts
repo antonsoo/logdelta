@@ -1,8 +1,8 @@
 import "./style.css";
 import { runDiff, type DiffOutcome } from "./engine";
 import { EXAMPLES, loadExample, type Example } from "./examples";
-import { baselineCounts, formatCount, lineCount, templateParts } from "./template";
-import type { ContextWindow, DiffResult, Finding, ValueFinding } from "./types";
+import { baselineCounts, formatCount, headAndTail, lineCount, printable, templateParts } from "./template";
+import type { Block, ContextWindow, DiffResult, Finding, ValueFinding } from "./types";
 
 type Filter = "all" | "new" | "gone" | "changed" | "value";
 
@@ -15,6 +15,8 @@ const state = {
   outcome: undefined as DiffOutcome | undefined,
   /** The target text the current results were computed from, split into lines (line n = index n-1). */
   outcomeLines: [] as string[],
+  /** Blocks (by index in the result) the reader asked to see in full. */
+  expanded: new Set<number>(),
   running: false,
 };
 
@@ -221,6 +223,7 @@ async function compare(): Promise<void> {
     state.outcomeLines = state.target.replace(/\r?\n$/, "").split(/\r?\n/);
     state.context = context;
     state.filter = "all";
+    state.expanded.clear();
     renderResults();
   } catch (err) {
     results.innerHTML = `<p class="notice is-error">${esc(err instanceof Error ? err.message : String(err))}</p>`;
@@ -234,38 +237,26 @@ async function compare(): Promise<void> {
 
 interface Row {
   filter: Exclude<Filter, "all">;
-  /** How many findings the row stands for (a block of consecutive new lines is one row). */
-  weight: number;
   html: string;
 }
 
-// New lines this close together (a traceback, a panic) read as one event, so they share a card.
-const BLOCK_GAP = 2;
-
-/** NEW findings in line order, runs of nearby lines grouped. */
-function newBlocks(findings: Finding[]): Finding[][] {
-  const located = findings.filter((f) => f.kind === "new" && f.first_target_line_no !== null).sort((a, b) => a.first_target_line_no! - b.first_target_line_no!);
-  const blocks: Finding[][] = [];
-  for (const f of located) {
-    const block = blocks[blocks.length - 1];
-    const last = block?.[block.length - 1];
-    if (block && last && f.first_target_line_no! - last.first_target_line_no! <= BLOCK_GAP) block.push(f);
-    else blocks.push([f]);
-  }
-  return blocks;
+/** Rows in the order `at` gives (a line number), blocks and single findings together. */
+function inLineOrder(rows: { at: number; row: Row }[]): Row[] {
+  return rows.sort((a, b) => a.at - b.at).map((r) => r.row);
 }
 
-/** Order: new (by line, blocks grouped), new values, changed, gone. */
+/** Order: new (by target line), new values, changed, gone (by line in the first good run). */
 function rows(result: DiffResult): Row[] {
-  const blocks = newBlocks(result.findings);
-  const unlocatedNew = result.findings.filter((f) => f.kind === "new" && f.first_target_line_no === null);
-  const single = (f: Finding): Row => ({ filter: f.kind, weight: 1, html: findingHtml(f, result) });
+  const single = (f: Finding): Row => ({ filter: f.kind, html: findingHtml(f, result) });
+  const alone = (kind: Finding["kind"]) => result.findings.filter((f) => f.kind === kind && f.block === undefined);
+  const blocks = (kind: Block["kind"]) =>
+    result.blocks.flatMap((block, index) => (block.kind === kind ? [{ at: block.first_line_no, row: { filter: kind, html: blockHtml(block, index, result) } as Row }] : []));
   return [
-    ...blocks.map((block): Row => (block.length === 1 ? single(block[0]!) : { filter: "new", weight: block.length, html: blockHtml(block, result) })),
-    ...unlocatedNew.map(single),
-    ...result.value_findings.map((v): Row => ({ filter: "value", weight: 1, html: valueFindingHtml(v) })),
-    ...result.findings.filter((f) => f.kind === "changed").map(single),
-    ...result.findings.filter((f) => f.kind === "gone").map(single),
+    ...inLineOrder([...blocks("new"), ...alone("new").map((f) => ({ at: f.first_target_line_no ?? Infinity, row: single(f) }))]),
+    // A new value on a line inside a block is shown as part of that block.
+    ...result.value_findings.filter((v) => v.block === undefined).map((v): Row => ({ filter: "value", html: valueFindingHtml(v) })),
+    ...alone("changed").map(single),
+    ...inLineOrder([...blocks("gone"), ...alone("gone").map((f) => ({ at: f.first_baseline_line_no ?? Infinity, row: single(f) }))]),
   ];
 }
 
@@ -274,8 +265,9 @@ function renderResults(): void {
   if (!outcome) return;
   const { result, ms } = outcome;
   const all = rows(result);
-  const count = (f: Filter) => (f === "all" ? all : all.filter((r) => r.filter === f)).reduce((n, r) => n + r.weight, 0);
+  const count = (f: Filter) => (f === "all" ? all : all.filter((r) => r.filter === f)).length;
   const total = count("all");
+  const ungrouped = result.findings.length + result.value_findings.length;
   const baselineLines = result.baseline_totals.reduce((a, b) => a + b, 0);
   const filters: [Filter, string][] = [
     ["all", "All"],
@@ -294,7 +286,9 @@ function renderResults(): void {
         <span class="arrow" aria-hidden="true">→</span>
         <span class="figure">${formatCount(result.target_total)}</span> target lines ·
         <span class="figure">${formatCount(result.total_templates)}</span> templates ·
-        <span class="figure strong">${formatCount(total)}</span> ${total === 1 ? "finding" : "findings"}
+        <span class="figure strong">${formatCount(total)}</span> ${total === 1 ? "finding" : "findings"}${
+          result.blocks.length > 0 ? ` <span class="ungrouped">(${formatCount(ungrouped)} before grouping)</span>` : ""
+        }
       </p>
       <p class="summary-meta">Compared in ${ms < 1000 ? `${Math.round(ms)} ms` : `${(ms / 1000).toFixed(1)} s`} in this tab. <button type="button" class="link-button" id="download-json">Download JSON</button></p>
     </div>
@@ -314,6 +308,16 @@ function renderResults(): void {
     state.filter = button.dataset["filter"] as Filter;
     renderResults();
   });
+  $("results").querySelector<HTMLElement>(".printout")?.addEventListener("click", (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-toggle-block]");
+    if (!button) return;
+    const index = Number(button.dataset["toggleBlock"]);
+    if (state.expanded.has(index)) state.expanded.delete(index);
+    else state.expanded.add(index);
+    renderResults();
+    // The button was replaced with the rest of the results; put focus back on its successor.
+    $("results").querySelector<HTMLButtonElement>(`[data-toggle-block="${index}"]`)?.focus();
+  });
   $("download-json").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(result, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -325,7 +329,7 @@ function renderResults(): void {
 }
 
 function templateHtml(template: string, emphasizeToken?: number): string {
-  return templateParts(template)
+  return templateParts(printable(template))
     .map((part) =>
       part.kind === "text"
         ? esc(part.text)
@@ -334,42 +338,93 @@ function templateHtml(template: string, emphasizeToken?: number): string {
     .join("");
 }
 
+function logLine(no: number, text: string, cls: string, times = 1): string {
+  const repeat = times > 1 ? `<span class="times">×${formatCount(times)}</span>` : "";
+  return `<div class="log-line ${cls}"><span class="gutter">${formatCount(no)}</span><span class="log-text">${esc(printable(text))}</span>${repeat}</div>`;
+}
+
 function contextHtml(lineNo: number | null, raw: string | null, context: ContextWindow | undefined): string {
   if (lineNo === null || raw === null) return "";
-  const line = (no: number, text: string, cls: string) => `<div class="log-line ${cls}"><span class="gutter">${formatCount(no)}</span><span class="log-text">${esc(text)}</span></div>`;
-  return `<div class="log">${(context?.before ?? []).map(([n, t]) => line(n, t, "is-context")).join("")}${line(lineNo, raw, "is-hit")}${(context?.after ?? []).map(([n, t]) => line(n, t, "is-context")).join("")}</div>`;
+  return `<div class="log">${(context?.before ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}${logLine(lineNo, raw, "is-hit")}${(context?.after ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}</div>`;
 }
 
 const KIND_LABEL = { new: "New", gone: "Gone", changed: "Changed" } as const;
 
-/** A run of new lines: every template, then one excerpt of the target covering the whole run. */
-function blockHtml(block: Finding[], result: DiffResult): string {
-  const first = block[0]!.first_target_line_no!;
-  const last = block[block.length - 1]!.first_target_line_no!;
-  const lines = state.outcomeLines;
-  const from = Math.max(1, first - state.context);
-  const to = Math.min(lines.length, last + state.context);
-  const hits = new Set(block.map((f) => f.first_target_line_no!));
-  const excerpt = [];
-  for (let no = from; no <= to; no++) {
-    const cls = hits.has(no) ? "is-hit" : "is-context";
-    excerpt.push(`<div class="log-line ${cls}"><span class="gutter">${formatCount(no)}</span><span class="log-text">${esc(lines[no - 1] ?? "")}</span></div>`);
+// How much of a block the page shows before the reader asks for the rest, and the most it
+// will put on the page at once (a block can be most of a large log).
+const BLOCK_PREVIEW_LINES = 36;
+const BLOCK_PREVIEW_TEMPLATES = 12;
+const BLOCK_MAX_LINES = 2000;
+
+/** The rows of a block, cut to its start and end unless the reader expanded it. */
+function clipped(total: number, limit: number, expanded: boolean, index: number, unit: string, row: (i: number) => string): string {
+  const shown = expanded ? Math.min(total, BLOCK_MAX_LINES) : total;
+  const { head, tail } = expanded ? { head: shown, tail: 0 } : headAndTail(total, limit);
+  const hidden = total - head - tail;
+  const out: string[] = [];
+  for (let i = 0; i < head; i++) out.push(row(i));
+  if (hidden > 0) {
+    const label = expanded ? `${formatCount(hidden)} more ${unit} not shown` : `${formatCount(hidden)} more ${unit}`;
+    const button = expanded ? "" : `<button type="button" class="link-button" data-toggle-block="${index}" aria-expanded="false">Show all ${formatCount(total)}</button>`;
+    out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true">⋯</span><span>${label}</span>${button}</div>`);
   }
+  for (let i = total - tail; i < total; i++) out.push(row(i));
+  if (expanded && total > limit) {
+    out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true"></span><button type="button" class="link-button" data-toggle-block="${index}" aria-expanded="true">Show less</button></div>`);
+  }
+  return out.join("");
+}
+
+/**
+ * A block: what it is, its templates on request, and its lines. A new block shows the target
+ * as it reads from the block's first line to its last; a gone block shows one line of the
+ * first good run per template, because the lines between them are still in the target.
+ */
+function blockHtml(block: Block, index: number, result: DiffResult): string {
+  const members = block.findings.map((i) => result.findings[i]).filter((f): f is Finding => f !== undefined);
+  const expanded = state.expanded.has(index);
   const runs = result.baseline_totals.length === 1 ? "run" : "runs";
+  const isNew = block.kind === "new";
+  const lineNo = (f: Finding) => (isNew ? f.first_target_line_no : f.first_baseline_line_no) ?? 0;
+  const times = (f: Finding) => (isNew ? f.target_count : (f.baseline_counts[0] ?? 0));
+
+  let log: string;
+  if (isNew) {
+    const lines = state.outcomeLines;
+    const from = Math.max(1, block.first_line_no - state.context);
+    const to = Math.min(lines.length, block.last_line_no + state.context);
+    // The first line of each new template stands out; the lines between them are the same
+    // templates again, or the few known lines the block reaches across.
+    const firsts = new Set(members.map(lineNo));
+    const cls = (no: number) => (firsts.has(no) ? "is-hit" : no >= block.first_line_no && no <= block.last_line_no ? "is-within" : "is-context");
+    log = clipped(to - from + 1, BLOCK_PREVIEW_LINES, expanded, index, "lines", (i) => logLine(from + i, lines[from + i - 1] ?? "", cls(from + i)));
+  } else {
+    log = clipped(members.length, BLOCK_PREVIEW_TEMPLATES, expanded, index, "templates", (i) => {
+      const f = members[i]!;
+      return logLine(lineNo(f), f.first_baseline_raw ?? f.template, "is-hit", times(f));
+    });
+  }
+
+  const elsewhere = block.lines_elsewhere > 0 ? `, and ${formatCount(block.lines_elsewhere)} more of these lines further on` : "";
+  const what = isNew
+    ? `${formatCount(members.length)} templates on ${formatCount(block.line_count)} lines, never in the good ${runs}${elsewhere}`
+    : `${formatCount(members.length)} templates on ${formatCount(block.line_count)} lines of the ${result.baseline_totals.length === 1 ? "good run" : "first good run"}, missing from the target`;
+  const where = `lines ${formatCount(block.first_line_no)}–${formatCount(block.last_line_no)}${isNew ? "" : result.baseline_totals.length === 1 ? " of the good run" : " of good run 1"}`;
   return `
-    <li class="finding kind-new is-block">
+    <li class="finding kind-${block.kind} is-block">
       <div class="finding-head">
-        <span class="kind">New</span>
-        <span class="counts">${block.length} consecutive new templates, never in the good ${runs}</span>
-        <span class="where">lines ${formatCount(first)}–${formatCount(last)}</span>
+        <span class="kind">${KIND_LABEL[block.kind]}</span>
+        <span class="counts">${what}</span>
+        <span class="where">${where}</span>
       </div>
       <details class="block-details">
-        <summary>The ${block.length} templates</summary>
-        <ol class="block-templates">${block
-        .map((f) => `<li><span class="gutter">${formatCount(f.first_target_line_no!)}</span><span class="template">${templateHtml(f.template)}</span>${f.target_count > 1 ? `<span class="times">×${formatCount(f.target_count)}</span>` : ""}</li>`)
-        .join("")}</ol>
+        <summary>The ${formatCount(members.length)} templates</summary>
+        <ol class="block-templates">${members
+          .slice(0, BLOCK_MAX_LINES)
+          .map((f) => `<li><span class="gutter">${formatCount(lineNo(f))}</span><span class="template">${templateHtml(f.template)}</span>${times(f) > 1 ? `<span class="times">×${formatCount(times(f))}</span>` : ""}</li>`)
+          .join("")}</ol>
       </details>
-      <div class="log">${excerpt.join("")}</div>
+      <div class="log">${log}</div>
     </li>`;
 }
 
@@ -383,20 +438,26 @@ function findingHtml(f: Finding, result: DiffResult): string {
       <div class="finding-head">
         <span class="kind">${KIND_LABEL[f.kind]}</span>
         <span class="counts">${what}</span>
-        ${f.first_target_line_no !== null ? `<span class="where">first at line ${formatCount(f.first_target_line_no)}</span>` : ""}
+        ${
+          f.first_target_line_no !== null
+            ? `<span class="where">first at line ${formatCount(f.first_target_line_no)}</span>`
+            : f.first_baseline_line_no !== undefined
+              ? `<span class="where">line ${formatCount(f.first_baseline_line_no)} of ${result.baseline_totals.length === 1 ? "the good run" : "good run 1"}</span>`
+              : ""
+        }
       </div>
       <p class="template">${templateHtml(f.template)}</p>
-      ${contextHtml(f.first_target_line_no, f.first_target_raw, f.context)}
+      ${f.first_target_line_no !== null ? contextHtml(f.first_target_line_no, f.first_target_raw, f.context) : contextHtml(f.first_baseline_line_no ?? null, f.first_baseline_raw ?? null, undefined)}
     </li>`;
 }
 
 function valueFindingHtml(v: ValueFinding): string {
-  const seen = v.baseline_values.map((value) => `<code>${esc(value)}</code>`).join(", ");
+  const seen = v.baseline_values.map((value) => `<code>${esc(printable(value))}</code>`).join(", ");
   return `
     <li class="finding kind-value">
       <div class="finding-head">
         <span class="kind">New value</span>
-        <span class="counts"><code class="new-value">${esc(v.new_value)}</code> where the good runs only had ${seen}</span>
+        <span class="counts"><code class="new-value">${esc(printable(v.new_value))}</code> where the good runs only had ${seen}</span>
         <span class="where">first at line ${formatCount(v.first_target_line_no)}</span>
       </div>
       <p class="template">${templateHtml(v.template, v.position)}</p>

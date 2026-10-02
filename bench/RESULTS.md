@@ -43,3 +43,32 @@ $ ./target/release/examples/gen_bench_log 10000000 bench/data/bench_10m.log
 $ cargo build --release
 $ /usr/bin/time -f '%e s  %M KB max-rss' ./target/release/logdelta templates bench/data/bench_1m.log -n 1 >/dev/null
 ```
+
+## Re-measured for 0.3.0 (2026-10-01)
+
+Same machine, same generator, `/usr/bin/time`, three runs each, with a background load
+average of about 2.5 from unrelated work. The generator's 1M-line file is 84 MB and its
+10M-line file 841 MB.
+
+| Command | Lines | Wall time | Throughput | Peak RSS |
+|---|---:|---:|---:|---:|
+| `templates` | 1,000,000 | 2.44-2.96 s | ~340k-410k lines/s | 7.3 MB |
+| `templates` | 10,000,000 | 24.96-25.59 s | ~395k lines/s | 7.3 MB |
+| `diff` (1M baseline + 1M target) | 2,000,000 | 5.31-5.89 s | ~340k-377k lines/s | 7.4 MB |
+| `novel` (1M baseline, 1M target, 0 novel) | 2,000,000 | 5.21-5.24 s | ~383k lines/s | 7.4 MB |
+
+0.2.3, built from crates.io and run back to back on the same files: `templates` 2.47-2.49 s,
+`diff` 5.69-5.80 s. So 0.3.0 is within noise of it; the table in the README stands.
+
+Two cases this release was checked on specifically:
+
+- **Grouping does not cost memory.** A 1.25M-line target in which every fifth line is one of
+  500 templates the 1M-line baseline does not have (250,000 separate runs of new lines):
+  6.25 s and 9.3 MB peak with grouping, 9.4-9.5 MB with `--flat`. 0.2.3 on the same pair:
+  7.18 s, 8.9 MB.
+- **Lines that are mostly placeholders.** 100,000 lines of the form
+  `<6 digits> <6 digits> <40 hex digits> ok`, which mask to `<NUM> <NUM> <HEX> ok`. 0.2.3
+  never matched such a line to the template it had started (see the 0.3.0 changelog):
+  100,000 templates, 77.55 s and 45.7 MB for `templates`; a `diff` of two 20,000-line files
+  took 22.83 s and 71 MB. 0.3.0: one template, 0.18 s and 7.2 MB; the `diff` of two
+  100,000-line files takes 0.41 s.

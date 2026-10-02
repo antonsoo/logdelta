@@ -118,6 +118,7 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
     let opts = DiffOptions {
         threshold: args.threshold,
         significance: args.significance,
+        group: !args.flat,
     };
     let mut result = diff_runs(&baseline_refs, &target, &masks, &opts)?;
 
@@ -132,10 +133,17 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
     if args.json {
         json::write_diff(&mut out, &result)?;
     } else if args.markdown {
-        markdown::write_diff(&mut out, &result, &baseline_refs, &target)?;
+        markdown::write_diff(&mut out, &result, &baseline_refs, &target, args.block_lines)?;
     } else {
         let use_color = resolve_color(args.common.color);
-        human::write_diff(&mut out, &result, &baseline_refs, &target, use_color)?;
+        human::write_diff(
+            &mut out,
+            &result,
+            &baseline_refs,
+            &target,
+            args.block_lines,
+            use_color,
+        )?;
     }
 
     // Non-zero exit whenever there's anything to report, so `diff` is usable as a CI gate

@@ -602,3 +602,351 @@ fn a_huge_line_is_clipped_in_reports_and_whole_in_json() {
     let json = run(&["--json"]);
     assert!(json.contains(&payload));
 }
+
+/// A baseline of ordinary request lines and a target where one request ends in a stack
+/// trace, written to a temporary directory. Returns the directory (keep it alive) and both
+/// paths.
+fn stack_trace_logs(copies: usize) -> (tempfile::TempDir, String, String) {
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("base.log");
+    let fail = dir.path().join("fail.log");
+    let mut ordinary = String::new();
+    for i in 0..40 {
+        ordinary.push_str(&format!("INFO request {i} served in {}ms\n", 10 + i % 7));
+    }
+    let trace = "\
+ERROR unhandled exception in worker
+Traceback (most recent call last):
+  File \"/srv/app/worker.py\", line 88, in run
+    result = handler(job)
+  File \"/srv/app/handlers.py\", line 41, in handler
+    return charge(job.account, job.amount)
+PaymentDeclined: card ending 4242 was declined
+";
+    std::fs::write(&base, &ordinary).unwrap();
+    let mut target = ordinary.clone();
+    for _ in 0..copies {
+        target.push_str(trace);
+        target.push_str(&ordinary);
+    }
+    std::fs::write(&fail, target).unwrap();
+    (
+        dir,
+        base.to_str().unwrap().to_string(),
+        fail.to_str().unwrap().to_string(),
+    )
+}
+
+fn stdout_of(args: &[&str]) -> String {
+    String::from_utf8(cmd().args(args).output().unwrap().stdout).unwrap()
+}
+
+#[test]
+fn a_stack_trace_is_one_finding_and_flat_lists_its_lines() {
+    let (_dir, base, fail) = stack_trace_logs(1);
+
+    let grouped = stdout_of(&["diff", &base, &fail, "--color", "never"]);
+    assert!(
+        grouped.contains("· 1 finding (6 with --flat)"),
+        "header should count the block once and say what --flat would list:\n{grouped}"
+    );
+    assert!(grouped.contains("NEW        6 templates · 7 lines"));
+    assert!(grouped.contains(&format!("{fail}:41-47")));
+    // One line per template, numbered, as the log has it; the two `File` lines are one
+    // template and say so.
+    assert!(grouped.contains("    41 | ERROR unhandled exception in worker"));
+    assert!(grouped.contains("    43 |   File \"/srv/app/worker.py\", line 88, in run  ×2"));
+    assert!(grouped.contains("    47 | PaymentDeclined: card ending 4242 was declined"));
+    assert_eq!(grouped.matches("\nNEW").count(), 1);
+
+    let flat = stdout_of(&["diff", &base, &fail, "--color", "never", "--flat"]);
+    assert!(flat.contains("· 6 findings\n"), "{flat}");
+    assert_eq!(flat.matches("\nNEW").count(), 6);
+    assert!(!flat.contains("with --flat") && !flat.contains(" | "));
+
+    // Either way there is something to report, and the exit status says so.
+    for extra in [&[][..], &["--flat"][..]] {
+        cmd()
+            .args(["diff", &base, &fail])
+            .args(extra)
+            .assert()
+            .code(1);
+    }
+}
+
+#[test]
+fn a_stack_trace_logged_again_and_again_is_still_one_finding() {
+    let (_dir, base, fail) = stack_trace_logs(25);
+    let grouped = stdout_of(&["diff", &base, &fail, "--color", "never"]);
+    assert!(grouped.contains("· 1 finding (6 with --flat)"), "{grouped}");
+    // 25 copies of 7 lines; the block points at the first and counts the rest.
+    assert!(grouped.contains("NEW        6 templates · 175 lines"));
+    assert!(grouped.contains(":41-47 (+168 of these lines further on)"));
+    assert!(grouped.contains("    47 | PaymentDeclined: card ending 4242 was declined  ×25"));
+}
+
+#[test]
+fn json_names_each_block_and_the_findings_in_it() {
+    let (_dir, base, fail) = stack_trace_logs(1);
+    let v: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", &base, &fail, "--json"])).unwrap();
+    let blocks = v["blocks"].as_array().unwrap();
+    assert_eq!(blocks.len(), 1);
+    let block = &blocks[0];
+    assert_eq!(block["kind"], "new");
+    assert_eq!(block["first_line_no"], 41);
+    assert_eq!(block["last_line_no"], 47);
+    assert_eq!(block["line_count"], 7);
+    assert_eq!(block["lines_elsewhere"], 0);
+    let members: Vec<usize> = block["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|i| i.as_u64().unwrap() as usize)
+        .collect();
+    // Every finding is still listed; each says which block it is part of.
+    let findings = v["findings"].as_array().unwrap();
+    assert_eq!(findings.len(), 6);
+    assert_eq!(members.len(), 6);
+    let lines: Vec<u64> = members
+        .iter()
+        .map(|&i| findings[i]["first_target_line_no"].as_u64().unwrap())
+        .collect();
+    assert_eq!(
+        lines,
+        vec![41, 42, 43, 44, 46, 47],
+        "members are in line order; line 45 is the second `File` line"
+    );
+    assert!(findings.iter().all(|f| f["block"] == 0));
+    let score: f64 = findings.iter().map(|f| f["score"].as_f64().unwrap()).sum();
+    assert!((block["score"].as_f64().unwrap() - score).abs() < 1e-9);
+
+    // --flat turns the grouping off in the data too.
+    let flat: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", &base, &fail, "--json", "--flat"])).unwrap();
+    assert_eq!(flat["blocks"], serde_json::json!([]));
+    assert!(flat["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .all(|f| f.get("block").is_none()));
+    assert_eq!(flat["findings"].as_array().unwrap().len(), 6);
+}
+
+#[test]
+fn block_lines_limits_how_much_of_a_long_block_is_shown() {
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("base.log");
+    let fail = dir.path().join("fail.log");
+    let ordinary = "INFO tick\n".repeat(30);
+    let mut target = ordinary.clone();
+    let words = [
+        "alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel", "india",
+        "juliet", "kilo", "lima", "mike", "november", "oscar", "papa", "quebec", "romeo", "sierra",
+        "tango",
+    ];
+    for word in words {
+        target.push_str(&format!("{word} step failed\n"));
+    }
+    std::fs::write(&base, &ordinary).unwrap();
+    std::fs::write(&fail, &target).unwrap();
+    let (base, fail) = (base.to_str().unwrap(), fail.to_str().unwrap());
+
+    // Twenty distinct lines: by default the first eight and the last four.
+    let default = stdout_of(&["diff", base, fail, "--color", "never"]);
+    assert!(
+        default.contains("NEW        20 templates · 20 lines"),
+        "{default}"
+    );
+    assert!(default.contains("    38 | hotel step failed\n"));
+    assert!(default.contains("⋯ 8 more\n"));
+    assert!(!default.contains("india step failed"));
+    assert!(default.contains("    47 | quebec step failed\n"));
+    assert!(default.contains("    50 | tango step failed\n"));
+
+    let all = stdout_of(&["diff", base, fail, "--color", "never", "--block-lines", "0"]);
+    assert!(all.contains("india step failed") && !all.contains("⋯"));
+
+    let three = stdout_of(&["diff", base, fail, "--color", "never", "--block-lines", "3"]);
+    assert!(three.contains("    32 | bravo step failed\n"));
+    assert!(three.contains("⋯ 17 more\n"));
+    assert!(three.contains("    50 | tango step failed\n"));
+    assert!(!three.contains("charlie step failed"));
+
+    let markdown = stdout_of(&["diff", base, fail, "--markdown", "--block-lines", "3"]);
+    // `INFO tick` is every baseline line and 30 of 50 here: a smaller share, the same
+    // count, and so not a finding.
+    assert!(
+        markdown.contains("1 finding (20 before grouping)"),
+        "{markdown}"
+    );
+    assert!(markdown.contains(&format!("**20 templates, 20 lines** at `{fail}:31-50`")));
+    assert!(markdown.contains("```text\n    31 | alpha step failed\n"));
+    assert!(markdown.contains("       ⋯ 17 more\n    50 | tango step failed\n```\n"));
+}
+
+#[test]
+fn skipped_steps_are_one_gone_block_that_points_into_the_baseline() {
+    // A deploy job whose target run stops after the build: the three later steps, each a
+    // few lines of its own between lines every step prints, are gone.
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("base.log");
+    let fail = dir.path().join("fail.log");
+    let step = |name: &str, lines: &[&str]| {
+        let mut s = format!("##[group]Run {name}\nshell: /usr/bin/bash -e {{0}}\nenv:\n  CI: true\n  NODE_ENV: production\n##[endgroup]\n");
+        for line in lines {
+            s.push_str(line);
+            s.push('\n');
+        }
+        s
+    };
+    let build = step(
+        "build",
+        &["compiling 214 modules", "bundle written to dist/"],
+    );
+    let later = [
+        step(
+            "test",
+            &[
+                "running 96 tests",
+                "96 passed",
+                "coverage 91.2%",
+                "report written",
+            ],
+        ),
+        step(
+            "package",
+            &["archiving dist/", "checksum computed", "archive ready"],
+        ),
+        step(
+            "deploy",
+            &[
+                "uploading archive",
+                "release created",
+                "smoke test passed",
+                "done",
+            ],
+        ),
+    ]
+    .concat();
+    std::fs::write(&base, format!("{build}{later}")).unwrap();
+    std::fs::write(&fail, format!("{build}ERROR build output missing\n")).unwrap();
+    let (base, fail) = (base.to_str().unwrap(), fail.to_str().unwrap());
+
+    let out = stdout_of(&["diff", base, fail, "--color", "never", "--block-lines", "0"]);
+    // The eleven lines of output of the three steps, in one block located in the baseline.
+    assert!(out.contains("GONE       11 templates · 11 lines"), "{out}");
+    assert!(out.contains(&format!("{base}:15-37")));
+    assert!(out.contains("    15 | running 96 tests\n"));
+    assert!(out.contains("    37 | done\n"));
+    assert_eq!(out.matches("\nGONE").count(), 1);
+    // The lines every step prints are still in the target and are not reported.
+    assert!(!out.contains("NODE_ENV"));
+
+    // On its own, a gone template shows the baseline line it stands for.
+    let flat = stdout_of(&["diff", base, fail, "--color", "never", "--flat"]);
+    assert_eq!(flat.matches("\nGONE").count(), 11);
+    assert!(
+        flat.contains(&format!("{base}:37\n        done\n")),
+        "{flat}"
+    );
+
+    let markdown = stdout_of(&["diff", base, fail, "--markdown", "--flat"]);
+    assert!(markdown.contains("| Template | Last seen |"));
+    assert!(markdown.contains(&format!("`{base}:37` `done`")));
+}
+
+#[test]
+fn reports_show_lines_without_their_escape_sequences() {
+    // A colored CI log: every line of the failure is wrapped in SGR codes, and the reports
+    // must neither pass those on to the reader's terminal nor show them as text.
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("base.log");
+    let fail = dir.path().join("fail.log");
+    let ordinary = "\x1b[32mok\x1b[0m compile step finished\n".repeat(20);
+    std::fs::write(&base, &ordinary).unwrap();
+    std::fs::write(
+        &fail,
+        format!(
+            "{ordinary}\x1b[31m\x1b[1mFAILED\x1b[0m tests/test_api.py::test_login\n\
+             \x1b[31mE   AssertionError: expected 200\x1b[0m\n\
+             \x1b[36mhint:\x1b[0m rerun with -x\n\
+             {ordinary}\x1b[33mwarning\x1b[0m: \x1b]8;;file:///src/a.rs\x1b\\src/a.rs\x1b]8;;\x1b\\ is unused\n"
+        ),
+    )
+    .unwrap();
+    let (base, fail) = (base.to_str().unwrap(), fail.to_str().unwrap());
+
+    for extra in [
+        &["--color", "never"][..],
+        &["--color", "never", "--flat"][..],
+        &["--color", "never", "-C", "2"][..],
+        &["--markdown"][..],
+    ] {
+        let out = stdout_of(&[&["diff", base, fail][..], extra].concat());
+        assert!(
+            !out.contains('\x1b'),
+            "{extra:?} passed an escape through:\n{out}"
+        );
+        assert!(
+            out.contains("FAILED tests/test_api.py::test_login"),
+            "{out}"
+        );
+        assert!(out.contains("E   AssertionError: expected 200"));
+        assert!(out.contains("warning: src/a.rs is unused"));
+    }
+    let templates = stdout_of(&["templates", fail, "--color", "never"]);
+    assert!(!templates.contains('\x1b'), "{templates}");
+
+    // With color on, the only escapes are logdelta's own styling: the log's red is gone.
+    let colored = stdout_of(&["diff", base, fail, "--color", "always"]);
+    assert!(!colored.contains("\x1b[31m\x1b[1mFAILED"));
+    assert!(!colored.contains("\x1b]8;;"));
+
+    // The data keeps every line as it was read.
+    let v: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", base, fail, "--json"])).unwrap();
+    assert!(v["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|f| f["first_target_raw"]
+            == "\x1b[31m\x1b[1mFAILED\x1b[0m tests/test_api.py::test_login"));
+}
+
+#[test]
+fn a_new_value_inside_a_block_is_part_of_the_block() {
+    // The middle line of the failure fits a template the baseline has (`> <*> <*>`), with a
+    // value it never had there. It is a line of the traceback, not a finding of its own.
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("base.log");
+    let fail = dir.path().join("fail.log");
+    let mut ordinary = String::new();
+    for package in ["numpy", "pandas", "scipy", "attrs", "pluggy", "iniconfig"] {
+        ordinary.push_str(&format!("> Downloading {package}\n"));
+        ordinary.push_str("resolved in 12ms\n");
+    }
+    std::fs::write(&base, &ordinary).unwrap();
+    std::fs::write(
+        &fail,
+        format!("{ordinary}def charge(account):\n> raise exc\nE   PaymentDeclined: no funds\n"),
+    )
+    .unwrap();
+    let (base, fail) = (base.to_str().unwrap(), fail.to_str().unwrap());
+
+    let v: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", base, fail, "--json"])).unwrap();
+    let values = v["value_findings"].as_array().unwrap();
+    assert!(
+        values
+            .iter()
+            .any(|f| f["new_value"] == "raise" && f["block"] == 0),
+        "expected the `raise` value, marked as inside block 0: {values:?}"
+    );
+    let out = stdout_of(&["diff", base, fail, "--color", "never"]);
+    assert!(out.contains("NEW        2 templates · 2 lines"), "{out}");
+    assert!(!out.contains("NEW VALUE"), "{out}");
+    // Ungrouped, it is listed like any other new value.
+    let flat = stdout_of(&["diff", base, fail, "--color", "never", "--flat"]);
+    assert!(flat.contains("NEW VALUE  > raise"), "{flat}");
+}

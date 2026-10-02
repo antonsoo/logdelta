@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { baselineCounts, lineCount, templateParts } from "./template";
+import { baselineCounts, headAndTail, lineCount, printable, templateParts } from "./template";
 
 describe("templateParts", () => {
   it("splits slots from literal text and records their token index", () => {
@@ -31,5 +31,36 @@ describe("lineCount", () => {
     expect(lineCount("a")).toBe(1);
     expect(lineCount("a\nb\n")).toBe(2);
     expect(lineCount("a\n\nb")).toBe(3);
+  });
+});
+
+describe("printable", () => {
+  const esc = String.fromCharCode(27);
+  const bel = String.fromCharCode(7);
+
+  it("returns ordinary text as it is", () => {
+    expect(printable("plain\ttext with <angle> brackets")).toBe("plain\ttext with <angle> brackets");
+  });
+
+  it("drops color codes and hyperlinks", () => {
+    expect(printable(`${esc}[31m${esc}[1mFAILED${esc}[0m test_a`)).toBe("FAILED test_a");
+    expect(printable(`warning: ${esc}]8;;file:///src/a.rs${esc}\\src/a.rs${esc}]8;;${esc}\\ unused`)).toBe("warning: src/a.rs unused");
+    expect(printable(`${esc}]0;building${bel}done`)).toBe("done");
+  });
+
+  it("turns a carriage return into a space and drops other control characters", () => {
+    expect(printable(`10%\r20%${bel} done${esc}`)).toBe("10% 20% done");
+  });
+});
+
+describe("headAndTail", () => {
+  it("shows a short list whole", () => {
+    expect(headAndTail(12, 12)).toEqual({ head: 12, tail: 0 });
+    expect(headAndTail(500, 0)).toEqual({ head: 500, tail: 0 });
+  });
+
+  it("keeps the start and the end of a long one", () => {
+    expect(headAndTail(88, 12)).toEqual({ head: 8, tail: 4 });
+    expect(headAndTail(88, 36)).toEqual({ head: 24, tail: 12 });
   });
 });

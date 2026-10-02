@@ -65,6 +65,7 @@ fn diff(request: &[u8]) -> Result<String, String> {
     let opts = DiffOptions {
         threshold: req.threshold.unwrap_or(DEFAULT_SIMILARITY_THRESHOLD),
         significance: req.significance.unwrap_or(DEFAULT_SIGNIFICANCE),
+        group: true,
     };
     let baselines: Vec<_> = req.baselines.iter().map(|b| lines(b)).collect();
     let mut result =

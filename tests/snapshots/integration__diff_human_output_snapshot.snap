@@ -3,34 +3,22 @@ source: tests/integration.rs
 expression: normalized
 ---
 logdelta diff  examples/pytest-pass.log → examples/pytest-fail.log
-28 → 23 lines · 21 templates · 10 findings
+28 → 23 lines · 21 templates · 3 findings (10 with --flat)
 
-NEW        baseline=0 target=1  score=0.8  =================================== FAILURES ====================================
-        examples/pytest-fail.log:14
-        =================================== FAILURES ====================================
-NEW        baseline=0 target=1  score=0.8  _________________________________ test_divide ____________________________________
-        examples/pytest-fail.log:15
-        _________________________________ test_divide ____________________________________
-NEW        baseline=0 target=1  score=0.8  def test_divide():
-        examples/pytest-fail.log:17
-            def test_divide():
-NEW        baseline=0 target=1  score=0.8  result = divide(10, 0)
-        examples/pytest-fail.log:18
-                result = divide(10, 0)
-NEW        baseline=0 target=1  score=0.8  > assert result == 0
-        examples/pytest-fail.log:19
-        >       assert result == 0
-NEW        baseline=0 target=1  score=0.8  E ZeroDivisionError: division by zero
-        examples/pytest-fail.log:20
-        E       ZeroDivisionError: division by zero
-NEW        baseline=0 target=1  score=0.8  tests/test_math.py:23: ZeroDivisionError
-        examples/pytest-fail.log:22
-        tests/test_math.py:23: ZeroDivisionError
-NEW        baseline=0 target=1  score=0.8  =========================== 1 failed, 6 passed in <QTY> ==========================
-        examples/pytest-fail.log:23
-        =========================== 1 failed, 6 passed in 0.51s ==========================
+NEW        8 templates · 8 lines  score=6.1
+        examples/pytest-fail.log:14-23
+            14 | =================================== FAILURES ====================================
+            15 | _________________________________ test_divide ____________________________________
+            17 |     def test_divide():
+            18 |         result = divide(10, 0)
+            19 | >       assert result == 0
+            20 | E       ZeroDivisionError: division by zero
+            22 | tests/test_math.py:23: ZeroDivisionError
+            23 | =========================== 1 failed, 6 passed in 0.51s ==========================
 
 GONE       baseline=2 target=0  score=1.2  ============================== <*> passed in <QTY> ===============================
+        examples/pytest-pass.log:14
+        ============================== 7 passed in 0.42s ===============================
 
 NEW VALUE  tests/test_math.py::test_divide FAILED [ <*>  (baseline: PASSED)
         examples/pytest-fail.log:9

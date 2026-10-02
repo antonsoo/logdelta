@@ -50,6 +50,16 @@ pub struct DiffArgs {
     #[arg(long, default_value_t = logdelta::scoring::DEFAULT_SIGNIFICANCE)]
     pub significance: f64,
 
+    /// List every template that differs on its own. By default findings whose lines sit
+    /// together (a traceback, the steps a failed job skipped) are reported as one block.
+    #[arg(long)]
+    pub flat: bool,
+
+    /// The most lines of a block to show: its start and its end when it has more
+    /// (0 shows every line).
+    #[arg(long, value_name = "N", default_value_t = logdelta::output::DEFAULT_BLOCK_LINES)]
+    pub block_lines: usize,
+
     /// Emit machine-readable JSON instead of colored terminal output.
     #[arg(long)]
     pub json: bool,

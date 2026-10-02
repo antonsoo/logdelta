@@ -58,8 +58,19 @@ macro_rules! lazy_re {
     };
 }
 
-// ANSI CSI / SGR escape sequences (colors, cursor movement, ...).
-lazy_re!(ANSI, r"\x1b\[[0-9;?]*[ -/]*[@-~]");
+// Terminal escape sequences: CSI (colors, cursor movement, ...) and OSC (window titles, the
+// hyperlinks newer compilers and package managers wrap file names in), the latter ended by
+// BEL or by ESC \.
+lazy_re!(
+    ANSI,
+    r"\x1b\[[0-9;?]*[ -/]*[@-~]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)?"
+);
+
+/// `line` without its terminal escape sequences. A log captured from a program that thought
+/// it was writing to a terminal is full of them; they are not part of what it says.
+pub fn strip_escapes(line: &str) -> std::borrow::Cow<'_, str> {
+    ANSI.replace_all(line, "")
+}
 
 // RFC 3339 / ISO 8601, e.g. 2024-01-15T10:23:45.123456Z, 2024-01-15 10:23:45,123 (log4j),
 // with optional fractional seconds and timezone offset.
@@ -341,6 +352,110 @@ fn mask_url_internals(url: &str) -> String {
     out
 }
 
+/// The placeholder for a token that is a test runner's progress line, if it is one.
+///
+/// pytest, unittest, RSpec, minitest, PHPUnit and mocha's dot reporter print one character
+/// per test: `.` for a pass, and a letter for anything else (`s` skipped, `x` expected
+/// failure, `F` failed, `E` error). Which tests land on which line depends on timing and
+/// worker count, so the same suite never prints the same line twice and every line would
+/// be a template of its own. The run is masked as one thing, and as another when a failure
+/// or error is among the dots, which is the one fact about such a line worth keeping.
+///
+/// A token qualifies when it has nothing but those characters, at least four of them, and
+/// at least half are dots: an ellipsis (`...`) and a word (`FEES`) stay as they are.
+fn progress_placeholder(token: &str) -> Option<&'static str> {
+    if token.len() < 4 {
+        return None;
+    }
+    let mut dots = 0;
+    let mut failed = false;
+    for b in token.bytes() {
+        match b {
+            b'.' => dots += 1,
+            b'F' | b'E' => failed = true,
+            b's' | b'S' | b'x' | b'X' | b'*' | b'U' | b'R' | b'I' | b'f' | b'e' => {}
+            _ => return None,
+        }
+    }
+    if dots < 3 || dots * 2 < token.len() {
+        return None;
+    }
+    Some(if failed { "<PROGRESS!>" } else { "<PROGRESS>" })
+}
+
+/// A progress line's counter, with its digits masked: `6%]`, `[100%]`, `63`, `500`, `12%)`.
+/// The percentage a line ends on depends on how many tests there are and how they were
+/// batched, so it differs between two runs of the same suite like the dots do. Only a token
+/// that is nothing but digits and counter punctuation is one; `0.12s` is not.
+fn progress_counter(token: &str) -> Option<String> {
+    let counter = token
+        .bytes()
+        .all(|b| b.is_ascii_digit() || b"%/[]()".contains(&b));
+    if !counter || !token.bytes().any(|b| b.is_ascii_digit()) {
+        return None;
+    }
+    let mut out = String::with_capacity(token.len() + 4);
+    let mut in_digits = false;
+    for ch in token.chars() {
+        if ch.is_ascii_digit() {
+            if !in_digits {
+                out.push_str("<NUM>");
+            }
+            in_digits = true;
+        } else {
+            in_digits = false;
+            out.push(ch);
+        }
+    }
+    Some(out)
+}
+
+/// Replaces every whitespace-separated token that [`progress_placeholder`] recognizes, and
+/// the counters after it on the same line, leaving the whitespace as it was. `None` when
+/// the line cannot hold one.
+fn mask_progress_runs(s: &str) -> Option<String> {
+    // A line with fewer than three dots has no such token; most lines are that.
+    if s.bytes().filter(|&b| b == b'.').count() < 3 {
+        return None;
+    }
+    let mut out = String::with_capacity(s.len());
+    let mut seen_progress = false;
+    let mut push_token = |out: &mut String, token: &str| {
+        if let Some(placeholder) = progress_placeholder(token) {
+            seen_progress = true;
+            out.push_str(placeholder);
+        } else if let Some(counter) = seen_progress.then(|| progress_counter(token)).flatten() {
+            out.push_str(&counter);
+        } else {
+            out.push_str(token);
+        }
+    };
+    let mut token_start: Option<usize> = None;
+    for (i, ch) in s.char_indices() {
+        if ch.is_whitespace() {
+            if let Some(start) = token_start.take() {
+                push_token(&mut out, &s[start..i]);
+            }
+            out.push(ch);
+        } else if token_start.is_none() {
+            token_start = Some(i);
+        }
+    }
+    if let Some(start) = token_start {
+        push_token(&mut out, &s[start..]);
+    }
+    Some(out)
+}
+
+/// Replaces every match of `re` in `s`. A masker that matches nothing leaves the line where
+/// it is: most of them match nothing on most lines, and copying the line once per masker was
+/// a dozen allocations a line.
+fn replace_in(s: &mut String, re: &Regex, with: &str) {
+    if let std::borrow::Cow::Owned(replaced) = re.replace_all(s, with) {
+        *s = replaced;
+    }
+}
+
 /// The regex-masking pipeline: everything in this module's doc comment, applied in a fixed
 /// order, to text that's already had ANSI escapes and any custom masks handled. This is the
 /// part that's reusable for masking a *piece* of a line (a JSON field value, a URL path
@@ -358,7 +473,7 @@ fn mask_body(s: &str) -> String {
     // Masking URLs first means their *internal* structure (credentials, query string, id-like
     // path segments — see `mask_url_internals`) has to be handled by dedicated logic, not by
     // falling through to the later general-purpose passes.
-    s = {
+    if URL.is_match(&s) {
         let mut out = String::with_capacity(s.len());
         let mut last = 0;
         for m in URL.find_iter(&s) {
@@ -368,40 +483,45 @@ fn mask_body(s: &str) -> String {
             last = m.end();
         }
         out.push_str(&s[last..]);
-        out
-    };
+        s = out;
+    }
 
-    s = TS_ISO.replace_all(&s, "<TS>").into_owned();
-    s = TS_SYSLOG.replace_all(&s, "<TS>").into_owned();
-    s = TS_SLASH.replace_all(&s, "<TS>").into_owned();
-    s = TS_EPOCH.replace_all(&s, "<TS>").into_owned();
-    s = DURATION_CLOCK.replace_all(&s, "<DUR>").into_owned();
+    if let Some(masked) = mask_progress_runs(&s) {
+        s = masked;
+    }
 
-    s = UUID.replace_all(&s, "<UUID>").into_owned();
-    s = EMAIL.replace_all(&s, "<EMAIL>").into_owned();
+    replace_in(&mut s, &TS_ISO, "<TS>");
+    replace_in(&mut s, &TS_SYSLOG, "<TS>");
+    replace_in(&mut s, &TS_SLASH, "<TS>");
+    replace_in(&mut s, &TS_EPOCH, "<TS>");
+    replace_in(&mut s, &DURATION_CLOCK, "<DUR>");
 
-    s = IPV4.replace_all(&s, "<IP>").into_owned();
-    s = IPV6.replace_all(&s, "<IP>").into_owned();
+    replace_in(&mut s, &UUID, "<UUID>");
+    replace_in(&mut s, &EMAIL, "<EMAIL>");
 
-    s = TEMP_PATH.replace_all(&s, "<TMPPATH>").into_owned();
+    replace_in(&mut s, &IPV4, "<IP>");
+    replace_in(&mut s, &IPV6, "<IP>");
 
-    s = HEX_PREFIXED.replace_all(&s, "<HEX>").into_owned();
-    s = HEX_ID
-        .replace_all(&s, |caps: &regex::Captures| {
-            let m = &caps[0];
-            if m.chars()
-                .any(|c| c.is_ascii_hexdigit() && !c.is_ascii_digit())
-            {
-                "<HEX>".to_string()
-            } else {
-                m.to_string()
-            }
-        })
-        .into_owned();
+    replace_in(&mut s, &TEMP_PATH, "<TMPPATH>");
 
-    s = QUANTITY.replace_all(&s, "<QTY>").into_owned();
-    s = VERSION_NUM.replace_all(&s, "<NUM>").into_owned();
-    s = BARE_NUM.replace_all(&s, "<NUM>").into_owned();
+    replace_in(&mut s, &HEX_PREFIXED, "<HEX>");
+    let hex_ids = HEX_ID.replace_all(&s, |caps: &regex::Captures| {
+        let m = &caps[0];
+        if m.chars()
+            .any(|c| c.is_ascii_hexdigit() && !c.is_ascii_digit())
+        {
+            "<HEX>".to_string()
+        } else {
+            m.to_string()
+        }
+    });
+    if let std::borrow::Cow::Owned(replaced) = hex_ids {
+        s = replaced;
+    }
+
+    replace_in(&mut s, &QUANTITY, "<QTY>");
+    replace_in(&mut s, &VERSION_NUM, "<NUM>");
+    replace_in(&mut s, &BARE_NUM, "<NUM>");
 
     s
 }
@@ -411,7 +531,7 @@ fn mask_body(s: &str) -> String {
 /// through [`tokenize_line`] instead, which additionally strips structural envelopes and
 /// handles JSON payloads before this pipeline ever sees them.
 pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
-    let mut s = ANSI.replace_all(line, "").into_owned();
+    let mut s = strip_escapes(line).into_owned();
     for cm in custom {
         s = cm
             .regex
@@ -433,7 +553,7 @@ pub fn mask_line(line: &str, custom: &[CustomMask]) -> String {
 /// `flatten_json_line`), or plain text, run through `mask_body` and split on whitespace
 /// as before.
 pub fn tokenize_line(line: &str, custom: &[CustomMask]) -> Vec<String> {
-    let mut s = ANSI.replace_all(line, "").into_owned();
+    let mut s = strip_escapes(line).into_owned();
     for cm in custom {
         s = cm
             .regex
@@ -471,8 +591,75 @@ mod tests {
     }
 
     #[test]
+    fn masks_test_runner_progress_lines() {
+        // pytest: the same suite prints a different arrangement every run, and a different
+        // percentage at the end of each line.
+        assert_eq!(
+            m("....s..........................x......................................... [  6%]"),
+            "<PROGRESS> [  <NUM>%]"
+        );
+        assert_eq!(
+            m("s....................................................................... [  7%]"),
+            "<PROGRESS> [  <NUM>%]"
+        );
+        assert_eq!(m("........ [100%]"), "<PROGRESS> [<NUM>%]");
+        assert_eq!(m(".s.s.s.s"), "<PROGRESS>");
+        // A failure or an error among the dots is kept as a different template.
+        assert_eq!(m("......F......E... [ 42%]"), "<PROGRESS!> [ <NUM>%]");
+        // PHPUnit and RSpec.
+        assert_eq!(
+            m("...............................................................  63 / 500 ( 12%)"),
+            "<PROGRESS>  <NUM> / <NUM> ( <NUM>%)"
+        );
+        assert_eq!(m("..*..F..."), "<PROGRESS!>");
+        // With colors, as a CI log has them.
+        assert_eq!(
+            m("\x1b[32m.\x1b[0m\x1b[32m.\x1b[0m\x1b[33ms\x1b[0m\x1b[32m.\x1b[0m\x1b[32m.\x1b[0m [ 50%]"),
+            "<PROGRESS> [ <NUM>%]"
+        );
+        // Every such line of a run is then one template.
+        assert_eq!(
+            tokenize_line("....s....................x.............. [  6%]", &[]),
+            tokenize_line(
+                "s.......................................................... [ 93%]",
+                &[]
+            )
+        );
+    }
+
+    #[test]
+    fn leaves_ordinary_dots_and_words_alone() {
+        assert_eq!(m("waiting for the server..."), "waiting for the server...");
+        assert_eq!(m("retrying ... done"), "retrying ... done");
+        assert_eq!(m("FEES and EXXES"), "FEES and EXXES");
+        assert_eq!(m("see ../../src/lib.rs"), "see ../../src/lib.rs");
+        assert_eq!(m("sss..x"), "sss..x");
+        assert_eq!(m("Fs.E"), "Fs.E");
+        // A leader of dots is one thing too, whatever its length.
+        assert_eq!(
+            m("test_login ............ PASSED"),
+            "test_login <PROGRESS> PASSED"
+        );
+        assert_eq!(
+            m("test_logout .................... PASSED"),
+            "test_logout <PROGRESS> PASSED"
+        );
+        // Only a counter after the dots is masked with them: a duration keeps its own masker.
+        assert_eq!(
+            m("suite ........ 12 passed in 0.12s"),
+            "suite <PROGRESS> <NUM> passed in <QTY>"
+        );
+    }
+
+    #[test]
     fn strips_ansi() {
         assert_eq!(m("\x1b[31mERROR\x1b[0m boom"), "ERROR boom");
+        // An OSC 8 hyperlink around a file name, ended by ESC \ or by BEL.
+        assert_eq!(
+            m("warning: \x1b]8;;file:///src/main.rs\x1b\\src/main.rs\x1b]8;;\x1b\\ unused"),
+            "warning: src/main.rs unused"
+        );
+        assert_eq!(m("\x1b]0;building\x07done"), "done");
     }
 
     #[test]

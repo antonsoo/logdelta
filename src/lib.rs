@@ -5,7 +5,8 @@
 //! algorithm, and compares how often each template appears in one or more baseline
 //! runs against a target run. The result says which templates are new in the target,
 //! which are gone, which changed in frequency, and which variable took a value the
-//! baselines never showed.
+//! baselines never showed, and it groups the findings that are one event in the log (a
+//! traceback, the steps a failed job skipped) into [`blocks`].
 //!
 //! The `logdelta` binary is the usual way in (`cargo install logdelta`); this library
 //! is what it runs on, and what the browser demo compiles to WebAssembly. Build it
@@ -45,6 +46,7 @@
 //! Markdown or as JSON.
 
 pub mod analysis;
+pub mod blocks;
 pub mod context;
 pub mod drain;
 pub mod io;

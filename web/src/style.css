@@ -726,11 +726,32 @@ label.link-button:focus-within {
   user-select: none;
 }
 
+.log-line .times {
+  flex: none;
+}
+
+/* Where a long block is cut: how much is left out, and the way to see it. */
+.log-gap {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 2px 0;
+  color: var(--ink-faint);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.ungrouped {
+  color: var(--ink-faint);
+  font-size: 15px;
+}
+
 .log-line.is-context .log-text {
   color: var(--ink-faint);
 }
 
-.log-line.is-hit {
+.log-line.is-hit,
+.log-line.is-within {
   background: var(--hit);
 }
 

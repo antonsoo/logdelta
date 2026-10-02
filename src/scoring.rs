@@ -4,6 +4,11 @@
 //! down-weights templates whose rate already jumps around across multiple passing baselines
 //! (flaky noise) instead of treating every jump as equally suspicious.
 //!
+//! A share can move without the template doing anything: a run that fails and stops early
+//! is shorter, so every line of its setup is a larger part of it. [`count_g_test`] is the
+//! second question a CHANGED finding has to pass: did the target print the template a
+//! different number of times than the baselines did?
+//!
 //! Reference for the log-likelihood-ratio statistic: T. Dunning, "Accurate Methods for the
 //! Statistics of Surprise and Coincidence", Computational Linguistics 19(1), 1993, pp. 61-74.
 //! The 2x2 table compared here is {this template, every other template} x {baseline run(s), target
@@ -60,6 +65,36 @@ pub fn g_test(
         }
     }
     2.0 * g
+}
+
+/// G-statistic for whether the target printed a template a different number of times than
+/// the baseline runs did, each run counted as one sample of the same job: the
+/// log-likelihood-ratio test for two Poisson counts, `sum(baseline_counts)` over
+/// `baseline_counts.len()` runs against `target_count` over one. Chi-square distributed with
+/// 1 degree of freedom under the null hypothesis of one common rate per run, like [`g_test`],
+/// so the same cutoff applies. `0.0` without a baseline.
+///
+/// Where [`g_test`] asks whether the template's share of the log moved, this asks whether
+/// its count did. A template printed 257 times in every baseline and 258 times in a target
+/// that is a third shorter has a larger share and the same count; it did not change.
+pub fn count_g_test(baseline_counts: &[u64], target_count: u64) -> f64 {
+    let runs = baseline_counts.len() as f64;
+    let baseline: f64 = baseline_counts.iter().sum::<u64>() as f64;
+    let target = target_count as f64;
+    let total = baseline + target;
+    if runs == 0.0 || total == 0.0 {
+        return 0.0;
+    }
+    let expected_baseline = total * runs / (runs + 1.0);
+    let expected_target = total / (runs + 1.0);
+    let term = |observed: f64, expected: f64| {
+        if observed > 0.0 {
+            observed * (observed / expected).ln()
+        } else {
+            0.0
+        }
+    };
+    2.0 * (term(baseline, expected_baseline) + term(target, expected_target))
 }
 
 /// Population standard deviation of `values` (0.0 for 0 or 1 samples).
@@ -153,6 +188,25 @@ mod tests {
         assert!(g.is_finite());
         let g2 = g_test(0, 5, 5, 5);
         assert!(g2.is_finite());
+    }
+
+    #[test]
+    fn the_same_count_in_a_shorter_run_is_not_a_count_change() {
+        assert!(count_g_test(&[257, 257, 257], 258) < 0.01);
+        assert!(count_g_test(&[50], 50) < 1e-9);
+        assert_eq!(count_g_test(&[], 12), 0.0);
+        assert_eq!(count_g_test(&[0, 0], 0), 0.0);
+    }
+
+    #[test]
+    fn a_count_that_moved_clears_the_cutoff_in_either_direction() {
+        // Three retries a run, then forty.
+        assert!(count_g_test(&[3, 2, 4], 40) > DEFAULT_SIGNIFICANCE);
+        // A thousand requests a run, then two hundred.
+        assert!(count_g_test(&[1000, 990, 1010], 200) > DEFAULT_SIGNIFICANCE);
+        // One or two more than usual is noise.
+        assert!(count_g_test(&[3, 2, 4], 5) < DEFAULT_SIGNIFICANCE);
+        assert!(count_g_test(&[0, 0, 0], 3).is_finite());
     }
 
     #[test]

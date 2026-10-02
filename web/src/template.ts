@@ -69,3 +69,45 @@ export function lineCount(text: string): number {
   const n = text.split("\n").length;
   return text.endsWith("\n") ? n - 1 : n;
 }
+
+// Built from character codes so the source holds no control characters.
+const ESC = String.fromCharCode(27);
+const BEL = String.fromCharCode(7);
+// CSI (colors, cursor movement) and OSC (titles, hyperlinks) sequences, as src/mask.rs strips them.
+const ESCAPES = new RegExp(`${ESC}\\[[0-9;?]*[ -/]*[@-~]|${ESC}\\][^${BEL}${ESC}]*(?:${BEL}|${ESC}\\\\)?`, "g");
+
+function isControl(code: number): boolean {
+  return code < 0x20 || (code >= 0x7f && code <= 0x9f);
+}
+
+/**
+ * A log line as the page shows it: without terminal escape sequences or control characters
+ * (a tab stays, a line break becomes a space). Same rule as `printable` in src/output/mod.rs.
+ */
+export function printable(text: string): string {
+  let clean = true;
+  for (let i = 0; i < text.length; i++) {
+    const code = text.charCodeAt(i);
+    if (code !== 9 && isControl(code)) {
+      clean = false;
+      break;
+    }
+  }
+  if (clean) return text;
+  let out = "";
+  for (const ch of text.replace(ESCAPES, "")) {
+    if (ch === "\n" || ch === "\r") out += " ";
+    else if (ch === "\t" || !isControl(ch.charCodeAt(0))) out += ch;
+  }
+  return out;
+}
+
+/**
+ * Which of `total` rows to show when at most `limit` fit: all of them, or the first two thirds
+ * and the last third. Same split as `head_and_tail` in src/output/mod.rs.
+ */
+export function headAndTail(total: number, limit: number): { head: number; tail: number } {
+  if (limit <= 0 || total <= limit) return { head: total, tail: 0 };
+  const tail = Math.floor(limit / 3);
+  return { head: limit - tail, tail };
+}
