@@ -1,3 +1,4 @@
+import "./fonts/fonts.css";
 import "./style.css";
 import { decodeLog } from "./decode";
 import { runDiff, type DiffOutcome } from "./engine";
