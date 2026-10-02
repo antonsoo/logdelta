@@ -29,7 +29,8 @@ Two of the passing runs against the third: 0.
 
 **[Try it in the browser →](https://antonsoo.github.io/logdelta/)** Paste two logs, or load one of
 the examples below. The page runs this crate's library compiled to WebAssembly, so the findings are
-the CLI's, computed in your tab; nothing is uploaded. See [Web demo](#web-demo).
+the CLI's, computed in your tab; nothing is uploaded, and the page's Content-Security-Policy
+(`connect-src 'self'`) has the browser enforce that. See [Web demo](#web-demo).
 
 ## Quickstart
 
