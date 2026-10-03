@@ -18,10 +18,11 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://raw.githubusercontent.com/antonsoo/logdelta/main/docs/assets/og.png" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%225%22 fill=%22%231d2a22%22/><path d=%22M7 11h18M7 16h10M7 21h14%22 stroke=%22%23e3eedd%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/><rect x=%2219%22 y=%2213.8%22 width=%226%22 height=%224.4%22 rx=%221.4%22 fill=%22%23e0438a%22/></svg>" />
-    <script type="module" crossorigin src="/logdelta/assets/index-DgkWoPQ8.js"></script>
-    <link rel="stylesheet" crossorigin href="/logdelta/assets/index-C24C3wwk.css">
+    <script type="module" crossorigin src="/logdelta/assets/index-Dp1o9ljz.js"></script>
+    <link rel="stylesheet" crossorigin href="/logdelta/assets/index-BpBv4wax.css">
   </head>
   <body>
+    <a class="skip-link" href="#inputs">Skip to log editors</a>
     <header class="masthead">
       <div class="masthead-inner">
         <a class="wordmark" href="./" aria-label="logdelta home">log<span>delta</span></a>
@@ -49,13 +50,13 @@
         <p class="example-note" id="example-note" aria-live="polite"></p>
       </section>
 
-      <form class="inputs" id="inputs" aria-label="Logs to compare">
+      <form class="inputs" id="inputs" aria-label="Logs to compare" tabindex="-1" novalidate>
         <section class="pane" aria-labelledby="baseline-title">
           <div class="pane-head">
             <h2 id="baseline-title">Good runs <span class="pane-sub">baselines</span></h2>
             <div class="pane-tabs" id="baseline-tabs"></div>
           </div>
-          <div id="baseline-editors"></div>
+          <div id="baseline-editors" role="tabpanel"></div>
         </section>
         <section class="pane" aria-labelledby="target-title">
           <div class="pane-head">
@@ -74,12 +75,21 @@
               Extra masks, one per line: <code>REGEX</code> or <code>NAME=REGEX</code>
               <textarea id="masks" rows="3" spellcheck="false" placeholder="ORDER=ord_[a-z0-9]+"></textarea>
             </label>
+            <p class="browser-limits">Up to 8 baselines, 25 MiB per log after decompression and 50 MiB total. Use the CLI for larger logs.</p>
           </details>
-          <button type="submit" class="run" id="run">Compare runs</button>
+          <div class="workspace-actions">
+            <button type="button" class="link-button" id="new-comparison">New comparison</button>
+            <button type="button" class="link-button" id="cancel" hidden>Cancel</button>
+            <button type="submit" class="run" id="run">Compare runs</button>
+          </div>
         </div>
       </form>
-
-      <section class="results" id="results" aria-live="polite" aria-busy="false"></section>
+      <p class="workspace-status" id="workspace-status" role="status"></p>
+      <section class="results" id="results" aria-labelledby="results-title" aria-busy="false">
+        <h2 id="results-title">Comparison</h2>
+        <p class="report-status" id="report-status" hidden></p>
+        <div id="report-content"></div>
+      </section>
     </main>
 
     <footer class="colophon">
