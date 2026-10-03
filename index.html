@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>logdelta · diff logs by meaning, not by bytes</title>
+    <meta name="description" content="Paste a good run and a failing run: logdelta masks timestamps, IDs and numbers, groups lines into templates, and shows what changed. The Rust library, compiled to WebAssembly, running in your browser." />
+    <meta name="theme-color" content="#f6f8f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101612" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="logdelta · diff logs by meaning, not by bytes" />
+    <meta property="og:description" content="What happened in the failing run that didn't happen in the good one? The logdelta Rust library, compiled to WebAssembly, in your browser." />
+    <meta property="og:url" content="https://antonsoo.github.io/logdelta/" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/antonsoo/logdelta/main/docs/assets/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/antonsoo/logdelta/main/docs/assets/og.png" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%225%22 fill=%22%231d2a22%22/><path d=%22M7 11h18M7 16h10M7 21h14%22 stroke=%22%23e3eedd%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/><rect x=%2219%22 y=%2213.8%22 width=%226%22 height=%224.4%22 rx=%221.4%22 fill=%22%23e0438a%22/></svg>" />
+    <script type="module" crossorigin src="/logdelta/assets/index-DgkWoPQ8.js"></script>
+    <link rel="stylesheet" crossorigin href="/logdelta/assets/index-C24C3wwk.css">
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="masthead-inner">
+        <a class="wordmark" href="./" aria-label="logdelta home">log<span>delta</span></a>
+        <p class="tagline">diff logs by meaning, not by bytes</p>
+        <nav class="masthead-links">
+          <a href="https://github.com/antonsoo/logdelta">Source</a>
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch color theme">Dark</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="sheet">
+      <section class="intro" aria-labelledby="intro-title">
+        <h1 id="intro-title">What happened in the failing run that didn't happen in the good one?</h1>
+        <p>
+          Paste a known-good run and the run you're investigating. logdelta masks what always differs
+          (timestamps, IDs, IPs, durations), groups lines into templates, and reports the templates that are
+          new, gone or changed in frequency, and the values that flipped. This is the Rust library itself,
+          compiled to WebAssembly: your logs stay in this tab.
+        </p>
+        <div class="examples" role="group" aria-label="Load an example">
+          <span class="examples-label">Examples</span>
+          <div class="example-buttons" id="example-buttons"></div>
+        </div>
+        <p class="example-note" id="example-note" aria-live="polite"></p>
+      </section>
+
+      <form class="inputs" id="inputs" aria-label="Logs to compare">
+        <section class="pane" aria-labelledby="baseline-title">
+          <div class="pane-head">
+            <h2 id="baseline-title">Good runs <span class="pane-sub">baselines</span></h2>
+            <div class="pane-tabs" id="baseline-tabs"></div>
+          </div>
+          <div id="baseline-editors"></div>
+        </section>
+        <section class="pane" aria-labelledby="target-title">
+          <div class="pane-head">
+            <h2 id="target-title">Run to investigate <span class="pane-sub">target</span></h2>
+          </div>
+          <div id="target-editor"></div>
+        </section>
+        <div class="run-row">
+          <details class="options">
+            <summary>Options</summary>
+            <label class="option">
+              Context lines around each finding
+              <input type="number" id="context" min="0" max="10" value="2" />
+            </label>
+            <label class="option option-wide">
+              Extra masks, one per line: <code>REGEX</code> or <code>NAME=REGEX</code>
+              <textarea id="masks" rows="3" spellcheck="false" placeholder="ORDER=ord_[a-z0-9]+"></textarea>
+            </label>
+          </details>
+          <button type="submit" class="run" id="run">Compare runs</button>
+        </div>
+      </form>
+
+      <section class="results" id="results" aria-live="polite" aria-busy="false"></section>
+    </main>
+
+    <footer class="colophon">
+      <p>
+        <a href="https://github.com/antonsoo/logdelta">logdelta</a> is MIT-licensed. The CLI does the same on files,
+        stdin and <code>.gz</code>, and adds <code>novel</code> for live tails. Part of
+        <a href="https://antonsoo.github.io/officina/">Officina</a>.
+      </p>
+    </footer>
+  </body>
+</html>
