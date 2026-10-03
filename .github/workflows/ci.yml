@@ -79,3 +79,7 @@ jobs:
         run: npm test
       - name: Build (wasm + site)
         run: npm run build
+      - name: Install browsers
+        run: npx playwright install --with-deps chromium firefox
+      - name: Browser workflows (production build)
+        run: npx playwright test

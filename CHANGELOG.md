@@ -3,6 +3,31 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+
+### Fixed
+
+- Delayed browser imports keep their original baseline even when another tab is selected.
+  Newer reads, edits, removal and reset cancel obsolete work; a failed read keeps the
+  previous input. Example downloads follow the same ownership rules.
+- Comparisons capture their inputs before analysis. Grouped excerpts no longer read a newer
+  target after the worker finishes. Editing cancels pending analysis, and completed reports
+  are visibly marked when their inputs change.
+- Worker startup, message, parsing and runtime failures settle the pending comparison and
+  allow retry. Gzip streams are read with a size bound instead of buffering unlimited
+  expansion. Browser limits and the CLI path for larger logs are documented.
+- Baseline tabs support arrow keys, Home and End and restore keyboard focus. Controls wrap
+  on narrow screens; result filters and disclosures preserve focus and review state.
+
+### Added
+
+- Cancel and New comparison controls; intentional empty logs; filenames and source order
+  alongside the applied masks and context; a versioned report download that retains this
+  information and all findings. The original raw JSON download remains available.
+- Finding pagination (50 per page), with complete exports and bounded block expansion.
+- Production Chromium/Firefox workflow tests in CI, covering races, recovery, downloads,
+  responsive light/dark accessibility, local processing and Content-Security-Policy.
+
 ## [0.3.4] - 2026-10-03
 
 ### Fixed

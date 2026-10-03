@@ -3,11 +3,15 @@ import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist/**", "node_modules/**", "public/**", "wasm/target/**"] },
+  { ignores: ["dist/**", "node_modules/**", "public/**", "wasm/target/**", "test-results/**", "playwright-report/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
     files: ["scripts/**/*.mjs"],
     languageOptions: { globals: { console: "readonly", process: "readonly", URL: "readonly" } },
+  },
+  {
+    files: ["tests/browser/**/*.mjs"],
+    languageOptions: { globals: Object.fromEntries(["window", "document", "File", "ReadableStream", "Worker", "URL", "localStorage", "sessionStorage", "location", "innerWidth"].map((name) => [name, "readonly"])) },
   },
 );

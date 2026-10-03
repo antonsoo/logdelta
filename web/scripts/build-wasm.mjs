@@ -1,11 +1,15 @@
 // Compiles web/wasm (the logdelta library behind a C ABI) for wasm32 and stages it, with the
 // repository's example logs, into public/ for Vite to serve. Both are build output, not sources.
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const web = dirname(dirname(fileURLToPath(import.meta.url)));
+// The browser report names the engine version. Do not publish misleading provenance.
+const version = JSON.parse(readFileSync(join(web, "package.json"), "utf8")).version;
+const crateVersion = readFileSync(join(web, "..", "Cargo.toml"), "utf8").match(/^version\s*=\s*"([^"]+)"/m)?.[1];
+if (version !== crateVersion) throw new Error(`web/package.json version ${version} does not match the Rust engine ${crateVersion}`);
 const crate = join(web, "wasm");
 execFileSync("cargo", ["build", "--release", "--target", "wasm32-unknown-unknown"], { cwd: crate, stdio: "inherit" });
 

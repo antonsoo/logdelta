@@ -66,8 +66,10 @@ export function formatCount(n: number): string {
 /** Number of lines in pasted text, counted the way the engine counts them (str::lines). */
 export function lineCount(text: string): number {
   if (text.length === 0) return 0;
-  const n = text.split("\n").length;
-  return text.endsWith("\n") ? n - 1 : n;
+  let n = 0;
+  let at = -1;
+  while ((at = text.indexOf("\n", at + 1)) !== -1) n++;
+  return n + (text.endsWith("\n") ? 0 : 1);
 }
 
 // Built from character codes so the source holds no control characters.

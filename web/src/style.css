@@ -70,6 +70,11 @@
   box-sizing: border-box;
 }
 
+[hidden] { display: none !important; }
+
+.skip-link { position: absolute; top: -100px; left: 16px; padding: 12px; background: var(--field); z-index: 1; }
+.skip-link:focus { top: 8px; }
+
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -256,6 +261,7 @@ code {
   gap: 12px;
   min-height: 34px;
   margin-bottom: 6px;
+  flex-wrap: wrap;
 }
 
 .pane h2 {
@@ -276,6 +282,7 @@ code {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-wrap: wrap;
 }
 
 /* The tabs themselves; the add and remove buttons sit beside this list, not in it. */
@@ -285,8 +292,8 @@ code {
 
 .tab {
   font: 600 13px/1 var(--mono);
-  min-width: 28px;
-  height: 26px;
+  min-width: 36px;
+  height: 36px;
   color: var(--ink-soft);
   background: none;
   border: 1px solid var(--rule);
@@ -359,7 +366,8 @@ code {
 .editor-bar {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 4px 16px;
+  flex-wrap: wrap;
   padding: 5px 12px;
   border-top: 1px solid var(--rule);
   font-size: 14px;
@@ -390,6 +398,27 @@ code {
   text-decoration-color: var(--magenta);
 }
 
+.link-button { min-height: 36px; display: inline-flex; align-items: center; }
+button:disabled { cursor: default; opacity: 0.55; }
+.editor-source { margin: 0; padding: 5px 12px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-soft); overflow-wrap: anywhere; }
+.workspace-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 16px; }
+.workspace-status { min-height: 1.5em; margin: 12px 0 0; color: var(--ink-soft); overflow-wrap: anywhere; }
+.workspace-status.is-error { color: var(--new); }
+.browser-limits { max-width: 56ch; grid-column: 1 / -1; font-size: 13px; }
+.report-status { padding: 10px 14px; margin: 0 0 16px; background: var(--band); border-left: 3px solid var(--rule); color: var(--ink-soft); }
+.report-status.is-stale { border-left-color: var(--changed); }
+.results h2 { font: 700 28px var(--display); margin: 0 0 10px; }
+.provenance { margin-top: 14px; color: var(--ink-soft); font-size: 14px; }
+.provenance summary { cursor: pointer; padding: 6px 0; }
+.provenance table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.provenance caption { text-align: left; margin: 10px 0; }
+.provenance th, .provenance td { padding: 8px; text-align: left; border-bottom: 1px solid var(--rule); overflow-wrap: anywhere; }
+.provenance th:first-child { width: 22%; }
+.provenance th:last-child { width: 18%; }
+.provenance pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.finding-pages { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0; font-size: 14px; color: var(--ink-soft); }
+.finding-pages span { margin-right: auto; }
+
 label.link-button:focus-within {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
@@ -402,6 +431,8 @@ label.link-button:focus-within {
   justify-content: space-between;
   gap: 16px;
 }
+
+.run-row > * { min-width: 0; }
 
 .options {
   font-size: 15px;
@@ -811,6 +842,9 @@ label.link-button:focus-within {
     flex-direction: column-reverse;
     align-items: stretch;
   }
+
+  .workspace-actions { justify-content: flex-start; }
+  .workspace-actions .run { flex: 1; }
 
   .options[open] {
     grid-template-columns: 1fr;

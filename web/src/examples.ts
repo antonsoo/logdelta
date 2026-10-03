@@ -1,5 +1,7 @@
 // The example logs committed in the repository (examples/), staged into public/ at build time.
 // Every one is synthetic; see examples/README.md for how each was made.
+import { readBounded, MAX_LOG_BYTES } from "./files";
+import { decodeLog } from "./decode";
 
 export interface Example {
   id: string;
@@ -34,11 +36,12 @@ export const EXAMPLES: Example[] = [
   },
 ];
 
-export async function loadExample(example: Example): Promise<{ baselines: string[]; target: string }> {
+export async function loadExample(example: Example, signal: AbortSignal): Promise<{ baselines: string[]; target: string }> {
   const fetchText = async (path: string) => {
-    const response = await fetch(`${import.meta.env.BASE_URL}${path}`);
+    const response = await fetch(`${import.meta.env.BASE_URL}${path}`, { signal });
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
-    return response.text();
+    if (!response.body) throw new Error(`${path}: no response body`);
+    return decodeLog(await readBounded(response.body, MAX_LOG_BYTES, signal));
   };
   const [target, ...baselines] = await Promise.all([fetchText(example.target), ...example.baselines.map(fetchText)]);
   return { baselines, target: target! };

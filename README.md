@@ -191,7 +191,42 @@ A block is one card. A new block shows the target as it reads from the block's f
 its last (cut to its start and end when long, with a button for the rest); a gone block shows
 one line of the first good run per template. NEW VALUE findings are listed right after the new
 lines. The counts and the blocks are the engine's. Files can be dropped or opened, `.gz`
-included. To run it locally:
+included. Each import stays assigned to the log where it began, even if you switch baseline
+tabs. Newer imports, typing, Clear and removing a baseline supersede its pending read.
+
+**Cancel** stops pending imports, example downloads and comparisons while keeping loaded
+logs and the last completed report. Editing a log or an option also cancels an unfinished
+comparison. **New comparison** clears the workspace and restores the default options.
+An older completed report remains labelled when inputs change: its excerpts and downloads
+always refer to the sources and settings captured when that comparison started.
+
+Open **Compared sources and settings** to map baseline counts to input names and see the
+applied masks and context. Blank, unused baseline editors are listed as omitted; an empty
+file or **Use empty log** is an intentional input and is included. An empty target can
+therefore show the lines that disappeared from the good runs. Editing an imported log marks
+its source name as edited.
+
+| Download | Contents |
+| --- | --- |
+| **Download report** | `logdelta-report.json`: format `logdelta-report`, schema version 1, engine version, completion time, applied settings, ordered source names/origins/line counts/UTF-8 sizes, omitted baseline slots, and the full engine result. |
+| **Download JSON** | `logdelta-diff.json`: the original engine result, with the same structure as CLI `--json`. |
+
+Both downloads include original log excerpts from findings; they are not sanitized logs.
+The report does not bundle full inputs or provide a report-import workflow. Browser filters
+and pagination never remove findings from downloads. Results show 50 findings per page;
+large blocks preview their start and end and can display up to 2,000 lines or templates.
+
+The browser accepts up to 8 baselines, 25 MiB per input (compressed bytes, expanded bytes and
+decoded UTF-8 text are each bounded), and 50 MiB of decoded logs per comparison. Extra masks
+are limited to 100 nonblank lines and 64 KiB of text. Over-limit or failed imports leave the
+previous input intact. Use the streaming CLI for larger workloads.
+
+Once the engine has loaded, comparisons and downloads can run offline. Restarting after
+Cancel or New comparison may need the site's engine files again, depending on the browser
+cache; loading examples and reloading the page also need those assets. Logs are not stored
+in the URL or browser storage. Only the theme preference is persisted.
+
+To run it locally:
 
 ```console
 $ cd web && npm ci && npm run dev    # needs the wasm32-unknown-unknown target: rustup target add wasm32-unknown-unknown
@@ -418,7 +453,14 @@ $ cargo fmt --all -- --check
 $ cargo clippy --all-targets --all-features -- -D warnings
 $ cargo build --lib --no-default-features   # the library alone, as the web demo uses it
 $ cd web && npm ci && npm run typecheck && npm run lint && npm test && npm run build
+$ npx playwright install chromium firefox   # once per machine, in web/
+$ npm run test:browser                       # builds and tests the production page
 ```
+
+The browser suite runs the real WebAssembly engine in Chromium and Firefox. It checks
+delayed imports and worker replies, cancellation, load failures and retry, empty logs,
+report provenance and downloads, pagination, keyboard navigation, 320px layouts,
+light/dark accessibility, Content-Security-Policy violations and off-origin requests.
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 

@@ -3,3 +3,5 @@ dist/
 public/logdelta.wasm
 public/examples/
 wasm/target/
+test-results/
+playwright-report/
