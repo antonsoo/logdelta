@@ -89,6 +89,25 @@ fn truncate(s: &str, max_chars: usize) -> String {
     out
 }
 
+/// Fits a location (`path` followed by `rest`: `:12`, `:14-23`, perhaps a note) into
+/// `max_chars` by cutting the start of the path. A path is long at its start (a CI
+/// workspace, a temporary directory); its end, the file name and the line numbers are what
+/// the reader needs, and cutting the end, as [`truncate`] does, removed exactly those.
+fn truncate_location(path: &str, rest: &str, max_chars: usize) -> String {
+    let path_chars = path.chars().count();
+    let rest_chars = rest.chars().count();
+    if path_chars + rest_chars <= max_chars || max_chars == 0 {
+        return format!("{path}{rest}");
+    }
+    // Keep a useful tail of the path, or fall back to cutting the end.
+    let keep = max_chars.saturating_sub(rest_chars + 1);
+    if keep < 12 {
+        return truncate(&format!("{path}{rest}"), max_chars);
+    }
+    let tail: String = path.chars().skip(path_chars - keep).collect();
+    format!("…{tail}{rest}")
+}
+
 /// Formats `n` with `,` thousands separators (`3104` -> `"3,104"`), for the header summary
 /// line — the whole point of that line is to be skimmable at a glance on a log with
 /// thousands of lines.
@@ -117,7 +136,7 @@ fn write_location_and_raw<W: Write>(
         out,
         "{INDENT}{}",
         dim(
-            &truncate(&format!("{target_path}:{line_no}"), width),
+            &truncate_location(target_path, &format!(":{line_no}"), width),
             use_color
         )
     )?;
@@ -252,7 +271,7 @@ fn write_block<W: Write>(
         plural(block.line_count),
         block.score,
     )?;
-    let mut location = format!("{path}:{}-{}", block.first_line_no, block.last_line_no);
+    let mut location = format!(":{}-{}", block.first_line_no, block.last_line_no);
     if block.lines_elsewhere > 0 {
         location.push_str(&format!(
             " (+{} of these lines further on)",
@@ -262,7 +281,7 @@ fn write_block<W: Write>(
     writeln!(
         out,
         "{INDENT}{}",
-        dim(&truncate(&location, width), use_color)
+        dim(&truncate_location(path, &location, width), use_color)
     )?;
 
     let (head, tail) = head_and_tail(lines.len(), block_lines_shown);
@@ -481,6 +500,7 @@ mod tests {
     #[test]
     fn truncate_leaves_short_strings_alone() {
         assert_eq!(truncate("short", 20), "short");
+        assert_eq!(truncate_location("a/b.log", ":3", 20), "a/b.log:3");
         assert_eq!(truncate("exact", 5), "exact");
     }
 
@@ -513,5 +533,21 @@ mod tests {
     fn render_value_template_swaps_in_the_actual_value() {
         let out = render_value_template("user <*> logged in", 1, "mallory", false);
         assert_eq!(out, "user mallory logged in");
+    }
+
+    #[test]
+    fn a_long_location_keeps_its_file_name_and_line_numbers() {
+        let path = "/home/runner/work/very-long-workspace-name/checkout/examples/pytest-fail.log";
+        let out = truncate_location(path, ":14-23", 40);
+        assert_eq!(out.chars().count(), 40);
+        assert!(out.starts_with('…'));
+        assert!(out.ends_with("examples/pytest-fail.log:14-23"), "{out}");
+        // A note after the lines stays too; with no room for a useful tail, the end is cut.
+        let noted = truncate_location(path, ":14-23 (+3 of these lines further on)", 60);
+        assert!(
+            noted.ends_with("pytest-fail.log:14-23 (+3 of these lines further on)"),
+            "{noted}"
+        );
+        assert_eq!(truncate_location(path, ":14-23", 15).chars().count(), 15);
     }
 }

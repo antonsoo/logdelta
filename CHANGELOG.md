@@ -3,9 +3,21 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [0.3.3] - 2026-10-03
 
-The web demo only; the package is unchanged.
+### Fixed
+
+- A long path left the human report's locations without their file name and
+  line numbers. Each location line is fitted to the terminal (120 columns in a
+  pipe) by cutting its end, which is where `pytest-fail.log:14-23` is; with a
+  CI workspace or a temporary directory in front, every location read
+  `/home/runner/work/.../artifacts/lo…`. The path is now cut at its start
+  (`…/artifacts/logs/pytest-fail.log:14-23`). The snapshot tests run on
+  relative paths, so they no longer fail when the repository is checked out
+  somewhere deep.
+
+The rest of this release is in the web demo; the package is otherwise
+unchanged.
 
 ### Changed
 

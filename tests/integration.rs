@@ -15,40 +15,46 @@ fn cmd() -> Command {
     Command::cargo_bin("logdelta").unwrap()
 }
 
+/// Runs from the crate root with relative paths, so a snapshot shows `examples/...` wherever
+/// the repository is checked out (a long absolute path used to be clipped before it could be
+/// normalized away).
+fn cmd_in_crate() -> Command {
+    let mut c = cmd();
+    c.current_dir(env!("CARGO_MANIFEST_DIR"));
+    c
+}
+
 #[test]
 fn diff_human_output_snapshot() {
-    let out = cmd()
+    let out = cmd_in_crate()
         .args([
             "diff",
-            &fixture("pytest-pass.log"),
+            "examples/pytest-pass.log",
             "--target",
-            &fixture("pytest-fail.log"),
+            "examples/pytest-fail.log",
             "--color",
             "never",
         ])
         .output()
         .unwrap();
     let stdout = String::from_utf8(out.stdout).unwrap();
-    // Absolute paths embed the checkout location; normalize before snapshotting.
-    let normalized = stdout.replace(&fixture(""), "examples/");
-    insta::assert_snapshot!(normalized);
+    insta::assert_snapshot!(stdout);
 }
 
 #[test]
 fn diff_markdown_output_snapshot() {
-    let out = cmd()
+    let out = cmd_in_crate()
         .args([
             "diff",
-            &fixture("pytest-pass.log"),
+            "examples/pytest-pass.log",
             "--target",
-            &fixture("pytest-fail.log"),
+            "examples/pytest-fail.log",
             "--markdown",
         ])
         .output()
         .unwrap();
     let stdout = String::from_utf8(out.stdout).unwrap();
-    let normalized = stdout.replace(&fixture(""), "examples/");
-    insta::assert_snapshot!(normalized);
+    insta::assert_snapshot!(stdout);
 }
 
 #[test]
