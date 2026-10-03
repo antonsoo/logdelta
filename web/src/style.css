@@ -341,6 +341,13 @@ code {
   border-color: var(--ink-soft);
 }
 
+/* The editor clips its textarea (overflow: hidden), so the page's focus ring goes on the
+   editor instead: the same 2px ring every other control gets. */
+.editor:has(textarea:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
 .editor textarea::placeholder {
   color: var(--ink-faint);
   font-family: var(--sans);

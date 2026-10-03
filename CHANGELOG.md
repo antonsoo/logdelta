@@ -33,6 +33,10 @@ The web demo only; the package is unchanged.
   faint text was 3.5:1 to 3.8:1. The baseline tab list held two buttons that
   are not tabs (add, remove): they sit beside it now. Log excerpts that scroll
   sideways can take keyboard focus.
+- The log editors showed keyboard focus only as their 1-pixel border turning
+  from dark to light grey (axe-core does not check focus indicators; tabbing
+  through every site and comparing each stop focused and unfocused does). They
+  get the 2-pixel focus ring every other control has.
 
 ## [0.3.2] - 2026-10-02
 
