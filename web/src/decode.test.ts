@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeLog } from "./decode";
+import { decodeLog, NotTextError } from "./decode";
 
 const TEXT = "ERROR caf\u00e9 \u2192 \u{1F525} failed\r\nsecond line\r\n";
 
@@ -25,5 +25,10 @@ describe("decodeLog", () => {
 
   it("an empty file is empty text", () => {
     expect(decodeLog(new Uint8Array())).toBe("");
+  });
+
+  it("refuses bytes that are not text, as the CLI does", () => {
+    const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d]);
+    expect(() => decodeLog(png)).toThrow(NotTextError);
   });
 });

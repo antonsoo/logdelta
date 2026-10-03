@@ -1,7 +1,7 @@
 {
   "name": "logdelta-web",
   "private": true,
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "logdelta in the browser: the Rust library compiled to WebAssembly.",
   "type": "module",
   "license": "MIT",

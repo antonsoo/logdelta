@@ -3,6 +3,27 @@
 All notable changes to this project are documented in this file.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.4] - 2026-10-03
+
+### Fixed
+
+- A file that is not text was read as a log. A PNG or an archive given by mistake (a wrong
+  artifact path in CI) became hundreds of junk templates, and the diff exited 0 or 1 like any
+  other run. A NUL byte in the first block now stops it with `<file>: not a text file`, in the
+  CLI and in the web demo (where the editor keeps what it had).
+- Read errors exit 2. A missing or unreadable log exited 1, the code that means "found
+  something", so a CI gate could not tell one from a regression. 0, 1 and 2 now mean what they
+  mean for `diff` and `grep`; the README and the GitHub Actions recipe say so.
+- The GitHub Actions recipe downloaded a release binary that no release had ever carried, so
+  its step failed with a 404. Releases now carry a static Linux x86-64 binary,
+  `logdelta-x86_64-unknown-linux-musl.tar.gz`, with its SHA-256 (0.3.3's was added
+  afterwards), and the recipe fetches that.
+
+### Changed
+
+- Gzip is recognized by its first two bytes, not by a `.gz` name, in the CLI as it already was
+  in the web demo: a compressed log saved without the extension, or piped on stdin, is read.
+
 ## [0.3.3] - 2026-10-03
 
 ### Fixed

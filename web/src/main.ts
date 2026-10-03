@@ -71,6 +71,16 @@ async function readLogFile(file: File): Promise<string> {
   return decodeLog(bytes);
 }
 
+/** Loads `file` into an editor, or says in the results area why it can't. */
+async function loadFile(id: "baseline" | "target", file: File): Promise<void> {
+  try {
+    setEditorText(id, await readLogFile(file));
+  } catch (err) {
+    const why = err instanceof Error ? err.message : String(err);
+    $("results").innerHTML = `<p class="notice is-error">${esc(`${file.name}: ${why}`)}</p>`;
+  }
+}
+
 function editorHtml(id: string, value: string, label: string, placeholder: string): string {
   return `
     <div class="editor" data-editor="${id}">
@@ -129,7 +139,7 @@ function wireEditors(): void {
     const file = input.files?.[0];
     if (!id || !file) return;
     input.value = "";
-    setEditorText(id, await readLogFile(file));
+    await loadFile(id, file);
   });
   form.addEventListener("click", (event) => {
     const el = (event.target as HTMLElement).closest<HTMLElement>("button");
@@ -163,7 +173,7 @@ function wireEditors(): void {
       event.preventDefault();
       el.classList.remove("is-drop");
       const file = event.dataTransfer?.files?.[0];
-      if (file) setEditorText(zone === "target-editor" ? "target" : "baseline", await readLogFile(file));
+      if (file) await loadFile(zone === "target-editor" ? "target" : "baseline", file);
     });
   }
   form.addEventListener("submit", (event) => {

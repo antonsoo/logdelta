@@ -1019,3 +1019,54 @@ fn logs_saved_by_windows_tools_give_the_same_report() {
     let pass_16be = save("pass-utf16be.log", &plain_pass, &utf16_be);
     assert_eq!(diff_json_without_paths(&pass_16be, &fail_16), expected);
 }
+
+#[test]
+fn a_file_that_is_not_text_is_refused_with_exit_code_2() {
+    // A PNG given by mistake (a wrong artifact path) was "mined" into hundreds of junk
+    // templates, and the diff exited 0 or 1 like any other run.
+    let dir = tempfile::tempdir().unwrap();
+    let png = dir.path().join("screenshot.png");
+    let mut bytes = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR".to_vec();
+    bytes.extend((0..4096u32).map(|i| (i * 7 % 251) as u8));
+    std::fs::write(&png, bytes).unwrap();
+    cmd()
+        .args([
+            "diff",
+            png.to_str().unwrap(),
+            "--target",
+            &fixture("pytest-fail.log"),
+        ])
+        .assert()
+        .code(2)
+        .stderr(predicate::str::contains("screenshot.png: not a text file"));
+    // A missing file is the same kind of failure: 2, not the 1 that means "found something".
+    cmd()
+        .args([
+            "diff",
+            "no-such.log",
+            "--target",
+            &fixture("pytest-fail.log"),
+        ])
+        .assert()
+        .code(2);
+}
+
+#[test]
+fn gzip_is_recognized_by_its_content_not_its_name() {
+    use flate2::write::GzEncoder;
+    use flate2::Compression;
+
+    let dir = tempfile::tempdir().unwrap();
+    let compressed = dir.path().join("pytest-fail.log");
+    let mut enc = GzEncoder::new(
+        std::fs::File::create(&compressed).unwrap(),
+        Compression::default(),
+    );
+    enc.write_all(&std::fs::read(fixture("pytest-fail.log")).unwrap())
+        .unwrap();
+    enc.finish().unwrap();
+    let plain = diff_json_without_paths(&fixture("pytest-pass.log"), &fixture("pytest-fail.log"));
+    let gzipped =
+        diff_json_without_paths(&fixture("pytest-pass.log"), compressed.to_str().unwrap());
+    assert_eq!(plain, gzipped);
+}

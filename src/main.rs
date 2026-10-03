@@ -27,9 +27,11 @@ fn main() -> ExitCode {
         // real error - it's the reader saying "I have what I need" - so a well-behaved Unix
         // tool exits quietly instead of printing "Broken pipe" and a failure status.
         Err(e) if is_broken_pipe(&e) => ExitCode::SUCCESS,
+        // 2, as for `diff` and `grep`: 1 already means "found something", and a CI gate has
+        // to tell an unreadable log from a regression.
         Err(e) => {
             eprintln!("logdelta: {e}");
-            ExitCode::FAILURE
+            ExitCode::from(2)
         }
     }
 }

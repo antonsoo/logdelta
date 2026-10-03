@@ -13,29 +13,40 @@
 
 use std::fs::File;
 use std::io::{self, BufRead, BufReader, Read};
-use std::path::Path;
 
 use flate2::read::MultiGzDecoder;
 
-/// Opens `path` for line-oriented reading. `"-"` means stdin. `.gz` files are transparently
-/// decompressed (as a multi-stream gzip, since concatenated `.gz` logs are common).
+/// Opens `path` for line-oriented reading. `"-"` means stdin. Gzip is recognized by its first
+/// two bytes, whatever the name, and decompressed (as a multi-stream gzip, since concatenated
+/// `.gz` logs are common).
 pub fn open_source(path: &str) -> io::Result<Box<dyn BufRead>> {
     if path == "-" {
-        return decoded(BufReader::with_capacity(BUFFER, io::stdin()));
+        return opened(BufReader::with_capacity(BUFFER, io::stdin()));
     }
     let file = File::open(path).map_err(|e| io::Error::new(e.kind(), format!("{path}: {e}")))?;
-    let named = |e: io::Error| io::Error::new(e.kind(), format!("{path}: {e}"));
-    if is_gzip(path) {
-        decoded(BufReader::with_capacity(BUFFER, MultiGzDecoder::new(file))).map_err(named)
+    opened(BufReader::with_capacity(BUFFER, file))
+        .map_err(|e| io::Error::new(e.kind(), format!("{path}: {e}")))
+}
+
+const GZIP_MAGIC: [u8; 2] = [0x1F, 0x8B];
+
+fn opened<R: BufRead + 'static>(mut reader: R) -> io::Result<Box<dyn BufRead>> {
+    if reader.fill_buf()?.starts_with(&GZIP_MAGIC) {
+        decoded(BufReader::with_capacity(
+            BUFFER,
+            MultiGzDecoder::new(reader),
+        ))
     } else {
-        decoded(BufReader::with_capacity(BUFFER, file)).map_err(named)
+        decoded(reader)
     }
 }
 
 const BUFFER: usize = 256 * 1024;
 
 /// `reader` as UTF-8 text: past a UTF-8 byte-order mark, or transcoded from UTF-16 when it
-/// starts with that mark. Anything else is passed through untouched.
+/// starts with that mark. Anything else is passed through untouched, unless it is plainly not
+/// text: a NUL byte in the first block (an image, an archive, an executable) is refused, since
+/// "mining" one gave hundreds of junk templates and a diff that exited 0.
 fn decoded<R: BufRead + 'static>(mut reader: R) -> io::Result<Box<dyn BufRead>> {
     let head = reader.fill_buf()?;
     if head.starts_with(&[0xEF, 0xBB, 0xBF]) {
@@ -45,6 +56,12 @@ fn decoded<R: BufRead + 'static>(mut reader: R) -> io::Result<Box<dyn BufRead>> 
     let big_endian = match head {
         [0xFF, 0xFE, ..] => false,
         [0xFE, 0xFF, ..] => true,
+        _ if head.contains(&0) => {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "not a text file (a log is text: UTF-8, UTF-16 with a byte-order mark, or either gzipped)",
+            ))
+        }
         _ => return Ok(Box::new(reader)),
     };
     reader.consume(2);
@@ -145,14 +162,6 @@ impl<R: Read> Read for Utf16Reader<R> {
         self.pos += n;
         Ok(n)
     }
-}
-
-fn is_gzip(path: &str) -> bool {
-    Path::new(path)
-        .extension()
-        .and_then(|e| e.to_str())
-        .map(|e| e.eq_ignore_ascii_case("gz"))
-        .unwrap_or(false)
 }
 
 /// Iterates the lossily-decoded, newline-stripped lines of `reader`, one allocation per line.

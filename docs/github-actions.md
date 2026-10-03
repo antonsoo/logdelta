@@ -46,7 +46,7 @@ jobs:
 
           gh run view "${BASELINE_RUN_ID}" --log > baseline.log
 
-          curl -fsSL "https://github.com/antonsoo/logdelta/releases/latest/download/logdelta-x86_64-unknown-linux-gnu.tar.gz" \
+          curl -fsSL "https://github.com/antonsoo/logdelta/releases/latest/download/logdelta-x86_64-unknown-linux-musl.tar.gz" \
             | tar xz -C /usr/local/bin logdelta
 
           logdelta diff baseline.log --target current.log --markdown \
@@ -87,7 +87,7 @@ $ logdelta diff run-142.log run-141.log run-139.log --target run-143-failed.log 
 - `gh run view --log` requires the run to still have logs retained (GitHub's default
   retention is 90 days); for older baselines, archive logs as workflow artifacts instead and
   download those.
-- `logdelta`'s exit code is `1` when it reports any finding and `0` when it finds nothing
-  significant, so `logdelta diff ... || true` (as used implicitly by `if: failure()`
+- `logdelta`'s exit code is `1` when it reports any finding, `0` when it finds nothing
+  significant and `2` when it cannot read a log, so `logdelta diff ... || true` (as used implicitly by `if: failure()`
   already running only on an already-failed job) is usually what you want — don't let a
   logdelta finding fail an otherwise-passing job.
