@@ -29,3 +29,14 @@ A few conventions:
 
 Commit style: [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`,
 `fix:`, `docs:`, `test:`, `ci:`, `chore:`).
+
+## Community and private reports
+
+Please follow the [Code of Conduct](CODE_OF_CONDUCT.md). Anton Soloviev
+maintains this project and handles conduct reports at
+[anton@praviel.com](mailto:anton@praviel.com).
+
+Use the bug or improvement forms for public issues. For a suspected security
+vulnerability or a conduct concern, email the maintainer privately with the
+repository name and relevant details. Do not post credentials, personal data,
+private logs, or confidential documents in a public issue.
