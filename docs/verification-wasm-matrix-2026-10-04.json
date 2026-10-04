@@ -1,0 +1,127 @@
+{
+  "source": "0b93f60bcf8d197abed9ea1e8fc1125d9f76aaed",
+  "verifiedAt": "2026-10-04T17:56:38.810927+00:00",
+  "node": "24.21.0",
+  "rust": "1.91.0",
+  "target": "wasm32-unknown-unknown",
+  "locks": {
+    "Cargo.lock": "900d2b4d5ff835c7f48491c2fad82dce5dca8900258b22ca9317f3347b84427a",
+    "web/wasm/Cargo.lock": "6aa5380f31a31a037abd631ba4da64616b31b00f79afc40e4b60352e341c997d"
+  },
+  "cases": 20,
+  "reproducibleSha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+  "reproducibleBytes": 1180056,
+  "results": [
+    {
+      "name": "warm Cargo cache with previous wrapper",
+      "sha256": "8d430e3b0f201d7fd13094a7805a68ef46ca49b3790f375060a2ddd716ac6828",
+      "bytes": 1179519
+    },
+    {
+      "name": "standard target layout after compiler-wrapper update",
+      "sha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+      "bytes": 1180056
+    },
+    {
+      "name": "different checkout and CARGO_TARGET_DIR",
+      "sha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+      "bytes": 1180056
+    },
+    {
+      "name": "Cargo-configured target directory",
+      "sha256": "32770cf6c20a3b942f1289cf0936f3232b6be51305ab44e9cb0d984e62546487",
+      "bytes": 1180080,
+      "probe": 0
+    },
+    {
+      "name": "RUSTFLAGS",
+      "sha256": "d3d3f6467efd5afff28d65be638bee77c82157eea7d774de6c1712e6f7671f31",
+      "bytes": 1179543,
+      "probe": 1
+    },
+    {
+      "name": "encoded flags with spaces and priority",
+      "sha256": "2cbe323d15c22f8dc09dd87050a643422410f444d75aa70bb0fa7c6b3d8aca2b",
+      "bytes": 1180334,
+      "probe": 2
+    },
+    {
+      "name": "target environment flags",
+      "sha256": "30f0db446d8d9002e05afa1caa7a72e3469c66cfeefbed38fd9646b16a060164",
+      "bytes": 1179543,
+      "probe": 4
+    },
+    {
+      "name": "build environment flags",
+      "sha256": "f3c6e66e378ee75181f752d3626048cf7d53509e8a5622c4f554e8475b45413c",
+      "bytes": 1180132,
+      "probe": 8
+    },
+    {
+      "name": "build config array",
+      "sha256": "f3c6e66e378ee75181f752d3626048cf7d53509e8a5622c4f554e8475b45413c",
+      "bytes": 1180132,
+      "probe": 8
+    },
+    {
+      "name": "build config string",
+      "sha256": "f3c6e66e378ee75181f752d3626048cf7d53509e8a5622c4f554e8475b45413c",
+      "bytes": 1180132,
+      "probe": 8
+    },
+    {
+      "name": "target config flags",
+      "sha256": "30f0db446d8d9002e05afa1caa7a72e3469c66cfeefbed38fd9646b16a060164",
+      "bytes": 1179543,
+      "probe": 4
+    },
+    {
+      "name": "matching cfg flags",
+      "sha256": "95a8faf78e9ed4cb465ef11f6239a9a1017ca4c70b402bd4e20870adff065f0b",
+      "bytes": 1180418,
+      "probe": 16
+    },
+    {
+      "name": "joined target and cfg flags with build fallback excluded",
+      "sha256": "a67932fa605431e74d031df56fa161bfdeace850e2cad720d8c05e7026bf2d65",
+      "bytes": 1179543,
+      "probe": 20
+    },
+    {
+      "name": "environment flags override config",
+      "sha256": "d3d3f6467efd5afff28d65be638bee77c82157eea7d774de6c1712e6f7671f31",
+      "bytes": 1179543,
+      "probe": 1
+    },
+    {
+      "name": "caller crate metadata",
+      "sha256": "6ada15e5264000172d86b1bddeab6a7f010a0f9db7847e90706be8e80ed82a11",
+      "bytes": 1180132,
+      "probe": 1
+    },
+    {
+      "name": "environment compiler wrappers retain caller metadata",
+      "sha256": "6ada15e5264000172d86b1bddeab6a7f010a0f9db7847e90706be8e80ed82a11",
+      "bytes": 1180132,
+      "probe": 1
+    },
+    {
+      "name": "configured compiler wrappers retain caller metadata",
+      "sha256": "6ada15e5264000172d86b1bddeab6a7f010a0f9db7847e90706be8e80ed82a11",
+      "bytes": 1180132,
+      "probe": 1
+    },
+    {
+      "name": "failed compilation retains staged engine",
+      "sha256": "6ada15e5264000172d86b1bddeab6a7f010a0f9db7847e90706be8e80ed82a11"
+    },
+    {
+      "name": "failed metadata retains staged engine",
+      "sha256": "6ada15e5264000172d86b1bddeab6a7f010a0f9db7847e90706be8e80ed82a11"
+    },
+    {
+      "name": "missing artifact retains staged engine",
+      "sha256": "6ada15e5264000172d86b1bddeab6a7f010a0f9db7847e90706be8e80ed82a11"
+    }
+  ]
+}

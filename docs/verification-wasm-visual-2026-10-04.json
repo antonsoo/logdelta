@@ -1,0 +1,50 @@
+[
+  {
+    "browser": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "theme": "light",
+    "width": 1360,
+    "wasmSha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+    "findings": 9,
+    "errors": [],
+    "external": [],
+    "violations": [],
+    "overflow": false
+  },
+  {
+    "browser": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "theme": "dark",
+    "width": 320,
+    "wasmSha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+    "findings": 9,
+    "errors": [],
+    "external": [],
+    "violations": [],
+    "overflow": false
+  },
+  {
+    "browser": "firefox",
+    "browserVersion": "155.0",
+    "theme": "light",
+    "width": 1360,
+    "wasmSha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+    "findings": 9,
+    "errors": [],
+    "external": [],
+    "violations": [],
+    "overflow": false
+  },
+  {
+    "browser": "firefox",
+    "browserVersion": "155.0",
+    "theme": "dark",
+    "width": 320,
+    "wasmSha256": "a55f40bf1deef600db6687267ad9800d46cb72d54ffc3a8c2f378b382473ce54",
+    "findings": 9,
+    "errors": [],
+    "external": [],
+    "violations": [],
+    "overflow": false
+  }
+]

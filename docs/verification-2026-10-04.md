@@ -1,5 +1,9 @@
 # Logdelta browser-engine verification - 2026-10-04
 
+This records the earlier cache-fix deployment. The later
+[WASM build verification](verification-wasm-2026-10-04.md) addresses its build-path
+limitation and records the replacement hosted artifact; the evidence below is historical.
+
 A browser update could reuse an older engine cached under the fixed
 `logdelta.wasm` URL. The worker now imports a fingerprinted module and records
 SHA-256 of the exact buffer it instantiates in portable reports. The native

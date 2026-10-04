@@ -482,8 +482,9 @@ when running the browser suite. The local two-build fixture is skipped in that m
 `npm run verify:hosted` compares every deployed file to the current production build by
 SHA-256 and checks that the page retains its production CSP and fingerprinted engine.
 
-The [2026-10-04 verification record](docs/verification-2026-10-04.md) includes the
-clean build, cache fixture and hosted asset evidence.
+The [browser-cache verification](docs/verification-2026-10-04.md) records the original
+cache fixtures. The later [WASM build verification](docs/verification-wasm-2026-10-04.md)
+records the compiler matrix, identical warm/fresh builds and replacement hosted artifact.
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
