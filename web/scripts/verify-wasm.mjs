@@ -92,7 +92,27 @@ try {
   const firstEnv = { ...baseEnv, CARGO_TARGET_DIR: join(first, "web/wasm/target") };
   const secondTarget = join(directory, "custom output with spaces");
   const secondEnv = { ...baseEnv, CARGO_TARGET_DIR: secondTarget };
-  const original = await engine(first, "standard target layout", firstEnv);
+  // Seed a valid older module through a transparent compiler wrapper, then
+  // replace the wrapper without clearing Cargo's cache. Cargo must rebuild it.
+  const firstWrapper = join(first, "web/scripts/canonical-metadata.rs");
+  const currentWrapper = await readFile(firstWrapper);
+  await writeFile(firstWrapper, `
+use std::{env, process::{self, Command}};
+fn main() {
+    let args: Vec<_> = env::args_os().skip(1).collect();
+    let previous = env::var_os("LOGDELTA_PREVIOUS_RUSTC_WRAPPER").filter(|value| !value.is_empty());
+    let mut command = if let Some(previous) = previous {
+        let mut command = Command::new(previous); command.args(&args); command
+    } else {
+        let mut command = Command::new(&args[0]); command.args(&args[1..]); command
+    };
+    process::exit(command.status().unwrap().code().unwrap_or(1));
+}
+`);
+  const warm = await engine(first, "warm Cargo cache with previous wrapper", firstEnv);
+  await writeFile(firstWrapper, currentWrapper);
+  const original = await engine(first, "standard target layout after compiler-wrapper update", firstEnv);
+  assert.notEqual(digest(warm), digest(original), "a changed compiler wrapper must invalidate the warm Cargo cache");
   await mkdir(dirname(defaultArtifact(second)), { recursive: true });
   await writeFile(defaultArtifact(second), marker);
   const other = await engine(second, "different checkout and CARGO_TARGET_DIR", secondEnv);
@@ -195,7 +215,7 @@ fn main() {
   const proxyEnv = { ...secondEnv, PATH: `${proxyDir}${delimiter}${baseEnv.PATH}`, LOGDELTA_REAL_CARGO: realCargo };
   await retainedAfterFailure(second, "failed metadata retains staged engine", { ...proxyEnv, LOGDELTA_CARGO_FAILURE: "metadata" }, /Could not read the engine's Cargo metadata/);
   await retainedAfterFailure(second, "missing artifact retains staged engine", { ...proxyEnv, LOGDELTA_CARGO_FAILURE: "artifact" }, /exactly one compiled engine artifact/);
-  console.log(JSON.stringify({ cases: results.length, reproducibleSha256: digest(original), results }, null, 2));
+  console.log(JSON.stringify({ cases: results.length, reproducibleSha256: digest(original), reproducibleBytes: original.length, results }, null, 2));
 } finally {
   await rm(directory, { recursive: true, force: true });
 }

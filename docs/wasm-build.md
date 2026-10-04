@@ -65,6 +65,11 @@ metadata arguments are verified and retained. Host build scripts, proc macros
 and compiler probes retain their ordinary metadata. Existing outer and
 workspace compiler wrappers still execute with the remaining arguments.
 
+The wrapper's source fingerprint is included in Cargo's tracked compiler flags.
+Cargo does not otherwise invalidate artifacts when an ordinary `RUSTC_WRAPPER`
+changes. Without this fingerprint, an existing checkout could reuse a module
+compiled before canonicalization while a clean checkout built the new one.
+
 `npm run verify:wasm` compiles real engines from two isolated checkouts and
 compares their complete SHA-256 values. One checkout contains spaces, a quote
 and Unicode, uses a separate target directory and contains a synthetic stale
@@ -72,6 +77,8 @@ artifact in the old default location. The command also instantiates the engines
 and runs a real diff, observes each flag source through a disposable cfg probe,
 checks both configured and environment compiler wrappers, and injects compiler,
 metadata and missing-artifact failures to check preservation of the staged module.
+It also seeds a valid older engine in a warm Cargo cache and confirms that
+updating the compiler wrapper rebuilds it without cleaning that cache.
 All verification directories are removed afterward; caller configuration is
 not edited.
 

@@ -2,7 +2,7 @@
 // Vite import, and stages repository examples in public/. Both are generated output.
 import { spawnSync } from "node:child_process";
 import { Buffer } from "node:buffer";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { copyFileSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -64,11 +64,15 @@ for (const pkg of metadata.packages) {
   if (pkg.source) flags.push(`--remap-path-prefix=${realpathSync(directory)}=logdelta-deps/${pkg.name}-${pkg.version}`);
 }
 flags.push(`--remap-path-prefix=${project}=logdelta`);
+const wrapperSource = join(web, "scripts/canonical-metadata.rs");
+// Cargo does not fingerprint ordinary RUSTC_WRAPPER changes. Track its source
+// in the compiler flags so a warm cache cannot bypass updated canonicalization.
+flags.push(`--cfg=logdelta_build_pipeline="${createHash("sha256").update(readFileSync(wrapperSource)).digest("hex")}"`);
 // Cargo's path-dependent crate salts can reorder functions even after source
 // names are remapped. Use stable package/version/source/cfg identities for its
 // metadata only; the wrapper verifies and retains any caller metadata flags.
 const wrapper = join(executed.out_dir, `logdelta-metadata-wrapper${process.platform === "win32" ? ".exe" : ""}`);
-const compiledWrapper = spawnSync(compiler, [join(web, "scripts/canonical-metadata.rs"), "--crate-name", "logdelta_metadata_wrapper", "--edition=2021", "-D", "warnings", "-O", "-o", wrapper], { cwd: crate, stdio: "inherit" });
+const compiledWrapper = spawnSync(compiler, [wrapperSource, "--crate-name", "logdelta_metadata_wrapper", "--edition=2021", "-D", "warnings", "-O", "-o", wrapper], { cwd: crate, stdio: "inherit" });
 if (compiledWrapper.error) throw compiledWrapper.error;
 if (compiledWrapper.status !== 0) throw new Error("Could not compile the scoped metadata wrapper.");
 const built = messages("build", {
