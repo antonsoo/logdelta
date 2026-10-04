@@ -475,6 +475,9 @@ when running the browser suite. The local two-build fixture is skipped in that m
 `npm run verify:hosted` compares every deployed file to the current production build by
 SHA-256 and checks that the page retains its production CSP and fingerprinted engine.
 
+The [2026-10-04 verification record](docs/verification-2026-10-04.md) includes the
+clean build, cache fixture and hosted asset evidence.
+
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License

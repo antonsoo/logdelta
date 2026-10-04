@@ -1,0 +1,131 @@
+{
+  "verifiedAt": "2026-10-04T10:00:35.908Z",
+  "site": "https://antonsoo.github.io/logdelta/",
+  "files": 31,
+  "assets": [
+    {
+      "path": "assets/barlow-400-latin-ext-HxX4XjxC.woff2",
+      "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+    },
+    {
+      "path": "assets/barlow-400-latin-qiz4-Cze.woff2",
+      "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+    },
+    {
+      "path": "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2",
+      "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+    },
+    {
+      "path": "assets/barlow-500-latin-BPAOfeC8.woff2",
+      "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+    },
+    {
+      "path": "assets/barlow-500-latin-ext-DOaysfXq.woff2",
+      "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+    },
+    {
+      "path": "assets/barlow-500-vietnamese-zTViEIzf.woff2",
+      "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+    },
+    {
+      "path": "assets/barlow-600-latin-DILqtrty.woff2",
+      "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+    },
+    {
+      "path": "assets/barlow-600-latin-ext-B8NK_A3D.woff2",
+      "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+    },
+    {
+      "path": "assets/barlow-600-vietnamese-DcjprdFV.woff2",
+      "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2",
+      "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2",
+      "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2",
+      "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+    },
+    {
+      "path": "assets/index-BSrJyXq-.js",
+      "sha256": "2c7b4a854820888f9863bc1c871e819071a46d7a33d2d09d5ccd851317948a27"
+    },
+    {
+      "path": "assets/index-BpBv4wax.css",
+      "sha256": "c9e8e1a5edcc2e92842a7459785236fbc5120ac9a7e8d872d589628dc4334756"
+    },
+    {
+      "path": "assets/jetbrains-mono-cyrillic-Buze_B52.woff2",
+      "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+    },
+    {
+      "path": "assets/jetbrains-mono-greek-D3oMJlXt.woff2",
+      "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-6fWv1k7M.woff2",
+      "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2",
+      "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+    },
+    {
+      "path": "assets/jetbrains-mono-vietnamese-BehTv68k.woff2",
+      "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+    },
+    {
+      "path": "assets/logdelta-yBvBleeb.wasm",
+      "sha256": "aa32993744e91a4459cfb893a78b23dc00d226639e27f5ceadda0bbf06ffa618"
+    },
+    {
+      "path": "assets/worker-DuWRBWEt.js",
+      "sha256": "866736e72fe44b50d02add768ea8c0c35f3d2cbda944aadc8b3cfef111194340"
+    },
+    {
+      "path": "examples/k8s-service-incident.log",
+      "sha256": "8690badd898dfb20cd791a7ac26d2dc540b032a57377afa4f08fb8d6cbfeacf9"
+    },
+    {
+      "path": "examples/k8s-service.log",
+      "sha256": "d4d2da992b4927935414cbf0fd72b079111aed57b0c511fb105c98a53c54ce2c"
+    },
+    {
+      "path": "examples/large/baseline-1.log",
+      "sha256": "41a9a5f37ea1a6fffaeb8af7eb72454b7efb8a3193d96af057a8827a1b703fbd"
+    },
+    {
+      "path": "examples/large/baseline-2.log",
+      "sha256": "362019fc11c931c88f45961c21174da770b4604b4b716acce1da043d0bab2af2"
+    },
+    {
+      "path": "examples/large/baseline-3.log",
+      "sha256": "da1a43a63780f8e3cb33023a8ea0b7bed69316db6ca1300805cdb90c794c1f86"
+    },
+    {
+      "path": "examples/large/target-failure.log",
+      "sha256": "2711a6fb4f676821c3c8651de8414f9d5962a9b9ffd8987965f502edba9e7ebc"
+    },
+    {
+      "path": "examples/npm-build.log",
+      "sha256": "33343ebf9cfb997893e9b60bb5f4b5dd980a5dfe01647e282664d1c9fefd35a4"
+    },
+    {
+      "path": "examples/pytest-fail.log",
+      "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+    },
+    {
+      "path": "examples/pytest-pass.log",
+      "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+    },
+    {
+      "path": "index.html",
+      "sha256": "f80ff229426d31a25a865eabd3873d93cdc0f762b9f5ecf3a3a494dfc3e0acb8"
+    }
+  ]
+}
