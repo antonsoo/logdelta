@@ -1,6 +1,7 @@
 node_modules/
 dist/
 public/logdelta.wasm
+src/generated/
 public/examples/
 wasm/target/
 test-results/

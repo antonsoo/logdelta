@@ -5,6 +5,8 @@ export interface DiffOutcome {
   result: DiffResult;
   /** Time spent inside the engine, excluding the one-off download of the module. */
   ms: number;
+  /** SHA-256 of the exact bytes instantiated by this comparison's worker. */
+  engineSha256: string;
 }
 
 interface Job {
@@ -53,12 +55,12 @@ export class DiffEngine {
         if (!reply || typeof reply.id !== "number") throw new Error("The diff engine returned an unreadable response. Try comparing again.");
         if (reply.id !== this.job.id) return;
         if (reply.ok === false && typeof reply.error === "string") this.finish(new Error(reply.error));
-        else if (reply.ok === true && Number.isFinite(reply.ms) && reply.ms >= 0) {
+        else if (reply.ok === true && Number.isFinite(reply.ms) && reply.ms >= 0 && typeof reply.engineSha256 === "string" && /^[0-9a-f]{64}$/.test(reply.engineSha256)) {
           const result = JSON.parse(reply.json) as DiffResult | null;
           if (!result || !Array.isArray(result.baseline_totals) || !Array.isArray(result.findings) || !Array.isArray(result.blocks) || !Array.isArray(result.value_findings) || !Number.isSafeInteger(result.target_total) || !Number.isSafeInteger(result.total_templates)) {
             throw new Error("The diff engine returned an incomplete report. Try comparing again.");
           }
-          this.finish(undefined, { result, ms: reply.ms });
+          this.finish(undefined, { result, ms: reply.ms, engineSha256: reply.engineSha256 });
         } else throw new Error("The diff engine returned an unreadable response. Try comparing again.");
       } catch (error) {
         this.cancel(error);

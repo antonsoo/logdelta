@@ -3,6 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { readFile } from "node:fs/promises";
 import { Buffer } from "node:buffer";
 import { gzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 
 const baseline = (page) => page.locator("#baseline");
 const target = (page) => page.locator("#target");
@@ -89,11 +90,11 @@ async function controlWorkers(page) {
   });
 }
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, baseURL }) => {
   const errors = [];
   const external = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  page.on("request", (r) => { if (!r.url().startsWith("http://127.0.0.1:4193/") && !r.url().startsWith("blob:")) external.push(r.url()); });
+  page.on("request", (r) => { if (new URL(r.url()).origin !== new URL(baseURL).origin) external.push(r.url()); });
   await page.exposeFunction("testDiagnostics", () => ({ errors, external }));
   await page.addInitScript(() => {
     window.violations = [];
@@ -265,12 +266,44 @@ test("worker startup failure is actionable and a retry works", async ({ page }) 
 test("WASM fetch failure is recoverable without reloading the page", async ({ page }) => {
   await blank(page);
   await inputs(page);
-  await page.route("**/logdelta.wasm", (route) => route.fulfill({ status: 503, body: "unavailable" }));
+  await page.route("**/assets/logdelta-*.wasm", (route) => route.fulfill({ status: 503, body: "unavailable" }));
   await compare(page).click();
   await expect(status(page)).toContainText("Comparison failed");
-  await page.unroute("**/logdelta.wasm");
+  await page.unroute("**/assets/logdelta-*.wasm");
   await completed(page);
 });
+
+test("report identifies the actual executed module and never requests the legacy cache key", async ({ page }) => {
+  let legacyRequests = 0;
+  await page.route("**/logdelta.wasm", (route) => { legacyRequests++; return route.abort(); });
+  const downloaded = page.waitForResponse((response) => /\/assets\/logdelta-[^/]+\.wasm$/.test(new URL(response.url()).pathname));
+  await ready(page);
+  const response = await downloaded;
+  expect(response.status()).toBe(200);
+  const expected = createHash("sha256").update(await response.body()).digest("hex");
+  const report = await exported(page);
+  expect(report.engine.wasm_sha256).toBe(expected);
+  expect(legacyRequests).toBe(0);
+  await blank(page);
+  await inputs(page);
+  await completed(page);
+  expect((await exported(page)).engine.wasm_sha256).toBe(expected);
+});
+
+for (const [name, bytes] of [["invalid", Buffer.from("not WebAssembly")], ["incompatible", Buffer.from([0, 97, 115, 109, 1, 0, 0, 0])]]) {
+  test(`${name} engine module preserves inputs and a subsequent valid load recovers`, async ({ page }) => {
+    await blank(page);
+    await inputs(page);
+    await page.route("**/assets/logdelta-*.wasm", (route) => route.fulfill({ status: 200, contentType: "application/wasm", body: bytes }));
+    await compare(page).click();
+    await expect(status(page)).toContainText("Comparison failed");
+    await expect(target(page)).toHaveValue("started\ncatastrophic failure\n");
+    await expect(compare(page)).toBeEnabled();
+    await page.unroute("**/assets/logdelta-*.wasm");
+    await completed(page);
+    expect((await exported(page)).engine.wasm_sha256).toMatch(/^[0-9a-f]{64}$/);
+  });
+}
 
 test("intentional empty targets report gone lines; unused baseline slots are identified", async ({ page }) => {
   await blank(page);

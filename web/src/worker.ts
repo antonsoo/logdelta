@@ -2,6 +2,7 @@
 // Hosts the WebAssembly build of the logdelta library off the main thread: a diff of a few
 // hundred thousand lines takes a second or two, and the page should stay responsive meanwhile.
 import type { DiffRequest } from "./types";
+import wasmURL from "./generated/logdelta.wasm?url";
 
 interface Exports {
   memory: WebAssembly.Memory;
@@ -16,14 +17,26 @@ export interface WorkerRequest {
   request: DiffRequest;
 }
 
-export type WorkerResponse = { id: number; ok: true; json: string; ms: number } | { id: number; ok: false; error: string };
+export type WorkerResponse = { id: number; ok: true; json: string; ms: number; engineSha256: string } | { id: number; ok: false; error: string };
 
-let engine: Promise<Exports> | undefined;
+interface LoadedEngine { exports: Exports; sha256: string }
+let engine: Promise<LoadedEngine> | undefined;
 
-function load(): Promise<Exports> {
-  engine ??= WebAssembly.instantiateStreaming(fetch(`${import.meta.env.BASE_URL}logdelta.wasm`), {}).then(
-    ({ instance }) => instance.exports as unknown as Exports,
-  );
+function load(): Promise<LoadedEngine> {
+  engine ??= (async () => {
+    const response = await fetch(wasmURL);
+    if (!response.ok) throw new Error(`Could not load the diff engine (HTTP ${response.status}). Try comparing again.`);
+    const bytes = await response.arrayBuffer();
+    // Hash exactly the buffer passed to instantiate, rather than a second fetch
+    // that could describe different bytes. The engine stays off the main thread.
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    const sha256 = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    const { instance } = await WebAssembly.instantiate(bytes, {});
+    if (!(instance.exports.memory instanceof WebAssembly.Memory) || !["ld_alloc", "ld_diff", "ld_result_ptr", "ld_result_len"].every((name) => typeof instance.exports[name] === "function")) {
+      throw new Error("The diff engine could not be initialized. Try comparing again or reload the page.");
+    }
+    return { exports: instance.exports as unknown as Exports, sha256 };
+  })();
   return engine;
 }
 
@@ -42,9 +55,9 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
   try {
     const e = await load();
     const started = performance.now();
-    const { ok, json } = diff(e, request);
+    const { ok, json } = diff(e.exports, request);
     const ms = performance.now() - started;
-    const reply: WorkerResponse = ok ? { id, ok, json, ms } : { id, ok: false, error: (JSON.parse(json) as { error: string }).error };
+    const reply: WorkerResponse = ok ? { id, ok, json, ms, engineSha256: e.sha256 } : { id, ok: false, error: (JSON.parse(json) as { error: string }).error };
     self.postMessage(reply);
   } catch (err) {
     // A panic aborts the module (panic = "abort"); start from a fresh instance next time.

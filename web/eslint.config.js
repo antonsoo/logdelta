@@ -8,10 +8,10 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   {
     files: ["scripts/**/*.mjs"],
-    languageOptions: { globals: { console: "readonly", process: "readonly", URL: "readonly" } },
+    languageOptions: { globals: { console: "readonly", process: "readonly", URL: "readonly", fetch: "readonly", AbortSignal: "readonly" } },
   },
   {
     files: ["tests/browser/**/*.mjs"],
-    languageOptions: { globals: Object.fromEntries(["window", "document", "File", "ReadableStream", "Worker", "URL", "localStorage", "sessionStorage", "location", "innerWidth"].map((name) => [name, "readonly"])) },
+    languageOptions: { globals: Object.fromEntries(["window", "document", "File", "ReadableStream", "Worker", "WebAssembly", "fetch", "crypto", "URL", "localStorage", "sessionStorage", "location", "innerWidth"].map((name) => [name, "readonly"])) },
   },
 );

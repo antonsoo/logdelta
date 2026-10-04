@@ -66,7 +66,7 @@ export function exportReport(report: CompletedComparison) {
   return {
     format: "logdelta-report",
     schema_version: 1,
-    engine: { name: "logdelta", version },
+    engine: { name: "logdelta", version, wasm_sha256: report.outcome.engineSha256 },
     completed_at: report.completedAt,
     settings: { context: report.request.context, masks: [...report.request.masks] },
     sources: report.sources,

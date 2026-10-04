@@ -4,6 +4,7 @@ import type { WorkerRequest, WorkerResponse } from "./worker";
 
 const request = { baselines: ["ok\n"], target: "failed\n", context: 2, masks: [] };
 const result = { baseline_totals: [1], target_total: 1, total_templates: 2, findings: [], blocks: [], value_findings: [] };
+const engineSha256 = "a".repeat(64);
 class FakeWorker {
   onmessage: ((e: MessageEvent<WorkerResponse>) => void) | null = null;
   onerror: ((e: ErrorEvent) => void) | null = null;
@@ -11,7 +12,7 @@ class FakeWorker {
   terminate = vi.fn();
   postMessage = vi.fn<(message: WorkerRequest) => void>();
   reply(data: Partial<WorkerResponse> = {}) {
-    this.onmessage?.({ data: { id: this.postMessage.mock.calls.at(-1)![0].id, ok: true, json: JSON.stringify(result), ms: 4, ...data } } as MessageEvent<WorkerResponse>);
+    this.onmessage?.({ data: { id: this.postMessage.mock.calls.at(-1)![0].id, ok: true, json: JSON.stringify(result), ms: 4, engineSha256, ...data } } as MessageEvent<WorkerResponse>);
   }
 }
 function setup() {
@@ -28,12 +29,12 @@ describe("diff worker ownership", () => {
     const firstController = new AbortController();
     const first = run(firstController);
     workers[0]!.reply();
-    await expect(first).resolves.toEqual({ result, ms: 4 });
+    await expect(first).resolves.toEqual({ result, ms: 4, engineSha256 });
     const second = run();
     firstController.abort();
     expect(workers[0]!.terminate).not.toHaveBeenCalled();
     workers[0]!.reply();
-    await expect(second).resolves.toEqual({ result, ms: 4 });
+    await expect(second).resolves.toEqual({ result, ms: 4, engineSha256 });
     expect(factory).toHaveBeenCalledOnce();
   });
   it("terminates synchronous work on cancellation and retries with a fresh worker", async () => {
@@ -81,7 +82,7 @@ describe("diff worker ownership", () => {
     const second = run(); workers[0]!.reply();
     await expect(second).resolves.toMatchObject({ result });
   });
-  it.each(["error", "messageerror", "malformed-json", "incomplete-report", "invalid-time"])("settles %s and recovers", async (failure) => {
+  it.each(["error", "messageerror", "malformed-json", "incomplete-report", "invalid-time", "invalid-digest", "missing-digest"])("settles %s and recovers", async (failure) => {
     const { run, workers } = setup();
     const first = run();
     if (failure === "error") workers[0]!.onerror?.({ message: "crashed", preventDefault: vi.fn() } as unknown as ErrorEvent);
@@ -89,6 +90,8 @@ describe("diff worker ownership", () => {
     if (failure === "malformed-json") workers[0]!.reply({ json: "{" });
     if (failure === "incomplete-report") workers[0]!.reply({ json: "null" });
     if (failure === "invalid-time") workers[0]!.reply({ ms: NaN });
+    if (failure === "invalid-digest") workers[0]!.reply({ engineSha256: "not-a-hash" });
+    if (failure === "missing-digest") workers[0]!.reply({ engineSha256: undefined } as unknown as WorkerResponse);
     await expect(first).rejects.toBeInstanceOf(Error);
     expect(workers[0]!.terminate).toHaveBeenCalledOnce();
     const second = run(); workers[1]!.reply();

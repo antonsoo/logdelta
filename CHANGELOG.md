@@ -7,6 +7,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- The browser engine now has a fingerprinted asset URL tied to its worker build, avoiding
+  an older module cached under the fixed `logdelta.wasm` URL after an interface update.
+  HTTP failures, invalid binaries and incompatible module exports allow a fresh retry.
 - Delayed browser imports keep their original baseline even when another tab is selected.
   Newer reads, edits, removal and reset cancel obsolete work; a failed read keeps the
   previous input. Example downloads follow the same ownership rules.
@@ -21,6 +24,11 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Portable reports include `engine.wasm_sha256`, calculated from the exact module bytes
+  executed by the worker. The native engine and raw diff JSON remain at 0.3.4.
+- Chromium/Firefox cache tests exercise two real production builds while the legacy URL
+  remains cached; report checksums match the actual served module bytes. Browser workflows
+  can also run against a deployed origin with `LOGDELTA_BASE_URL`.
 - Cancel and New comparison controls; intentional empty logs; filenames and source order
   alongside the applied masks and context; a versioned report download that retains this
   information and all findings. The original raw JSON download remains available.

@@ -42,10 +42,12 @@ describe("comparison evidence", () => {
   it("exports applied settings and full findings, without raw full input logs or mutable UI state", () => {
     const input = capture([log("non-finding baseline secret\n")], log("non-finding target secret\n"), "0", "KEY=key_[a-z]+");
     const result = { baseline_totals: [1], target_total: 1, total_templates: 1, findings: [], blocks: [], value_findings: [] };
-    const report: CompletedComparison = { ...input, outcome: { result, ms: 99 }, completedAt: "2026-10-03T00:00:00.000Z", revision: 123 };
+    const engineSha256 = "a".repeat(64);
+    const report: CompletedComparison = { ...input, outcome: { result, ms: 99, engineSha256 }, completedAt: "2026-10-03T00:00:00.000Z", revision: 123 };
     const exported = exportReport(report);
     expect(exported).toMatchObject({ format: "logdelta-report", schema_version: 1, settings: { context: 0, masks: ["KEY=key_[a-z]+"] }, result });
     expect(exported.sources.baselines[0]!.name).toBe("run.log");
+    expect(exported.engine.wasm_sha256).toBe(engineSha256);
     expect(JSON.stringify(exported)).not.toContain("non-finding");
     expect(exported).not.toHaveProperty("revision");
     expect(exported).not.toHaveProperty("request");

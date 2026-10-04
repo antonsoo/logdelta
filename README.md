@@ -187,6 +187,12 @@ library builds without the command-line dependencies (`default-features = false`
 `terminal_size` sit behind the default `cli` feature), and `diff_lines` / `mine_lines` take any
 line iterator, so the page diffs pasted text directly.
 
+The worker imports a fingerprinted engine asset; rebuilding the binary changes its URL
+and the worker's dependency, so a newly loaded interface cannot reuse an older engine
+cached under the former fixed `logdelta.wasm` URL. Each portable report records the SHA-256
+of the exact bytes instantiated by its worker. This identifies the executed artifact;
+it is not a signature or an independent audit of the engine.
+
 A block is one card. A new block shows the target as it reads from the block's first line to
 its last (cut to its start and end when long, with a button for the rest); a gone block shows
 one line of the first good run per template. NEW VALUE findings are listed right after the new
@@ -208,7 +214,7 @@ its source name as edited.
 
 | Download | Contents |
 | --- | --- |
-| **Download report** | `logdelta-report.json`: format `logdelta-report`, schema version 1, engine version, completion time, applied settings, ordered source names/origins/line counts/UTF-8 sizes, omitted baseline slots, and the full engine result. |
+| **Download report** | `logdelta-report.json`: format `logdelta-report`, schema version 1, engine version and executed module SHA-256 (`engine.wasm_sha256`), completion time, applied settings, ordered source names/origins/line counts/UTF-8 sizes, omitted baseline slots, and the full engine result. |
 | **Download JSON** | `logdelta-diff.json`: the original engine result, with the same structure as CLI `--json`. |
 
 Both downloads include original log excerpts from findings; they are not sanitized logs.
@@ -461,6 +467,13 @@ The browser suite runs the real WebAssembly engine in Chromium and Firefox. It c
 delayed imports and worker replies, cancellation, load failures and retry, empty logs,
 report provenance and downloads, pagination, keyboard navigation, 320px layouts,
 light/dark accessibility, Content-Security-Policy violations and off-origin requests.
+An isolated two-build fixture leaves the old fixed-name engine in the real browser cache
+and checks that the next production build runs its own fingerprinted module. It changes
+only a harmless WebAssembly custom section; the algorithm and ABI remain identical.
+To exercise the deployed page, set `LOGDELTA_BASE_URL=https://antonsoo.github.io/logdelta/`
+when running the browser suite. The local two-build fixture is skipped in that mode.
+`npm run verify:hosted` compares every deployed file to the current production build by
+SHA-256 and checks that the page retains its production CSP and fingerprinted engine.
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
