@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:browser": "npm run build && playwright test",
-    "verify:hosted": "node scripts/verify-hosted.mjs"
+    "verify:hosted": "node scripts/verify-hosted.mjs",
+    "verify:wasm": "node scripts/verify-wasm.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

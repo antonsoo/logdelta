@@ -68,6 +68,7 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - name: wasm crate (fmt, clippy, test)
         run: |
+          rustfmt --check scripts/canonical-metadata.rs
           cargo fmt --manifest-path wasm/Cargo.toml -- --check
           cargo clippy --manifest-path wasm/Cargo.toml --target wasm32-unknown-unknown -- -D warnings
           cargo test --manifest-path wasm/Cargo.toml
@@ -77,6 +78,8 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm test
+      - name: Reproducible WASM and compiler configuration
+        run: npm run verify:wasm
       - name: Build (wasm + site)
         run: npm run build
       - name: Install browsers

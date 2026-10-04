@@ -193,6 +193,12 @@ cached under the former fixed `logdelta.wasm` URL. Each portable report records 
 of the exact bytes instantiated by its worker. This identifies the executed artifact;
 it is not a signature or an independent audit of the engine.
 
+The browser build follows Cargo's actual artifact record, including with custom target
+directories. Checkout and dependency-cache paths are remapped, and Cargo's WASM crate
+metadata is stabilized so the same source and toolchain rebuild identically from another
+checkout. Caller compiler flags and wrappers are retained. See the
+[engine build guide](docs/wasm-build.md) for configuration, verification and limits.
+
 A block is one card. A new block shows the target as it reads from the block's first line to
 its last (cut to its start and end when long, with a button for the rest); a gone block shows
 one line of the first good run per template. NEW VALUE findings are listed right after the new
@@ -459,6 +465,7 @@ $ cargo fmt --all -- --check
 $ cargo clippy --all-targets --all-features -- -D warnings
 $ cargo build --lib --no-default-features   # the library alone, as the web demo uses it
 $ cd web && npm ci && npm run typecheck && npm run lint && npm test && npm run build
+$ npm run verify:wasm                        # real compiler/configuration matrix
 $ npx playwright install chromium firefox   # once per machine, in web/
 $ npm run test:browser                       # builds and tests the production page
 ```

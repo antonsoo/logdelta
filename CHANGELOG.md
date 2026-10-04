@@ -7,6 +7,10 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Browser builds stage Cargo's actual WASM artifact, including with custom target
+  directories, and retain the previous staged engine when compilation, metadata or
+  artifact selection fails. Rebuilds remove local source paths and stabilize Cargo's
+  WASM crate metadata without dropping caller flags or compiler wrappers.
 - The browser engine now has a fingerprinted asset URL tied to its worker build, avoiding
   an older module cached under the fixed `logdelta.wasm` URL after an interface update.
   HTTP failures, invalid binaries and incompatible module exports allow a fresh retry.
@@ -24,6 +28,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- A real-compiler verification matrix covers identical builds from separate checkout
+  paths, target-directory selection, Cargo flag precedence, compiler wrappers and
+  preservation of the last valid staged engine after build failures.
 - Portable reports include `engine.wasm_sha256`, calculated from the exact module bytes
   executed by the worker. The native engine and raw diff JSON remain at 0.3.4.
 - Chromium/Firefox cache tests exercise two real production builds while the legacy URL
