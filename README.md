@@ -48,9 +48,15 @@ Linux x86-64 binary, `logdelta-x86_64-unknown-linux-musl.tar.gz`, with its SHA-2
 
 `logdelta diff` exits 0 when it finds nothing significant, 1 when it reports a finding, and 2
 when it could not read its input (a missing file, or one that is not text), like `diff` and
-`grep`.
+`grep`. In this source checkout, an incomplete explicit field watch also exits 2.
 
 ## Features
+
+- **Exact JSON field watches (unreleased)**: `--watch-field /http/status` catches a
+  `200` to `503` change that numeric masking would hide. Select one or more scalar
+  fields; inspect per-run counts, source lines and coverage in the CLI or browser.
+  An unobserved field or a tracking limit produces an incomplete report, never a
+  clean CI gate. See the [controlled HTTP example and field guide](docs/watched-fields.md).
 
 - **`logdelta diff <baseline>... --target <file>`** — reports templates that are **NEW** in
   the target, **GONE** from it (present in every baseline), or significantly **CHANGED** in
@@ -213,7 +219,7 @@ An older completed report remains labelled when inputs change: its excerpts and 
 always refer to the sources and settings captured when that comparison started.
 
 Open **Compared sources and settings** to map baseline counts to input names and see the
-applied masks and context. Blank, unused baseline editors are listed as omitted; an empty
+applied masks, exact field watches and context. Blank, unused baseline editors are listed as omitted; an empty
 file or **Use empty log** is an intentional input and is included. An empty target can
 therefore show the lines that disappeared from the good runs. Editing an imported log marks
 its source name as edited.
@@ -223,7 +229,8 @@ its source name as edited.
 | **Download report** | `logdelta-report.json`: format `logdelta-report`, schema version 1, engine version and executed module SHA-256 (`engine.wasm_sha256`), completion time, applied settings, ordered source names/origins/line counts/UTF-8 sizes, omitted baseline slots, and the full engine result. |
 | **Download JSON** | `logdelta-diff.json`: the original engine result, with the same structure as CLI `--json`. |
 
-Both downloads include original log excerpts from findings; they are not sanitized logs.
+Both downloads include original log excerpts from findings and watched-field evidence;
+they are not sanitized logs. Field watches compare values before masking.
 The report does not bundle full inputs or provide a report-import workflow. Browser filters
 and pagination never remove findings from downloads. Results show 50 findings per page;
 large blocks preview their start and end and can display up to 2,000 lines or templates.
@@ -375,6 +382,12 @@ block (a traceback line that happens to fit a template the baselines have) is pa
 block.
 
 ## Accuracy and limitations
+
+- **Numeric masking hides exact code changes by default.** Explicit
+  [field watches](docs/watched-fields.md) protect selected JSON scalars independently
+  of template mining. They pool values across records, preserve types and number
+  spelling, and report unseen values rather than changed rates. Plain-text access
+  logs and unselected fields still have the usual masking limitations.
 
 - **Content flips are caught by value tracking, not by frequency scoring — and only up to a
   point.** The G-test only sees that a template's *count* changed; a same-count content flip

@@ -1,5 +1,5 @@
 // The example logs committed in the repository (examples/), staged into public/ at build time.
-// Every one is synthetic; see examples/README.md for how each was made.
+// Fixtures are synthetic or controlled local experiments; see examples/README.md.
 import { readBounded, MAX_LOG_BYTES } from "./files";
 import { decodeLog } from "./decode";
 
@@ -10,6 +10,7 @@ export interface Example {
   note: string;
   baselines: string[];
   target: string;
+  watchFields?: string[];
 }
 
 export const EXAMPLES: Example[] = [
@@ -26,6 +27,14 @@ export const EXAMPLES: Example[] = [
     note: "The same service's container logs (kubectl logs format) before and during an incident. Timestamps, pod IPs and payload sizes are masked, so only the new behavior remains.",
     baselines: ["examples/k8s-service.log"],
     target: "examples/k8s-service-incident.log",
+  },
+  {
+    id: "http",
+    label: "HTTP: a failure hidden by masking",
+    note: "Controlled local HTTP experiment, with an injected fault: two requests return 503 and the worker exits with code 1. Template comparison alone finds nothing. Watching /http/status and /exit_code exposes both changes; timestamps and durations still stay quiet.",
+    baselines: ["examples/http-good.log", "examples/http-good-2.log"],
+    target: "examples/http-failed.log",
+    watchFields: ["/http/status", "/exit_code"],
   },
   {
     id: "large",

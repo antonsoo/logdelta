@@ -340,7 +340,7 @@ test("invalid options keep prior evidence, and a corrected mask is exported exac
   expect(await exported(page)).toEqual(old);
   await page.locator("#masks").fill(" ORDER=ord_[a-z]+ \n\n");
   await completed(page);
-  expect((await exported(page)).settings).toEqual({ context: 0, masks: ["ORDER=ord_[a-z]+"] });
+  expect((await exported(page)).settings).toEqual({ context: 0, masks: ["ORDER=ord_[a-z]+"], watch_fields: [] });
 });
 
 test("gzip, UTF-16 and failed file reads preserve existing input and recover", async ({ page }) => {

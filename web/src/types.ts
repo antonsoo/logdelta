@@ -62,6 +62,46 @@ export interface DiffResult {
   findings: Finding[];
   blocks: Block[];
   value_findings: ValueFinding[];
+  watched_fields?: WatchedField[];
+}
+
+export interface FieldOccurrence {
+  baseline_index?: number;
+  line_no: number;
+  raw: string;
+  truncated: boolean;
+}
+
+export interface FieldCoverage {
+  lines: number;
+  matched: number;
+  missing: number;
+  non_json: number;
+  invalid_json: number;
+  non_scalar: number;
+  ambiguous: number;
+  oversized_records: number;
+  untracked: number;
+  first_problem?: FieldOccurrence;
+}
+
+export interface FieldValue {
+  /** Encoded JSON text, so large integers never pass through a JavaScript Number. */
+  value_json: string;
+  baseline_counts: number[];
+  target_count: number;
+  is_new: boolean | null;
+  first_baseline?: FieldOccurrence;
+  first_target?: FieldOccurrence;
+  context?: ContextWindow;
+}
+
+export interface WatchedField {
+  pointer: string;
+  complete: boolean;
+  baselines: FieldCoverage[];
+  target: FieldCoverage;
+  values: FieldValue[];
 }
 
 export interface DiffRequest {
@@ -69,4 +109,5 @@ export interface DiffRequest {
   target: string;
   context: number;
   masks: string[];
+  watch_fields?: string[];
 }

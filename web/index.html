@@ -61,6 +61,13 @@
           </div>
           <div id="target-editor"></div>
         </section>
+        <section class="watch-input" aria-labelledby="watch-title">
+          <div>
+            <label id="watch-title" for="watch-fields">Watch exact JSON fields</label>
+            <p id="watch-help">Numbers are normally masked. Watch status or exit codes to catch value changes even when the log's shape stays the same. One JSON Pointer per line, such as <code>/http/status</code>.</p>
+          </div>
+          <textarea id="watch-fields" rows="2" spellcheck="false" aria-describedby="watch-help" placeholder="/http/status&#10;/exit_code"></textarea>
+        </section>
         <div class="run-row">
           <details class="options">
             <summary>Options</summary>

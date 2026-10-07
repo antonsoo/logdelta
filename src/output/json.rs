@@ -48,6 +48,7 @@ mod tests {
             }],
             blocks: Vec::new(),
             value_findings: Vec::new(),
+            watched_fields: Vec::new(),
         };
         let mut buf = Vec::new();
         write_diff(&mut buf, &result).unwrap();

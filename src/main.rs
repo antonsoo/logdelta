@@ -121,6 +121,7 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
         threshold: args.threshold,
         significance: args.significance,
         group: !args.flat,
+        watch_fields: args.watch_fields,
     };
     let mut result = diff_runs(&baseline_refs, &target, &masks, &opts)?;
 
@@ -150,13 +151,13 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
 
     // Non-zero exit whenever there's anything to report, so `diff` is usable as a CI gate
     // (`logdelta diff good.log --target bad.log || echo "regressions found"`).
-    Ok(
-        if result.findings.is_empty() && result.value_findings.is_empty() {
-            ExitCode::SUCCESS
-        } else {
-            ExitCode::from(1)
-        },
-    )
+    Ok(if !result.complete() {
+        ExitCode::from(2)
+    } else if result.finding_count() == 0 {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    })
 }
 
 fn run_templates(args: TemplatesArgs) -> anyhow::Result<ExitCode> {

@@ -118,7 +118,14 @@ pub fn write_diff<W: Write>(
     )?;
     writeln!(out)?;
 
-    if n_findings == 0 {
+    super::fields::markdown(out, &result.watched_fields)?;
+    if !result.complete() {
+        writeln!(
+            out,
+            "\n**Field comparison incomplete. This report cannot establish a clean result.**\n"
+        )?;
+    }
+    if n_findings == 0 && result.complete() {
         writeln!(out, "No significant differences found.")?;
         return Ok(());
     }

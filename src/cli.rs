@@ -50,6 +50,11 @@ pub struct DiffArgs {
     #[arg(long, default_value_t = logdelta::scoring::DEFAULT_SIGNIFICANCE)]
     pub significance: f64,
 
+    /// Compare exact scalar values at a JSON Pointer before masking (e.g. /status or
+    /// /http/response/status_code). Repeatable. Incomplete coverage exits 2.
+    #[arg(long = "watch-field", value_name = "POINTER")]
+    pub watch_fields: Vec<String>,
+
     /// List every template that differs on its own. By default findings whose lines sit
     /// together (a traceback, the steps a failed job skipped) are reported as one block.
     #[arg(long)]

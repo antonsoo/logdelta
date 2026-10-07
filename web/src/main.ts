@@ -3,11 +3,11 @@ import "./style.css";
 import { engine } from "./engine";
 import { MAX_BASELINES, readLogFile } from "./files";
 import { EXAMPLES, loadExample, type Example } from "./examples";
-import { comparisonInput, exportReport, type CompletedComparison, type LogInput } from "./report";
+import { comparisonInput, exportReport, parseWatches, type CompletedComparison, type LogInput } from "./report";
 import { baselineCounts, formatCount, headAndTail, lineCount, printable, templateParts } from "./template";
-import type { Block, ContextWindow, DiffResult, Finding, ValueFinding } from "./types";
+import type { Block, ContextWindow, DiffResult, FieldCoverage, FieldValue, Finding, ValueFinding, WatchedField } from "./types";
 
-type Filter = "all" | "new" | "gone" | "changed" | "value";
+type Filter = "all" | "new" | "gone" | "changed" | "value" | "field";
 type Editor = "baseline" | "target";
 interface Source extends LogInput {
   id: number;
@@ -26,6 +26,7 @@ const state = {
   page: 0,
   details: new Set<number>(),
   sourceDetails: false,
+  fieldDetails: new Set<string>(),
   report: undefined as CompletedComparison | undefined,
   outcomeLines: [] as string[],
   expanded: new Set<number>(),
@@ -222,7 +223,7 @@ function wireEditors(): void {
       const name = source.origin === "file" || source.origin === "example" ? `${source.name} (edited)` : source.origin === "edited" ? source.name : "Pasted log";
       const origin = source.origin === "file" || source.origin === "example" || source.origin === "edited" ? "edited" : "pasted";
       setSource(source, { text: target.value, name, origin, ready: true });
-    } else if (target.id === "masks" || target.id === "context") {
+    } else if (target.id === "masks" || target.id === "context" || target.id === "watch-fields") {
       target.removeAttribute("aria-invalid");
       changed();
     }
@@ -300,11 +301,14 @@ function wireEditors(): void {
     state.expanded.clear();
     state.details.clear();
     state.sourceDetails = false;
+    state.fieldDetails.clear();
     state.page = 0;
     state.revision++;
     $<HTMLInputElement>("context").value = "2";
     $("context").removeAttribute("aria-invalid");
     $<HTMLTextAreaElement>("masks").value = "";
+    $<HTMLTextAreaElement>("watch-fields").value = "";
+    $("watch-fields").removeAttribute("aria-invalid");
     clearExampleSelection();
     renderEditors();
     renderResults();
@@ -344,6 +348,8 @@ async function useExample(example: Example): Promise<void> {
     state.baselines = baselines.map((text, i) => newSource({ text, name: example.baselines[i]!, origin: "example", ready: true }));
     state.active = 0;
     state.target = newSource({ text: target, name: example.target, origin: "example", ready: true });
+    $<HTMLTextAreaElement>("watch-fields").value = (example.watchFields ?? []).join("\n");
+    $("watch-fields").removeAttribute("aria-invalid");
     state.revision++;
     renderEditors();
     $("example-note").textContent = example.note;
@@ -371,7 +377,7 @@ async function compare(): Promise<void> {
   const context = $<HTMLInputElement>("context");
   let input;
   try {
-    input = comparisonInput(state.baselines, state.target, context.value, $<HTMLTextAreaElement>("masks").value);
+    input = comparisonInput(state.baselines, state.target, context.value, $<HTMLTextAreaElement>("masks").value, $<HTMLTextAreaElement>("watch-fields").value);
   } catch (error) {
     status(errorText(error), true);
     if (context.value.trim() === "" || !context.validity.valid) {
@@ -379,6 +385,8 @@ async function compare(): Promise<void> {
       context.closest("details")!.open = true;
       context.focus();
     }
+    try { parseWatches($<HTMLTextAreaElement>("watch-fields").value); }
+    catch { $("watch-fields").setAttribute("aria-invalid", "true"); $("watch-fields").focus(); }
     refreshActivity();
     return;
   }
@@ -397,9 +405,11 @@ async function compare(): Promise<void> {
     state.expanded.clear();
     state.details.clear();
     state.sourceDetails = false;
+    state.fieldDetails.clear();
     state.page = 0;
     renderResults();
-    status(`Comparison complete: ${formatCount(outcome.result.findings.length + outcome.result.value_findings.length)} findings before grouping.`);
+    const fieldsComplete = (outcome.result.watched_fields ?? []).every((f) => f.complete);
+    status(fieldsComplete ? `Comparison complete: ${formatCount(outcome.result.findings.length + outcome.result.value_findings.length + fieldFindingCount(outcome.result))} findings before grouping.` : "Field comparison incomplete. Check coverage below; this report cannot establish a clean result.", !fieldsComplete);
   } catch (error) {
     if (!controller.signal.aborted && state.comparison === controller) status(`Comparison failed: ${errorText(error)} Correct the inputs or try comparing again.`, true);
   } finally {
@@ -425,6 +435,7 @@ function rows(result: DiffResult): Row[] {
   const blocks = (kind: Block["kind"]) =>
     result.blocks.flatMap((block, index) => (block.kind === kind ? [{ at: block.first_line_no, row: { filter: kind, render: () => blockHtml(block, index, result) } as Row }] : []));
   return [
+    ...(result.watched_fields ?? []).flatMap((field) => field.values.filter((v) => v.is_new === true).map((value): Row => ({ filter: "field", render: () => fieldFindingHtml(field, value) }))),
     ...inLineOrder([...blocks("new"), ...alone("new").map((f) => ({ at: f.first_target_line_no ?? Infinity, row: single(f) }))]),
     // A new value on a line inside a block is shown as part of that block.
     ...result.value_findings.filter((v) => v.block === undefined).map((v): Row => ({ filter: "value", render: () => valueFindingHtml(v) })),
@@ -459,9 +470,10 @@ function renderResults(): void {
   const all = rows(result);
   const count = (f: Filter) => (f === "all" ? all : all.filter((r) => r.filter === f)).length;
   const total = count("all");
-  const ungrouped = result.findings.length + result.value_findings.length;
+  const ungrouped = result.findings.length + result.value_findings.length + fieldFindingCount(result);
+  const fieldsComplete = (result.watched_fields ?? []).every((f) => f.complete);
   const baselineLines = result.baseline_totals.reduce((a, b) => a + b, 0);
-  const filters: [Filter, string][] = [["all", "All"], ["new", "New"], ["gone", "Gone"], ["changed", "Changed"], ["value", "New value"]];
+  const filters: [Filter, string][] = [["all", "All"], ["field", "Field value"], ["new", "New"], ["gone", "Gone"], ["changed", "Changed"], ["value", "New value"]];
   const visible = state.filter === "all" ? all : all.filter((r) => r.filter === state.filter);
   const pageSize = 50;
   state.page = Math.min(state.page, Math.max(0, Math.ceil(visible.length / pageSize) - 1));
@@ -487,11 +499,14 @@ function renderResults(): void {
       </table>
       ${report.sources.omitted_baselines.length ? `<p>Unused baseline editors omitted: ${report.sources.omitted_baselines.join(", ")}. Empty imported logs are included.</p>` : ""}
       <p>Context: ${report.request.context} lines. Extra masks: ${report.request.masks.length}.</p>
+      ${report.request.watch_fields?.length ? `<p>Watched JSON fields, before masks: ${report.request.watch_fields.map((p) => `<code>${esc(printable(p))}</code>`).join(", ")}.</p>` : ""}
       ${report.request.masks.length ? `<pre>${esc(report.request.masks.map(printable).join("\n"))}</pre>` : ""}
       <p>The report includes these source names, settings and all findings. Both downloads include original log excerpts; full input logs are not bundled.</p>
     </details>
+    ${!fieldsComplete ? '<p class="field-incomplete" role="note">Field comparison incomplete. At least one watch could not be evaluated fully. Review its coverage below; zero findings would not establish a clean result.</p>' : ""}
+    ${watchedFieldsHtml(result.watched_fields ?? [])}
     ${total === 0
-      ? `<p class="notice">No findings under these settings. Only template, frequency and established-value changes are reported; this does not prove the logs are identical.</p>`
+      ? fieldsComplete ? `<p class="notice">No findings under these settings. Only template, frequency, established-value and selected field changes are reported; this does not prove the logs are identical.</p>` : ""
       : `<div class="filters" role="group" aria-label="Show findings">${filters.filter(([f]) => f === "all" || count(f) > 0).map(([f, label]) => `<button type="button" class="filter filter-${f}" aria-pressed="${state.filter === f}" data-filter="${f}">${label} <span>${count(f)}</span></button>`).join("")}</div>
         ${visible.length > pageSize ? `<nav class="finding-pages" aria-label="Finding pages"><span id="findings-page" tabindex="-1">Showing ${start + 1}–${end} of ${formatCount(visible.length)} findings</span><button type="button" class="link-button" data-page="previous" ${state.page === 0 ? "disabled" : ""}>Previous</button><button type="button" class="link-button" data-page="next" ${end === visible.length ? "disabled" : ""}>Next</button></nav>` : ""}
         <ol class="printout" start="${start + 1}">${visible.slice(start, end).map((r) => r.render()).join("")}</ol>`}`;
@@ -520,6 +535,61 @@ function renderResults(): void {
   });
   $("download-json").addEventListener("click", () => download(result, "logdelta-diff.json"));
   $("download-report").addEventListener("click", () => download(exportReport(report), "logdelta-report.json"));
+}
+
+function fieldFindingCount(result: DiffResult): number {
+  return (result.watched_fields ?? []).reduce((n, f) => n + f.values.filter((v) => v.is_new === true).length, 0);
+}
+
+function fieldFindingHtml(field: WatchedField, value: FieldValue): string {
+  const at = value.first_target;
+  const known = field.values.filter((v) => v.baseline_counts.some((n) => n > 0));
+  return `<li class="finding kind-field">
+    <div class="finding-head"><span class="kind">Field value</span><span class="counts"><code>${esc(printable(field.pointer))}</code> has a value never seen in the baselines</span></div>
+    <p class="field-change"><code class="new-value">${esc(printable(value.value_json))}</code> <span>${formatCount(value.target_count)} in the target</span></p>
+    <p class="field-known">Baseline values: ${known.map((v) => `<code>${esc(printable(v.value_json))}</code>`).join(", ")}. Compared before masking.</p>
+    ${at ? contextHtml(at.line_no, at.raw, value.context) : ""}
+    ${at?.truncated ? '<p class="notice">Source excerpt clipped at 4 KiB. The compared value is complete; open the original log at this line for the full record.</p>' : ""}
+  </li>`;
+}
+
+function coverageHtml(coverage: FieldCoverage): string {
+  return [
+    `${formatCount(coverage.matched)} matched`,
+    `${formatCount(coverage.missing)} absent`,
+    `${formatCount(coverage.non_json)} non-JSON`,
+    ...([[coverage.invalid_json, "invalid JSON"], [coverage.non_scalar, "non-scalar"], [coverage.ambiguous, "ambiguous"], [coverage.oversized_records, "oversized"], [coverage.untracked, "untracked"]] as const)
+      .filter(([n]) => n > 0).map(([n, label]) => `${formatCount(n)} ${label}`),
+  ].join("; ");
+}
+
+function watchedFieldsHtml(fields: WatchedField[]): string {
+  if (!fields.length) return "";
+  return `<section class="watched-fields" aria-label="Watched field evidence">
+    <h3>Watched fields</h3>
+    <p>Exact scalar values, pooled across all JSON records in each run. A new value is an observation, not proof of a failure. Types and number spelling are preserved; masks do not redact this evidence.</p>
+    ${fields.map((field, index) => {
+      const labels = field.baselines.map((_, i) => state.report?.sources.baselines[i]?.label ?? `Baseline ${i + 1}`);
+      const coverage = [...field.baselines, field.target];
+      return `<details class="field-evidence" data-field-details="${index}" ${!field.complete || state.fieldDetails.has(field.pointer) ? "open" : ""}>
+        <summary><code>${esc(printable(field.pointer))}</code> <span>${field.complete ? `${field.values.filter((v) => v.is_new === true).length} new ${field.values.filter((v) => v.is_new === true).length === 1 ? "value" : "values"}` : "Incomplete"}</span></summary>
+        ${!field.complete ? '<p class="field-incomplete">This watch needs a scalar value in every run and no invalid, ambiguous, non-scalar or untracked records. Novelty is unknown. Check the path and coverage, or narrow your input.</p>' : ""}
+        <div class="field-table-scroll" tabindex="0" role="group" aria-label="Field value counts for ${esc(field.pointer)}">
+          <table class="field-values"><caption>Value counts for <code>${esc(printable(field.pointer))}</code></caption>
+            <thead><tr><th scope="col">Value (JSON)</th>${labels.map((label) => `<th scope="col">${label}</th>`).join("")}<th scope="col">Target</th><th scope="col">Observation</th></tr></thead>
+            <tbody>${field.values.map((v) => `<tr class="${v.is_new === true ? "field-new" : ""}"><th scope="row"><code>${esc(printable(v.value_json))}</code></th>${v.baseline_counts.map((n) => `<td>${formatCount(n)}</td>`).join("")}<td>${formatCount(v.target_count)}</td><td>${v.is_new === true ? "New value" : v.is_new === null ? "Unknown" : "Seen in baseline"}</td></tr>`).join("")}</tbody>
+          </table>
+        </div>
+        <p class="field-scroll-hint">Scroll the value table horizontally to see every run and observation.</p>
+        <table class="field-coverage"><caption>Coverage of all input lines</caption><thead><tr><th scope="col">Run</th><th scope="col">Records</th></tr></thead><tbody>
+          ${coverage.map((c, i) => `<tr><th scope="row">${labels[i] ?? "Target"}</th><td>${coverageHtml(c)}</td></tr>`).join("")}
+        </tbody></table>
+        ${coverage.flatMap((c, i) => c.first_problem ? [`<p class="field-problem">First problem in ${labels[i] ?? "Target"}, line ${formatCount(c.first_problem.line_no)}${c.first_problem.truncated ? " (excerpt clipped)" : ""}:</p>${contextHtml(c.first_problem.line_no, c.first_problem.raw, undefined)}`] : []).join("")}
+        <details class="field-sources"><summary>First source occurrence of each value</summary>${field.values.map((v) => `<p><code>${esc(printable(v.value_json))}</code></p>${[v.first_baseline, v.first_target].flatMap((at) => at ? [`<p>${at.baseline_index === undefined ? "Target" : labels[at.baseline_index]}, line ${formatCount(at.line_no)}${at.truncated ? " (excerpt clipped)" : ""}</p>${contextHtml(at.line_no, at.raw, undefined)}`] : []).join("")}`).join("")}</details>
+        <p class="field-limits">Limits per field: 64 distinct values and 4 KiB per value. Records over 1 MiB are unassessed. Absent fields and non-JSON lines are counted separately; null is a value.</p>
+      </details>`;
+    }).join("")}
+  </section>`;
 }
 
 function templateHtml(template: string, emphasizeToken?: number): string {
@@ -670,6 +740,13 @@ wireEditors();
 $("report-content").addEventListener("toggle", (event) => {
   const details = event.target as HTMLDetailsElement;
   if (details.id === "source-details") state.sourceDetails = details.open;
+  if (details.dataset["fieldDetails"] !== undefined) {
+    const field = state.report?.outcome.result.watched_fields?.[Number(details.dataset["fieldDetails"])];
+    if (field) {
+      if (details.open) state.fieldDetails.add(field.pointer);
+      else state.fieldDetails.delete(field.pointer);
+    }
+  }
   if (details.dataset["blockDetails"] !== undefined) {
     const index = Number(details.dataset["blockDetails"]);
     if (state.details.has(index) === details.open) return;

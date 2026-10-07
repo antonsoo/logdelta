@@ -28,6 +28,16 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Explicit JSON field watches in the CLI (`--watch-field`) and browser catch exact
+  status/exit-code changes before masking. Reports include typed values, per-run
+  counts, first source occurrences and coverage; incomplete watches exit 2.
+  Tracking is bounded, duplicate path members are ambiguous, and large numbers
+  remain exact in browser downloads. The library's `DiffOptions` gains
+  `watch_fields`; `DiffResult` gains `watched_fields` and `complete()`.
+- A reproducible loopback HTTP experiment checks actual responses and process
+  exits against emitted log records. Its two good runs and injected-fault run
+  demonstrate a regression that the default template comparison cannot detect.
+
 - A real-compiler verification matrix covers identical builds from separate checkout
   paths, target-directory selection, Cargo flag precedence, compiler wrappers and
   preservation of the last valid staged engine after build failures.

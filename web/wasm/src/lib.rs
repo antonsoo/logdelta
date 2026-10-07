@@ -31,6 +31,8 @@ struct DiffRequest {
     context: usize,
     #[serde(default)]
     masks: Vec<String>,
+    #[serde(default)]
+    watch_fields: Vec<String>,
     threshold: Option<f64>,
     significance: Option<f64>,
 }
@@ -66,6 +68,7 @@ fn diff(request: &[u8]) -> Result<String, String> {
         threshold: req.threshold.unwrap_or(DEFAULT_SIMILARITY_THRESHOLD),
         significance: req.significance.unwrap_or(DEFAULT_SIGNIFICANCE),
         group: true,
+        watch_fields: req.watch_fields,
     };
     let baselines: Vec<_> = req.baselines.iter().map(|b| lines(b)).collect();
     let mut result =

@@ -32,7 +32,7 @@ export interface CompletedComparison extends ComparisonInput {
 }
 
 /** Capture text and metadata together, before crossing any asynchronous boundary. */
-export function comparisonInput(baselines: readonly LogInput[], target: LogInput, context: string, masks: string): ComparisonInput {
+export function comparisonInput(baselines: readonly LogInput[], target: LogInput, context: string, masks: string, watches = ""): ComparisonInput {
   if (baselines.length > MAX_BASELINES) throw new Error("The browser supports up to 8 baselines. Use the CLI for more runs.");
   if (!baselines.some((b) => b.ready) || !target.ready) throw new Error("Add at least one baseline and a target log. To compare an empty log, open an empty file or choose Use empty log.");
   const n = Number(context);
@@ -58,7 +58,20 @@ export function comparisonInput(baselines: readonly LogInput[], target: LogInput
   });
   const extraMasks = masks.split("\n").map((m) => m.trim()).filter(Boolean);
   if (extraMasks.length > 100 || textBytes(masks) > 64 * 1024) throw new Error("Use at most 100 extra masks and 64 KiB of mask text in the browser.");
-  return { request: { baselines: texts, target: target.text, context: n, masks: extraMasks }, sources };
+  const watchFields = parseWatches(watches);
+  return { request: { baselines: texts, target: target.text, context: n, masks: extraMasks, ...(watchFields.length ? { watch_fields: watchFields } : {}) }, sources };
+}
+
+export function parseWatches(text: string): string[] {
+  const pointers = text.split(/\r?\n/).filter((p) => p.trim() !== "");
+  if (pointers.length > 16) throw new Error("Watch at most 16 JSON fields.");
+  if (new Set(pointers).size !== pointers.length) throw new Error("Each watched JSON field must appear only once.");
+  for (const pointer of pointers) {
+    if (!pointer.startsWith("/") || textBytes(pointer) > 1024 || /~(?![01])/.test(pointer)) {
+      throw new Error("Watched fields need JSON Pointers such as /http/status, at most 1 KiB each. Escape ~ as ~0 and / within a key as ~1.");
+    }
+  }
+  return pointers;
 }
 
 /** A portable report, without full input logs. The findings themselves contain log excerpts. */
@@ -68,7 +81,7 @@ export function exportReport(report: CompletedComparison) {
     schema_version: 1,
     engine: { name: "logdelta", version, wasm_sha256: report.outcome.engineSha256 },
     completed_at: report.completedAt,
-    settings: { context: report.request.context, masks: [...report.request.masks] },
+    settings: { context: report.request.context, masks: [...report.request.masks], watch_fields: [...(report.request.watch_fields ?? [])] },
     sources: report.sources,
     result: report.outcome.result,
   };

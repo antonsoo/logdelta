@@ -337,7 +337,14 @@ pub fn write_diff<W: Write>(
         plural(n_findings as u64),
     )?;
 
-    if n_findings == 0 {
+    super::fields::human(out, &result.watched_fields, content_width)?;
+    if !result.complete() {
+        writeln!(
+            out,
+            "\nField comparison incomplete. This report cannot establish a clean result."
+        )?;
+    }
+    if n_findings == 0 && result.complete() {
         writeln!(out, "\nNo significant differences found.")?;
         return Ok(());
     }

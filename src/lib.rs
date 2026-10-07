@@ -49,6 +49,7 @@ pub mod analysis;
 pub mod blocks;
 pub mod context;
 pub mod drain;
+pub mod fields;
 pub mod io;
 pub mod mask;
 pub mod output;

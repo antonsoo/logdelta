@@ -10,6 +10,7 @@ use serde::Serialize;
 use crate::blocks::{gone_blocks, Block, Extent, NewRuns, ProtoBlock};
 use crate::context::ContextWindow;
 use crate::drain::{Cluster, Drain, DEFAULT_SIMILARITY_THRESHOLD};
+use crate::fields::{FieldTracker, WatchedField};
 use crate::io::read_lines;
 use crate::mask::{tokenize_line, CustomMask};
 use crate::scoring::{count_g_test, score_template, DEFAULT_SIGNIFICANCE};
@@ -129,6 +130,9 @@ pub struct DiffResult {
     /// [`DiffOptions::group`] is off.
     pub blocks: Vec<Block>,
     pub value_findings: Vec<ValueFinding>,
+    /// Explicit JSON scalar comparisons before masking. Absent unless fields were watched.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub watched_fields: Vec<WatchedField>,
 }
 
 impl DiffResult {
@@ -142,6 +146,17 @@ impl DiffResult {
         for v in &mut self.value_findings {
             v.context = ctx.get(&v.first_target_line_no).cloned();
         }
+        for field in &mut self.watched_fields {
+            for value in &mut field.values {
+                if value.is_new == Some(true) {
+                    value.context = value
+                        .first_target
+                        .as_ref()
+                        .and_then(|at| ctx.get(&at.line_no))
+                        .cloned();
+                }
+            }
+        }
     }
 
     /// Every first-target-line-number a report shows context around, for a single
@@ -153,6 +168,12 @@ impl DiffResult {
             .filter(|f| f.block.is_none())
             .filter_map(|f| f.first_target_line_no)
             .chain(self.ungrouped_values().map(|v| v.first_target_line_no))
+            .chain(
+                self.watched_fields
+                    .iter()
+                    .flat_map(|f| f.new_values())
+                    .filter_map(|v| v.first_target.as_ref().map(|at| at.line_no)),
+            )
             .collect()
     }
 
@@ -169,13 +190,28 @@ impl DiffResult {
     /// How many things a report has to show: blocks, and the findings and new values outside
     /// any block. Equal to the number of findings when nothing was grouped.
     pub fn report_count(&self) -> usize {
-        self.blocks.len() + self.ungrouped_findings().count() + self.ungrouped_values().count()
+        self.blocks.len()
+            + self.ungrouped_findings().count()
+            + self.ungrouped_values().count()
+            + self.field_finding_count()
     }
 
     /// How many findings there are before grouping: one per template that differs, and one
     /// per new value.
     pub fn finding_count(&self) -> usize {
-        self.findings.len() + self.value_findings.len()
+        self.findings.len() + self.value_findings.len() + self.field_finding_count()
+    }
+
+    pub fn field_finding_count(&self) -> usize {
+        self.watched_fields
+            .iter()
+            .map(|f| f.new_values().count())
+            .sum()
+    }
+
+    /// An incomplete field watch must not pass a CI gate, even with no findings.
+    pub fn complete(&self) -> bool {
+        self.watched_fields.iter().all(|field| field.complete)
     }
 }
 
@@ -184,6 +220,8 @@ pub struct DiffOptions {
     pub significance: f64,
     /// Group findings whose lines sit together into [`Block`]s (on by default).
     pub group: bool,
+    /// JSON Pointers selecting scalar values to compare exactly, before masking.
+    pub watch_fields: Vec<String>,
 }
 
 impl Default for DiffOptions {
@@ -192,6 +230,7 @@ impl Default for DiffOptions {
             threshold: DEFAULT_SIMILARITY_THRESHOLD,
             significance: DEFAULT_SIGNIFICANCE,
             group: true,
+            watch_fields: Vec::new(),
         }
     }
 }
@@ -225,6 +264,7 @@ where
     T: Iterator<Item = io::Result<String>>,
 {
     let n_baselines = baselines.len();
+    let mut fields = FieldTracker::new(&opts.watch_fields, n_baselines)?;
     let mut drain = Drain::new(opts.threshold);
     let mut tracker = ValueTracker::with_baselines(n_baselines);
 
@@ -241,6 +281,7 @@ where
         for line in lines {
             let line = line?;
             total += 1;
+            fields.record(Some(baseline_idx), total as usize, &line);
             let tokens = tokenize_line(&line, custom);
             let cid = drain.add_token_slice(&tokens, total as usize, &line);
             tracker.record_baseline(baseline_idx, cid, total as usize, &line, &tokens);
@@ -262,6 +303,7 @@ where
     for line in target {
         let line = line?;
         target_total += 1;
+        fields.record(None, target_total as usize, &line);
         let tokens = tokenize_line(&line, custom);
         let cid = drain.add_token_slice(&tokens, target_total as usize, &line);
         tracker.record_target(cid, target_total as usize, &line, &tokens);
@@ -499,6 +541,7 @@ where
         findings,
         blocks,
         value_findings,
+        watched_fields: fields.finish(),
     })
 }
 

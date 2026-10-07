@@ -204,7 +204,7 @@ fn strip_leading_timestamp(s: &str) -> Option<String> {
 /// Recognizes CRI/containerd and journald/syslog headers, or else a bare leading timestamp,
 /// and strips it, returning any literal token worth keeping (e.g. the stream name) plus the
 /// remaining payload. A no-op (empty prefix, `s` returned unchanged) if nothing matches.
-fn strip_structural_prefix(s: &str) -> (Vec<String>, String) {
+pub(crate) fn strip_structural_prefix(s: &str) -> (Vec<String>, String) {
     if let Some(caps) = CRI_PREFIX.captures(s) {
         return (vec![caps[1].to_string()], caps[2].to_string());
     }

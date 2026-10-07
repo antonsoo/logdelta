@@ -24,6 +24,13 @@ function setup() {
 }
 
 describe("diff worker ownership", () => {
+  it("rejects an engine reply that silently omits a requested watch", async () => {
+    const { engine, workers } = setup();
+    const pending = engine.run({ ...request, watch_fields: ["/status"] }, new AbortController().signal);
+    workers[0]!.reply();
+    await expect(pending).rejects.toThrow("requested field evidence");
+    expect(workers[0]!.terminate).toHaveBeenCalledOnce();
+  });
   it("reuses a healthy worker and removes completed jobs' abort listeners", async () => {
     const { workers, run, factory } = setup();
     const firstController = new AbortController();

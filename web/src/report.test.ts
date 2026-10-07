@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { comparisonInput, exportReport, type CompletedComparison, type LogInput } from "./report";
+import { comparisonInput, exportReport, parseWatches, type CompletedComparison, type LogInput } from "./report";
 import { MAX_LOG_BYTES } from "./files";
 
 const log = (text = "one\r\ntwo\n", name = "run.log"): LogInput => ({ text, name, origin: "file", ready: true });
@@ -7,6 +7,13 @@ const unused = (): LogInput => ({ text: "", name: "No log loaded", origin: "past
 const capture = (baselines = [log()], target = log(), context = "2", masks = "") => comparisonInput(baselines, target, context, masks);
 
 describe("comparison evidence", () => {
+  it("captures exact field selectors without trimming meaningful key whitespace", () => {
+    const input = comparisonInput([log()], log(), "2", "", "/status \n\n/a~1b/~01/0");
+    expect(input.request.watch_fields).toEqual(["/status ", "/a~1b/~01/0"]);
+    for (const value of ["status", "/status\n/status", "/a~2b", "/a~", "/".repeat(1025), Array.from({ length: 17 }, (_, i) => `/field${i}`).join("\n")]) {
+      expect(() => parseWatches(value)).toThrow();
+    }
+  });
   it("captures source names, order and text independently of later edits", () => {
     const first = log("baseline\n", "first.log");
     const target = log("target\r\n", "target.log");
