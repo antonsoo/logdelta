@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readFile } from "node:fs/promises";
+import { TextEncoder } from "node:util";
 
 async function ready(page) {
   await page.goto("./");
@@ -135,6 +136,20 @@ test("cardinality overflow retains bounded evidence and incomplete coverage", as
   const field = (await report(page)).result.watched_fields[0];
   expect(field.target).toMatchObject({ matched: 100, untracked: 36, first_problem: { line_no: 65 } });
   expect(field.values.every((v) => v.is_new === null)).toBe(true);
+});
+
+test("large surrounding records have bounded context and visible clipping in the actual report", async ({ page }) => {
+  await ready(page);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  const line = (v) => JSON.stringify({ v, padding: "x".repeat(12000) });
+  await page.locator("#baseline").fill(line(0));
+  await page.locator("#target").fill([line(0), line(1), line(0)].join("\n"));
+  await page.locator("#watch-fields").fill("/v");
+  await run(page);
+  await expect(page.locator(".kind-field")).toContainText("Surrounding context clipped");
+  const value = (await report(page)).result.watched_fields[0].values.find((v) => v.is_new);
+  expect(value).toMatchObject({ value_json: "1", context_truncated: true, first_target: { line_no: 2 } });
+  expect([...value.context.before, ...value.context.after].reduce((bytes, row) => bytes + new TextEncoder().encode(row[1]).length, 0)).toBeLessThanOrEqual(8192);
 });
 
 test("editing a watch cancels a held real WASM reply and preserves the previous report", async ({ page }) => {

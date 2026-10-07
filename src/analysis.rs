@@ -149,11 +149,13 @@ impl DiffResult {
         for field in &mut self.watched_fields {
             for value in &mut field.values {
                 if value.is_new == Some(true) {
-                    value.context = value
+                    if let Some(context) = value
                         .first_target
                         .as_ref()
                         .and_then(|at| ctx.get(&at.line_no))
-                        .cloned();
+                    {
+                        value.attach_context(context);
+                    }
                 }
             }
         }

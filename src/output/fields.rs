@@ -133,6 +133,13 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
                         for (no, line) in &ctx.after {
                             terminal_line(out, &format!("    {no:>6} | {line}"), width)?;
                         }
+                        if value.context_truncated {
+                            terminal_line(
+                                out,
+                                "    Context clipped; open the original log for more.",
+                                width,
+                            )?;
+                        }
                     }
                 }
             }

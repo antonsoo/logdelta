@@ -223,6 +223,42 @@ fn envelopes_and_custom_masks_do_not_destroy_exact_observations() {
 }
 
 #[test]
+fn large_field_context_is_bounded_and_clipping_is_visible_without_changing_values() {
+    let line = |v| json!({"v":v,"padding":"界".repeat(3000)}).to_string();
+    let baseline = line(0);
+    let target = format!("{}\n{}\n{}", line(0), line(1), line(0));
+    let (code, text) = diff(&[&baseline], &target, &["/v"], &["--json", "-C", "2"]);
+    assert_eq!(code, 1);
+    let report: Value = serde_json::from_str(&text).unwrap();
+    let value = &report["watched_fields"][0]["values"][1];
+    assert_eq!(value["value_json"], "1");
+    assert_eq!(value["is_new"], true);
+    assert_eq!(value["first_target"]["line_no"], 2);
+    assert_eq!(value["context_truncated"], true);
+    let context = &value["context"];
+    assert_eq!(context["before"][0][0], 1);
+    assert_eq!(context["after"][0][0], 3);
+    let bytes: usize = ["before", "after"]
+        .iter()
+        .flat_map(|side| context[side].as_array().unwrap())
+        .map(|row| row[1].as_str().unwrap().len())
+        .sum();
+    assert!(bytes <= 8192);
+    let target = (0..31)
+        .map(|i| format!("{{\"v\":{}}}", u8::from(i == 15)))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let (_, text) = diff(&["{\"v\":0}"], &target, &["/v"], &["--json", "-C", "20"]);
+    let report: Value = serde_json::from_str(&text).unwrap();
+    let value = &report["watched_fields"][0]["values"][1];
+    assert_eq!(value["context_truncated"], true);
+    assert_eq!(value["context"]["before"].as_array().unwrap().len(), 10);
+    assert_eq!(value["context"]["before"][0], json!([6, "{\"v\":0}"]));
+    assert_eq!(value["context"]["after"].as_array().unwrap().len(), 10);
+    assert_eq!(value["context"]["after"][0], json!([17, "{\"v\":0}"]));
+}
+
+#[test]
 fn invalid_duplicate_and_excessive_selectors_fail_before_reporting() {
     for pointers in [
         vec![""],

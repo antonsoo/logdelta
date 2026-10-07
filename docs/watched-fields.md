@@ -65,6 +65,8 @@ so `"a"` and `"\u0061"` compare equal. Types and **number spelling** are retaine
 `200`, `200.0`, `2e2` and `"200"` are four distinct watched values. Large integers
 and exponents never pass through floating-point conversion. This is deliberate
 exact comparison, not numeric tolerance or a latency-regression detector.
+It compares the text supplied by the existing log decoder, including that
+decoder's replacement of malformed encoding.
 
 ## Coverage and limits
 
@@ -85,6 +87,7 @@ observation. This accommodates mixed event types in one file.
 | Encoded scalar larger than 4 KiB | Incomplete; counted as untracked |
 | Input line larger than 1 MiB | Incomplete; counted as oversized |
 | Raw source excerpt larger than 4 KiB | Excerpt clipped at a UTF-8 boundary and labelled; selected value remains complete |
+| Watched-value context exceeds 8 KiB total or 10 lines per side | Keep nearest lines first, at most 4 KiB per line; label the clipped context |
 
 For incomplete watches, counts and retained source records remain visible, but
 `is_new` is `null`. An incomplete baseline cannot prove a value was never seen.
@@ -106,7 +109,8 @@ over findings when choosing the exit status:
 CLI `--json` adds `watched_fields` only when a watch was requested. Each field
 contains `pointer`, `complete`, per-run coverage and `values`. Each value has
 per-baseline counts, a target count, `is_new`, first baseline/target occurrences,
-and optional target context from `-C`. `value_json` is **a string containing a
+and optional bounded target context from `-C` (`context_truncated: true` when
+clipped). `value_json` is **a string containing a
 JSON scalar**, so JavaScript consumers do not round a large number. Do not parse
 it into a JavaScript `Number` if exactness matters. All counts are occurrence
 counts, not independent trials or probabilities.

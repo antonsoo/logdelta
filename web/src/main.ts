@@ -549,6 +549,7 @@ function fieldFindingHtml(field: WatchedField, value: FieldValue): string {
     <p class="field-change"><code class="new-value">${esc(printable(value.value_json))}</code> <span>${formatCount(value.target_count)} in the target</span></p>
     <p class="field-known">Baseline values: ${known.map((v) => `<code>${esc(printable(v.value_json))}</code>`).join(", ")}. Compared before masking.</p>
     ${at ? contextHtml(at.line_no, at.raw, value.context) : ""}
+    ${value.context_truncated ? '<p class="notice">Surrounding context clipped: up to 8 KiB and 10 lines per side, nearest lines first. Open the original log for more.</p>' : ""}
     ${at?.truncated ? '<p class="notice">Source excerpt clipped at 4 KiB. The compared value is complete; open the original log at this line for the full record.</p>' : ""}
   </li>`;
 }

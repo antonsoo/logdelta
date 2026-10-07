@@ -7,6 +7,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Watched-field context has an 8 KiB window budget with explicit clipping labels,
+  keeping large adjacent records from being copied in full for every new value.
+
 - The web lockfile now uses source-map-js 1.2.2, fixing the indexed source-map
   offset denial of service in the build dependency (CVE-2026-93749).
 

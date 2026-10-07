@@ -19,6 +19,20 @@ pub const MAX_POINTER_BYTES: usize = 1024;
 pub const MAX_VALUE_BYTES: usize = 4096;
 pub const MAX_RECORD_BYTES: usize = 1024 * 1024;
 pub const MAX_EXCERPT_BYTES: usize = 4096;
+pub const MAX_CONTEXT_BYTES: usize = 8192;
+pub const MAX_CONTEXT_LINES_PER_SIDE: usize = 10;
+
+fn excerpt_end(raw: &str, limit: usize) -> usize {
+    let mut end = raw.len().min(limit);
+    while !raw.is_char_boundary(end) {
+        end -= 1;
+    }
+    end
+}
+
+fn is_false(value: &bool) -> bool {
+    !value
+}
 
 /// A source location. Excerpts can be clipped; the value itself is never clipped.
 #[derive(Serialize)]
@@ -33,10 +47,7 @@ pub struct FieldOccurrence {
 
 impl FieldOccurrence {
     fn new(baseline_index: Option<usize>, line_no: usize, raw: &str) -> Self {
-        let mut end = raw.len().min(MAX_EXCERPT_BYTES);
-        while !raw.is_char_boundary(end) {
-            end -= 1;
-        }
+        let end = excerpt_end(raw, MAX_EXCERPT_BYTES);
         Self {
             baseline_index,
             line_no,
@@ -87,6 +98,38 @@ pub struct FieldValue {
     pub first_target: Option<FieldOccurrence>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context: Option<ContextWindow>,
+    #[serde(skip_serializing_if = "is_false")]
+    pub context_truncated: bool,
+}
+
+impl FieldValue {
+    /// Many watched fields can refer to the same large source line. Bound each attached
+    /// window as well as the ledger, and retain the closest lines on both sides first.
+    pub(crate) fn attach_context(&mut self, source: &ContextWindow) {
+        let mut context = ContextWindow {
+            before: Vec::new(),
+            after: Vec::new(),
+        };
+        let mut remaining = MAX_CONTEXT_BYTES;
+        self.context_truncated = source.before.len() > MAX_CONTEXT_LINES_PER_SIDE
+            || source.after.len() > MAX_CONTEXT_LINES_PER_SIDE;
+        for distance in 0..MAX_CONTEXT_LINES_PER_SIDE {
+            let before = source.before.iter().rev().nth(distance);
+            let after = source.after.get(distance);
+            for (line, output) in [(before, &mut context.before), (after, &mut context.after)] {
+                if let Some((no, raw)) = line {
+                    let end = excerpt_end(raw, MAX_EXCERPT_BYTES.min(remaining));
+                    self.context_truncated |= end < raw.len();
+                    if end > 0 || raw.is_empty() {
+                        output.push((*no, raw[..end].to_string()));
+                        remaining -= end;
+                    }
+                }
+            }
+        }
+        context.before.reverse();
+        self.context = Some(context);
+    }
 }
 
 #[derive(Serialize)]
@@ -214,6 +257,7 @@ impl FieldTracker {
                             first_baseline: None,
                             first_target: None,
                             context: None,
+                            context_truncated: false,
                         });
                     if let Some(index) = baseline {
                         entry.baseline_counts[index] += 1;

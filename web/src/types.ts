@@ -94,6 +94,7 @@ export interface FieldValue {
   first_baseline?: FieldOccurrence;
   first_target?: FieldOccurrence;
   context?: ContextWindow;
+  context_truncated?: boolean;
 }
 
 export interface WatchedField {
