@@ -7,6 +7,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- The web lockfile now uses source-map-js 1.2.2, fixing the indexed source-map
+  offset denial of service in the build dependency (CVE-2026-93749).
+
 - Browser builds stage Cargo's actual WASM artifact, including with custom target
   directories, and retain the previous staged engine when compilation, metadata or
   artifact selection fails. Rebuilds remove local source paths and stabilize Cargo's
