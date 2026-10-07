@@ -1,0 +1,158 @@
+{
+  "baseline_totals": [
+    22,
+    22
+  ],
+  "target_total": 22,
+  "total_templates": 3,
+  "findings": [],
+  "blocks": [],
+  "value_findings": [],
+  "watched_fields": [
+    {
+      "pointer": "/http/status",
+      "complete": true,
+      "baselines": [
+        {
+          "lines": 22,
+          "matched": 20,
+          "missing": 1,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        {
+          "lines": 22,
+          "matched": 20,
+          "missing": 1,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        }
+      ],
+      "target": {
+        "lines": 22,
+        "matched": 20,
+        "missing": 1,
+        "non_json": 1,
+        "invalid_json": 0,
+        "non_scalar": 0,
+        "ambiguous": 0,
+        "oversized_records": 0,
+        "untracked": 0
+      },
+      "values": [
+        {
+          "value_json": "200",
+          "baseline_counts": [
+            20,
+            20
+          ],
+          "target_count": 18,
+          "is_new": false,
+          "first_baseline": {
+            "baseline_index": 0,
+            "line_no": 2,
+            "raw": "{\"ts\":\"2026-10-07T17:39:41.142387+00:00\",\"event\":\"request_complete\",\"route\":\"/checkout\",\"http\":{\"status\":200},\"elapsed_ms\":0.272,\"request_id\":9007199254740993}",
+            "truncated": false
+          },
+          "first_target": {
+            "line_no": 2,
+            "raw": "{\"ts\":\"2026-10-07T17:39:41.476933+00:00\",\"event\":\"request_complete\",\"route\":\"/checkout\",\"http\":{\"status\":200},\"elapsed_ms\":0.124,\"request_id\":9007199254740993}",
+            "truncated": false
+          }
+        },
+        {
+          "value_json": "503",
+          "baseline_counts": [
+            0,
+            0
+          ],
+          "target_count": 2,
+          "is_new": true,
+          "first_target": {
+            "line_no": 8,
+            "raw": "{\"ts\":\"2026-10-07T17:39:41.491767+00:00\",\"event\":\"request_complete\",\"route\":\"/checkout\",\"http\":{\"status\":503},\"elapsed_ms\":0.05,\"request_id\":9007199254740999}",
+            "truncated": false
+          }
+        }
+      ]
+    },
+    {
+      "pointer": "/exit_code",
+      "complete": true,
+      "baselines": [
+        {
+          "lines": 22,
+          "matched": 1,
+          "missing": 20,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        {
+          "lines": 22,
+          "matched": 1,
+          "missing": 20,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        }
+      ],
+      "target": {
+        "lines": 22,
+        "matched": 1,
+        "missing": 20,
+        "non_json": 1,
+        "invalid_json": 0,
+        "non_scalar": 0,
+        "ambiguous": 0,
+        "oversized_records": 0,
+        "untracked": 0
+      },
+      "values": [
+        {
+          "value_json": "0",
+          "baseline_counts": [
+            1,
+            1
+          ],
+          "target_count": 0,
+          "is_new": false,
+          "first_baseline": {
+            "baseline_index": 0,
+            "line_no": 22,
+            "raw": "{\"event\":\"worker_exit\",\"exit_code\":0}",
+            "truncated": false
+          }
+        },
+        {
+          "value_json": "1",
+          "baseline_counts": [
+            0,
+            0
+          ],
+          "target_count": 1,
+          "is_new": true,
+          "first_target": {
+            "line_no": 22,
+            "raw": "{\"event\":\"worker_exit\",\"exit_code\":1}",
+            "truncated": false
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "description": "Single local measurements on controlled fixed-template JSON logs, one baseline and one target; not a general throughput benchmark.",
+  "measurements": [
+    {
+      "lines_per_run": 10000,
+      "total_lines": 20000,
+      "elapsed_seconds": 0.08,
+      "max_rss_kib": 7684,
+      "retained_values": 2,
+      "new_value": "503",
+      "first_target_line": 10000
+    },
+    {
+      "lines_per_run": 100000,
+      "total_lines": 200000,
+      "elapsed_seconds": 0.81,
+      "max_rss_kib": 7764,
+      "retained_values": 2,
+      "new_value": "503",
+      "first_target_line": 100000
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "browser": "chromium",
+    "source_commit": "74ab08fe3ca186adc0d6be641690c877541df5a6",
+    "native_json_equal": true,
+    "executed_wasm_sha256": "e0ee77d72fde9b3b387679255eeee268e849ac1afd4364ea68883f2faf3340c7",
+    "narrow_without_page_overflow": true
+  },
+  {
+    "browser": "firefox",
+    "source_commit": "74ab08fe3ca186adc0d6be641690c877541df5a6",
+    "native_json_equal": true,
+    "executed_wasm_sha256": "e0ee77d72fde9b3b387679255eeee268e849ac1afd4364ea68883f2faf3340c7",
+    "narrow_without_page_overflow": true
+  }
+]

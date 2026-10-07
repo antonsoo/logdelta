@@ -1,0 +1,14 @@
+{
+  "before": {
+    "input_bytes": 415933,
+    "report_bytes": 27905549,
+    "field_context_bytes": 24670976
+  },
+  "after": {
+    "input_bytes": 415933,
+    "report_bytes": 8240589,
+    "field_context_bytes": 5111808,
+    "field_findings": 624
+  },
+  "context_limit_bytes_per_value": 8192
+}

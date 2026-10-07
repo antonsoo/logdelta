@@ -498,6 +498,9 @@ SHA-256 and checks that the page retains its production CSP and fingerprinted en
 The [browser-cache verification](docs/verification-2026-10-04.md) records the original
 cache fixtures. The later [WASM build verification](docs/verification-wasm-2026-10-04.md)
 records the compiler matrix, identical warm/fresh builds and replacement hosted artifact.
+The [field-watch verification](docs/verification-fields-2026-10-07.md) records the
+controlled HTTP failure, native/browser report parity, bounded evidence and local
+screenshots for the unreleased exact-field comparison.
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 

@@ -1,0 +1,22 @@
+[
+  {
+    "browser": "chromium",
+    "total_lines": 200000,
+    "input_bytes": 15784000,
+    "elapsed_including_render_ms": 2167,
+    "frames_during_worker": 83,
+    "retained_values": 2,
+    "new_value": "503",
+    "first_target_line": 100000
+  },
+  {
+    "browser": "firefox",
+    "total_lines": 200000,
+    "input_bytes": 15784000,
+    "elapsed_including_render_ms": 1880,
+    "frames_during_worker": 88,
+    "retained_values": 2,
+    "new_value": "503",
+    "first_target_line": 100000
+  }
+]
