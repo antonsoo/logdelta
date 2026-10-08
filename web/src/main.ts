@@ -4,7 +4,8 @@ import { engine } from "./engine";
 import { MAX_BASELINES, readLogFile } from "./files";
 import { EXAMPLES, loadExample, type Example } from "./examples";
 import { comparisonInput, exportReport, parseWatches, type CompletedComparison, type LogInput } from "./report";
-import { baselineCounts, formatCount, headAndTail, lineCount, printable, templateParts } from "./template";
+import { baselineCounts, formatCount, lineCount, printable, templateParts } from "./template";
+import { blockExcerpt } from "./excerpt";
 import type { Block, ContextWindow, DiffResult, FieldCoverage, FieldValue, Finding, ValueFinding, WatchedField } from "./types";
 
 type Filter = "all" | "new" | "gone" | "changed" | "value" | "field";
@@ -621,21 +622,23 @@ const BLOCK_PREVIEW_LINES = 36;
 const BLOCK_PREVIEW_TEMPLATES = 12;
 const BLOCK_MAX_LINES = 2000;
 
-/** The rows of a block, cut to its start and end unless the reader expanded it. */
-function clipped(total: number, limit: number, expanded: boolean, index: number, unit: string, row: (i: number) => string): string {
+/** A bounded preview with diagnostic markers retained; one control expands all gaps. */
+function clipped(total: number, limit: number, expanded: boolean, index: number, unit: string, raw: (i: number) => string, row: (i: number) => string): string {
   const shown = expanded ? Math.min(total, BLOCK_MAX_LINES) : total;
-  const { head, tail } = expanded ? { head: shown, tail: 0 } : headAndTail(total, limit);
-  const hidden = total - head - tail;
   const out: string[] = [];
-  for (let i = 0; i < head; i++) out.push(row(i));
-  if (hidden > 0) {
-    const label = expanded ? `${formatCount(hidden)} more ${unit} not shown` : `${formatCount(hidden)} more ${unit}`;
-    const button = expanded ? "" : `<button type="button" class="link-button" data-toggle-block="${index}" aria-expanded="false">${total > BLOCK_MAX_LINES ? `Show first ${formatCount(BLOCK_MAX_LINES)}` : `Show all ${formatCount(total)}`}</button>`;
-    out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true">⋯</span><span>${label}</span>${button}</div>`);
+  if (expanded) {
+    for (let i = 0; i < shown; i++) out.push(row(i));
+    if (shown < total) out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true">⋯</span><span>${formatCount(total - shown)} more ${unit} not shown</span></div>`);
+  } else {
+    for (const selection of blockExcerpt(total, limit, raw)) {
+      if ("line" in selection) out.push(row(selection.line));
+      else out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true">⋯</span><span>${formatCount(selection.gap)} more ${unit}</span></div>`);
+    }
   }
-  for (let i = total - tail; i < total; i++) out.push(row(i));
-  if (expanded && total > limit) {
-    out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true"></span><button type="button" class="link-button" data-toggle-block="${index}" aria-expanded="true">Show less</button></div>`);
+  if (total > limit) {
+    const label = expanded ? "Show less" : total > BLOCK_MAX_LINES ? `Show first ${formatCount(BLOCK_MAX_LINES)}` : `Show all ${formatCount(total)}`;
+    const note = expanded ? "" : "<span>Preview favors source diagnostics and error markers.</span>";
+    out.push(`<div class="log-gap"><span class="gutter" aria-hidden="true"></span>${note}<button type="button" class="link-button" data-toggle-block="${index}" aria-expanded="${expanded}">${label}</button></div>`);
   }
   return out.join("");
 }
@@ -662,9 +665,9 @@ function blockHtml(block: Block, index: number, result: DiffResult): string {
     // templates again, or the few known lines the block reaches across.
     const firsts = new Set(members.map(lineNo));
     const cls = (no: number) => (firsts.has(no) ? "is-hit" : no >= block.first_line_no && no <= block.last_line_no ? "is-within" : "is-context");
-    log = clipped(to - from + 1, BLOCK_PREVIEW_LINES, expanded, index, "lines", (i) => logLine(from + i, lines[from + i - 1] ?? "", cls(from + i)));
+    log = clipped(to - from + 1, BLOCK_PREVIEW_LINES, expanded, index, "lines", (i) => lines[from + i - 1] ?? "", (i) => logLine(from + i, lines[from + i - 1] ?? "", cls(from + i)));
   } else {
-    log = clipped(members.length, BLOCK_PREVIEW_TEMPLATES, expanded, index, "templates", (i) => {
+    log = clipped(members.length, BLOCK_PREVIEW_TEMPLATES, expanded, index, "templates", (i) => members[i]!.first_baseline_raw ?? members[i]!.template, (i) => {
       const f = members[i]!;
       return logLine(lineNo(f), f.first_baseline_raw ?? f.template, "is-hit", times(f));
     });

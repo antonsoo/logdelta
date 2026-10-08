@@ -512,3 +512,36 @@ test("block expansion is bounded, retains disclosure state, and exports every te
   await expect(block.locator(".log-line")).toHaveCount(2000);
   expect((await exported(page)).result.findings.filter((f) => f.kind === "new")).toHaveLength(2100);
 });
+
+test("an assertion in the middle of a long block survives the preview and keyboard expansion", async ({ page }) => {
+  await blank(page);
+  const lines = Array.from({ length: 80 }, (_, i) => `novel${String.fromCharCode(97 + Math.floor(i / 26), 97 + i % 26)} controller lifecycle`);
+  lines[40] = '    versioning_test.go:250: context deadline exceeded <script>throw new Error("injected")</script>';
+  await inputs(page, "checkpoint steady\n", lines.join("\n") + "\n");
+  await completed(page);
+  const block = page.locator(".is-block.kind-new");
+  const assertion = block.locator(".log-line").filter({ hasText: "versioning_test.go:250:" });
+  await expect(block.locator(".log-line")).toHaveCount(36);
+  await expect(assertion).toHaveCount(1);
+  await expect(assertion).toContainText('context deadline exceeded <script>');
+  await expect(assertion.locator(".gutter")).toHaveText("41");
+  await expect(block.locator(".log-gap").filter({ hasText: "more lines" })).toHaveCount(2);
+  const expand = block.getByRole("button", { name: "Show all 80", exact: true });
+  await expect(expand).toHaveCount(1);
+  await expand.focus();
+  await page.keyboard.press("Enter");
+  await expect(block.locator(".log-line")).toHaveCount(80);
+  const collapse = block.getByRole("button", { name: "Show less", exact: true });
+  await expect(collapse).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(block.locator(".log-line")).toHaveCount(36);
+  await expect(expand).toBeFocused();
+  await expect(assertion).toHaveCount(1);
+  const report = await exported(page);
+  expect(report.result.findings.find((f) => f.first_target_line_no === 41).first_target_raw).toBe(lines[40]);
+  expect(report.result.findings.filter((f) => f.kind === "new")).toHaveLength(80);
+  await page.setViewportSize({ width: 375, height: 812 });
+  const audit = await new AxeBuilder({ page }).analyze();
+  expect(audit.violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
