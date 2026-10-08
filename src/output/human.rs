@@ -10,8 +10,8 @@ use crate::blocks::Block;
 use crate::context::ContextWindow;
 
 use super::{
-    block_lines, clip, head_and_tail, highlight_template, items_of_kind, printable, BlockLine,
-    Item, MAX_SHOWN_CHARS,
+    block_excerpt, block_lines, clip, highlight_template, items_of_kind, printable, BlockLine,
+    ExcerptRow, Item, MAX_SHOWN_CHARS,
 };
 
 const INDENT: &str = "        ";
@@ -246,7 +246,7 @@ fn write_block_line<W: Write>(
 }
 
 /// A block: what it is in one line, where it is, then its lines, one per template. A block
-/// longer than `block_lines` shows its start and its end and says how much is between them.
+/// longer than `block_lines` prioritizes diagnostic-looking lines and marks every gap.
 fn write_block<W: Write>(
     out: &mut W,
     block: &Block,
@@ -279,17 +279,14 @@ fn write_block<W: Write>(
         dim(&truncate_location(path, &location, width), use_color)
     )?;
 
-    let (head, tail) = head_and_tail(lines.len(), block_lines_shown);
-    for line in &lines[..head] {
-        write_block_line(out, line, width, use_color)?;
-    }
-    let hidden = lines.len() - head - tail;
-    if hidden > 0 {
-        let note = format!("       ⋯ {} more", fmt_thousands(hidden as u64));
-        writeln!(out, "{INDENT}{}", dim(&note, use_color))?;
-    }
-    for line in &lines[lines.len() - tail..] {
-        write_block_line(out, line, width, use_color)?;
+    for row in block_excerpt(&lines, block_lines_shown) {
+        match row {
+            ExcerptRow::Line(index) => write_block_line(out, &lines[index], width, use_color)?,
+            ExcerptRow::Gap(hidden) => {
+                let note = format!("       ⋯ {} more templates", fmt_thousands(hidden as u64));
+                writeln!(out, "{INDENT}{}", dim(&note, use_color))?;
+            }
+        }
     }
     Ok(())
 }
@@ -342,6 +339,21 @@ pub fn write_diff<W: Write>(
     if n_findings == 0 && result.complete() {
         writeln!(out, "\nNo significant differences found.")?;
         return Ok(());
+    }
+    if block_lines_shown > 0
+        && result
+            .blocks
+            .iter()
+            .any(|block| block_lines(block, &result.findings).len() > block_lines_shown)
+    {
+        writeln!(
+            out,
+            "\nLong blocks favor source diagnostics and error markers."
+        )?;
+        writeln!(
+            out,
+            "Use --block-lines 0 to show every template; --json keeps full recorded text."
+        )?;
     }
 
     for kind in [FindingKind::New, FindingKind::Changed, FindingKind::Gone] {

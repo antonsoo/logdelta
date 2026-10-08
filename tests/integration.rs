@@ -765,7 +765,7 @@ fn block_lines_limits_how_much_of_a_long_block_is_shown() {
         "{default}"
     );
     assert!(default.contains("    38 | hotel step failed\n"));
-    assert!(default.contains("⋯ 8 more\n"));
+    assert!(default.contains("⋯ 8 more templates\n"));
     assert!(!default.contains("india step failed"));
     assert!(default.contains("    47 | quebec step failed\n"));
     assert!(default.contains("    50 | tango step failed\n"));
@@ -775,7 +775,7 @@ fn block_lines_limits_how_much_of_a_long_block_is_shown() {
 
     let three = stdout_of(&["diff", base, fail, "--color", "never", "--block-lines", "3"]);
     assert!(three.contains("    32 | bravo step failed\n"));
-    assert!(three.contains("⋯ 17 more\n"));
+    assert!(three.contains("⋯ 17 more templates\n"));
     assert!(three.contains("    50 | tango step failed\n"));
     assert!(!three.contains("charlie step failed"));
 
@@ -788,7 +788,67 @@ fn block_lines_limits_how_much_of_a_long_block_is_shown() {
     );
     assert!(markdown.contains(&format!("**20 templates, 20 lines** at `{fail}:31-50`")));
     assert!(markdown.contains("```text\n    31 | alpha step failed\n"));
-    assert!(markdown.contains("       ⋯ 17 more\n    50 | tango step failed\n```\n"));
+    assert!(markdown.contains("       ⋯ 17 more templates\n    50 | tango step failed\n```\n"));
+}
+
+#[test]
+fn abbreviated_blocks_keep_the_assertion_between_setup_and_shutdown() {
+    // Shape of Kubernetes CI build 2076510297404739584: source assertion in
+    // the middle of a new block, outside the old first-eight/last-four excerpt.
+    // The surrounding chatter is synthetic, and must not swamp the assertion.
+    let dir = tempfile::tempdir().unwrap();
+    let base = dir.path().join("passing.log");
+    let fail = dir.path().join("failing.log");
+    let ordinary = "INFO tick\n".repeat(30);
+    let mut target = ordinary.clone();
+    let words = [
+        "alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel", "india",
+        "juliet", "kilo", "lima", "mike", "november", "oscar", "papa", "quebec", "romeo", "sierra",
+        "tango",
+    ];
+    for (index, word) in words.iter().enumerate() {
+        if index == 10 {
+            target.push_str("    versioning_test.go:250: context deadline exceeded\n");
+        } else {
+            target.push_str(&format!("{word} controller lifecycle\n"));
+        }
+    }
+    std::fs::write(&base, ordinary).unwrap();
+    std::fs::write(&fail, target).unwrap();
+    let (base, fail) = (base.to_str().unwrap(), fail.to_str().unwrap());
+    let line_pattern = regex::Regex::new(r"(?m)^\s+(\d+) \| ").unwrap();
+    for format in [&["--color", "never"][..], &["--markdown"][..]] {
+        let mut args = vec!["diff", base, fail];
+        args.extend(format);
+        let short = stdout_of(&args);
+        assert!(
+            short.contains("41 |     versioning_test.go:250: context deadline exceeded"),
+            "{short}"
+        );
+        assert!(short.contains("--block-lines 0"));
+        assert!(short.contains("more templates"));
+        let source_lines: Vec<usize> = line_pattern
+            .captures_iter(&short)
+            .map(|m| m[1].parse().unwrap())
+            .collect();
+        assert_eq!(source_lines.len(), 12, "{short}");
+        assert_eq!(source_lines.first(), Some(&31));
+        assert_eq!(source_lines.last(), Some(&50));
+        assert!(source_lines.windows(2).all(|pair| pair[0] < pair[1]));
+
+        args.extend(["--block-lines", "0"]);
+        let full = stdout_of(&args);
+        assert_eq!(line_pattern.captures_iter(&full).count(), 20);
+        assert!(!full.contains("more templates"));
+    }
+    let json: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", base, fail, "--json"])).unwrap();
+    assert_eq!(json["findings"].as_array().unwrap().len(), 20);
+    assert_eq!(json["blocks"][0]["findings"].as_array().unwrap().len(), 20);
+    assert!(json["findings"].as_array().unwrap().iter().any(|f| {
+        f["first_target_line_no"] == 41
+            && f["first_target_raw"] == "    versioning_test.go:250: context deadline exceeded"
+    }));
 }
 
 #[test]

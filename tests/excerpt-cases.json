@@ -1,0 +1,162 @@
+[
+  {
+    "name": "assertion between setup and shutdown",
+    "lines": [
+      "=== RUN TestStorageVersion",
+      "starting server",
+      "loading certificates",
+      "registering discovery",
+      "watch cache started",
+      "    versioning_test.go:250: context deadline exceeded",
+      "2026-10-08 ERROR storage is reinitializing",
+      "stopping discovery",
+      "stopping cache",
+      "closing connections",
+      "releasing workers",
+      "removing files",
+      "controller exited",
+      "--- FAIL: TestStorageVersion"
+    ],
+    "previews": [
+      {
+        "limit": 1,
+        "lines": [
+          5
+        ]
+      },
+      {
+        "limit": 2,
+        "lines": [
+          0,
+          5
+        ]
+      },
+      {
+        "limit": 4,
+        "lines": [
+          0,
+          5,
+          6,
+          13
+        ]
+      },
+      {
+        "limit": 6,
+        "lines": [
+          0,
+          1,
+          2,
+          5,
+          6,
+          13
+        ]
+      }
+    ]
+  },
+  {
+    "name": "the final exception stays ahead of severity chatter",
+    "lines": [
+      "Traceback (most recent call last):",
+      "  File main.py, line 10",
+      "  File app.py, line 20",
+      "ValueError: invalid input",
+      "During handling of the above exception, another exception occurred:",
+      "  File report.py, line 30",
+      "\u001b[31mRuntimeError: could not save failure report\u001b[0m",
+      "ERROR upload aborted",
+      "ERROR notification skipped",
+      "done"
+    ],
+    "previews": [
+      {
+        "limit": 1,
+        "lines": [
+          6
+        ]
+      },
+      {
+        "limit": 4,
+        "lines": [
+          0,
+          3,
+          6,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ordinary lines retain the original head and tail",
+    "lines": [
+      "alpha",
+      "bravo",
+      "charlie",
+      "delta",
+      "echo",
+      "foxtrot",
+      "golf",
+      "hotel"
+    ],
+    "previews": [
+      {
+        "limit": 1,
+        "lines": [
+          0
+        ]
+      },
+      {
+        "limit": 3,
+        "lines": [
+          0,
+          1,
+          7
+        ]
+      },
+      {
+        "limit": 6,
+        "lines": [
+          0,
+          1,
+          2,
+          3,
+          6,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "an early assertion survives later source chatter",
+    "lines": [
+      "=== RUN TestFirst",
+      "first_test.go:12: Expected a pod, got none",
+      "    Error: received unexpected error",
+      "=== RUN TestSecond",
+      "helper.go:0: controller lifecycle",
+      "helper.go:1: controller lifecycle",
+      "helper.go:2: controller lifecycle",
+      "helper.go:3: controller lifecycle",
+      "helper.go:4: controller lifecycle",
+      "helper.go:5: controller lifecycle",
+      "helper.go:6: controller lifecycle",
+      "helper.go:7: controller lifecycle",
+      "helper.go:8: controller lifecycle",
+      "helper.go:9: controller lifecycle",
+      "--- FAIL TestFirst",
+      "finished"
+    ],
+    "previews": [
+      {
+        "limit": 6,
+        "lines": [
+          0,
+          1,
+          2,
+          12,
+          13,
+          15
+        ]
+      }
+    ]
+  }
+]

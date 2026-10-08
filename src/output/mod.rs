@@ -1,3 +1,4 @@
+mod excerpt;
 mod fields;
 pub mod human;
 pub mod json;
@@ -5,6 +6,8 @@ pub mod markdown;
 
 use crate::analysis::{Finding, FindingKind};
 use crate::blocks::Block;
+
+pub use excerpt::{block_excerpt, ExcerptRow};
 
 /// How many of a block's lines a report shows unless told otherwise (`--block-lines`).
 pub const DEFAULT_BLOCK_LINES: usize = 12;

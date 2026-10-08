@@ -60,8 +60,8 @@ pub struct DiffArgs {
     #[arg(long)]
     pub flat: bool,
 
-    /// The most lines of a block to show: its start and its end when it has more
-    /// (0 shows every line).
+    /// The most template representatives of a block to show, prioritizing source
+    /// diagnostics and error markers between its start and end (0 shows all).
     #[arg(long, value_name = "N", default_value_t = logdelta::output::DEFAULT_BLOCK_LINES)]
     pub block_lines: usize,
 

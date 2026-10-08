@@ -1,0 +1,4 @@
+{
+  "diagnostic": "^\\s*(?:(?:[A-Za-z]:[/\\\\])?[^\\s:]+\\.(?:go|rs|py|[cm]?[jt]sx?|[ch](?:pp|xx)?|java|rb):[0-9]+(?::[0-9]+)?:(?:\\s|$)|E\\s{3,}\\S|(?:panic|fatal|caused by|assertion failed):|thread .+ panicked at\\b|(?:[A-Za-z0-9_$.]+\\.)?[A-Za-z0-9_$]*(?:Error|Exception):|error(?:\\[E[0-9]+\\])?:)",
+  "severity": "(?:^|[\\s\\[\"=:])(?:error|fatal|panic)(?:[\\s\\]\"=:]|$)"
+}

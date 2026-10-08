@@ -6,7 +6,7 @@ use std::io::{self, Write};
 use crate::analysis::{DiffResult, Finding, FindingKind};
 use crate::blocks::Block;
 use crate::output::{
-    block_lines, clip, head_and_tail, items_of_kind, printable, Item, MAX_SHOWN_CHARS,
+    block_excerpt, block_lines, clip, items_of_kind, printable, ExcerptRow, Item, MAX_SHOWN_CHARS,
 };
 
 /// A template, value or log line as one table cell: without escape sequences, clipped (a PR
@@ -31,7 +31,7 @@ fn fence(lines: &[String]) -> String {
 }
 
 /// A block as a heading line and a fenced excerpt: its lines, one per template, with their
-/// numbers. A block longer than `block_lines_shown` keeps its start and its end.
+/// numbers. Long blocks prioritize diagnostic-looking lines and mark every gap.
 fn write_block<W: Write>(
     out: &mut W,
     block: &Block,
@@ -57,9 +57,6 @@ fn write_block<W: Write>(
     )?;
     writeln!(out)?;
 
-    let (head, tail) = head_and_tail(lines.len(), block_lines_shown);
-    let hidden = lines.len() - head - tail;
-    let mut shown: Vec<String> = Vec::with_capacity(head + tail + 1);
     let row = |line: &crate::output::BlockLine| {
         let times = if line.count > 1 {
             format!("  ×{}", line.count)
@@ -72,11 +69,13 @@ fn write_block<W: Write>(
             clip(&printable(line.raw), MAX_SHOWN_CHARS)
         )
     };
-    shown.extend(lines[..head].iter().map(row));
-    if hidden > 0 {
-        shown.push(format!("       ⋯ {hidden} more"));
-    }
-    shown.extend(lines[lines.len() - tail..].iter().map(row));
+    let shown: Vec<String> = block_excerpt(&lines, block_lines_shown)
+        .into_iter()
+        .map(|selection| match selection {
+            ExcerptRow::Line(index) => row(&lines[index]),
+            ExcerptRow::Gap(hidden) => format!("       ⋯ {hidden} more templates"),
+        })
+        .collect();
 
     let fence = fence(&shown);
     writeln!(out, "{fence}text")?;
@@ -128,6 +127,18 @@ pub fn write_diff<W: Write>(
     if n_findings == 0 && result.complete() {
         writeln!(out, "No significant differences found.")?;
         return Ok(());
+    }
+    if block_lines_shown > 0
+        && result
+            .blocks
+            .iter()
+            .any(|block| block_lines(block, &result.findings).len() > block_lines_shown)
+    {
+        writeln!(
+            out,
+            "Long blocks favor source diagnostics and error markers. \
+             Use `--block-lines 0` to show every template; `--json` keeps full recorded text.\n"
+        )?;
     }
 
     for (kind, title) in [
