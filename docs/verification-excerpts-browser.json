@@ -1,0 +1,287 @@
+{
+  "measuredAt": "2026-10-08T21:24:14.463Z",
+  "job": "ci-kubernetes-integration-master",
+  "passing": "2076525647693352960",
+  "failing": "2076510297404739584",
+  "inputSha256": {
+    "passing": "ace7ff5f789653cdc471f9d515266f36b48d977fb0a6660f0f2404327022e7b1",
+    "failing": "3ece718e1404172144f9f58c2f8e8cd89e734e856700fee7064f1bea3ef95643"
+  },
+  "nativeBinarySha256": "c7432fc340512ba810a434a43e3bede6b928281c5d92b7c6312bafed61aaf4b1",
+  "records": [
+    {
+      "browser": "chromium",
+      "version": "153.0.8010.12",
+      "previewLines": [
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130
+      ],
+      "assertionLine": 118,
+      "expandedLines": 38,
+      "nativeDownloadEvidenceEqual": true,
+      "scoreDifferences": [
+        {
+          "path": "result.findings.6.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.7.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.8.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.9.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.10.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.11.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.12.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.13.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.14.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.15.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.16.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.17.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.18.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.19.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.20.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.21.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.22.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.blocks.0.score",
+          "difference": 1.4210854715202004e-14
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "assets/excerpts-chromium-desktop.png",
+          "width": 1440,
+          "height": 1080,
+          "colorScheme": "light",
+          "axeViolations": 0
+        },
+        {
+          "path": "assets/excerpts-chromium-mobile.png",
+          "width": 375,
+          "height": 812,
+          "colorScheme": "dark",
+          "axeViolations": 0
+        }
+      ],
+      "errors": [],
+      "external": []
+    },
+    {
+      "browser": "firefox",
+      "version": "155.0",
+      "previewLines": [
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130
+      ],
+      "assertionLine": 118,
+      "expandedLines": 38,
+      "nativeDownloadEvidenceEqual": true,
+      "scoreDifferences": [
+        {
+          "path": "result.findings.6.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.7.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.8.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.9.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.10.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.11.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.12.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.13.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.14.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.15.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.16.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.17.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.18.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.19.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.20.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.21.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.findings.22.score",
+          "difference": 4.440892098500626e-16
+        },
+        {
+          "path": "result.blocks.0.score",
+          "difference": 1.4210854715202004e-14
+        }
+      ],
+      "screenshots": [
+        {
+          "path": "assets/excerpts-firefox-desktop.png",
+          "width": 1440,
+          "height": 1080,
+          "colorScheme": "light",
+          "axeViolations": 0
+        },
+        {
+          "path": "assets/excerpts-firefox-mobile.png",
+          "width": 375,
+          "height": 812,
+          "colorScheme": "dark",
+          "axeViolations": 0
+        }
+      ],
+      "errors": [],
+      "external": []
+    }
+  ]
+}

@@ -13,6 +13,24 @@ was.
 
 **What came out**
 
+**Excerpt update, 8 October 2026.** The source checkout now favors source diagnostics
+and error markers in the existing 12-representative budget. A fresh run of every case
+shows the recorded reason in **212 of 239**, up from **159**, in a median of **40.5**
+report lines rather than **34**. All 159 previously shown reasons remain visible and
+53 more appear. With multiple baselines the change is 141 to 183 of 206, with no lost
+cases. The raw native JSON reports are identical for all 264 single-baseline cases.
+
+This rule was developed on these logs. It is an in-sample presentation result, and a
+source-location message is not necessarily an assertion: the study's last-message
+convention can also select a test's ordinary diagnostic output. The remaining **27**
+misses matter: 11 are still outside the abbreviated excerpt, and 16 are absent even
+from a report showing every template representative. Source locations can match while
+the first representative contains different values from the later failing occurrence.
+[Per-case rerun](excerpt-results.json), [behavior and verification](../../docs/diagnostic-excerpts.md).
+
+The miner comparison below records the earlier checkout at `2f8fb65`, before this
+excerpt change. Its measurements and baseline results are retained for comparison.
+
 - **Naming the failed test is not the achievement.** The diff names a test
   the JUnit report lists as failed in all 264 cases, with the released 0.3.4
   and with this checkout. So does `grep -- '--- FAIL'`, in two lines.
@@ -100,9 +118,9 @@ Failed build against one passing build of the same commit, 264 cases:
 | logdelta, this checkout | 264 | 159 (61% to 72%) | 34 |
 | this checkout, blocks printed whole | 264 | 223 | 58 |
 
-The last row is not an option the tool has. It is what the report would be if
-no block were cut short, and it is the cheapest improvement this study found:
-the reason is already in a finding in 93% of cases.
+The last row uses the existing `--block-lines 0` option: no representative is omitted
+from a block. It does not show every occurrence of a repeated template, and long lines
+are still clipped to the terminal width. `--json` retains the full recorded strings.
 
 By job the reason is shown in 98 of 125 unit-test cases (78%) and 61 of 114
 integration cases (54%), where one failed test prints hundreds of lines.

@@ -5,6 +5,24 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Diagnostic excerpts
+
+- Terminal, Markdown and browser block previews keep source diagnostics and error
+  markers visible in long blocks. Marked lines already visible at the boundaries are
+  retained; additional markers replace ordinary middle lines within the existing budget.
+  Every omitted stretch has a count and the remaining lines keep their source positions.
+- The same 264 Kubernetes cases were run again. The default CLI now shows the study's
+  recorded reason in 212 of 239 applicable cases (was 159), in a median of 40.5 report
+  lines (was 34). It recovers 53 cases and loses none of the previous 159. All 264 native
+  JSON reports are unchanged. This is an in-sample display improvement, not a change in
+  finding detection or proof of a failure's cause.
+- Long reports explain `--block-lines 0` and `--json`. The browser keeps one keyboard
+  expansion control even when its preview has several gaps. Its raw-line preview and
+  native template excerpt share diagnostic patterns.
+- The Kubernetes evaluator rejects missing inputs, failed commands and empty reports
+  instead of silently dropping cases; new results record binary and manifest digests.
+- [Behavior, evidence and limitations](docs/diagnostic-excerpts.md).
+
 ### On real data
 
 Two studies, in `studies/`, score the miner and the diff on public data with known answers.
@@ -19,8 +37,8 @@ What follows under "Template mining" is what they showed and what was changed fo
 - **264 failed Kubernetes CI builds**, each diffed against a passing build of the same
   commit, with the failed test's name and its assertion line from the build's JUnit report.
   The diff names a failed test in all 264, before and after, as `grep -- '--- FAIL'` does.
-  It shows the test's own assertion line in 159 of 239 cases, before and after, in a median
-  of 34 lines (was 39). The median report went from 6 findings to 4 by grouping; the
+  Before the diagnostic excerpt change above, it showed the test's own assertion line in
+  159 of 239 cases, in a median of 34 lines (was 39). The median report went from 6 findings to 4 by grouping; the
   ungrouped count did not fall. A passing build against passing builds is silent in 127 of
   179 cases (was 122).
 

@@ -31,10 +31,12 @@ are the released 0.3.4 against this checkout.
   Same code, one run failed: what differs between the two logs is the failure. Naming the
   failed test is easy: the diff does it in 264 of 264, and so does `grep -- '--- FAIL'`.
   What a diff adds is the reason. The failed test's own assertion line is in logdelta's
-  report in **159 of 239** cases (67%), in a median of **34 lines** out of a 2,600-line log;
-  the grep never shows it, and a plain set difference shows it in 1,275 lines. The reason is
-  inside a reported block in 223 of 239, and the terminal report cuts 64 of those short. The
-  rework below did not move that number: 0.3.4 also showed 159, in 39 lines.
+  report in **212 of 239** cases (89%), in a median of **40.5 lines** out of a 2,600-line log;
+  the grep never shows it, and a plain set difference shows it in 1,275 lines. The source
+  checkout now keeps source diagnostics and error markers visible inside abbreviated
+  blocks. Before that change it showed 159, in 34 lines: **53 additional cases**, with none
+  of those 159 lost. This is measured on the same logs used to develop the excerpt rule,
+  not on held-out projects. [What the excerpt keeps and misses](docs/diagnostic-excerpts.md).
 - **[Loghub, the benchmark log parsers are scored on](studies/loghub/README.md).** 2,000
   hand-labelled lines from each of 16 systems. Grouping accuracy went from **0.73 to 0.82**
   on the message text and from **0.43 to 0.71** on whole lines, which is what logdelta is
@@ -100,7 +102,10 @@ when it could not read its input (a missing file, or one that is not text), like
   block that shows its lines with their numbers (in a failing job of the pytest project, 77 lines that
   were 51 findings in 0.2); the steps a failed job skipped are one GONE block. A stack trace logged fifty times is still one
   block, with the count. `--block-lines N` sets how much of a long block is printed
-  (default 12: its start and its end), and `--flat` lists every template on its own, as
+  (default 12: its boundaries and diagnostic markers; `0` shows every representative),
+  with omitted template counts and the original line numbers. This is a display heuristic:
+  ordinary test logging can use the same source-location prefixes as assertions.
+  `--flat` lists every template on its own, as
   versions before 0.3 did.
 - **`logdelta templates <file>`** — the top templates in a file, ranked by count, with an
   example line for each.
