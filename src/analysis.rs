@@ -9,7 +9,7 @@ use serde::Serialize;
 
 use crate::blocks::{gone_blocks, Block, Extent, NewRuns, ProtoBlock};
 use crate::context::ContextWindow;
-use crate::drain::{Cluster, Drain, DEFAULT_SIMILARITY_THRESHOLD};
+use crate::drain::{is_wildcard, Cluster, Drain, DEFAULT_SIMILARITY_THRESHOLD};
 use crate::fields::{FieldTracker, WatchedField};
 use crate::io::read_lines;
 use crate::mask::{tokenize_line, CustomMask};
@@ -427,6 +427,7 @@ where
         ));
     }
 
+    let mut gone_values: Vec<Finding> = Vec::new();
     // NEW VALUE: a wildcard position in a template that's otherwise present in both baseline
     // and target (so NEW/GONE, which are about the *template's* presence, already explain
     // those cases) whose target-run value never appeared in any baseline. Independent of the
@@ -443,13 +444,44 @@ where
                 continue;
             }
             for (pos, tok) in cluster.tokens.iter().enumerate() {
-                if tok != "<*>" {
+                if !is_wildcard(tok) {
                     continue;
+                }
+                // GONE, for one value of the template rather than the template: the mined
+                // template is `<*> health check ok` for every instance of a service, and
+                // one instance that stops is not the template going away.
+                for missing in tracker.gone_values_at(id, pos) {
+                    let mut tokens = cluster.tokens.clone();
+                    tokens[pos] = missing.value;
+                    gone_values.push(Finding {
+                        kind: FindingKind::Gone,
+                        direction: Direction::Down,
+                        template: tokens.join(" "),
+                        score: score_template(
+                            &missing.baseline_counts,
+                            &baseline_totals,
+                            0,
+                            target_total,
+                        ),
+                        baseline_counts: missing.baseline_counts,
+                        target_count: 0,
+                        first_target_line_no: None,
+                        first_target_raw: None,
+                        first_baseline_line_no: Some(missing.first_baseline_line_no),
+                        first_baseline_raw: Some(missing.first_baseline_raw),
+                        block: None,
+                        context: None,
+                    });
                 }
                 if let Some(found) = tracker.new_value_at(id, pos) {
                     value_findings.push(ValueFinding {
                         template: cluster.template(),
-                        position: pos,
+                        // As the template reads when split at spaces: a bracketed field
+                        // before this position is one token with several words in it.
+                        position: cluster.tokens[..pos]
+                            .iter()
+                            .map(|t| t.split(' ').count())
+                            .sum(),
                         new_value: found.value,
                         baseline_values: found.baseline_values,
                         first_target_line_no: found.first_target_line_no,
@@ -462,6 +494,14 @@ where
             }
         }
     }
+
+    // These have no cluster of their own; an id no cluster has keeps them out of the blocks.
+    findings.extend(
+        gone_values
+            .into_iter()
+            .enumerate()
+            .map(|(n, finding)| (usize::MAX - n, finding)),
+    );
 
     findings.sort_by(|(_, a), (_, b)| {
         kind_rank(a.kind).cmp(&kind_rank(b.kind)).then(

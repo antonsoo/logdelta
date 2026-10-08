@@ -5,7 +5,6 @@ pub mod markdown;
 
 use crate::analysis::{Finding, FindingKind};
 use crate::blocks::Block;
-use crate::mask::is_placeholder;
 
 /// How many of a block's lines a report shows unless told otherwise (`--block-lines`).
 pub const DEFAULT_BLOCK_LINES: usize = 12;
@@ -99,9 +98,9 @@ pub fn items_of_kind<'a>(
     items
 }
 
-/// Colors and styles a template's tokens, highlighting masking placeholders / Drain
-/// wildcards as the "variable" parts of the line. No-op (returns the template unchanged)
-/// when `use_color` is false.
+/// Colors a template's variable parts: masking placeholders and Drain wildcards, wherever
+/// in a token they are (`<TS>`, `trace=<UUID>`, `level=<*>`, `[<NUM>%]`). No-op (returns
+/// the template unchanged) when `use_color` is false.
 pub fn highlight_template(template: &str, use_color: bool) -> String {
     if !use_color {
         return template.to_string();
@@ -110,17 +109,26 @@ pub fn highlight_template(template: &str, use_color: bool) -> String {
         .fg_color(Some(anstyle::AnsiColor::Magenta.into()))
         .bold();
     let reset = anstyle::Reset;
-    template
-        .split(' ')
-        .map(|tok| {
-            if is_placeholder(tok) {
-                format!("{var_style}{tok}{reset}")
-            } else {
-                tok.to_string()
-            }
-        })
-        .collect::<Vec<_>>()
-        .join(" ")
+    let mut out = String::with_capacity(template.len() + 16);
+    let mut rest = template;
+    while let Some(open) = rest.find('<') {
+        let after = &rest[open + 1..];
+        let name = after
+            .bytes()
+            .take_while(|b| b.is_ascii_uppercase() || matches!(b, b'*' | b'!'))
+            .count();
+        if name > 0 && after.as_bytes().get(name) == Some(&b'>') {
+            let end = open + name + 2;
+            out.push_str(&rest[..open]);
+            out.push_str(&format!("{var_style}{}{reset}", &rest[open..end]));
+            rest = &rest[end..];
+        } else {
+            out.push_str(&rest[..=open]);
+            rest = after;
+        }
+    }
+    out.push_str(rest);
+    out
 }
 
 /// A log line or template as a report prints it: without terminal escape sequences and

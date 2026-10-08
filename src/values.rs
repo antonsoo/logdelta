@@ -40,6 +40,73 @@ fn looks_identifier_like(value: &str) -> bool {
         || value.contains('.')
 }
 
+/// How many distinct identifiers a position may hold and still be watched for one of them
+/// going missing: the instances of a service, the workers of a pool. A position with more
+/// is a free-running id, and nothing about one of its values is news.
+const MAX_SOURCES: usize = 64;
+/// A source is only missed if, at its smallest share of any baseline, the target would
+/// have been expected to hear from it at least this often. Lines land on workers and
+/// instances by chance; a source expected three times and heard zero times is that chance
+/// (1 in 20), and one expected eight times is not (1 in 3,000).
+const MIN_EXPECTED_LINES: f64 = 8.0;
+
+/// True if `value` could name one of a fixed set of things that log the same lines: a word
+/// with a number in it (`[svc-search-3]`, `gw3`, `node-7`), not a path, a test id or a
+/// bare number.
+fn looks_source_like(value: &str) -> bool {
+    value.len() <= 64
+        && value.bytes().any(|b| b.is_ascii_alphabetic())
+        && value.bytes().any(|b| b.is_ascii_digit())
+        && !value.contains('/')
+        && !value.contains("::")
+        && !value.contains('<')
+}
+
+#[derive(Default)]
+struct SourceValues {
+    values: HashMap<String, ValueEntry>,
+    overflowed: bool,
+}
+
+impl SourceValues {
+    fn record(&mut self, value: &str, line_no: usize, raw: &str, keep_line: bool) {
+        if self.overflowed {
+            return;
+        }
+        if let Some(e) = self.values.get_mut(value) {
+            e.count += 1;
+            return;
+        }
+        if self.values.len() >= MAX_SOURCES {
+            self.overflowed = true;
+            self.values.clear();
+            return;
+        }
+        self.values.insert(
+            value.to_string(),
+            ValueEntry {
+                count: 1,
+                first_line_no: line_no,
+                first_raw: if keep_line {
+                    raw.to_string()
+                } else {
+                    String::new()
+                },
+            },
+        );
+    }
+}
+
+/// What [`ValueTracker::gone_values_at`] found: an identifier that every baseline had at
+/// this position of the template and the target does not.
+pub struct GoneValue {
+    pub value: String,
+    pub baseline_counts: Vec<u64>,
+    /// The first line of the first baseline that had it.
+    pub first_baseline_line_no: usize,
+    pub first_baseline_raw: String,
+}
+
 #[derive(Clone)]
 struct ValueEntry {
     count: u64,
@@ -102,6 +169,8 @@ pub struct NewValue {
 pub struct ValueTracker {
     baselines: Vec<HashMap<(usize, usize), PositionValues>>,
     target: HashMap<(usize, usize), PositionValues>,
+    source_baselines: Vec<HashMap<(usize, usize), SourceValues>>,
+    source_target: HashMap<(usize, usize), SourceValues>,
 }
 
 impl ValueTracker {
@@ -109,6 +178,8 @@ impl ValueTracker {
         ValueTracker {
             baselines: (0..n).map(|_| HashMap::new()).collect(),
             target: HashMap::new(),
+            source_baselines: (0..n).map(|_| HashMap::new()).collect(),
+            source_target: HashMap::new(),
         }
     }
 
@@ -125,8 +196,20 @@ impl ValueTracker {
         tokens: &[String],
     ) {
         let map = &mut self.baselines[baseline_idx];
+        let sources = &mut self.source_baselines[baseline_idx];
         for (pos, tok) in tokens.iter().enumerate() {
-            if is_placeholder(tok) || looks_identifier_like(tok) {
+            if is_placeholder(tok) {
+                continue;
+            }
+            if looks_identifier_like(tok) {
+                if looks_source_like(tok) {
+                    sources.entry((cluster_id, pos)).or_default().record(
+                        tok,
+                        line_no,
+                        raw,
+                        baseline_idx == 0,
+                    );
+                }
                 continue;
             }
             map.entry((cluster_id, pos))
@@ -143,7 +226,16 @@ impl ValueTracker {
         tokens: &[String],
     ) {
         for (pos, tok) in tokens.iter().enumerate() {
-            if is_placeholder(tok) || looks_identifier_like(tok) {
+            if is_placeholder(tok) {
+                continue;
+            }
+            if looks_identifier_like(tok) {
+                if looks_source_like(tok) {
+                    self.source_target
+                        .entry((cluster_id, pos))
+                        .or_default()
+                        .record(tok, line_no, raw, false);
+                }
                 continue;
             }
             self.target
@@ -151,6 +243,62 @@ impl ValueTracker {
                 .or_default()
                 .record(tok, line_no, raw);
         }
+    }
+
+    /// The identifiers every baseline had at `(cluster_id, pos)` that the target does not
+    /// have at all, though by their share of each baseline it should have had them at
+    /// least `MIN_EXPECTED_LINES` times: an instance that stopped writing a line the
+    /// others still write.
+    ///
+    /// Nothing is reported unless the position holds a fixed, small set of them: no run
+    /// went over `MAX_SOURCES`, and the target has no identifier there that the first
+    /// baseline lacks. Worker and pod names that change from run to run fail the second
+    /// test, and a position that is simply absent from the target fails both.
+    pub fn gone_values_at(&self, cluster_id: usize, pos: usize) -> Vec<GoneValue> {
+        let key = (cluster_id, pos);
+        let per_baseline: Vec<&SourceValues> = self
+            .source_baselines
+            .iter()
+            .filter_map(|m| m.get(&key))
+            .filter(|s| !s.overflowed)
+            .collect();
+        let (Some(first), Some(target)) = (per_baseline.first(), self.source_target.get(&key))
+        else {
+            return Vec::new();
+        };
+        if per_baseline.len() != self.source_baselines.len()
+            || target.overflowed
+            || target.values.is_empty()
+            || target.values.keys().any(|v| !first.values.contains_key(v))
+        {
+            return Vec::new();
+        }
+        let lines = |s: &SourceValues| s.values.values().map(|e| e.count).sum::<u64>() as f64;
+        let target_lines = lines(target);
+        let mut gone: Vec<GoneValue> = first
+            .values
+            .iter()
+            .filter(|(value, _)| !target.values.contains_key(*value))
+            .filter_map(|(value, entry)| {
+                let baseline_counts: Vec<u64> = per_baseline
+                    .iter()
+                    .map(|s| s.values.get(value).map_or(0, |e| e.count))
+                    .collect();
+                let smallest_share = per_baseline
+                    .iter()
+                    .zip(&baseline_counts)
+                    .map(|(s, &count)| count as f64 / lines(s))
+                    .fold(f64::INFINITY, f64::min);
+                (smallest_share * target_lines >= MIN_EXPECTED_LINES).then(|| GoneValue {
+                    value: value.clone(),
+                    baseline_counts,
+                    first_baseline_line_no: entry.first_line_no,
+                    first_baseline_raw: entry.first_raw.clone(),
+                })
+            })
+            .collect();
+        gone.sort_by(|a, b| a.value.cmp(&b.value));
+        gone
     }
 
     /// If the target introduced a value at `(cluster_id, pos)` that never appeared in any

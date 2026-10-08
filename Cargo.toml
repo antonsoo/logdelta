@@ -15,7 +15,7 @@ categories = ["command-line-utilities", "development-tools"]
 default-run = "logdelta"
 # The browser demo, the screenshots and the large benchmark fixtures stay in the
 # repository; the published crate carries the code, its docs and the small examples.
-exclude = ["/web", "/docs/assets", "/.github", "/examples/large"]
+exclude = ["/web", "/docs/assets", "/.github", "/examples/large", "/studies"]
 
 [[bin]]
 name = "logdelta"
@@ -25,6 +25,10 @@ required-features = ["cli"]
 [[example]]
 name = "gen_bench_log"
 path = "bench/gen_bench_log.rs"
+
+[[example]]
+name = "cluster_ids"
+path = "bench/cluster_ids.rs"
 
 [lib]
 name = "logdelta"

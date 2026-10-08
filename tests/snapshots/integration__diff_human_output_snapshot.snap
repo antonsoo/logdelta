@@ -1,6 +1,6 @@
 ---
 source: tests/integration.rs
-expression: normalized
+expression: stdout
 ---
 logdelta diff  examples/pytest-pass.log → examples/pytest-fail.log
 28 → 23 lines · 21 templates · 3 findings (10 with --flat)
@@ -20,6 +20,6 @@ GONE       baseline=2 target=0  score=1.2  ============================== <*> pa
         examples/pytest-pass.log:14
         ============================== 7 passed in 0.42s ===============================
 
-NEW VALUE  tests/test_math.py::test_divide FAILED [ <*>  (baseline: PASSED)
+NEW VALUE  tests/test_math.py::test_divide FAILED <*>  (baseline: PASSED)
         examples/pytest-fail.log:9
         tests/test_math.py::test_divide FAILED                                  [ 57%]

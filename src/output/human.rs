@@ -8,7 +8,6 @@ use anstyle::{AnsiColor, Style};
 use crate::analysis::{DiffResult, Finding, FindingKind, RunSummary};
 use crate::blocks::Block;
 use crate::context::ContextWindow;
-use crate::mask::is_placeholder;
 
 use super::{
     block_lines, clip, head_and_tail, highlight_template, items_of_kind, printable, BlockLine,
@@ -212,11 +211,7 @@ fn render_value_template(
             continue;
         }
         shown += len;
-        parts.push(if is_placeholder(tok) {
-            highlight_template(tok, use_color)
-        } else {
-            tok.to_string()
-        });
+        parts.push(highlight_template(tok, use_color));
     }
     let mut out = parts.join(" ");
     if hidden > 0 {

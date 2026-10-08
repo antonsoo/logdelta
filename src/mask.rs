@@ -88,6 +88,24 @@ lazy_re!(
     TS_SLASH,
     r"\b\d{1,2}/\d{1,2}/\d{4}[ T]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?\b"
 );
+// Timestamps that spell the month or the weekday, in one pass:
+// - C `ctime()` / `asctime()`: "Sun Dec  4 04:47:44 2005", with or without the year, and
+//   with a time zone before it as `date` prints ("Sun Dec  4 04:47:44 UTC 2005"). Apache's
+//   error log, `date`, Python's `time.ctime()` and `git log` all write it.
+// - RFC 2822 / HTTP dates: "Sun, 04 Dec 2005 04:47:44 GMT" or "... +0000".
+// - Common Log Format, the access log of Apache and nginx: "04/Dec/2005:04:47:44 +0000".
+lazy_re!(
+    TS_NAMED,
+    concat!(
+        r"\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun) (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) {1,2}\d{1,2} \d{2}:\d{2}:\d{2}(?:\.\d+)?(?: [A-Z]{2,5})?(?: \d{4})?\b",
+        r"|\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2}(?: (?:[A-Z]{2,5}|[+-]\d{4}))?",
+        r"|\b\d{1,2}/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/\d{4}:\d{2}:\d{2}:\d{2}(?: [+-]\d{4})?",
+    )
+);
+lazy_re!(
+    MONTH_NAME,
+    r"Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec"
+);
 // Bare epoch seconds or milliseconds, as their own token (10 or 13 digits).
 lazy_re!(TS_EPOCH, r"\b1[0-9]{9}(?:[0-9]{3})?\b");
 
@@ -267,16 +285,138 @@ fn flatten_json_line(payload: &str) -> Option<Vec<String>> {
     }
     let mut tokens = Vec::with_capacity(map.len() * 2);
     for (key, value) in &map {
-        tokens.push(format!("{key}="));
-        tokens.push(mask_json_value(value));
+        match value {
+            // A sentence is mined as a sentence: the key, then its words. As one token it
+            // could only be equal to another message or not, so `"user alice logged in"`
+            // and `"user bob logged in"` were two unrelated values.
+            Value::String(text) if text.split_whitespace().nth(1).is_some() => {
+                tokens.push(format!("{key}="));
+                split_tokens(&mask_body(text), &mut tokens);
+            }
+            // Anything else is an attribute of the event, one `key=value` token.
+            _ => tokens.push(format!("{key}={}", mask_json_value(value))),
+        }
     }
     Some(tokens)
 }
 
-// number + unit, e.g. "512KiB", "12 ms", "3.4s", "200Mbps".
+/// How far ahead a quoted string or a bracketed field may close and still be one token.
+const MAX_ATOM_BYTES: usize = 200;
+/// A bracketed field of more words than this is a sentence in brackets, not a field.
+const MAX_BRACKET_WORDS: usize = 8;
+
+/// Where the double-quoted string opening at `open` closes, if it does so soon enough.
+fn closing_quote(bytes: &[u8], open: usize) -> Option<usize> {
+    let limit = bytes.len().min(open + 1 + MAX_ATOM_BYTES);
+    let mut i = open + 1;
+    while i < limit {
+        match bytes[i] {
+            b'\\' => i += 1,
+            b'"' => return Some(i),
+            _ => {}
+        }
+        i += 1;
+    }
+    None
+}
+
+/// Where the square bracket opening at `open` closes, if what it holds is a short field:
+/// a thread name (`[IPC Server handler 14 on 62270]`), a request context
+/// (`[req-<UUID> <HEX> <HEX> - - -]`), a date (`[Sun Dec 04 04:47:44 2005]`).
+fn closing_bracket(bytes: &[u8], open: usize) -> Option<usize> {
+    let limit = bytes.len().min(open + 1 + MAX_ATOM_BYTES);
+    let mut depth = 1usize;
+    let mut words = 1usize;
+    let mut i = open + 1;
+    while i < limit {
+        match bytes[i] {
+            b'[' => depth += 1,
+            b']' => {
+                depth -= 1;
+                if depth == 0 {
+                    return Some(i);
+                }
+            }
+            b' ' | b'\t' if !bytes[i - 1].is_ascii_whitespace() => {
+                words += 1;
+                if words > MAX_BRACKET_WORDS {
+                    return None;
+                }
+            }
+            _ => {}
+        }
+        i += 1;
+    }
+    None
+}
+
+/// `key` when `token` is `key="several words"` (with or without a trailing comma or
+/// semicolon), as logfmt writes a message; the words are then mined as words.
+fn quoted_assignment(token: &str) -> Option<(&str, &str)> {
+    let (key, rest) = token.split_once("=\"")?;
+    let inner = rest
+        .trim_end_matches([',', ';'])
+        .strip_suffix('"')
+        .filter(|inner| !inner.contains('"'))?;
+    let identifier = !key.is_empty()
+        && key
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'.' | b'-' | b'@'));
+    (identifier && inner.split_whitespace().nth(1).is_some()).then_some((key, inner))
+}
+
+/// Splits masked text into tokens at whitespace, with two exceptions. A short
+/// square-bracketed field is one token however many words it holds: split at every space,
+/// `[RMCommunicator Allocator]` and `[main]` gave the lines of one Java log statement
+/// different lengths, and so different templates. And a quoted value after `key=` is read
+/// whole, then written as the key and its words when it is a sentence (see
+/// [`quoted_assignment`]).
+fn split_tokens(masked: &str, out: &mut Vec<String>) {
+    let bytes = masked.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i].is_ascii_whitespace() {
+            i += 1;
+            continue;
+        }
+        let start = i;
+        while i < bytes.len() && !bytes[i].is_ascii_whitespace() {
+            let close = match bytes[i] {
+                b'"' if i > start && bytes[i - 1] == b'=' => closing_quote(bytes, i),
+                b'[' => closing_bracket(bytes, i),
+                _ => None,
+            };
+            i = close.unwrap_or(i) + 1;
+        }
+        // `char::is_whitespace` also splits on a few non-ASCII spaces; keep doing that.
+        for piece in masked[start..i].split(|c: char| c.is_whitespace() && !c.is_ascii()) {
+            match quoted_assignment(piece) {
+                Some((key, words)) => {
+                    out.push(format!("{key}="));
+                    out.extend(words.split_whitespace().map(str::to_owned));
+                }
+                None if piece.is_empty() => {}
+                // A bracketed field keeps its words and loses its padding: `[  6%]` and
+                // `[ 93%]` are the same field.
+                None if piece.bytes().any(|b| b.is_ascii_whitespace()) => {
+                    out.push(piece.split_ascii_whitespace().collect::<Vec<_>>().join(" "));
+                }
+                None => out.push(piece.to_string()),
+            }
+        }
+    }
+}
+
+// number + unit, e.g. "512KiB", "12 ms", "3.4s", "200Mbps"; and, first, a duration in more
+// than one unit as Go and many CLIs print it: `1m6.046s`, `2h45m`, `1h2m3.5s`. gotestsum
+// writes one after every package (`✓ pkg/util (1m6.046s)`), and `(57.002s)` when the
+// package took less than a minute: one field, both forms.
 lazy_re!(
     QUANTITY,
-    r"\b\d+(?:\.\d+)?\s?(?:ns|[uµ]s|ms|s|m|h|d|B|KB|KiB|MB|MiB|GB|GiB|TB|TiB|bps|Kbps|Mbps|Gbps)\b"
+    concat!(
+        r"\b\d+h(?:\d+m)?(?:\d+(?:\.\d+)?s)?\b|\b\d+m\d+(?:\.\d+)?s\b",
+        r"|\b\d+(?:\.\d+)?\s?(?:ns|[uµ]s|ms|s|m|h|d|B|KB|KiB|MB|MiB|GB|GiB|TB|TiB|bps|Kbps|Mbps|Gbps)\b",
+    )
 );
 // hour:minute:second duration/elapsed time not already consumed as part of a timestamp.
 lazy_re!(DURATION_CLOCK, r"\b\d{1,2}:\d{2}:\d{2}(?:\.\d+)?\b");
@@ -491,7 +631,12 @@ fn mask_body(s: &str) -> String {
     }
 
     replace_in(&mut s, &TS_ISO, "<TS>");
-    replace_in(&mut s, &TS_SYSLOG, "<TS>");
+    // Every one of these has a month name in it, and most lines have none. The named
+    // forms go first: the syslog form is the middle of one of them.
+    if MONTH_NAME.is_match(&s) {
+        replace_in(&mut s, &TS_NAMED, "<TS>");
+        replace_in(&mut s, &TS_SYSLOG, "<TS>");
+    }
     replace_in(&mut s, &TS_SLASH, "<TS>");
     replace_in(&mut s, &TS_EPOCH, "<TS>");
     replace_in(&mut s, &DURATION_CLOCK, "<DUR>");
@@ -571,7 +716,7 @@ pub fn tokenize_line(line: &str, custom: &[CustomMask]) -> Vec<String> {
     if let Some(json_tokens) = flatten_json_line(&payload) {
         tokens.extend(json_tokens);
     } else {
-        tokens.extend(mask_body(&payload).split_whitespace().map(str::to_owned));
+        split_tokens(&mask_body(&payload), &mut tokens);
     }
     tokens
 }
@@ -898,14 +1043,83 @@ mod tests {
             tok(line),
             vec![
                 "stdout",
-                "addr=",
-                "\"<IP>\"",
-                "level=",
-                "\"info\"",
+                "addr=\"<IP>\"",
+                "level=\"info\"",
                 "msg=",
-                "\"server listening\"",
+                "server",
+                "listening",
             ]
         );
+    }
+
+    #[test]
+    fn a_quoted_sentence_after_a_key_is_its_words_and_a_quoted_word_stays_whole() {
+        assert_eq!(
+            tok(r#"level=error msg="database connection failed" service=api tag="x""#),
+            vec![
+                "level=error",
+                "msg=",
+                "database",
+                "connection",
+                "failed",
+                "service=api",
+                "tag=\"x\"",
+            ]
+        );
+        // A quoted string that is not a field's value is split as before.
+        assert_eq!(
+            tok(r#"<IP> "GET /health HTTP/1.1" ok"#).len(),
+            tok(r#"<IP> "POST /login HTTP/1.1" ok"#).len()
+        );
+        assert_eq!(tok(r#"say "hello there" twice"#).len(), 4);
+    }
+
+    #[test]
+    fn a_short_bracketed_field_is_one_token_whatever_it_holds() {
+        assert_eq!(
+            tok("INFO [IPC Server handler 14 on 62270] org.apache.Foo: ready"),
+            vec![
+                "INFO",
+                "[IPC Server handler 14 on <NUM>]",
+                "org.apache.Foo:",
+                "ready"
+            ]
+        );
+        assert_eq!(tok("INFO [main] org.apache.Foo: ready").len(), 4);
+        assert_eq!(
+            tok("[Sun Dec 04 04:47:44 2005] [notice] ok"),
+            vec!["[<TS>]", "[notice]", "ok"]
+        );
+        // A sentence in brackets is still a sentence, and an unclosed bracket is a character.
+        assert_eq!(
+            tok("[one two three four five six seven eight nine ten] done").len(),
+            11
+        );
+        assert_eq!(tok("array[ index out of range").len(), 5);
+    }
+
+    #[test]
+    fn masks_durations_in_more_than_one_unit() {
+        assert_eq!(m("ok pkg/util (1m6.046s)"), "ok pkg/util (<QTY>)");
+        assert_eq!(m("ok pkg/util (57.002s)"), "ok pkg/util (<QTY>)");
+        assert_eq!(m("took 2h45m, then 1h2m3.5s"), "took <QTY>, then <QTY>");
+        // Not a duration: a word that starts with digits.
+        assert_eq!(m("the 3m tape and 5hours"), "the <QTY> tape and 5hours");
+    }
+
+    #[test]
+    fn masks_the_timestamps_of_web_servers_and_of_ctime() {
+        assert_eq!(
+            m("[Sun Dec 04 04:47:44 2005] [notice] ok"),
+            "[<TS>] [notice] ok"
+        );
+        assert_eq!(m("Sun Dec  4 04:47:44 UTC 2005 started"), "<TS> started");
+        assert_eq!(m("at Mon Jun 20 03:40:59 2005"), "at <TS>");
+        assert_eq!(
+            m(r#"<IP> - - [04/Dec/2005:04:47:44 +0000] "GET / HTTP/1.1" 200"#),
+            r#"<IP> - - [<TS>] "GET / HTTP/<NUM>" 200"#
+        );
+        assert_eq!(m("Date: Sun, 04 Dec 2005 04:47:44 GMT"), "Date: <TS>");
     }
 
     #[test]
@@ -913,7 +1127,7 @@ mod tests {
         // Unlike the free-text pipeline (which leaves short numbers like exit codes alone),
         // a JSON value is structurally "the variable part" by construction.
         let line = r#"{"retries":3}"#;
-        assert_eq!(tok(line), vec!["retries=", "<NUM>"]);
+        assert_eq!(tok(line), vec!["retries=<NUM>"]);
     }
 
     #[test]

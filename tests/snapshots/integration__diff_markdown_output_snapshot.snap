@@ -1,6 +1,6 @@
 ---
 source: tests/integration.rs
-expression: normalized
+expression: stdout
 ---
 ### logdelta diff
 
@@ -31,4 +31,4 @@ Baseline: `examples/pytest-pass.log` (28 lines) — Target: `examples/pytest-fai
 
 | Template | New value | Baseline value(s) | First seen |
 |---|---|---|---|
-| `tests/test_math.py::test_divide <*> [ <*>` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` `tests/test_math.py::test_divide FAILED                                  [ 57%]` |
+| `tests/test_math.py::test_divide <*> <*>` | `FAILED` | `PASSED` | `examples/pytest-fail.log:9` `tests/test_math.py::test_divide FAILED                                  [ 57%]` |

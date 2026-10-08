@@ -922,20 +922,23 @@ fn reports_show_lines_without_their_escape_sequences() {
 
 #[test]
 fn a_new_value_inside_a_block_is_part_of_the_block() {
-    // The middle line of the failure fits a template the baseline has (`> <*> <*>`), with a
-    // value it never had there. It is a line of the traceback, not a finding of its own.
+    // The middle line of the failure fits a template the baseline has
+    // (`> fetch <*> from cache <*>`), with a value it never had there. It is a line of the
+    // traceback, not a finding of its own.
     let dir = tempfile::tempdir().unwrap();
     let base = dir.path().join("base.log");
     let fail = dir.path().join("fail.log");
     let mut ordinary = String::new();
     for package in ["numpy", "pandas", "scipy", "attrs", "pluggy", "iniconfig"] {
-        ordinary.push_str(&format!("> Downloading {package}\n"));
+        ordinary.push_str(&format!("> fetch {package} from cache ok\n"));
         ordinary.push_str("resolved in 12ms\n");
     }
     std::fs::write(&base, &ordinary).unwrap();
     std::fs::write(
         &fail,
-        format!("{ordinary}def charge(account):\n> raise exc\nE   PaymentDeclined: no funds\n"),
+        format!(
+            "{ordinary}def charge(account):\n> fetch ledger from cache failed\nE   PaymentDeclined: no funds\n"
+        ),
     )
     .unwrap();
     let (base, fail) = (base.to_str().unwrap(), fail.to_str().unwrap());
@@ -946,15 +949,18 @@ fn a_new_value_inside_a_block_is_part_of_the_block() {
     assert!(
         values
             .iter()
-            .any(|f| f["new_value"] == "raise" && f["block"] == 0),
-        "expected the `raise` value, marked as inside block 0: {values:?}"
+            .any(|f| f["new_value"] == "failed" && f["block"] == 0),
+        "expected the `failed` value, marked as inside block 0: {values:?}"
     );
     let out = stdout_of(&["diff", base, fail, "--color", "never"]);
     assert!(out.contains("NEW        2 templates · 2 lines"), "{out}");
     assert!(!out.contains("NEW VALUE"), "{out}");
     // Ungrouped, it is listed like any other new value.
     let flat = stdout_of(&["diff", base, fail, "--color", "never", "--flat"]);
-    assert!(flat.contains("NEW VALUE  > raise"), "{flat}");
+    assert!(
+        flat.contains("NEW VALUE  > fetch <*> from cache failed"),
+        "{flat}"
+    );
 }
 
 /// The JSON report of `baseline` against `target`, with the paths (which differ between the
@@ -1069,4 +1075,154 @@ fn gzip_is_recognized_by_its_content_not_its_name() {
     let gzipped =
         diff_json_without_paths(&fixture("pytest-pass.log"), compressed.to_str().unwrap());
     assert_eq!(plain, gzipped);
+}
+
+/// Writes `lines` to a file in `dir` and returns its path.
+fn log_file(dir: &tempfile::TempDir, name: &str, lines: &[String]) -> String {
+    let path = dir.path().join(name);
+    std::fs::write(&path, lines.join("\n") + "\n").unwrap();
+    path.to_str().unwrap().to_string()
+}
+
+#[test]
+fn a_new_message_in_a_json_log_is_a_new_template() {
+    // Every line has the same keys. Counted as agreement, the keys alone made any two
+    // lines one template, and a new error among them changed nothing a report could show.
+    let event = |second: u32, level: &str, msg: &str| {
+        format!(
+            r#"{{"ts":"2024-01-01T00:00:{second:02}Z","level":"{level}","msg":"{msg}","service":"api","port":8080}}"#
+        )
+    };
+    let dir = tempfile::tempdir().unwrap();
+    let mut good = vec![event(0, "info", "server started")];
+    good.extend((1..40).map(|s| {
+        event(
+            s,
+            "info",
+            if s % 3 == 0 {
+                "cache refreshed"
+            } else {
+                "request handled"
+            },
+        )
+    }));
+    let mut bad = good.clone();
+    bad.insert(20, event(20, "error", "database connection failed"));
+    let (good, bad) = (
+        log_file(&dir, "good.log", &good),
+        log_file(&dir, "bad.log", &bad),
+    );
+
+    let v: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", &good, &bad, "--json"])).unwrap();
+    let new: Vec<&serde_json::Value> = v["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|f| f["kind"] == "new")
+        .collect();
+    assert_eq!(new.len(), 1, "{v}");
+    assert!(new[0]["template"]
+        .as_str()
+        .unwrap()
+        .contains("database connection failed"));
+    assert_eq!(v["total_templates"], 4);
+
+    // The same message at a level it never had is a new value of that template.
+    let mut louder = (0..40)
+        .map(|s| event(s, "info", "request handled"))
+        .collect::<Vec<_>>();
+    let quiet = log_file(&dir, "quiet.log", &louder);
+    louder[30] = event(30, "error", "request handled");
+    let louder = log_file(&dir, "louder.log", &louder);
+    let out = stdout_of(&["diff", &quiet, &louder, "--color", "never"]);
+    assert!(out.contains("NEW VALUE"), "{out}");
+    assert!(out.contains(r#"level="error""#), "{out}");
+}
+
+#[test]
+fn an_instance_that_stops_writing_a_line_is_reported_gone() {
+    // Five instances write the same line; the template is one, `<*> health check ok`.
+    let run = |silent: Option<u32>| -> Vec<String> {
+        (0..60)
+            .flat_map(|tick| (0..5).map(move |instance| (tick, instance)))
+            .filter(|(_, instance)| Some(*instance) != silent)
+            .map(|(tick, instance)| {
+                format!("2024-01-01T00:{tick:02}:00Z [svc-search-{instance}] health check ok")
+            })
+            .collect()
+    };
+    let dir = tempfile::tempdir().unwrap();
+    let good = log_file(&dir, "good.log", &run(None));
+    let bad = log_file(&dir, "bad.log", &run(Some(3)));
+    let out = stdout_of(&["diff", &good, &bad, "--color", "never"]);
+    assert!(
+        out.contains("2 templates") || out.contains("1 template"),
+        "{out}"
+    );
+    assert!(
+        out.contains("GONE       baseline=60 target=0")
+            && out.contains("[svc-search-3] health check ok"),
+        "{out}"
+    );
+    // A pass against a pass says nothing, and neither do workers that change their names.
+    let again = log_file(&dir, "again.log", &run(None));
+    assert!(stdout_of(&["diff", &good, &again, "--color", "never"]).contains("0 findings"));
+    let renamed: Vec<String> = run(None)
+        .iter()
+        .map(|line| line.replace("svc-search-", "svc-search-1"))
+        .collect();
+    let renamed = log_file(&dir, "renamed.log", &renamed);
+    let out = stdout_of(&["diff", &good, &renamed, "--color", "never"]);
+    assert!(!out.contains("GONE"), "{out}");
+}
+
+#[test]
+fn a_log_from_another_day_is_not_new_for_its_date() {
+    // klog puts the month and day in the first token of every line: `I1004`, `I1005`.
+    let run = |day: &str| -> Vec<String> {
+        (0..30)
+            .map(|n| {
+                format!(
+                    "I{day} 00:40:{n:02}.152211   44882 controller.go:667] quota admission added evaluator for: pods"
+                )
+            })
+            .chain(std::iter::once(format!(
+                "W{day} 00:41:00.000000   44882 mutation_detector.go:54] Mutation detector is enabled"
+            )))
+            .collect()
+    };
+    let dir = tempfile::tempdir().unwrap();
+    let monday = log_file(&dir, "monday.log", &run("1004"));
+    let tuesday = log_file(&dir, "tuesday.log", &run("1005"));
+    let out = stdout_of(&["diff", &monday, &tuesday, "--color", "never"]);
+    assert!(out.contains("2 templates · 0 findings"), "{out}");
+}
+
+#[test]
+fn a_new_value_after_a_bracketed_field_is_shown_in_its_place() {
+    // `[worker pool main]` is one token of three words. The value that flipped is the
+    // template's fifth token and its seventh word.
+    let dir = tempfile::tempdir().unwrap();
+    let line = |n: u32, status: &str| format!("INFO [worker pool main] job {n} {status} cleanly");
+    let good: Vec<String> = (0..12).map(|n| line(n, "PASSED")).collect();
+    let mut bad = good.clone();
+    bad[7] = line(7, "FAILED");
+    let (good, bad) = (
+        log_file(&dir, "good.log", &good),
+        log_file(&dir, "bad.log", &bad),
+    );
+    let out = stdout_of(&["diff", &good, &bad, "--color", "never"]);
+    assert!(
+        out.contains(
+            "NEW VALUE  INFO [worker pool main] job <*> FAILED cleanly  (baseline: PASSED)"
+        ),
+        "{out}"
+    );
+    let v: serde_json::Value =
+        serde_json::from_str(&stdout_of(&["diff", &good, &bad, "--json"])).unwrap();
+    let flipped = &v["value_findings"][0];
+    let words: Vec<&str> = flipped["template"].as_str().unwrap().split(' ').collect();
+    assert_eq!(words[flipped["position"].as_u64().unwrap() as usize], "<*>");
+    assert_eq!(flipped["position"], 6);
 }
