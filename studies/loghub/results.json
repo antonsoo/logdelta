@@ -1,0 +1,4656 @@
+{
+ "checkout": {
+  "label": "checkout",
+  "loghub_commit": "dd61d0952749ee7963bde24220d1be5ede023033",
+  "average": {
+   "message": 0.8151,
+   "whole_line": 0.7072,
+   "drain_published": 0.8654
+  },
+  "systems": {
+   "HDFS": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9975,
+     "templates": 14,
+     "found": 16,
+     "templates_split": 1,
+     "lines_in_split_templates": 5,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 5,
+       "into": 3,
+       "examples": [
+        "BLOCK* ask 10.250.18.114:50010 to delete  blk_-5140072410813878235",
+        "BLOCK* ask 10.250.17.177:50010 to delete  blk_-8570780307468499817 blk_-9122557405432088649 blk_-4393063808227796056 blk_8767569714374844347 blk_7079754042611867581 blk_7608961006114219538 blk_-501727",
+        "BLOCK* ask 10.251.126.5:50010 to delete  blk_-9016567407076718172 blk_-8695715290502978219 blk_-7168328752988473716 blk_-4355192005224403537 blk_-3757501769775889193 blk_-154600013573668394 blk_167132"
+       ]
+      }
+     ],
+     "largest_merges": []
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9975,
+     "templates": 14,
+     "found": 16,
+     "templates_split": 1,
+     "lines_in_split_templates": 5,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 5,
+       "into": 3,
+       "examples": [
+        "081110 212510 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.18.114:50010 to delete  blk_-5140072410813878235",
+        "081111 065254 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.17.177:50010 to delete  blk_-8570780307468499817 blk_-9122557405432088649 blk_-4393063808227796056 blk_8767569714374844347 blk_707975404261186",
+        "081111 091733 19 INFO dfs.FSNamesystem: BLOCK* ask 10.251.126.5:50010 to delete  blk_-9016567407076718172 blk_-8695715290502978219 blk_-7168328752988473716 blk_-4355192005224403537 blk_-37575017697758"
+       ]
+      }
+     ],
+     "largest_merges": []
+    },
+    "drain_published": 0.9975
+   },
+   "Hadoop": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.962,
+     "templates": 114,
+     "found": 99,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 7,
+     "lines_in_merged_groups": 76,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 42,
+       "templates": 8,
+       "examples": [
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from NEW to UNASSIGNED",
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from ASSIGNED to RUNNING"
+       ]
+      },
+      {
+       "lines": 22,
+       "templates": 3,
+       "examples": [
+        "task_1445144423722_0020_m_000000 Task Transitioned from NEW to SCHEDULED",
+        "task_1445144423722_0020_m_000000 Task Transitioned from SCHEDULED to RUNNING",
+        "task_1445144423722_0020_m_000003 Task Transitioned from RUNNING to SUCCEEDED"
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 3,
+       "examples": [
+        "job_1445144423722_0020Job Transitioned from NEW to INITED",
+        "job_1445144423722_0020Job Transitioned from INITED to SETUP",
+        "job_1445144423722_0020Job Transitioned from SETUP to RUNNING"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.932,
+     "templates": 114,
+     "found": 90,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 13,
+     "lines_in_merged_groups": 136,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 64,
+       "templates": 11,
+       "examples": [
+        "2015-10-18 18:01:53,885 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from NEW to UNA",
+        "2015-10-18 18:01:53,869 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskImpl: task_1445144423722_0020_m_000000 Task Transitioned from NEW to SCHEDULED",
+        "2015-10-18 18:01:57,260 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from UNASSIGNED"
+       ]
+      },
+      {
+       "lines": 17,
+       "templates": 2,
+       "examples": [
+        "2015-10-18 18:01:56,916 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: After Scheduling: PendingReds:1 ScheduledMaps:9 ScheduledReds:0 AssignedMaps:1 Assig",
+        "2015-10-18 18:01:54,791 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: Before Scheduling: PendingReds:1 ScheduledMaps:10 ScheduledReds:0 AssignedMaps:0 Ass"
+       ]
+      },
+      {
+       "lines": 13,
+       "templates": 2,
+       "examples": [
+        "2015-10-18 18:01:57,291 INFO [ContainerLauncher #0] org.apache.hadoop.mapreduce.v2.app.launcher.ContainerLauncherImpl: Launching attempt_1445144423722_0020_m_000000_0",
+        "2015-10-18 18:04:50,208 INFO [ContainerLauncher #0] org.apache.hadoop.mapreduce.v2.app.launcher.ContainerLauncherImpl: KILLING attempt_1445144423722_0020_m_000003_0"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9475
+   },
+   "Spark": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9225,
+     "templates": 36,
+     "found": 33,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 155,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 149,
+       "templates": 2,
+       "examples": [
+        "Block broadcast_9_piece0 stored as bytes in memory (estimated size 5.2 KB, free 5.2 KB)",
+        "Block broadcast_9 stored as values in memory (estimated size 8.8 KB, free 14.0 KB)"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "Changing view acls to: yarn,curi",
+        "Changing modify acls to: yarn,curi"
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "Successfully started service 'sparkExecutorActorSystem' on port 55904.",
+        "Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40984."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.92,
+     "templates": 36,
+     "found": 29,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 160,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 149,
+       "templates": 2,
+       "examples": [
+        "17/06/09 20:10:45 INFO storage.MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 5.2 KB, free 5.2 KB)",
+        "17/06/09 20:10:46 INFO storage.MemoryStore: Block broadcast_9 stored as values in memory (estimated size 8.8 KB, free 14.0 KB)"
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 5,
+       "examples": [
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.tip.id is deprecated. Instead, use mapreduce.task.id",
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id",
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "17/06/09 20:10:40 INFO spark.SecurityManager: Changing view acls to: yarn,curi",
+        "17/06/09 20:10:40 INFO spark.SecurityManager: Changing modify acls to: yarn,curi"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.92
+   },
+   "Zookeeper": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9665,
+     "templates": 50,
+     "found": 46,
+     "templates_split": 1,
+     "lines_in_split_templates": 11,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 56,
+     "largest_splits": [
+      {
+       "event": "E44",
+       "lines": 11,
+       "into": 3,
+       "examples": [
+        "Server environment:user.dir=/",
+        "Server environment:java.vendor=Oracle Corporation",
+        "Server environment:zookeeper.version=3.4.5--1, built on 06/10/2013 17:26 GMT"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "Client attempting to establish new session at /10.10.34.19:33425",
+        "Client attempting to renew session 0x24ed93119420016 at /10.10.34.13:37115"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 6,
+       "examples": [
+        "Notification: 2 (n.leader), 0xb00000084 (n.zxid), 0x2 (n.round), LOOKING (n.state), 1 (n.sid), 0xb (n.peerEPoch), LOOKING (my state)",
+        "Notification: 3 (n.leader), 0x10000006b (n.zxid), 0x2 (n.round), LOOKING (n.state), 3 (n.sid), 0x1 (n.peerEPoch), LEADING (my state)",
+        "Notification: 3 (n.leader), 0x700000197 (n.zxid), 0x1 (n.round), LEADING (n.state), 3 (n.sid), 0x7 (n.peerEPoch), LOOKING (my state)"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9595,
+     "templates": 50,
+     "found": 41,
+     "templates_split": 1,
+     "lines_in_split_templates": 11,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 70,
+     "largest_splits": [
+      {
+       "event": "E44",
+       "lines": 11,
+       "into": 3,
+       "examples": [
+        "2015-07-30 17:43:58,186 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:user.dir=/",
+        "2015-08-10 18:23:50,332 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:java.vendor=Oracle Corporation",
+        "2015-08-10 18:25:22,080 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:zookeeper.version=3.4.5--1, built on 06/10/2013 17:26 GMT"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "2015-07-29 21:01:41,504 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:ZooKeeperServer@839] - Client attempting to establish new session at /10.10.34.19:33425",
+        "2015-07-29 19:54:13,615 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:ZooKeeperServer@832] - Client attempting to renew session 0x24ed93119420016 at /10.10.34.13:37115"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 6,
+       "examples": [
+        "2015-08-20 17:14:12,326 - INFO  [WorkerReceiver[myid=1]:FastLeaderElection@542] - Notification: 2 (n.leader), 0xb00000084 (n.zxid), 0x2 (n.round), LOOKING (n.state), 1 (n.sid), 0xb (n.peerEPoch), LOOK",
+        "2015-07-29 19:56:54,754 - INFO  [WorkerReceiver[myid=2]:FastLeaderElection@542] - Notification: 3 (n.leader), 0x10000006b (n.zxid), 0x2 (n.round), LOOKING (n.state), 3 (n.sid), 0x1 (n.peerEPoch), LEAD",
+        "2015-08-07 07:27:47,425 - INFO  [WorkerReceiver[myid=1]:FastLeaderElection@542] - Notification: 3 (n.leader), 0x700000197 (n.zxid), 0x1 (n.round), LEADING (n.state), 3 (n.sid), 0x7 (n.peerEPoch), LOOK"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 5,
+       "examples": [
+        "2015-07-31 15:31:15,575 - INFO  [main:DatadirCleanupManager@79] - autopurge.purgeInterval set to 0",
+        "2015-07-30 23:52:53,800 - INFO  [main:QuorumPeer@933] - minSessionTimeout set to -1",
+        "2015-08-10 18:23:49,901 - INFO  [main:DatadirCleanupManager@78] - autopurge.snapRetainCount set to 3"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9665
+   },
+   "OpenStack": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.881,
+     "templates": 43,
+     "found": 37,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 238,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 109,
+       "templates": 4,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Resumed (Lifecycle Event)",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Started (Lifecycle Event)",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Paused (Lifecycle Event)"
+       ]
+      },
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Instance spawned successfully.",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Instance destroyed successfully."
+       ]
+      },
+      {
+       "lines": 43,
+       "templates": 2,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Took 19.05 seconds to spawn the instance on the hypervisor.",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Took 1.03 seconds to destroy the instance on the hypervisor."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.232,
+     "templates": 43,
+     "found": 29,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 9,
+     "lines_in_merged_groups": 1536,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 1017,
+       "templates": 3,
+       "examples": [
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:00.008 25746 INFO nova.osapi_compute.wsgi.server [req-38101a0b-2096-447d-96ea-a692162415ae 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:10.285 25743 INFO nova.osapi_compute.wsgi.server [req-ab451068-9756-4ad9-9d18-5ceaa6424627 f7b8d1f1d4d44643b07fa10ca7d021fb e9746973ac574c6b8a9e8857",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:17.504 25746 INFO nova.osapi_compute.wsgi.server [req-c53a921a-16c7-422e-8c9d-c922a720d047 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335"
+       ]
+      },
+      {
+       "lines": 112,
+       "templates": 2,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:05.367 2931 INFO nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Active base files: /var/lib/nova/instances/_b",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:20.346 2931 INFO nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Removable base files: /var/lib/nova/instances"
+       ]
+      },
+      {
+       "lines": 109,
+       "templates": 4,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:10.296 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM R",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM S",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.562 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM P"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7325
+   },
+   "BGL": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.951,
+     "templates": 120,
+     "found": 103,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 12,
+     "lines_in_merged_groups": 98,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 22,
+       "templates": 2,
+       "examples": [
+        "instruction address: 0x00004ed8",
+        "instruction address space.........0"
+       ]
+      },
+      {
+       "lines": 21,
+       "templates": 5,
+       "examples": [
+        "program interrupt: illegal instruction......0",
+        "program interrupt: privileged instruction...0",
+        "program interrupt: imprecise exception......0"
+       ]
+      },
+      {
+       "lines": 13,
+       "templates": 2,
+       "examples": [
+        "data address: 0x00000002",
+        "data address space................0"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.744,
+     "templates": 120,
+     "found": 96,
+     "templates_split": 17,
+     "lines_in_split_templates": 458,
+     "groups_merging_templates": 17,
+     "lines_in_merged_groups": 162,
+     "largest_splits": [
+      {
+       "event": "E70",
+       "lines": 208,
+       "into": 2,
+       "examples": [
+        "- 1125082080 2005.08.26 R63-M1-NF-C:J03-U11 2005-08-26-11.48.00.152812 R63-M1-NF-C:J03-U11 RAS KERNEL INFO iar 003a90dc dear 00b35148",
+        "- 1125082053 2005.08.26 R62-M1-N3-C:J04-U01 2005-08-26-11.47.33.903841 R62-M1-N3-C:J04-U01 RAS KERNEL INFO iar 003a90fc dear 00b360e8"
+       ]
+      },
+      {
+       "event": "E4",
+       "lines": 121,
+       "into": 2,
+       "examples": [
+        "- 1121900596 2005.07.20 R24-M0-NB-C:J06-U11 2005-07-20-16.03.16.028154 R24-M0-NB-C:J06-U11 RAS KERNEL INFO 8 floating point alignment exceptions",
+        "- 1121900469 2005.07.20 R33-M1-N3-C:J02-U01 2005-07-20-16.01.09.861175 R33-M1-N3-C:J02-U01 RAS KERNEL INFO 8 floating point alignment exceptions"
+       ]
+      },
+      {
+       "event": "E77",
+       "lines": 42,
+       "into": 2,
+       "examples": [
+        "- 1117838570 2005.06.03 R02-M1-N0-C:J12-U11 2005-06-03-15.42.50.675872 R02-M1-N0-C:J12-U11 RAS KERNEL INFO instruction cache parity error corrected",
+        "- 1130840276 2005.11.01 R20-M1-NF-C:J10-U01 2005-11-01-02.17.56.853469 R20-M1-NF-C:J10-U01 RAS KERNEL INFO instruction cache parity error corrected"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 34,
+       "templates": 17,
+       "examples": [
+        "- 1118767015 2005.06.14 R24-M1-N3-C:J16-U01 2005-06-14-09.36.55.370589 R24-M1-N3-C:J16-U01 RAS KERNEL FATAL data address: 0x00000002",
+        "- 1118767283 2005.06.14 R20-M1-N3-C:J14-U01 2005-06-14-09.41.23.815131 R20-M1-N3-C:J14-U01 RAS KERNEL FATAL machine check: i-fetch......................0",
+        "- 1118709955 2005.06.13 R10-M0-N1-C:J17-U11 2005-06-13-17.45.55.674418 R10-M0-N1-C:J17-U11 RAS KERNEL FATAL instruction address: 0x00004ed8"
+       ]
+      },
+      {
+       "lines": 32,
+       "templates": 2,
+       "examples": [
+        "- 1117838570 2005.06.03 R02-M1-N0-C:J12-U11 2005-06-03-15.42.50.675872 R02-M1-N0-C:J12-U11 RAS KERNEL INFO instruction cache parity error corrected",
+        "- 1121900469 2005.07.20 R33-M1-N3-C:J02-U01 2005-07-20-16.01.09.861175 R33-M1-N3-C:J02-U01 RAS KERNEL INFO 8 floating point alignment exceptions"
+       ]
+      },
+      {
+       "lines": 20,
+       "templates": 2,
+       "examples": [
+        "- 1118709996 2005.06.13 R12-M1-NB-C:J09-U01 2005-06-13-17.46.36.623273 R12-M1-NB-C:J09-U01 RAS KERNEL FATAL instruction address: 0x00004ed8",
+        "- 1118768158 2005.06.14 R25-M0-NF-C:J05-U01 2005-06-14-09.55.58.097920 R25-M0-NF-C:J05-U01 RAS KERNEL FATAL data address: 0x00000002"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9625
+   },
+   "HPC": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.889,
+     "templates": 46,
+     "found": 43,
+     "templates_split": 1,
+     "lines_in_split_templates": 4,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 218,
+     "largest_splits": [
+      {
+       "event": "E20",
+       "lines": 4,
+       "into": 3,
+       "examples": [
+        "inconsistent nodesets node-160 0x0001edfe <ok> node-161 0x1001fdfe <ok> node-162 0x1001fdfe <ok> node-163 0x1001fdfe <ok>",
+        "inconsistent nodesets node-1 0x000001fc <ok> node-2 0x000001fc <ok> node-7 0x000001fc <ok> node-4 0x000001fc <ok> node-6 0x000001fc <ok> node-5 0x000001fc <ok> node-3 0x000001fc <ok> node-14 0x0003fdf",
+        "inconsistent nodesets node-31 0x1fffffffe <ok> node-0 0xfffffffe <ok> node-1 0xfffffffe <ok> node-2 0xfffffffe <ok> node-30 0xfffffffe <ok>"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 91,
+       "templates": 3,
+       "examples": [
+        "NIFF: node node-129 has detected an available network connection on network 10.128.0.0 via interface ee0",
+        "NIFF: node node-148 has detected an available network connection on network 5.5.226.0 via interface alt0",
+        "NIFF: node node-130 has detected an available network connection on network 10.96.0.0 via interface scip0"
+       ]
+      },
+      {
+       "lines": 90,
+       "templates": 2,
+       "examples": [
+        "Fan speeds ( 3552 3534 3375 **** 3515 3479 )",
+        "Fan speeds ( 3552 3534 3375 4245 3515 3479 )"
+       ]
+      },
+      {
+       "lines": 26,
+       "templates": 2,
+       "examples": [
+        "Link error",
+        "Link ok"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.4335,
+     "templates": 46,
+     "found": 35,
+     "templates_split": 6,
+     "lines_in_split_templates": 256,
+     "groups_merging_templates": 10,
+     "lines_in_merged_groups": 1122,
+     "largest_splits": [
+      {
+       "event": "E38",
+       "lines": 162,
+       "into": 2,
+       "examples": [
+        "2579921 node-140 node status 1074216940 1 running",
+        "2286759 full partition status 1061219795 -1 running"
+       ]
+      },
+      {
+       "event": "E32",
+       "lines": 60,
+       "into": 2,
+       "examples": [
+        "2567354 node-147 node status 1074098611 1 not responding",
+        "2567461 node-C0 domain status 1074098612 1 not responding"
+       ]
+      },
+      {
+       "event": "E21",
+       "lines": 13,
+       "into": 2,
+       "examples": [
+        "30700 Interconnect-1T00 switch_module bcast-error 1076189965 1 Link error",
+        "2557080 Interconnect-1N01 switch_module error 1072913499 1 Link error"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 431,
+       "templates": 3,
+       "examples": [
+        "2559971 gige7 gige temperature 1073151998 1 normal",
+        "2556843 gige5 gige temperature 1072878243 1 warning",
+        "2561239 gige4 gige temperature 1073375350 1 critical"
+       ]
+      },
+      {
+       "lines": 148,
+       "templates": 2,
+       "examples": [
+        "2567534 node-97 node status 1074098640 1 configured out",
+        "2567354 node-147 node status 1074098611 1 not responding"
+       ]
+      },
+      {
+       "lines": 141,
+       "templates": 6,
+       "examples": [
+        "2575909 node-162 action start 1074178193 1 boot  (command 1911)",
+        "2601401 node-184 action start 1074298390 1 wait  (command 1975)",
+        "2608062 node-238 action start 1074461014 1 halt  (command 1982)"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.887
+   },
+   "Thunderbird": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9525,
+     "templates": 149,
+     "found": 160,
+     "templates_split": 4,
+     "lines_in_split_templates": 62,
+     "groups_merging_templates": 7,
+     "lines_in_merged_groups": 33,
+     "largest_splits": [
+      {
+       "event": "E146",
+       "lines": 34,
+       "into": 5,
+       "examples": [
+        "Warning: we failed to resolve data source name an14 an15 an16 an17 an18 an19 an20 an21 an22 an23 an24 an25 an26 an27 an28 an29 an30 an31 an32 an33 an34 an35 an36 an37 an38 an39 an40 an41 an42 an43 an4",
+        "Warning: we failed to resolve data source name bn14 bn15 bn16 bn17 bn18 bn19 bn20 bn21 bn22 bn23 bn24 bn25 bn26 bn27 bn28 bn29 bn30 bn31 bn32 bn33 bn34 bn35 bn36 bn37 bn38 bn39 bn40 bn41 bn42 bn43 bn4",
+        "Warning: we failed to resolve data source name cn14 cn15 cn16 cn17 cn18 cn19 cn20 cn21 cn22 cn23 cn24 cn25 cn26 cn27 cn28 cn29 cn30 cn31 cn32 cn33 cn34 cn35 cn36 cn37 cn38 cn39 cn40 cn41 cn42 cn43 cn4"
+       ]
+      },
+      {
+       "event": "E111",
+       "lines": 11,
+       "into": 2,
+       "examples": [
+        "RRD_update (/var/lib/ganglia/rrds/C Nodes/cn304/pkts_out.rrd): illegal attempt to update using time 1131563037 when last update time is 1131563037 (minimum one second step)",
+        "RRD_update (/var/lib/ganglia/rrds/unspecified/badmin3/disk_total.rrd): illegal attempt to update using time 1131559854 when last update time is 1131559854 (minimum one second step)"
+       ]
+      },
+      {
+       "event": "E15",
+       "lines": 10,
+       "into": 10,
+       "examples": [
+        "jA9J1UvC004306: from=root, size=629060, class=0, nrcpts=1, msgid=<200511091901.jA9J1UvC004306@eadmin1>, relay=#7#@localhost",
+        "jA9J1Wd7019391: from=root, size=1594553, class=0, nrcpts=1, msgid=<200511091901.jA9J1Wd7019391@cadmin1>, relay=#7#@localhost",
+        "jA9J1WSU011176: from=root, size=1593894, class=0, nrcpts=1, msgid=<200511091901.jA9J1WSU011176@badmin1>, relay=#7#@localhost"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 19,
+       "templates": 2,
+       "examples": [
+        "(root) CMD (run-parts /etc/cron.hourly)",
+        "(root) CMD (/projects/tbird/temps/get_temps a)"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 4,
+       "examples": [
+        "registered new driver hiddev",
+        "registered new driver hub",
+        "registered new driver usbfs"
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "kernel time sync disabled 0041",
+        "kernel time sync enabled 0001"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9405,
+     "templates": 149,
+     "found": 137,
+     "templates_split": 5,
+     "lines_in_split_templates": 59,
+     "groups_merging_templates": 15,
+     "lines_in_merged_groups": 61,
+     "largest_splits": [
+      {
+       "event": "E146",
+       "lines": 34,
+       "into": 5,
+       "examples": [
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name an14 an15 an16 an17 an18 an19 an20 an21 an22 an23 an24 an25 an26 an27 an28",
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name bn14 bn15 bn16 bn17 bn18 bn19 bn20 bn21 bn22 bn23 bn24 bn25 bn26 bn27 bn28",
+        "- 1131567054 2005.11.09 tbird-admin1 Nov 9 12:10:54 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name cn14 cn15 cn16 cn17 cn18 cn19 cn20 cn21 cn22 cn23 cn24 cn25 cn26 cn27 cn28"
+       ]
+      },
+      {
+       "event": "E111",
+       "lines": 11,
+       "into": 2,
+       "examples": [
+        "- 1131566637 2005.11.09 tbird-admin1 Nov 9 12:03:57 local@tbird-admin1 /apps/x86_64/system/ganglia-3.0.1/sbin/gmetad[1682]: RRD_update (/var/lib/ganglia/rrds/C Nodes/cn304/pkts_out.rrd): illegal attem",
+        "- 1131567054 2005.11.09 tbird-admin1 Nov 9 12:10:54 local@tbird-admin1 /apps/x86_64/system/ganglia-3.0.1/sbin/gmetad[1691]: RRD_update (/var/lib/ganglia/rrds/unspecified/badmin3/disk_total.rrd): illeg"
+       ]
+      },
+      {
+       "event": "E15",
+       "lines": 10,
+       "into": 5,
+       "examples": [
+        "- 1131566491 2005.11.09 eadmin1 Nov 9 12:01:31 src@eadmin1 sendmail[4306]: jA9J1UvC004306: from=root, size=629060, class=0, nrcpts=1, msgid=<200511091901.jA9J1UvC004306@eadmin1>, relay=#7#@localhost",
+        "- 1131566494 2005.11.09 cadmin1 Nov 9 12:01:34 src@cadmin1 sendmail[19391]: jA9J1Wd7019391: from=root, size=1594553, class=0, nrcpts=1, msgid=<200511091901.jA9J1Wd7019391@cadmin1>, relay=#7#@localhost",
+        "- 1131566495 2005.11.09 badmin1 Nov 9 12:01:35 src@badmin1 sendmail[11176]: jA9J1WSU011176: from=root, size=1593894, class=0, nrcpts=1, msgid=<200511091901.jA9J1WSU011176@badmin1>, relay=#7#@localhost"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 17,
+       "templates": 5,
+       "examples": [
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: PCI Interrupt Routing Table [\\_SB_.PCI0.PALO.DOBA._PRT]",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: LAPIC_NMI (acpi_id[0x01] high edge lint[0x1])",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: HPET id: 0xffffffff base: 0xfed00000"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "- 1131566501 2005.11.09 aadmin1 Nov 9 12:01:41 src@aadmin1 dhcpd: DHCPOFFER on 10.100.4.251 to 00:11:43:e3:ba:c3 via eth1",
+        "- 1131566503 2005.11.09 aadmin1 Nov 9 12:01:43 src@aadmin1 dhcpd: DHCPACK on 10.100.4.251 to 00:11:43:e3:ba:c3 via eth1"
+       ]
+      },
+      {
+       "lines": 6,
+       "templates": 3,
+       "examples": [
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: Processor [CPU0] (supports C1)",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: Local APIC address 0xfee00000",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: Power Button (FF) [PWRF]"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.955
+   },
+   "Windows": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.692,
+     "templates": 50,
+     "found": 46,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 616,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 609,
+       "templates": 2,
+       "examples": [
+        "Session: 30546173_4261722401 initialized by client WindowsUpdateAgent.",
+        "Session: 11152_142416105 initialized by client SPP."
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 2,
+       "examples": [
+        "Ending TrustedInstaller initialization.",
+        "Ending TrustedInstaller finalization."
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "Starting TrustedInstaller finalization.",
+        "Starting TrustedInstaller initialization."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.567,
+     "templates": 50,
+     "found": 41,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 7,
+     "lines_in_merged_groups": 866,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 609,
+       "templates": 2,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Session: 30546173_4261722401 initialized by client WindowsUpdateAgent.",
+        "2016-09-29 00:01:03, Info                  CBS    Session: 11152_142416105 initialized by client SPP."
+       ]
+      },
+      {
+       "lines": 242,
+       "templates": 2,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Failed to get next element [HRESULT = 0x800f080d - CBS_E_MANIFEST_INVALID_ITEM]",
+        "2016-09-28 04:30:32, Info                  CBS    Failed to internally open package. [HRESULT = 0x800f0805 - CBS_E_INVALID_PACKAGE]"
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 4,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Ending TrustedInstaller initialization.",
+        "2016-09-28 04:40:55, Info                  CBS    Starting TrustedInstaller finalization.",
+        "2016-09-28 04:40:55, Info                  CBS    Ending TrustedInstaller finalization."
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.997
+   },
+   "Linux": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.6865,
+     "templates": 118,
+     "found": 112,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 627,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 372,
+       "templates": 3,
+       "examples": [
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=220-135-151-1.hinet-ip.hinet.net  user=root",
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.46.224.253  user=guest",
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=212.0.132.20  user=test"
+       ]
+      },
+      {
+       "lines": 123,
+       "templates": 2,
+       "examples": [
+        "session opened for user cyrus by (uid=0)",
+        "session opened for user root by LOGIN(uid=0)"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4",
+        "authentication failure; logname= uid=0 euid=0 tty=:0 ruser= rhost="
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.6775,
+     "templates": 118,
+     "found": 103,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 11,
+     "lines_in_merged_groups": 645,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 372,
+       "templates": 3,
+       "examples": [
+        "Jun 15 02:04:59 combo sshd(pam_unix)[20882]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=220-135-151-1.hinet-ip.hinet.net  user=root",
+        "Jun 17 19:43:13 combo sshd(pam_unix)[30565]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.46.224.253  user=guest",
+        "Jul  8 20:14:55 combo sshd(pam_unix)[20963]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=212.0.132.20  user=test"
+       ]
+      },
+      {
+       "lines": 123,
+       "templates": 2,
+       "examples": [
+        "Jun 15 04:06:18 combo su(pam_unix)[21416]: session opened for user cyrus by (uid=0)",
+        "Jul  7 08:06:15 combo login(pam_unix)[2421]: session opened for user root by LOGIN(uid=0)"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "Jun 14 15:16:01 combo sshd(pam_unix)[19939]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4 ",
+        "Jul 11 11:33:13 combo gdm(pam_unix)[2803]: authentication failure; logname= uid=0 euid=0 tty=:0 ruser= rhost= "
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.69
+   },
+   "Mac": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.7435,
+     "templates": 341,
+     "found": 308,
+     "templates_split": 3,
+     "lines_in_split_templates": 173,
+     "groups_merging_templates": 33,
+     "lines_in_merged_groups": 340,
+     "largest_splits": [
+      {
+       "event": "E189",
+       "lines": 166,
+       "into": 7,
+       "examples": [
+        "com.apple.icloud.fmfd.heartbeat: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 439034 seconds.  Ignoring.",
+        "com.apple.Safari.SafeBrowsing.Update: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 2450 seconds.  Ignoring.",
+        "com.apple.CacheDelete.daily: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 12119 seconds.  Ignoring."
+       ]
+      },
+      {
+       "event": "E210",
+       "lines": 4,
+       "into": 2,
+       "examples": [
+        "en0: Supported channels 1 2 3 4 5 6 7 8 9 10 11 12 13 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161",
+        "en0: Supported channels 1 2 3 4 5 6 7 8 9 10 11 12 13 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165"
+       ]
+      },
+      {
+       "event": "E265",
+       "lines": 3,
+       "into": 2,
+       "examples": [
+        "network changed: v6(en0-:2607:f140:6000:8:d8d1:d506:6046:43e4) DNS- Proxy-",
+        "network changed: v4(en0-:10.105.162.105) v6(en0-:2607:f140:6000:8:c6b3:1ff:fecd:467f) DNS- Proxy-"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 37,
+       "templates": 2,
+       "examples": [
+        "Location icon should now be in state 'Inactive'",
+        "Location icon should now be in state 'Active'"
+       ]
+      },
+      {
+       "lines": 32,
+       "templates": 2,
+       "examples": [
+        "ARPT: 621241.634070: wl0: MDNS: IPV6 Addr: 2607:f140:6000:8:c6b3:1ff:fecd:467f",
+        "ARPT: 626126.086246: wl0: MDNS: IPV4 Addr: 10.105.160.95"
+       ]
+      },
+      {
+       "lines": 28,
+       "templates": 2,
+       "examples": [
+        "ARPT: 620702.879952: AirPort_Brcm43xx::platformWoWEnable: WWEN[disable]",
+        "ARPT: 621342.242614: AirPort_Brcm43xx::platformWoWEnable: WWEN[enable]"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.6885,
+     "templates": 341,
+     "found": 301,
+     "templates_split": 6,
+     "lines_in_split_templates": 212,
+     "groups_merging_templates": 38,
+     "lines_in_merged_groups": 446,
+     "largest_splits": [
+      {
+       "event": "E189",
+       "lines": 166,
+       "into": 7,
+       "examples": [
+        "Jul  1 09:19:13 calvisitor-10-105-160-95 com.apple.cts[258]: com.apple.icloud.fmfd.heartbeat: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 439034 seconds.",
+        "Jul  1 09:22:02 calvisitor-10-105-160-95 com.apple.cts[258]: com.apple.Safari.SafeBrowsing.Update: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 2450 secon",
+        "Jul  1 09:41:44 calvisitor-10-105-160-95 com.apple.cts[43]: com.apple.CacheDelete.daily: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 12119 seconds.  Igno"
+       ]
+      },
+      {
+       "event": "E52",
+       "lines": 29,
+       "into": 2,
+       "examples": [
+        "Jul  1 09:29:02 calvisitor-10-105-160-95 sandboxd[129] ([31211]): com.apple.Addres(31211) deny network-outbound /private/var/run/mDNSResponder",
+        "Jul  3 01:54:51 authorMacBook-Pro sandboxd[129] ([32992]): com.apple.Addres(32992) deny network-outbound /private/var/run/mDNSResponder"
+       ]
+      },
+      {
+       "event": "E51",
+       "lines": 6,
+       "into": 2,
+       "examples": [
+        "Jul  2 13:44:30 authorMacBook-Pro sandboxd[129] ([10018]): QQ(10018) deny mach-lookup com.apple.networking.captivenetworksupport",
+        "Jul  1 14:29:01 calvisitor-10-105-160-95 sandboxd[129] ([10018]): QQ(10018) deny mach-lookup com.apple.networking.captivenetworksupport"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 4,
+       "examples": [
+        "Jul  1 09:29:25 calvisitor-10-105-160-95 kernel[0]: ARPT: 621241.634070: wl0: MDNS: IPV6 Addr: 2607:f140:6000:8:c6b3:1ff:fecd:467f",
+        "Jul  3 14:35:17 calvisitor-10-105-160-237 kernel[0]: ARPT: 682406.173418: wl0: setup_keepalive: Remote IP: 17.249.28.77",
+        "Jul  1 11:38:18 calvisitor-10-105-160-95 kernel[0]: ARPT: 626126.086246: wl0: MDNS: IPV4 Addr: 10.105.160.95"
+       ]
+      },
+      {
+       "lines": 40,
+       "templates": 3,
+       "examples": [
+        "Jul  1 09:02:26 authorMacBook-Pro kernel[0]: ARPT: 620702.879952: AirPort_Brcm43xx::platformWoWEnable: WWEN[disable]",
+        "Jul  1 09:02:26 calvisitor-10-105-160-95 kernel[0]: ARPT: 620701.011328: AirPort_Brcm43xx::syncPowerState: WWEN[enabled]",
+        "Jul  1 09:33:13 calvisitor-10-105-160-95 kernel[0]: ARPT: 621342.242614: AirPort_Brcm43xx::platformWoWEnable: WWEN[enable]"
+       ]
+      },
+      {
+       "lines": 37,
+       "templates": 2,
+       "examples": [
+        "Jul  1 11:29:32 calvisitor-10-105-160-95 locationd[82]: Location icon should now be in state 'Inactive'",
+        "Jul  1 13:42:01 calvisitor-10-105-160-95 locationd[82]: Location icon should now be in state 'Active'"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7865
+   },
+   "Android": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.7535,
+     "templates": 166,
+     "found": 154,
+     "templates_split": 4,
+     "lines_in_split_templates": 79,
+     "groups_merging_templates": 16,
+     "lines_in_merged_groups": 414,
+     "largest_splits": [
+      {
+       "event": "E10",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "acquire lock=166121161, flags=0x1, tag=\"RILJ_ACK_WL\", name=com.android.phone, ws=null, uid=1001, pid=2626",
+        "acquire lock=233570404, flags=0x1, tag=\"View Lock\", name=com.android.systemui, ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E108",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "release:lock=189667585, flg=0x0, tag=\"*launch*\", name=android\", ws=WorkSource{10113}, uid=1000, pid=1702",
+        "release:lock=233570404, flg=0x0, tag=\"View Lock\", name=com.android.systemui\", ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E41",
+       "lines": 25,
+       "into": 3,
+       "examples": [
+        "Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.qt.qtl.activity.info.NewsDetailXmlActivity) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm",
+        "Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm.Windo",
+        "Destroying surface Surface(name=SurfaceView - com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.WindowStateAnimator.destroyDeferredSurfaceLocked:942 "
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 170,
+       "templates": 2,
+       "examples": [
+        "HBM brightnessIn =38",
+        "HBM brightnessOut =38"
+       ]
+      },
+      {
+       "lines": 65,
+       "templates": 2,
+       "examples": [
+        "updateClipping isOverlap:false, getTopPadding=333.0, Translation=-24.0",
+        "updateClipping isOverlap:true, getTopPadding=333.0, Translation=-529.0"
+       ]
+      },
+      {
+       "lines": 65,
+       "templates": 2,
+       "examples": [
+        "updateDimmedActivatedHideSensitive overlap:false",
+        "updateDimmedActivatedHideSensitive overlap:true"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.535,
+     "templates": 166,
+     "found": 116,
+     "templates_split": 3,
+     "lines_in_split_templates": 77,
+     "groups_merging_templates": 30,
+     "lines_in_merged_groups": 853,
+     "largest_splits": [
+      {
+       "event": "E10",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "03-17 16:13:40.142  1702  2618 D PowerManagerService: acquire lock=166121161, flags=0x1, tag=\"RILJ_ACK_WL\", name=com.android.phone, ws=null, uid=1001, pid=2626",
+        "03-17 16:13:38.819  1702  8671 D PowerManagerService: acquire lock=233570404, flags=0x1, tag=\"View Lock\", name=com.android.systemui, ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E108",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "03-17 16:13:38.936  1702 14638 D PowerManagerService: release:lock=189667585, flg=0x0, tag=\"*launch*\", name=android\", ws=WorkSource{10113}, uid=1000, pid=1702",
+        "03-17 16:13:38.905  1702 10454 D PowerManagerService: release:lock=233570404, flg=0x0, tag=\"View Lock\", name=com.android.systemui\", ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E41",
+       "lines": 25,
+       "into": 2,
+       "examples": [
+        "03-17 16:13:39.006  1702  2639 I WindowManager: Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.WindowStateAnimator",
+        "03-17 16:13:38.994  1702 27365 I WindowManager: Destroying surface Surface(name=SurfaceView - com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.Windo"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 170,
+       "templates": 2,
+       "examples": [
+        "03-17 16:13:41.614  1702  1820 I DisplayPowerController: HBM brightnessIn =38",
+        "03-17 16:13:41.614  1702  1820 I DisplayPowerController: HBM brightnessOut =38"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "03-17 16:13:38.935  1702  3697 W ActivityManager: getRunningAppProcesses: caller 10113 does not hold REAL_GET_TASKS; limiting output",
+        "03-17 16:13:48.009  1702 10454 W ActivityManager: getTasks: caller 10113 does not hold REAL_GET_TASKS; limiting output"
+       ]
+      },
+      {
+       "lines": 78,
+       "templates": 3,
+       "examples": [
+        "03-17 16:13:38.928  2227  2227 I StackScrollAlgorithm: updateDimmedActivatedHideSensitive overlap:false",
+        "03-17 16:13:46.187  2227  2227 I StackScrollAlgorithm: state.clipTopAmount:180, i:0",
+        "03-17 16:13:46.187  2227  2227 I StackScrollAlgorithm: updateDimmedActivatedHideSensitive overlap:true"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.911
+   },
+   "HealthApp": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9005,
+     "templates": 75,
+     "found": 72,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 199,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 161,
+       "templates": 2,
+       "examples": [
+        "processHandleBroadcastAction action:android.intent.action.TIME_TICK",
+        "processHandleBroadcastAction action:android.intent.action.SCREEN_ON"
+       ]
+      },
+      {
+       "lines": 34,
+       "templates": 2,
+       "examples": [
+        "onReceive action: android.intent.action.SCREEN_ON",
+        "onReceive action: android.intent.action.SCREEN_OFF"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "checkInsertStatus stepSum or calorieSum is enough",
+        "checkInsertStatus stepStatSum or calorieStatSum is enough"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9705,
+     "templates": 75,
+     "found": 70,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 59,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 34,
+       "templates": 2,
+       "examples": [
+        "20171223-22:15:29:633|Step_StandReportReceiver|30002312|onReceive action: android.intent.action.SCREEN_ON",
+        "20171223-22:15:34:723|Step_StandReportReceiver|30002312|onReceive action: android.intent.action.SCREEN_OFF"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "20171223-22:19:58:424|HiH_HiSyncControl|30002312|initDataPrivacy the dataPrivacy switch is open, start push health data!",
+        "20171223-22:19:58:428|HiH_HiSyncControl|30002312|initUserPrivacy the userPrivacy switch is open, start push user data!"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "20171223-22:19:58:424|HiH_|30002312|initDataPrivacy the dataPrivacy is true",
+        "20171223-22:19:58:428|HiH_|30002312|initUserPrivacy the userPrivacy is true"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.78
+   },
+   "Apache": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 1.0,
+     "templates": 6,
+     "found": 6,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [],
+     "largest_merges": []
+    },
+    "whole_line": {
+     "grouping_accuracy": 1.0,
+     "templates": 6,
+     "found": 6,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [],
+     "largest_merges": []
+    },
+    "drain_published": 1.0
+   },
+   "OpenSSH": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.718,
+     "templates": 27,
+     "found": 23,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 564,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 414,
+       "templates": 2,
+       "examples": [
+        "Received disconnect from 52.80.34.196: 11: Bye Bye [preauth]",
+        "Received disconnect from 119.137.62.142: 11: disconnected by user"
+       ]
+      },
+      {
+       "lines": 139,
+       "templates": 2,
+       "examples": [
+        "Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2",
+        "Failed none for invalid user 0 from 5.188.10.180 port 49811 ssh2"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "PAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180",
+        "PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.718,
+     "templates": 27,
+     "found": 23,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 564,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 414,
+       "templates": 2,
+       "examples": [
+        "Dec 10 07:07:45 LabSZ sshd[24206]: Received disconnect from 52.80.34.196: 11: Bye Bye [preauth]",
+        "Dec 10 09:45:06 LabSZ sshd[24761]: Received disconnect from 119.137.62.142: 11: disconnected by user"
+       ]
+      },
+      {
+       "lines": 139,
+       "templates": 2,
+       "examples": [
+        "Dec 10 06:55:48 LabSZ sshd[24200]: Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2",
+        "Dec 10 08:24:40 LabSZ sshd[24363]: Failed none for invalid user 0 from 5.188.10.180 port 49811 ssh2"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "Dec 10 08:25:22 LabSZ sshd[24369]: PAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180 ",
+        "Dec 10 08:26:04 LabSZ sshd[24375]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180 "
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7875
+   },
+   "Proxifier": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.0255,
+     "templates": 8,
+     "found": 11,
+     "templates_split": 1,
+     "lines_in_split_templates": 947,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 1002,
+     "largest_splits": [
+      {
+       "event": "E8",
+       "lines": 947,
+       "into": 6,
+       "examples": [
+        "proxy.cse.cuhk.edu.hk:5070 close, 1190 bytes (1.16 KB) sent, 1671 bytes (1.63 KB) received, lifetime 00:02",
+        "proxy.cse.cuhk.edu.hk:5070 close, 0 bytes sent, 0 bytes received, lifetime 00:01",
+        "proxy.cse.cuhk.edu.hk:5070 close, 1143 bytes (1.11 KB) sent, 365 bytes received, lifetime 00:01"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 956,
+       "templates": 2,
+       "examples": [
+        "proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "183.62.156.108:22 open through proxy socks.cse.cuhk.edu.hk:5070 SOCKS5"
+       ]
+      },
+      {
+       "lines": 46,
+       "templates": 2,
+       "examples": [
+        "qa.sockets.stackexchange.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "223.167.104.147:80 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.0,
+     "templates": 8,
+     "found": 95,
+     "templates_split": 8,
+     "lines_in_split_templates": 2000,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 40,
+     "largest_splits": [
+      {
+       "event": "E2",
+       "lines": 954,
+       "into": 23,
+       "examples": [
+        "[10.30 16:49:06] chrome.exe - proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "[07.26 13:30:34] chrome.exe *64 - www.baidu.com:80 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "[10.30 17:14:20] Dropbox.exe - proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS"
+       ]
+      },
+      {
+       "event": "E8",
+       "lines": 947,
+       "into": 51,
+       "examples": [
+        "[10.30 16:49:08] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 1190 bytes (1.16 KB) sent, 1671 bytes (1.63 KB) received, lifetime 00:02",
+        "[07.26 13:30:39] chrome.exe *64 - www.baidu.com:80 close, 6719 bytes (6.56 KB) sent, 644545 bytes (629 KB) received, lifetime 00:05",
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 0 bytes sent, 0 bytes received, lifetime 00:01"
+       ]
+      },
+      {
+       "event": "E7",
+       "lines": 31,
+       "into": 4,
+       "examples": [
+        "[10.30 17:57:12] YodaoDict.exe - oimagec7.ydstatic.com:80 error : A connection request was canceled before the completion. ",
+        "[07.26 13:48:21] chrome.exe *64 - hm.baidu.com:80 error : A connection request was canceled before the completion. ",
+        "[10.30 17:15:42] QQ.exe - tcpconn6.tencent.com:443 error : A connection request was canceled before the completion."
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 26,
+       "templates": 2,
+       "examples": [
+        "[07.27 05:05:50] chrome.exe *64 - qa.sockets.stackexchange.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "[07.26 17:23:54] chrome.exe *64 - mtalk.google.com:5228 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      },
+      {
+       "lines": 14,
+       "templates": 2,
+       "examples": [
+        "[07.27 05:05:53] Dropbox.exe - client-cf.dropbox.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "[07.26 17:24:02] Dropbox.exe - bolt.dropbox.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.5265
+   }
+  }
+ },
+ "0.3.4": {
+  "label": "0.3.4",
+  "loghub_commit": "dd61d0952749ee7963bde24220d1be5ede023033",
+  "average": {
+   "message": 0.7316,
+   "whole_line": 0.4283,
+   "drain_published": 0.8654
+  },
+  "systems": {
+   "HDFS": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9975,
+     "templates": 14,
+     "found": 17,
+     "templates_split": 1,
+     "lines_in_split_templates": 5,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 5,
+       "into": 4,
+       "examples": [
+        "BLOCK* ask 10.250.18.114:50010 to delete  blk_-5140072410813878235",
+        "BLOCK* ask 10.250.17.177:50010 to delete  blk_-8570780307468499817 blk_-9122557405432088649 blk_-4393063808227796056 blk_8767569714374844347 blk_7079754042611867581 blk_7608961006114219538 blk_-501727",
+        "BLOCK* ask 10.250.10.213:50010 to delete  blk_4029139044660806713 blk_-5471189807977280544 blk_6708643067868168687 blk_-500678958150296008 blk_-8597840983621849778 blk_-3610057702150392748 blk_-170960"
+       ]
+      }
+     ],
+     "largest_merges": []
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.93,
+     "templates": 14,
+     "found": 16,
+     "templates_split": 1,
+     "lines_in_split_templates": 5,
+     "groups_merging_templates": 1,
+     "lines_in_merged_groups": 135,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 5,
+       "into": 4,
+       "examples": [
+        "081110 212510 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.18.114:50010 to delete  blk_-5140072410813878235",
+        "081111 065254 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.17.177:50010 to delete  blk_-8570780307468499817 blk_-9122557405432088649 blk_-4393063808227796056 blk_8767569714374844347 blk_707975404261186",
+        "081111 065303 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.10.213:50010 to delete  blk_4029139044660806713 blk_-5471189807977280544 blk_6708643067868168687 blk_-500678958150296008 blk_-8597840983621849"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 135,
+       "templates": 2,
+       "examples": [
+        "081109 205035 28 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/rand/_temporary/_task_200811092030_0001_m_000590_0/part-00590. blk_-1727475099218615100",
+        "081109 205931 13 INFO dfs.DataBlockScanner: Verification succeeded for blk_-4980916519894289629"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9975
+   },
+   "Hadoop": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9595,
+     "templates": 114,
+     "found": 125,
+     "templates_split": 10,
+     "lines_in_split_templates": 68,
+     "groups_merging_templates": 24,
+     "lines_in_merged_groups": 69,
+     "largest_splits": [
+      {
+       "event": "E17",
+       "lines": 14,
+       "into": 14,
+       "examples": [
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from NEW to UNASSIGNED",
+        "attempt_1445144423722_0020_m_000001_0 TaskAttempt Transitioned from NEW to UNASSIGNED",
+        "attempt_1445144423722_0020_m_000002_0 TaskAttempt Transitioned from NEW to UNASSIGNED"
+       ]
+      },
+      {
+       "event": "E102",
+       "lines": 11,
+       "into": 11,
+       "examples": [
+        "task_1445144423722_0020_m_000000 Task Transitioned from NEW to SCHEDULED",
+        "task_1445144423722_0020_m_000001 Task Transitioned from NEW to SCHEDULED",
+        "task_1445144423722_0020_m_000002 Task Transitioned from NEW to SCHEDULED"
+       ]
+      },
+      {
+       "event": "E21",
+       "lines": 10,
+       "into": 10,
+       "examples": [
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000001_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000002_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 6,
+       "templates": 6,
+       "examples": [
+        "attempt_1445144423722_0020_m_000001_0 TaskAttempt Transitioned from NEW to UNASSIGNED",
+        "attempt_1445144423722_0020_m_000001_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000001_0 TaskAttempt Transitioned from ASSIGNED to RUNNING"
+       ]
+      },
+      {
+       "lines": 6,
+       "templates": 6,
+       "examples": [
+        "attempt_1445144423722_0020_m_000002_0 TaskAttempt Transitioned from NEW to UNASSIGNED",
+        "attempt_1445144423722_0020_m_000002_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000002_0 TaskAttempt Transitioned from ASSIGNED to RUNNING"
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 5,
+       "examples": [
+        "attempt_1445144423722_0020_m_000003_0 TaskAttempt Transitioned from NEW to UNASSIGNED",
+        "attempt_1445144423722_0020_m_000003_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000003_0 TaskAttempt Transitioned from ASSIGNED to RUNNING"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.444,
+     "templates": 114,
+     "found": 78,
+     "templates_split": 3,
+     "lines_in_split_templates": 519,
+     "groups_merging_templates": 14,
+     "lines_in_merged_groups": 632,
+     "largest_splits": [
+      {
+       "event": "E10",
+       "lines": 476,
+       "into": 4,
+       "examples": [
+        "2015-10-18 18:05:27,570 WARN [LeaseRenewer:msrabi@msra-sa-41:9000] org.apache.hadoop.ipc.Client: Address change detected. Old: msra-sa-41/10.190.173.170:9000 New: msra-sa-41:9000",
+        "2015-10-18 18:06:02,841 WARN [RMCommunicator Allocator] org.apache.hadoop.ipc.Client: Address change detected. Old: msra-sa-41/10.190.173.170:8030 New: msra-sa-41:8030",
+        "2015-10-18 18:06:26,139 WARN [CommitterEvent Processor #1] org.apache.hadoop.ipc.Client: Address change detected. Old: msra-sa-41/10.190.173.170:9000 New: msra-sa-41:9000"
+       ]
+      },
+      {
+       "event": "E90",
+       "lines": 39,
+       "into": 2,
+       "examples": [
+        "2015-10-18 18:01:53,838 INFO [AsyncDispatcher event handler] org.apache.hadoop.yarn.util.RackResolver: Resolved MSRA-SA-39.fareast.corp.microsoft.com to /default-rack",
+        "2015-10-18 18:01:56,916 INFO [RMCommunicator Allocator] org.apache.hadoop.yarn.util.RackResolver: Resolved 04DN8IQ.fareast.corp.microsoft.com to /default-rack"
+       ]
+      },
+      {
+       "event": "E35",
+       "lines": 4,
+       "into": 2,
+       "examples": [
+        "2015-10-18 18:06:26,029 INFO [IPC Server handler 13 on 62270] org.apache.hadoop.mapred.TaskAttemptListenerImpl: Diagnostics report from attempt_1445144423722_0020_m_000002_0: Error: java.net.NoRouteTo",
+        "2015-10-18 18:06:26,029 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: Diagnostics report from attempt_1445144423722_0020_m_000002_0: Error: java.net"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 299,
+       "templates": 2,
+       "examples": [
+        "2015-10-18 18:02:17,027 INFO [IPC Server handler 14 on 62270] org.apache.hadoop.mapred.TaskAttemptListenerImpl: Progress of TaskAttempt attempt_1445144423722_0020_m_000000_0 is : 0.023958297",
+        "2015-10-18 18:02:02,510 INFO [IPC Server handler 13 on 62270] org.apache.hadoop.mapred.TaskAttemptListenerImpl: JVM with ID: jvm_1445144423722_0020_m_000002 given task: attempt_1445144423722_0020_m_00"
+       ]
+      },
+      {
+       "lines": 161,
+       "templates": 6,
+       "examples": [
+        "2015-10-18 18:01:54,853 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: Recalculating schedule, headroom=<memory:10240, vCores:-17>",
+        "2015-10-18 18:01:57,291 INFO [ContainerLauncher #0] org.apache.hadoop.yarn.client.api.impl.ContainerManagementProtocolProxy: Opening proxy : 04DN8IQ.fareast.corp.microsoft.com:54883",
+        "2015-10-18 18:01:56,916 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: Got allocated containers 1"
+       ]
+      },
+      {
+       "lines": 68,
+       "templates": 15,
+       "examples": [
+        "2015-10-18 18:01:53,885 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from NEW to UNA",
+        "2015-10-18 18:01:53,869 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskImpl: task_1445144423722_0020_m_000000 Task Transitioned from NEW to SCHEDULED",
+        "2015-10-18 18:01:57,260 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from UNASSIGNED"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9475
+   },
+   "Spark": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9075,
+     "templates": 36,
+     "found": 62,
+     "templates_split": 1,
+     "lines_in_split_templates": 30,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 155,
+     "largest_splits": [
+      {
+       "event": "E1",
+       "lines": 30,
+       "into": 30,
+       "examples": [
+        "attempt_201706092018_0024_m_000004_1026: Committed",
+        "attempt_201706092018_0024_m_000002_998: Committed",
+        "attempt_201706092018_0024_m_000003_1012: Committed"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 149,
+       "templates": 2,
+       "examples": [
+        "Block broadcast_9_piece0 stored as bytes in memory (estimated size 5.2 KB, free 5.2 KB)",
+        "Block broadcast_9 stored as values in memory (estimated size 8.8 KB, free 14.0 KB)"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "Changing view acls to: yarn,curi",
+        "Changing modify acls to: yarn,curi"
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "Successfully started service 'sparkExecutorActorSystem' on port 55904.",
+        "Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40984."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.92,
+     "templates": 36,
+     "found": 29,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 160,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 149,
+       "templates": 2,
+       "examples": [
+        "17/06/09 20:10:45 INFO storage.MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 5.2 KB, free 5.2 KB)",
+        "17/06/09 20:10:46 INFO storage.MemoryStore: Block broadcast_9 stored as values in memory (estimated size 8.8 KB, free 14.0 KB)"
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 5,
+       "examples": [
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.tip.id is deprecated. Instead, use mapreduce.task.id",
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id",
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "17/06/09 20:10:40 INFO spark.SecurityManager: Changing view acls to: yarn,curi",
+        "17/06/09 20:10:40 INFO spark.SecurityManager: Changing modify acls to: yarn,curi"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.92
+   },
+   "Zookeeper": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9665,
+     "templates": 50,
+     "found": 46,
+     "templates_split": 1,
+     "lines_in_split_templates": 11,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 56,
+     "largest_splits": [
+      {
+       "event": "E44",
+       "lines": 11,
+       "into": 3,
+       "examples": [
+        "Server environment:user.dir=/",
+        "Server environment:java.vendor=Oracle Corporation",
+        "Server environment:zookeeper.version=3.4.5--1, built on 06/10/2013 17:26 GMT"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "Client attempting to establish new session at /10.10.34.19:33425",
+        "Client attempting to renew session 0x24ed93119420016 at /10.10.34.13:37115"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 6,
+       "examples": [
+        "Notification: 2 (n.leader), 0xb00000084 (n.zxid), 0x2 (n.round), LOOKING (n.state), 1 (n.sid), 0xb (n.peerEPoch), LOOKING (my state)",
+        "Notification: 3 (n.leader), 0x10000006b (n.zxid), 0x2 (n.round), LOOKING (n.state), 3 (n.sid), 0x1 (n.peerEPoch), LEADING (my state)",
+        "Notification: 3 (n.leader), 0x700000197 (n.zxid), 0x1 (n.round), LEADING (n.state), 3 (n.sid), 0x7 (n.peerEPoch), LOOKING (my state)"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.955,
+     "templates": 50,
+     "found": 36,
+     "templates_split": 2,
+     "lines_in_split_templates": 14,
+     "groups_merging_templates": 6,
+     "lines_in_merged_groups": 87,
+     "largest_splits": [
+      {
+       "event": "E44",
+       "lines": 11,
+       "into": 3,
+       "examples": [
+        "2015-07-30 17:43:58,186 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:user.dir=/",
+        "2015-08-10 18:23:50,332 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:java.vendor=Oracle Corporation",
+        "2015-08-10 18:25:22,080 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:zookeeper.version=3.4.5--1, built on 06/10/2013 17:26 GMT"
+       ]
+      },
+      {
+       "event": "E41",
+       "lines": 3,
+       "into": 2,
+       "examples": [
+        "2015-08-10 18:23:52,646 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:Learner@107] - Revalidating client: 0x14f05578bd80018",
+        "2015-08-10 18:23:56,268 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:Learner@107] - Revalidating client: 0x24f0557806a001c"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 45,
+       "templates": 3,
+       "examples": [
+        "2015-07-29 21:01:41,504 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:ZooKeeperServer@839] - Client attempting to establish new session at /10.10.34.19:33425",
+        "2015-07-29 19:54:13,615 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:ZooKeeperServer@832] - Client attempting to renew session 0x24ed93119420016 at /10.10.34.13:37115",
+        "2015-07-31 19:30:07,403 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:FastLeaderElection@740] - New election. My id =  1, proposed zxid=0x700000000"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 6,
+       "examples": [
+        "2015-08-20 17:14:12,326 - INFO  [WorkerReceiver[myid=1]:FastLeaderElection@542] - Notification: 2 (n.leader), 0xb00000084 (n.zxid), 0x2 (n.round), LOOKING (n.state), 1 (n.sid), 0xb (n.peerEPoch), LOOK",
+        "2015-07-29 19:56:54,754 - INFO  [WorkerReceiver[myid=2]:FastLeaderElection@542] - Notification: 3 (n.leader), 0x10000006b (n.zxid), 0x2 (n.round), LOOKING (n.state), 3 (n.sid), 0x1 (n.peerEPoch), LEAD",
+        "2015-08-07 07:27:47,425 - INFO  [WorkerReceiver[myid=1]:FastLeaderElection@542] - Notification: 3 (n.leader), 0x700000197 (n.zxid), 0x1 (n.round), LEADING (n.state), 3 (n.sid), 0x7 (n.peerEPoch), LOOK"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 6,
+       "examples": [
+        "2015-07-31 15:31:15,575 - INFO  [main:DatadirCleanupManager@79] - autopurge.purgeInterval set to 0",
+        "2015-07-30 23:46:31,590 - INFO  [QuorumPeer[myid=2]/0:0:0:0:0:0:0:0:2181:FileTxnSnapLog@240] - Snapshotting: 0x300000dcd to /var/lib/zookeeper/version-2/snapshot.300000dcd",
+        "2015-07-30 23:52:53,800 - INFO  [main:QuorumPeer@933] - minSessionTimeout set to -1"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9665
+   },
+   "OpenStack": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.288,
+     "templates": 43,
+     "found": 30,
+     "templates_split": 1,
+     "lines_in_split_templates": 931,
+     "groups_merging_templates": 7,
+     "lines_in_merged_groups": 1216,
+     "largest_splits": [
+      {
+       "event": "E25",
+       "lines": 931,
+       "into": 2,
+       "examples": [
+        "10.11.10.1 \"GET /v2/54fadb412c4e40cdbaed9335e4c35a9e/servers/detail HTTP/1.1\" status: 200 len: 1893 time: 0.2477829",
+        "10.11.21.122,10.11.10.1 \"GET /openstack/2012-08-10/meta_data.json HTTP/1.1\" status: 200 len: 264 time: 0.2451560"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 809,
+       "templates": 3,
+       "examples": [
+        "10.11.10.1 \"GET /v2/54fadb412c4e40cdbaed9335e4c35a9e/servers/detail HTTP/1.1\" status: 200 len: 1893 time: 0.2477829",
+        "10.11.10.1 \"POST /v2/e9746973ac574c6b8a9e8857f56a7608/os-server-external-events HTTP/1.1\" status: 200 len: 380 time: 0.0913219",
+        "10.11.10.1 \"DELETE /v2/54fadb412c4e40cdbaed9335e4c35a9e/servers/b9000564-fe1a-409b-b8cc-1e88b294cd1d HTTP/1.1\" status: 204 len: 203 time: 0.2534380"
+       ]
+      },
+      {
+       "lines": 151,
+       "templates": 6,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Resumed (Lifecycle Event)",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Started (Lifecycle Event)",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Paused (Lifecycle Event)"
+       ]
+      },
+      {
+       "lines": 64,
+       "templates": 3,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Terminating instance",
+        "[instance: 96abccce-8d1f-4e07-b6d1-4b2ab87e23b4] Claim successful",
+        "[instance: 96abccce-8d1f-4e07-b6d1-4b2ab87e23b4] Creating image"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.117,
+     "templates": 43,
+     "found": 25,
+     "templates_split": 2,
+     "lines_in_split_templates": 974,
+     "groups_merging_templates": 10,
+     "lines_in_merged_groups": 1634,
+     "largest_splits": [
+      {
+       "event": "E25",
+       "lines": 931,
+       "into": 2,
+       "examples": [
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:00.008 25746 INFO nova.osapi_compute.wsgi.server [req-38101a0b-2096-447d-96ea-a692162415ae 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:16.806 25783 INFO nova.metadata.wsgi.server [-] 10.11.21.122,10.11.10.1 \"GET /openstack/2013-10-17 HTTP/1.1\" status: 200 len: 157 time: 0.0008290"
+       ]
+      },
+      {
+       "event": "E7",
+       "lines": 43,
+       "into": 2,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.693 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Duri",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:09:49.599 2931 INFO nova.compute.manager [-] [instance: bf8c824d-f099-4433-a41e-e3da7578262e] During sync_power_state the instance has a pending ta"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 928,
+       "templates": 3,
+       "examples": [
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:00.008 25746 INFO nova.osapi_compute.wsgi.server [req-38101a0b-2096-447d-96ea-a692162415ae 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:10.285 25743 INFO nova.osapi_compute.wsgi.server [req-ab451068-9756-4ad9-9d18-5ceaa6424627 f7b8d1f1d4d44643b07fa10ca7d021fb e9746973ac574c6b8a9e8857",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:17.504 25746 INFO nova.osapi_compute.wsgi.server [req-c53a921a-16c7-422e-8c9d-c922a720d047 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335"
+       ]
+      },
+      {
+       "lines": 151,
+       "templates": 6,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:10.296 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM R",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM S",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.562 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM P"
+       ]
+      },
+      {
+       "lines": 142,
+       "templates": 3,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:05.367 2931 INFO nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Active base files: /var/lib/nova/instances/_b",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:20.345 2931 WARNING nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Unknown base file: /var/lib/nova/instances",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:20.346 2931 INFO nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Removable base files: /var/lib/nova/instances"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7325
+   },
+   "BGL": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.794,
+     "templates": 120,
+     "found": 123,
+     "templates_split": 8,
+     "lines_in_split_templates": 333,
+     "groups_merging_templates": 9,
+     "lines_in_merged_groups": 80,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 121,
+       "into": 5,
+       "examples": [
+        "1005 floating point alignment exceptions",
+        "8 floating point alignment exceptions",
+        "5 floating point alignment exceptions"
+       ]
+      },
+      {
+       "event": "E3",
+       "lines": 109,
+       "into": 4,
+       "examples": [
+        "63543 double-hummer alignment exceptions",
+        "1365301360 double-hummer alignment exceptions",
+        "162 double-hummer alignment exceptions"
+       ]
+      },
+      {
+       "event": "E12",
+       "lines": 71,
+       "into": 2,
+       "examples": [
+        "10722 total interrupts. 0 critical input interrupts. 0 microseconds total spent on critical input interrupts, 0 microseconds max time in a critical input interrupt.",
+        "720 total interrupts. 0 critical input interrupts. 0 microseconds total spent on critical input interrupts, 0 microseconds max time in a critical input interrupt."
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 23,
+       "templates": 5,
+       "examples": [
+        "ciod: Error loading /home/spelce1/HPCC_IBM/Urgent/Gunnels/VNM64/vnm.rts: invalid or missing program image, Permission denied",
+        "ciod: Error creating node map from file /p/gb2/cabot/miranda/newmaps/8k_128x64x1_8x4x4.map: No child processes",
+        "ciod: Error creating node map from file /p/gb2/welcome3/32k_128x256x1_8x4x4.map: Bad file descriptor"
+       ]
+      },
+      {
+       "lines": 21,
+       "templates": 5,
+       "examples": [
+        "program interrupt: illegal instruction......0",
+        "program interrupt: privileged instruction...0",
+        "program interrupt: imprecise exception......0"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 2,
+       "examples": [
+        "ciod: Error reading message prefix on CioStream socket to 172.16.96.116:41534, Link has been severed",
+        "ciod: Error reading message prefix on CioStream socket to 172.16.96.116:52839, Connection reset by peer"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.2265,
+     "templates": 120,
+     "found": 62,
+     "templates_split": 1,
+     "lines_in_split_templates": 2,
+     "groups_merging_templates": 12,
+     "lines_in_merged_groups": 1546,
+     "largest_splits": [
+      {
+       "event": "E64",
+       "lines": 2,
+       "into": 2,
+       "examples": [
+        "- 1117984246 2005.06.05 R30-M1-N3-C:J02-U01 2005-06-05-08.10.46.344235 R30-M1-N3-C:J02-U01 RAS KERNEL FATAL force load/store alignment...............0",
+        "- 1118771988 2005.06.14 R27-M0-N7-C:J02-U01 2005-06-14-10.59.48.153923 R27-M0-N7-C:J02-U01 RAS KERNEL FATAL force load/store alignment...............0"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 733,
+       "templates": 6,
+       "examples": [
+        "- 1117955341 2005.06.05 R25-M0-N7-C:J02-U01 2005-06-05-00.09.01.903373 R25-M0-N7-C:J02-U01 RAS KERNEL INFO generating core.2275",
+        "- 1118771075 2005.06.14 R24-M0-NF-C:J09-U01 2005-06-14-10.44.35.353282 R24-M0-NF-C:J09-U01 RAS KERNEL FATAL auxiliary processor.........................0",
+        "- 1119802781 2005.06.26 R07-M1-N0-C:J15-U11 2005-06-26-09.19.41.368208 R07-M1-N0-C:J15-U11 RAS KERNEL INFO program interrupt"
+       ]
+      },
+      {
+       "lines": 364,
+       "templates": 16,
+       "examples": [
+        "- 1125082053 2005.08.26 R62-M1-N3-C:J04-U01 2005-08-26-11.47.33.903841 R62-M1-N3-C:J04-U01 RAS KERNEL INFO iar 003a90fc dear 00b360e8",
+        "- 1117842440 2005.06.03 R23-M0-NE-C:J05-U01 2005-06-03-16.47.20.730545 R23-M0-NE-C:J05-U01 RAS KERNEL INFO 63543 double-hummer alignment exceptions",
+        "- 1118767381 2005.06.14 R20-M0-N2-C:J13-U11 2005-06-14-09.43.01.478244 R20-M0-N2-C:J13-U11 RAS KERNEL FATAL program interrupt: illegal instruction......0"
+       ]
+      },
+      {
+       "lines": 164,
+       "templates": 3,
+       "examples": [
+        "- 1121900469 2005.07.20 R33-M1-N3-C:J02-U01 2005-07-20-16.01.09.861175 R33-M1-N3-C:J02-U01 RAS KERNEL INFO 8 floating point alignment exceptions",
+        "- 1117838570 2005.06.03 R02-M1-N0-C:J12-U11 2005-06-03-15.42.50.675872 R02-M1-N0-C:J12-U11 RAS KERNEL INFO instruction cache parity error corrected",
+        "- 1123025954 2005.08.02 R23-M0-N7 2005-08-02-16.39.14.159918 R23-M0-N7 NULL HARDWARE SEVERE NodeCard is not fully functional"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9625
+   },
+   "HPC": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.741,
+     "templates": 46,
+     "found": 60,
+     "templates_split": 3,
+     "lines_in_split_templates": 300,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 218,
+     "largest_splits": [
+      {
+       "event": "E2",
+       "lines": 292,
+       "into": 15,
+       "examples": [
+        "ambient=30",
+        "ambient=29",
+        "ambient=33"
+       ]
+      },
+      {
+       "event": "E43",
+       "lines": 4,
+       "into": 3,
+       "examples": [
+        "Targeting domains:node-D0 and nodes:node-0",
+        "Targeting domains:node-D7 and nodes:node-[224\\ 228\\ 232]",
+        "Targeting domains:node-D[0\\ 5] and nodes:node-[27\\ 191]"
+       ]
+      },
+      {
+       "event": "E20",
+       "lines": 4,
+       "into": 4,
+       "examples": [
+        "inconsistent nodesets node-160 0x0001edfe <ok> node-161 0x1001fdfe <ok> node-162 0x1001fdfe <ok> node-163 0x1001fdfe <ok>",
+        "inconsistent nodesets node-32 0x00000002 <ok> node-34 0x000001fe <ok> node-33 0x000001fe <ok> node-35 0x000001fe <ok>",
+        "inconsistent nodesets node-1 0x000001fc <ok> node-2 0x000001fc <ok> node-7 0x000001fc <ok> node-4 0x000001fc <ok> node-6 0x000001fc <ok> node-5 0x000001fc <ok> node-3 0x000001fc <ok> node-14 0x0003fdf"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 91,
+       "templates": 3,
+       "examples": [
+        "NIFF: node node-129 has detected an available network connection on network 10.128.0.0 via interface ee0",
+        "NIFF: node node-148 has detected an available network connection on network 5.5.226.0 via interface alt0",
+        "NIFF: node node-130 has detected an available network connection on network 10.96.0.0 via interface scip0"
+       ]
+      },
+      {
+       "lines": 90,
+       "templates": 2,
+       "examples": [
+        "Fan speeds ( 3552 3534 3375 **** 3515 3479 )",
+        "Fan speeds ( 3552 3534 3375 4245 3515 3479 )"
+       ]
+      },
+      {
+       "lines": 26,
+       "templates": 2,
+       "examples": [
+        "Link error",
+        "Link ok"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.062,
+     "templates": 46,
+     "found": 35,
+     "templates_split": 5,
+     "lines_in_split_templates": 856,
+     "groups_merging_templates": 6,
+     "lines_in_merged_groups": 1860,
+     "largest_splits": [
+      {
+       "event": "E26",
+       "lines": 394,
+       "into": 3,
+       "examples": [
+        "2569061 Interconnect-0N03 switch_module error 1074120426 1 Linkerror event interval expired",
+        "256 Interconnect-1N01 switch_module error 1075463047 1 Linkerror event interval expired",
+        "292 Interconnect-1T01 switch_module error 1075470509 1 Linkerror event interval expired"
+       ]
+      },
+      {
+       "event": "E2",
+       "lines": 292,
+       "into": 5,
+       "examples": [
+        "2552992 node-212 node temperature 1072633140 1 ambient=30",
+        "41 node-23 node temperature 1123705518 1 ambient=29",
+        "98 node-206 node temperature 1123705544 1 ambient=26"
+       ]
+      },
+      {
+       "event": "E38",
+       "lines": 162,
+       "into": 3,
+       "examples": [
+        "2286759 full partition status 1061219795 -1 running",
+        "846 node-95 node status 1123709833 1 running",
+        "923 node-172 node status 1123709833 1 running"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 902,
+       "templates": 10,
+       "examples": [
+        "2552992 node-212 node temperature 1072633140 1 ambient=30",
+        "2559971 gige7 gige temperature 1073151998 1 normal",
+        "2556843 gige5 gige temperature 1072878243 1 warning"
+       ]
+      },
+      {
+       "lines": 459,
+       "templates": 4,
+       "examples": [
+        "2569061 Interconnect-0N03 switch_module error 1074120426 1 Linkerror event interval expired",
+        "207120 Interconnect-0N02 switch_module error 1116534650 1 link errors remain current",
+        "2566692 1897 boot_cmd success 1073991950 1 Command has completed successfully"
+       ]
+      },
+      {
+       "lines": 177,
+       "templates": 4,
+       "examples": [
+        "2567534 node-97 node status 1074098640 1 configured out",
+        "2567354 node-147 node status 1074098611 1 not responding",
+        "30700 Interconnect-1T00 switch_module bcast-error 1076189965 1 Link error"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.887
+   },
+   "Thunderbird": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9435,
+     "templates": 149,
+     "found": 200,
+     "templates_split": 8,
+     "lines_in_split_templates": 79,
+     "groups_merging_templates": 7,
+     "lines_in_merged_groups": 34,
+     "largest_splits": [
+      {
+       "event": "E146",
+       "lines": 34,
+       "into": 33,
+       "examples": [
+        "Warning: we failed to resolve data source name an14 an15 an16 an17 an18 an19 an20 an21 an22 an23 an24 an25 an26 an27 an28 an29 an30 an31 an32 an33 an34 an35 an36 an37 an38 an39 an40 an41 an42 an43 an4",
+        "Warning: we failed to resolve data source name an142 an143 an144 an145 an146 an147 an148 an149 an150 an151 an152 an153 an154 an155 an156 an157 an158 an159 an160 an161 an162 an163 an164 an165 an166 an1",
+        "Warning: we failed to resolve data source name an270 an271 an272 an273 an274 an275 an276 an277 an278 an279 an280 an281 an282 an283 an284 an285 an286 an287 an288 an289 an290 an291 an292 an293 an294 an2"
+       ]
+      },
+      {
+       "event": "E111",
+       "lines": 11,
+       "into": 2,
+       "examples": [
+        "RRD_update (/var/lib/ganglia/rrds/C Nodes/cn304/pkts_out.rrd): illegal attempt to update using time 1131563037 when last update time is 1131563037 (minimum one second step)",
+        "RRD_update (/var/lib/ganglia/rrds/unspecified/badmin3/disk_total.rrd): illegal attempt to update using time 1131559854 when last update time is 1131559854 (minimum one second step)"
+       ]
+      },
+      {
+       "event": "E15",
+       "lines": 10,
+       "into": 10,
+       "examples": [
+        "jA9J1UvC004306: from=root, size=629060, class=0, nrcpts=1, msgid=<200511091901.jA9J1UvC004306@eadmin1>, relay=#7#@localhost",
+        "jA9J1Wd7019391: from=root, size=1594553, class=0, nrcpts=1, msgid=<200511091901.jA9J1Wd7019391@cadmin1>, relay=#7#@localhost",
+        "jA9J1WSU011176: from=root, size=1593894, class=0, nrcpts=1, msgid=<200511091901.jA9J1WSU011176@badmin1>, relay=#7#@localhost"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 19,
+       "templates": 2,
+       "examples": [
+        "(root) CMD (run-parts /etc/cron.hourly)",
+        "(root) CMD (/projects/tbird/temps/get_temps a)"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 4,
+       "examples": [
+        "registered new driver hiddev",
+        "registered new driver hub",
+        "registered new driver usbfs"
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 3,
+       "examples": [
+        "Using IOAPIC for interrupt routing",
+        "Using ACPI for IRQ routing",
+        "Using 14.318180 MHz HPET timer."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.545,
+     "templates": 149,
+     "found": 93,
+     "templates_split": 4,
+     "lines_in_split_templates": 615,
+     "groups_merging_templates": 9,
+     "lines_in_merged_groups": 307,
+     "largest_splits": [
+      {
+       "event": "E125",
+       "lines": 568,
+       "into": 2,
+       "examples": [
+        "- 1131566463 2005.11.09 cn142 Nov 9 12:01:03 cn142/cn142 ntpd[7467]: synchronized to 10.100.20.250, stratum 3",
+        "- 1131566712 2005.11.09 dn386 Nov 9 12:05:12 dn386/dn386 ntpd[330]: synchronized to 10.100.30.250, stratum 3"
+       ]
+      },
+      {
+       "event": "E146",
+       "lines": 34,
+       "into": 33,
+       "examples": [
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name an14 an15 an16 an17 an18 an19 an20 an21 an22 an23 an24 an25 an26 an27 an28",
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name an142 an143 an144 an145 an146 an147 an148 an149 an150 an151 an152 an153 an",
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name an270 an271 an272 an273 an274 an275 an276 an277 an278 an279 an280 an281 an"
+       ]
+      },
+      {
+       "event": "E111",
+       "lines": 11,
+       "into": 2,
+       "examples": [
+        "- 1131566637 2005.11.09 tbird-admin1 Nov 9 12:03:57 local@tbird-admin1 /apps/x86_64/system/ganglia-3.0.1/sbin/gmetad[1682]: RRD_update (/var/lib/ganglia/rrds/C Nodes/cn304/pkts_out.rrd): illegal attem",
+        "- 1131567054 2005.11.09 tbird-admin1 Nov 9 12:10:54 local@tbird-admin1 /apps/x86_64/system/ganglia-3.0.1/sbin/gmetad[1691]: RRD_update (/var/lib/ganglia/rrds/unspecified/badmin3/disk_total.rrd): illeg"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 176,
+       "templates": 24,
+       "examples": [
+        "- 1131566470 2005.11.09 tbird-sm1 Nov 9 12:01:10 src@tbird-sm1 ib_sm.x[24904]: [ib_sm_sweep.c:1831]: ********************** NEW SWEEP ********************",
+        "- 1131566474 2005.11.09 tbird-sm1 Nov 9 12:01:14 src@tbird-sm1 ib_sm.x[24904]: [ib_sm_sweep.c:1482]: No configuration change required",
+        "- 1131566712 2005.11.09 dn386 Nov 9 12:05:12 dn386/dn386 ntpd[330]: synchronized to 10.100.30.250, stratum 3"
+       ]
+      },
+      {
+       "lines": 64,
+       "templates": 37,
+       "examples": [
+        "- 1131567001 2005.11.09 aadmin1 Nov 9 12:10:01 src@aadmin1 crond[16571]: (root) CMD (/projects/tbird/temps/get_temps a)",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 CPU: Physical Processor ID: 0",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 NET: Registered protocol family 1"
+       ]
+      },
+      {
+       "lines": 20,
+       "templates": 4,
+       "examples": [
+        "- 1131567060 2005.11.09 tbird-admin1 Nov 9 12:11:00 local@tbird-admin1 xinetd[1798]: removing chargen",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 md: autorun ...",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 ACPI: Interpreter enabled"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.955
+   },
+   "Windows": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.565,
+     "templates": 50,
+     "found": 49,
+     "templates_split": 4,
+     "lines_in_split_templates": 12,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 858,
+     "largest_splits": [
+      {
+       "event": "E2",
+       "lines": 3,
+       "into": 2,
+       "examples": [
+        "00000005 Creating NT transaction (seq 1), objectname [6]\"(null)\"",
+        "0000000d Creating NT transaction (seq 2), objectname [6]\"(null)\""
+       ]
+      },
+      {
+       "event": "E1",
+       "lines": 3,
+       "into": 2,
+       "examples": [
+        "00000006 Created NT transaction (seq 1) result 0x00000000, handle @0x214",
+        "0000000e Created NT transaction (seq 2) result 0x00000000, handle @0xb8"
+       ]
+      },
+      {
+       "event": "E3",
+       "lines": 3,
+       "into": 2,
+       "examples": [
+        "00000007@2016/9/27:20:30:31.462 CSI perf trace:",
+        "0000000f@2016/9/27:20:40:54.786 CSI perf trace:"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 609,
+       "templates": 2,
+       "examples": [
+        "Session: 30546173_4261722401 initialized by client WindowsUpdateAgent.",
+        "Session: 11152_142416105 initialized by client SPP."
+       ]
+      },
+      {
+       "lines": 242,
+       "templates": 2,
+       "examples": [
+        "Failed to get next element [HRESULT = 0x800f080d - CBS_E_MANIFEST_INVALID_ITEM]",
+        "Failed to internally open package. [HRESULT = 0x800f0805 - CBS_E_INVALID_PACKAGE]"
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 2,
+       "examples": [
+        "Ending TrustedInstaller initialization.",
+        "Ending TrustedInstaller finalization."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.562,
+     "templates": 50,
+     "found": 37,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 6,
+     "lines_in_merged_groups": 876,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 609,
+       "templates": 2,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Session: 30546173_4261722401 initialized by client WindowsUpdateAgent.",
+        "2016-09-29 00:01:03, Info                  CBS    Session: 11152_142416105 initialized by client SPP."
+       ]
+      },
+      {
+       "lines": 242,
+       "templates": 2,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Failed to get next element [HRESULT = 0x800f080d - CBS_E_MANIFEST_INVALID_ITEM]",
+        "2016-09-28 04:30:32, Info                  CBS    Failed to internally open package. [HRESULT = 0x800f0805 - CBS_E_INVALID_PACKAGE]"
+       ]
+      },
+      {
+       "lines": 11,
+       "templates": 3,
+       "examples": [
+        "2016-09-29 00:03:19, Info                  CBS    Unloading offline registry hive: {bf1a281b-ad7b-4476-ac95-f47682990ce7}GLOBALROOT/Device/HarddiskVolumeShadowCopy2/Windows/System32/config/SOFTWARE",
+        "2016-09-28 04:30:31, Info                  CBS    Starting the TrustedInstaller main loop.",
+        "2016-09-28 04:40:55, Info                  CBS    Ending the TrustedInstaller main loop."
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.997
+   },
+   "Linux": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.6855,
+     "templates": 118,
+     "found": 111,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 6,
+     "lines_in_merged_groups": 629,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 372,
+       "templates": 3,
+       "examples": [
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=220-135-151-1.hinet-ip.hinet.net  user=root",
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.46.224.253  user=guest",
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=212.0.132.20  user=test"
+       ]
+      },
+      {
+       "lines": 123,
+       "templates": 2,
+       "examples": [
+        "session opened for user cyrus by (uid=0)",
+        "session opened for user root by LOGIN(uid=0)"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4",
+        "authentication failure; logname= uid=0 euid=0 tty=:0 ruser= rhost="
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.6585,
+     "templates": 118,
+     "found": 71,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 11,
+     "lines_in_merged_groups": 683,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 372,
+       "templates": 3,
+       "examples": [
+        "Jun 15 02:04:59 combo sshd(pam_unix)[20882]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=220-135-151-1.hinet-ip.hinet.net  user=root",
+        "Jun 17 19:43:13 combo sshd(pam_unix)[30565]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.46.224.253  user=guest",
+        "Jul  8 20:14:55 combo sshd(pam_unix)[20963]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=212.0.132.20  user=test"
+       ]
+      },
+      {
+       "lines": 123,
+       "templates": 2,
+       "examples": [
+        "Jun 15 04:06:18 combo su(pam_unix)[21416]: session opened for user cyrus by (uid=0)",
+        "Jul  7 08:06:15 combo login(pam_unix)[2421]: session opened for user root by LOGIN(uid=0)"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "Jun 14 15:16:01 combo sshd(pam_unix)[19939]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4 ",
+        "Jul 11 11:33:13 combo gdm(pam_unix)[2803]: authentication failure; logname= uid=0 euid=0 tty=:0 ruser= rhost= "
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.69
+   },
+   "Mac": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.7215,
+     "templates": 341,
+     "found": 306,
+     "templates_split": 4,
+     "lines_in_split_templates": 177,
+     "groups_merging_templates": 33,
+     "lines_in_merged_groups": 380,
+     "largest_splits": [
+      {
+       "event": "E189",
+       "lines": 166,
+       "into": 7,
+       "examples": [
+        "com.apple.icloud.fmfd.heartbeat: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 439034 seconds.  Ignoring.",
+        "com.apple.Safari.SafeBrowsing.Update: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 2450 seconds.  Ignoring.",
+        "com.apple.CacheDelete.daily: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 12119 seconds.  Ignoring."
+       ]
+      },
+      {
+       "event": "E53",
+       "lines": 4,
+       "into": 4,
+       "examples": [
+        "2017/07/02 11:38:49.414 | I | VoipWrapper  | DAVEngineImpl.cpp:1400:Close             | close video chat. llFriendUIN = ******2341.",
+        "2017/07/05 10:57:01.130 | I | VoipWrapper  | DAVEngineImpl.cpp:1400:Close             | close video chat. llFriendUIN = 1742124257.",
+        "2017/07/06 18:22:57.953 | I | VoipWrapper  | DAVEngineImpl.cpp:1400:Close             | close video chat. llFriendUIN = 1742124257."
+       ]
+      },
+      {
+       "event": "E210",
+       "lines": 4,
+       "into": 2,
+       "examples": [
+        "en0: Supported channels 1 2 3 4 5 6 7 8 9 10 11 12 13 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161",
+        "en0: Supported channels 1 2 3 4 5 6 7 8 9 10 11 12 13 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 4,
+       "examples": [
+        "ARPT: 621241.634070: wl0: MDNS: IPV6 Addr: 2607:f140:6000:8:c6b3:1ff:fecd:467f",
+        "ARPT: 682406.173418: wl0: setup_keepalive: Remote IP: 17.249.28.77",
+        "ARPT: 626126.086246: wl0: MDNS: IPV4 Addr: 10.105.160.95"
+       ]
+      },
+      {
+       "lines": 40,
+       "templates": 3,
+       "examples": [
+        "ARPT: 620702.879952: AirPort_Brcm43xx::platformWoWEnable: WWEN[disable]",
+        "ARPT: 620701.011328: AirPort_Brcm43xx::syncPowerState: WWEN[enabled]",
+        "ARPT: 621342.242614: AirPort_Brcm43xx::platformWoWEnable: WWEN[enable]"
+       ]
+      },
+      {
+       "lines": 37,
+       "templates": 2,
+       "examples": [
+        "Location icon should now be in state 'Inactive'",
+        "Location icon should now be in state 'Active'"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.599,
+     "templates": 341,
+     "found": 274,
+     "templates_split": 20,
+     "lines_in_split_templates": 168,
+     "groups_merging_templates": 40,
+     "lines_in_merged_groups": 739,
+     "largest_splits": [
+      {
+       "event": "E52",
+       "lines": 29,
+       "into": 11,
+       "examples": [
+        "Jul  3 01:54:51 authorMacBook-Pro sandboxd[129] ([32992]): com.apple.Addres(32992) deny network-outbound /private/var/run/mDNSResponder",
+        "Jul  6 12:00:10 calvisitor-10-105-162-178 sandboxd[129] ([36919]): com.apple.Addres(36919) deny network-outbound /private/var/run/mDNSResponder",
+        "Jul  1 09:29:02 calvisitor-10-105-160-95 sandboxd[129] ([31211]): com.apple.Addres(31211) deny network-outbound /private/var/run/mDNSResponder"
+       ]
+      },
+      {
+       "event": "E300",
+       "lines": 29,
+       "into": 2,
+       "examples": [
+        "Jul  1 10:10:24 calvisitor-10-105-160-95 kernel[0]: Sandbox: com.apple.Addres(31328) deny(1) network-outbound /private/var/run/mDNSResponder",
+        "Jul  1 09:32:13 calvisitor-10-105-160-95 kernel[0]: Sandbox: com.apple.Addres(31229) deny(1) network-outbound /private/var/run/mDNSResponder"
+       ]
+      },
+      {
+       "event": "E122",
+       "lines": 22,
+       "into": 2,
+       "examples": [
+        "Jul  2 23:35:17 authorMacBook-Pro kernel[0]: AppleThunderboltGenericHAL::earlyWake - complete - took 1 milliseconds",
+        "Jul  1 09:34:42 calvisitor-10-105-160-95 kernel[0]: AppleThunderboltGenericHAL::earlyWake - complete - took 0 milliseconds"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 174,
+       "templates": 16,
+       "examples": [
+        "Jul  1 09:19:03 calvisitor-10-105-160-95 kernel[0]: AppleCamIn::systemWakeCall - messageType = 0xE0000340",
+        "Jul  1 10:10:24 calvisitor-10-105-160-95 kernel[0]: Sandbox: com.apple.Addres(31328) deny(1) network-outbound /private/var/run/mDNSResponder",
+        "Jul  1 10:08:20 calvisitor-10-105-160-95 kernel[0]: en0: channel changed to 1"
+       ]
+      },
+      {
+       "lines": 100,
+       "templates": 18,
+       "examples": [
+        "Jul  1 09:02:26 authorMacBook-Pro kernel[0]: ARPT: 620702.879952: AirPort_Brcm43xx::platformWoWEnable: WWEN[disable]",
+        "Jul  1 23:32:34 calvisitor-10-105-163-202 kernel[0]: Previous sleep cause: 5",
+        "Jul  1 09:02:26 calvisitor-10-105-160-95 kernel[0]: ARPT: 620701.011328: AirPort_Brcm43xx::syncPowerState: WWEN[enabled]"
+       ]
+      },
+      {
+       "lines": 93,
+       "templates": 11,
+       "examples": [
+        "Jul  1 09:29:25 calvisitor-10-105-160-95 kernel[0]: ARPT: 621241.634070: wl0: MDNS: IPV6 Addr: 2607:f140:6000:8:c6b3:1ff:fecd:467f",
+        "Jul  2 23:35:17 authorMacBook-Pro kernel[0]: AppleThunderboltGenericHAL::earlyWake - complete - took 1 milliseconds",
+        "Jul  2 18:40:01 authorMacBook-Pro kernel[0]: in6_unlink_ifa: IPv6 address 0x77c9114551ab23ab has no prefix"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7865
+   },
+   "Android": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.7055,
+     "templates": 166,
+     "found": 163,
+     "templates_split": 8,
+     "lines_in_split_templates": 131,
+     "groups_merging_templates": 20,
+     "lines_in_merged_groups": 458,
+     "largest_splits": [
+      {
+       "event": "E10",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "acquire lock=166121161, flags=0x1, tag=\"RILJ_ACK_WL\", name=com.android.phone, ws=null, uid=1001, pid=2626",
+        "acquire lock=233570404, flags=0x1, tag=\"View Lock\", name=com.android.systemui, ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E108",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "release:lock=189667585, flg=0x0, tag=\"*launch*\", name=android\", ws=WorkSource{10113}, uid=1000, pid=1702",
+        "release:lock=233570404, flg=0x0, tag=\"View Lock\", name=com.android.systemui\", ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E41",
+       "lines": 25,
+       "into": 3,
+       "examples": [
+        "Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm.Windo",
+        "Destroying surface Surface(name=SurfaceView - com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.WindowStateAnimator.destroyDeferredSurfaceLocked:942 ",
+        "Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.qt.qtl.activity.info.NewsDetailXmlActivity) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 170,
+       "templates": 2,
+       "examples": [
+        "HBM brightnessIn =38",
+        "HBM brightnessOut =38"
+       ]
+      },
+      {
+       "lines": 65,
+       "templates": 2,
+       "examples": [
+        "updateClipping isOverlap:false, getTopPadding=333.0, Translation=-24.0",
+        "updateClipping isOverlap:true, getTopPadding=333.0, Translation=-529.0"
+       ]
+      },
+      {
+       "lines": 65,
+       "templates": 2,
+       "examples": [
+        "updateDimmedActivatedHideSensitive overlap:false",
+        "updateDimmedActivatedHideSensitive overlap:true"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.291,
+     "templates": 166,
+     "found": 54,
+     "templates_split": 12,
+     "lines_in_split_templates": 289,
+     "groups_merging_templates": 19,
+     "lines_in_merged_groups": 1398,
+     "largest_splits": [
+      {
+       "event": "E21",
+       "lines": 85,
+       "into": 2,
+       "examples": [
+        "03-17 16:14:03.294  1702  1820 D DisplayPowerController: Animating brightness: target=38, rate=200",
+        "03-17 16:13:41.614  1702  1820 D DisplayPowerController: Animating brightness: target=38, rate=200"
+       ]
+      },
+      {
+       "event": "E128",
+       "lines": 33,
+       "into": 2,
+       "examples": [
+        "03-17 16:14:08.162  2626  2808 I PhoneInterfaceManager: shouldBlockLocation  ret:false",
+        "03-17 16:13:40.241  2626  8682 I PhoneInterfaceManager: shouldBlockLocation  ret:false"
+       ]
+      },
+      {
+       "event": "E109",
+       "lines": 33,
+       "into": 2,
+       "examples": [
+        "03-17 16:14:00.349  1702  1702 D PowerManagerService: Releasing suspend blocker \"PowerManagerService.WakeLocks\".",
+        "03-17 16:13:41.481  1702 27357 D PowerManagerService: Releasing suspend blocker \"PowerManagerService.WakeLocks\"."
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 343,
+       "templates": 27,
+       "examples": [
+        "03-17 16:13:47.450  2227  2227 V PhoneStatusBar: setLightsOn(true)",
+        "03-17 16:13:45.310  2227  2227 I PhoneStatusBar: suspendAutohide",
+        "03-17 16:13:47.149  1702  1702 I NotificationManager: cancelNotification,index:0"
+       ]
+      },
+      {
+       "lines": 292,
+       "templates": 23,
+       "examples": [
+        "03-17 16:13:41.614  1702  1820 I DisplayPowerController: HBM brightnessIn =38",
+        "03-17 16:13:41.614  1702  1820 I DisplayPowerController: HBM brightnessOut =38",
+        "03-17 16:13:40.241  2626  8682 W PhoneInterfaceManager: shouldBlockLocation running ..."
+       ]
+      },
+      {
+       "lines": 222,
+       "templates": 13,
+       "examples": [
+        "03-17 16:14:03.294  1702  1820 D DisplayPowerController: Animating brightness: target=38, rate=200",
+        "03-17 16:13:38.928  2227  2227 I StackScrollAlgorithm: updateClipping isOverlap:false, getTopPadding=333.0, Translation=-24.0",
+        "03-17 16:14:00.349  1702  1702 D PowerManagerService: Releasing suspend blocker \"PowerManagerService.WakeLocks\"."
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.911
+   },
+   "HealthApp": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.712,
+     "templates": 75,
+     "found": 74,
+     "templates_split": 2,
+     "lines_in_split_templates": 377,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 199,
+     "largest_splits": [
+      {
+       "event": "E58",
+       "lines": 241,
+       "into": 2,
+       "examples": [
+        "setTodayTotalDetailSteps=1514038440000##7007##548365##8661##12361##27173954",
+        "setTodayTotalDetailSteps=1514044740000##0##549659##8661##16256##33444553"
+       ]
+      },
+      {
+       "event": "E47",
+       "lines": 136,
+       "into": 2,
+       "examples": [
+        "REPORT : 7007 5002 150089 240",
+        "REPORT : 0 0 0 0"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 161,
+       "templates": 2,
+       "examples": [
+        "processHandleBroadcastAction action:android.intent.action.TIME_TICK",
+        "processHandleBroadcastAction action:android.intent.action.SCREEN_ON"
+       ]
+      },
+      {
+       "lines": 34,
+       "templates": 2,
+       "examples": [
+        "onReceive action: android.intent.action.SCREEN_ON",
+        "onReceive action: android.intent.action.SCREEN_OFF"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "checkInsertStatus stepSum or calorieSum is enough",
+        "checkInsertStatus stepStatSum or calorieStatSum is enough"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.0155,
+     "templates": 75,
+     "found": 1435,
+     "templates_split": 44,
+     "lines_in_split_templates": 1969,
+     "groups_merging_templates": 1,
+     "lines_in_merged_groups": 2,
+     "largest_splits": [
+      {
+       "event": "E39",
+       "lines": 273,
+       "into": 163,
+       "examples": [
+        "20171223-23:7:6:86|Step_LSC|30002312|onExtend:1514040966000 0 0 5",
+        "20171223-23:19:20:149|Step_LSC|30002312|onExtend:1514042360000 0 0 5",
+        "20171223-22:30:23:993|Step_LSC|30002312|onExtend:1514039112000 0 0 5"
+       ]
+      },
+      {
+       "event": "E42",
+       "lines": 260,
+       "into": 156,
+       "examples": [
+        "20171223-22:15:34:848|Step_LSC|30002312|onStandStepChanged 3589",
+        "20171223-23:46:14:137|Step_LSC|30002312|onStandStepChanged 3786",
+        "20171223-22:15:35:348|Step_LSC|30002312|onStandStepChanged 3590"
+       ]
+      },
+      {
+       "event": "E22",
+       "lines": 242,
+       "into": 154,
+       "examples": [
+        "20171223-22:15:36:149|Step_SPUtils|30002312| getTodayTotalDetailSteps = 1514038440000##7018##548365##8661##13311##27179732",
+        "20171223-22:15:46:650|Step_SPUtils|30002312| getTodayTotalDetailSteps = 1514038440000##7035##548365##8661##14926##27190469",
+        "20171223-23:19:20:439|Step_SPUtils|30002312| getTodayTotalDetailSteps = 1514042160000##7214##549659##8661##16256##30906710"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "20171223-22:39:25:301|Step_LSC|30002312|processHandleBroadcastAction action:android.intent.action.SCREEN_ON",
+        "20171224-0:38:23:301|Step_LSC|30002312|processHandleBroadcastAction action:android.intent.action.TIME_TICK"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.78
+   },
+   "Apache": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 1.0,
+     "templates": 6,
+     "found": 6,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [],
+     "largest_merges": []
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.0,
+     "templates": 6,
+     "found": 12,
+     "templates_split": 6,
+     "lines_in_split_templates": 2000,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [
+      {
+       "event": "E1",
+       "lines": 836,
+       "into": 2,
+       "examples": [
+        "[Sun Dec 04 04:51:08 2005] [notice] jk2_init() Found child 6725 in scoreboard slot 10",
+        "[Mon Dec 05 03:21:00 2005] [notice] jk2_init() Found child 2760 in scoreboard slot 6"
+       ]
+      },
+      {
+       "event": "E2",
+       "lines": 569,
+       "into": 2,
+       "examples": [
+        "[Sun Dec 04 04:47:44 2005] [notice] workerEnv.init() ok /etc/httpd/conf/workers2.properties",
+        "[Mon Dec 05 03:21:02 2005] [notice] workerEnv.init() ok /etc/httpd/conf/workers2.properties"
+       ]
+      },
+      {
+       "event": "E3",
+       "lines": 539,
+       "into": 2,
+       "examples": [
+        "[Sun Dec 04 04:47:44 2005] [error] mod_jk child workerEnv in error state 6",
+        "[Mon Dec 05 03:21:02 2005] [error] mod_jk child workerEnv in error state 6"
+       ]
+      }
+     ],
+     "largest_merges": []
+    },
+    "drain_published": 1.0
+   },
+   "OpenSSH": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.718,
+     "templates": 27,
+     "found": 23,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 564,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 414,
+       "templates": 2,
+       "examples": [
+        "Received disconnect from 52.80.34.196: 11: Bye Bye [preauth]",
+        "Received disconnect from 119.137.62.142: 11: disconnected by user"
+       ]
+      },
+      {
+       "lines": 139,
+       "templates": 2,
+       "examples": [
+        "Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2",
+        "Failed none for invalid user 0 from 5.188.10.180 port 49811 ssh2"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "PAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180",
+        "PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.526,
+     "templates": 27,
+     "found": 22,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 948,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 414,
+       "templates": 2,
+       "examples": [
+        "Dec 10 07:07:45 LabSZ sshd[24206]: Received disconnect from 52.80.34.196: 11: Bye Bye [preauth]",
+        "Dec 10 09:45:06 LabSZ sshd[24761]: Received disconnect from 119.137.62.142: 11: disconnected by user"
+       ]
+      },
+      {
+       "lines": 384,
+       "templates": 2,
+       "examples": [
+        "Dec 10 07:13:43 LabSZ sshd[24227]: Failed password for root from 5.36.59.76 port 42393 ssh2",
+        "Dec 10 09:32:20 LabSZ sshd[24680]: Accepted password for fztu from 119.137.62.142 port 49116 ssh2"
+       ]
+      },
+      {
+       "lines": 139,
+       "templates": 2,
+       "examples": [
+        "Dec 10 06:55:48 LabSZ sshd[24200]: Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2",
+        "Dec 10 08:24:40 LabSZ sshd[24363]: Failed none for invalid user 0 from 5.188.10.180 port 49811 ssh2"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7875
+   },
+   "Proxifier": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.0,
+     "templates": 8,
+     "found": 539,
+     "templates_split": 7,
+     "lines_in_split_templates": 1998,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 28,
+     "largest_splits": [
+      {
+       "event": "E2",
+       "lines": 954,
+       "into": 207,
+       "examples": [
+        "proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "t12.baidu.com:80 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "api.github.com:443 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS"
+       ]
+      },
+      {
+       "event": "E8",
+       "lines": 947,
+       "into": 287,
+       "examples": [
+        "proxy.cse.cuhk.edu.hk:5070 close, 403 bytes sent, 426 bytes received, lifetime <1 sec",
+        "proxy.cse.cuhk.edu.hk:5070 close, 0 bytes sent, 0 bytes received, lifetime 00:01",
+        "proxy.cse.cuhk.edu.hk:5070 close, 1190 bytes (1.16 KB) sent, 1671 bytes (1.63 KB) received, lifetime 00:02"
+       ]
+      },
+      {
+       "event": "E7",
+       "lines": 31,
+       "into": 16,
+       "examples": [
+        "oimagea5.ydstatic.com:80 error : A connection request was canceled before the completion.",
+        "oimagec7.ydstatic.com:80 error : A connection request was canceled before the completion.",
+        "oimagec1.ydstatic.com:80 error : A connection request was canceled before the completion."
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 11,
+       "templates": 2,
+       "examples": [
+        "bolt.dropbox.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "bolt.dropbox.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "182.254.114.110:80 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "183.62.156.108:22 open through proxy socks.cse.cuhk.edu.hk:5070 SOCKS5"
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 2,
+       "examples": [
+        "www.google.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "www.google.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.0015,
+     "templates": 8,
+     "found": 12,
+     "templates_split": 6,
+     "lines_in_split_templates": 1995,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 1311,
+     "largest_splits": [
+      {
+       "event": "E2",
+       "lines": 954,
+       "into": 2,
+       "examples": [
+        "[10.30 16:49:06] chrome.exe - proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "[07.26 13:30:34] chrome.exe *64 - www.baidu.com:80 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS"
+       ]
+      },
+      {
+       "event": "E8",
+       "lines": 947,
+       "into": 5,
+       "examples": [
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 403 bytes sent, 426 bytes received, lifetime <1 sec",
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 451 bytes sent, 18846 bytes (18.4 KB) received, lifetime <1 sec",
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 0 bytes sent, 0 bytes received, lifetime 00:01"
+       ]
+      },
+      {
+       "event": "E7",
+       "lines": 31,
+       "into": 2,
+       "examples": [
+        "[10.30 17:15:42] QQ.exe - tcpconn6.tencent.com:443 error : A connection request was canceled before the completion.",
+        "[07.26 13:48:21] chrome.exe *64 - hm.baidu.com:80 error : A connection request was canceled before the completion. "
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 606,
+       "templates": 2,
+       "examples": [
+        "[10.30 16:49:06] chrome.exe - proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "[10.30 17:02:17] putty.exe - 183.62.156.108:22 open through proxy socks.cse.cuhk.edu.hk:5070 SOCKS5"
+       ]
+      },
+      {
+       "lines": 351,
+       "templates": 2,
+       "examples": [
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 403 bytes sent, 426 bytes received, lifetime <1 sec",
+        "[10.30 17:15:42] QQ.exe - tcpconn6.tencent.com:443 error : A connection request was canceled before the completion."
+       ]
+      },
+      {
+       "lines": 308,
+       "templates": 2,
+       "examples": [
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 451 bytes sent, 18846 bytes (18.4 KB) received, lifetime <1 sec",
+        "[07.26 13:48:21] chrome.exe *64 - hm.baidu.com:80 error : A connection request was canceled before the completion. "
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.5265
+   }
+  }
+ },
+ "checkout --threshold 0.6": {
+  "label": "checkout --threshold 0.6",
+  "loghub_commit": "dd61d0952749ee7963bde24220d1be5ede023033",
+  "average": {
+   "message": 0.8792,
+   "whole_line": 0.7488,
+   "drain_published": 0.8654
+  },
+  "systems": {
+   "HDFS": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9975,
+     "templates": 14,
+     "found": 16,
+     "templates_split": 1,
+     "lines_in_split_templates": 5,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 5,
+       "into": 3,
+       "examples": [
+        "BLOCK* ask 10.250.18.114:50010 to delete  blk_-5140072410813878235",
+        "BLOCK* ask 10.250.17.177:50010 to delete  blk_-8570780307468499817 blk_-9122557405432088649 blk_-4393063808227796056 blk_8767569714374844347 blk_7079754042611867581 blk_7608961006114219538 blk_-501727",
+        "BLOCK* ask 10.251.126.5:50010 to delete  blk_-9016567407076718172 blk_-8695715290502978219 blk_-7168328752988473716 blk_-4355192005224403537 blk_-3757501769775889193 blk_-154600013573668394 blk_167132"
+       ]
+      }
+     ],
+     "largest_merges": []
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9975,
+     "templates": 14,
+     "found": 16,
+     "templates_split": 1,
+     "lines_in_split_templates": 5,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [
+      {
+       "event": "E4",
+       "lines": 5,
+       "into": 3,
+       "examples": [
+        "081110 212510 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.18.114:50010 to delete  blk_-5140072410813878235",
+        "081111 065254 19 INFO dfs.FSNamesystem: BLOCK* ask 10.250.17.177:50010 to delete  blk_-8570780307468499817 blk_-9122557405432088649 blk_-4393063808227796056 blk_8767569714374844347 blk_707975404261186",
+        "081111 091733 19 INFO dfs.FSNamesystem: BLOCK* ask 10.251.126.5:50010 to delete  blk_-9016567407076718172 blk_-8695715290502978219 blk_-7168328752988473716 blk_-4355192005224403537 blk_-37575017697758"
+       ]
+      }
+     ],
+     "largest_merges": []
+    },
+    "drain_published": 0.9975
+   },
+   "Hadoop": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9755,
+     "templates": 114,
+     "found": 102,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 6,
+     "lines_in_merged_groups": 49,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 28,
+       "templates": 7,
+       "examples": [
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from UNASSIGNED to ASSIGNED",
+        "attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from ASSIGNED to RUNNING",
+        "attempt_1445144423722_0020_m_000002_0 TaskAttempt Transitioned from RUNNING to FAIL_CONTAINER_CLEANUP"
+       ]
+      },
+      {
+       "lines": 11,
+       "templates": 2,
+       "examples": [
+        "task_1445144423722_0020_m_000000 Task Transitioned from SCHEDULED to RUNNING",
+        "task_1445144423722_0020_m_000003 Task Transitioned from RUNNING to SUCCEEDED"
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 3,
+       "examples": [
+        "job_1445144423722_0020Job Transitioned from NEW to INITED",
+        "job_1445144423722_0020Job Transitioned from INITED to SETUP",
+        "job_1445144423722_0020Job Transitioned from SETUP to RUNNING"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9405,
+     "templates": 114,
+     "found": 96,
+     "templates_split": 1,
+     "lines_in_split_templates": 14,
+     "groups_merging_templates": 12,
+     "lines_in_merged_groups": 119,
+     "largest_splits": [
+      {
+       "event": "E17",
+       "lines": 14,
+       "into": 2,
+       "examples": [
+        "2015-10-18 18:01:53,885 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from NEW to UNA",
+        "2015-10-18 18:04:51,755 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_1 TaskAttempt Transitioned from NEW to UNA"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 31,
+       "templates": 8,
+       "examples": [
+        "2015-10-18 18:01:57,260 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from UNASSIGNED",
+        "2015-10-18 18:01:57,447 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from ASSIGNED t",
+        "2015-10-18 18:04:51,755 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_1 TaskAttempt Transitioned from NEW to UNA"
+       ]
+      },
+      {
+       "lines": 22,
+       "templates": 2,
+       "examples": [
+        "2015-10-18 18:01:53,869 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskImpl: task_1445144423722_0020_m_000000 Task Transitioned from NEW to SCHEDULED",
+        "2015-10-18 18:01:53,885 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned from NEW to UNA"
+       ]
+      },
+      {
+       "lines": 17,
+       "templates": 2,
+       "examples": [
+        "2015-10-18 18:01:56,916 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: After Scheduling: PendingReds:1 ScheduledMaps:9 ScheduledReds:0 AssignedMaps:1 Assig",
+        "2015-10-18 18:01:54,791 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: Before Scheduling: PendingReds:1 ScheduledMaps:10 ScheduledReds:0 AssignedMaps:0 Ass"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9475
+   },
+   "Spark": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9225,
+     "templates": 36,
+     "found": 33,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 155,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 149,
+       "templates": 2,
+       "examples": [
+        "Block broadcast_9_piece0 stored as bytes in memory (estimated size 5.2 KB, free 5.2 KB)",
+        "Block broadcast_9 stored as values in memory (estimated size 8.8 KB, free 14.0 KB)"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "Changing view acls to: yarn,curi",
+        "Changing modify acls to: yarn,curi"
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "Successfully started service 'sparkExecutorActorSystem' on port 55904.",
+        "Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40984."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.92,
+     "templates": 36,
+     "found": 29,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 160,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 149,
+       "templates": 2,
+       "examples": [
+        "17/06/09 20:10:45 INFO storage.MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 5.2 KB, free 5.2 KB)",
+        "17/06/09 20:10:46 INFO storage.MemoryStore: Block broadcast_9 stored as values in memory (estimated size 8.8 KB, free 14.0 KB)"
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 5,
+       "examples": [
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.tip.id is deprecated. Instead, use mapreduce.task.id",
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id",
+        "17/06/09 20:10:47 INFO Configuration.deprecation: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "17/06/09 20:10:40 INFO spark.SecurityManager: Changing view acls to: yarn,curi",
+        "17/06/09 20:10:40 INFO spark.SecurityManager: Changing modify acls to: yarn,curi"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.92
+   },
+   "Zookeeper": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9665,
+     "templates": 50,
+     "found": 51,
+     "templates_split": 1,
+     "lines_in_split_templates": 11,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 56,
+     "largest_splits": [
+      {
+       "event": "E44",
+       "lines": 11,
+       "into": 8,
+       "examples": [
+        "Server environment:java.vendor=Oracle Corporation",
+        "Server environment:user.name=zookeeper",
+        "Server environment:os.name=Linux"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "Client attempting to establish new session at /10.10.34.19:33425",
+        "Client attempting to renew session 0x24ed93119420016 at /10.10.34.13:37115"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 6,
+       "examples": [
+        "Notification: 2 (n.leader), 0xb00000084 (n.zxid), 0x2 (n.round), LOOKING (n.state), 1 (n.sid), 0xb (n.peerEPoch), LOOKING (my state)",
+        "Notification: 3 (n.leader), 0x10000006b (n.zxid), 0x2 (n.round), LOOKING (n.state), 3 (n.sid), 0x1 (n.peerEPoch), LEADING (my state)",
+        "Notification: 3 (n.leader), 0x700000197 (n.zxid), 0x1 (n.round), LEADING (n.state), 3 (n.sid), 0x7 (n.peerEPoch), LOOKING (my state)"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9595,
+     "templates": 50,
+     "found": 41,
+     "templates_split": 1,
+     "lines_in_split_templates": 11,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 70,
+     "largest_splits": [
+      {
+       "event": "E44",
+       "lines": 11,
+       "into": 3,
+       "examples": [
+        "2015-07-30 17:43:58,186 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:user.dir=/",
+        "2015-08-10 18:23:50,332 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:java.vendor=Oracle Corporation",
+        "2015-08-10 18:25:22,080 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:Environment@100] - Server environment:zookeeper.version=3.4.5--1, built on 06/10/2013 17:26 GMT"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "2015-07-29 21:01:41,504 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:ZooKeeperServer@839] - Client attempting to establish new session at /10.10.34.19:33425",
+        "2015-07-29 19:54:13,615 - INFO  [NIOServerCxn.Factory:0.0.0.0/0.0.0.0:2181:ZooKeeperServer@832] - Client attempting to renew session 0x24ed93119420016 at /10.10.34.13:37115"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 6,
+       "examples": [
+        "2015-08-20 17:14:12,326 - INFO  [WorkerReceiver[myid=1]:FastLeaderElection@542] - Notification: 2 (n.leader), 0xb00000084 (n.zxid), 0x2 (n.round), LOOKING (n.state), 1 (n.sid), 0xb (n.peerEPoch), LOOK",
+        "2015-07-29 19:56:54,754 - INFO  [WorkerReceiver[myid=2]:FastLeaderElection@542] - Notification: 3 (n.leader), 0x10000006b (n.zxid), 0x2 (n.round), LOOKING (n.state), 3 (n.sid), 0x1 (n.peerEPoch), LEAD",
+        "2015-08-07 07:27:47,425 - INFO  [WorkerReceiver[myid=1]:FastLeaderElection@542] - Notification: 3 (n.leader), 0x700000197 (n.zxid), 0x1 (n.round), LEADING (n.state), 3 (n.sid), 0x7 (n.peerEPoch), LOOK"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 5,
+       "examples": [
+        "2015-07-31 15:31:15,575 - INFO  [main:DatadirCleanupManager@79] - autopurge.purgeInterval set to 0",
+        "2015-07-30 23:52:53,800 - INFO  [main:QuorumPeer@933] - minSessionTimeout set to -1",
+        "2015-08-10 18:23:49,901 - INFO  [main:DatadirCleanupManager@78] - autopurge.snapRetainCount set to 3"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9665
+   },
+   "OpenStack": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.881,
+     "templates": 43,
+     "found": 37,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 238,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 109,
+       "templates": 4,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Resumed (Lifecycle Event)",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Started (Lifecycle Event)",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM Paused (Lifecycle Event)"
+       ]
+      },
+      {
+       "lines": 44,
+       "templates": 2,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Instance spawned successfully.",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Instance destroyed successfully."
+       ]
+      },
+      {
+       "lines": 43,
+       "templates": 2,
+       "examples": [
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Took 19.05 seconds to spawn the instance on the hypervisor.",
+        "[instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] Took 1.03 seconds to destroy the instance on the hypervisor."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.285,
+     "templates": 43,
+     "found": 32,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 7,
+     "lines_in_merged_groups": 1430,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 1017,
+       "templates": 3,
+       "examples": [
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:00.008 25746 INFO nova.osapi_compute.wsgi.server [req-38101a0b-2096-447d-96ea-a692162415ae 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:10.285 25743 INFO nova.osapi_compute.wsgi.server [req-ab451068-9756-4ad9-9d18-5ceaa6424627 f7b8d1f1d4d44643b07fa10ca7d021fb e9746973ac574c6b8a9e8857",
+        "nova-api.log.1.2017-05-16_13:53:08 2017-05-16 00:00:17.504 25746 INFO nova.osapi_compute.wsgi.server [req-c53a921a-16c7-422e-8c9d-c922a720d047 113d3a99c3da401fbd62cc2caa5b96d2 54fadb412c4e40cdbaed9335"
+       ]
+      },
+      {
+       "lines": 112,
+       "templates": 2,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:05.367 2931 INFO nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Active base files: /var/lib/nova/instances/_b",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:20.346 2931 INFO nova.virt.libvirt.imagecache [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] Removable base files: /var/lib/nova/instances"
+       ]
+      },
+      {
+       "lines": 109,
+       "templates": 4,
+       "examples": [
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:10.296 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM R",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.500 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM S",
+        "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 00:00:04.562 2931 INFO nova.compute.manager [req-3ea4052c-895d-4b64-9e2d-04d64c4d94ab - - - - -] [instance: b9000564-fe1a-409b-b8cc-1e88b294cd1d] VM P"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7325
+   },
+   "BGL": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.98,
+     "templates": 120,
+     "found": 110,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 8,
+     "lines_in_merged_groups": 40,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 12,
+       "templates": 2,
+       "examples": [
+        "ciod: Error reading message prefix on CioStream socket to 172.16.96.116:41534, Link has been severed",
+        "ciod: Error reading message prefix on CioStream socket to 172.16.96.116:52839, Connection reset by peer"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "data store interrupt caused by dcbf.........0",
+        "data store interrupt caused by icbi.........0"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 3,
+       "examples": [
+        "1 torus receiver z+ input pipe error(s) (dcr 0x02f0) detected and corrected",
+        "1 torus receiver x+ input pipe error(s) (dcr 0x02ec) detected and corrected",
+        "1 torus receiver y+ input pipe error(s) (dcr 0x02ee) detected and corrected"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.944,
+     "templates": 120,
+     "found": 104,
+     "templates_split": 10,
+     "lines_in_split_templates": 61,
+     "groups_merging_templates": 11,
+     "lines_in_merged_groups": 73,
+     "largest_splits": [
+      {
+       "event": "E76",
+       "lines": 21,
+       "into": 3,
+       "examples": [
+        "- 1118709996 2005.06.13 R12-M1-NB-C:J09-U01 2005-06-13-17.46.36.623273 R12-M1-NB-C:J09-U01 RAS KERNEL FATAL instruction address: 0x00004ed8",
+        "- 1118709955 2005.06.13 R10-M0-N1-C:J17-U11 2005-06-13-17.45.55.674418 R10-M0-N1-C:J17-U11 RAS KERNEL FATAL instruction address: 0x00004ed8",
+        "- 1119806971 2005.06.26 R05-M1-N8-C:J15-U11 2005-06-26-10.29.31.819506 R05-M1-N8-C:J15-U11 RAS KERNEL INFO instruction address: 0x0062fe04"
+       ]
+      },
+      {
+       "event": "E50",
+       "lines": 8,
+       "into": 2,
+       "examples": [
+        "- 1118768158 2005.06.14 R25-M0-NF-C:J05-U01 2005-06-14-09.55.58.097920 R25-M0-NF-C:J05-U01 RAS KERNEL FATAL data address: 0x00000002",
+        "- 1118767015 2005.06.14 R24-M1-N3-C:J16-U01 2005-06-14-09.36.55.370589 R24-M1-N3-C:J16-U01 RAS KERNEL FATAL data address: 0x00000002"
+       ]
+      },
+      {
+       "event": "E17",
+       "lines": 6,
+       "into": 2,
+       "examples": [
+        "- 1120241131 2005.07.01 R37-M1-N4 2005-07-01-11.05.31.120732 R37-M1-N4 NULL DISCOVERY SEVERE Can not get assembly information for node card",
+        "- 1123042536 2005.08.02 UNKNOWN_LOCATION 2005-08-02-21.15.36.811548 UNKNOWN_LOCATION NULL DISCOVERY SEVERE Can not get assembly information for node card"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 29,
+       "templates": 17,
+       "examples": [
+        "- 1118767283 2005.06.14 R20-M1-N3-C:J14-U01 2005-06-14-09.41.23.815131 R20-M1-N3-C:J14-U01 RAS KERNEL FATAL machine check: i-fetch......................0",
+        "- 1118767015 2005.06.14 R24-M1-N3-C:J16-U01 2005-06-14-09.36.55.370589 R24-M1-N3-C:J16-U01 RAS KERNEL FATAL data address: 0x00000002",
+        "- 1117984246 2005.06.05 R30-M1-N3-C:J02-U01 2005-06-05-08.10.46.344235 R30-M1-N3-C:J02-U01 RAS KERNEL FATAL force load/store alignment...............0"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "- 1118769991 2005.06.14 R26-M0-NA-C:J04-U11 2005-06-14-10.26.31.242578 R26-M0-NA-C:J04-U11 RAS KERNEL FATAL data store interrupt caused by dcbf.........0",
+        "- 1118770918 2005.06.14 R24-M0-N5-C:J05-U01 2005-06-14-10.41.58.776391 R24-M0-N5-C:J05-U01 RAS KERNEL FATAL data store interrupt caused by icbi.........0"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 3,
+       "examples": [
+        "- 1118770375 2005.06.14 R27-M0-N3-C:J15-U01 2005-06-14-10.32.55.359107 R27-M0-N3-C:J15-U01 RAS KERNEL FATAL program interrupt: imprecise exception......0",
+        "- 1118770227 2005.06.14 R25-M1-N6-C:J15-U11 2005-06-14-10.30.27.419268 R25-M1-N6-C:J15-U11 RAS KERNEL FATAL program interrupt: privileged instruction...0",
+        "- 1119803693 2005.06.26 R00-M1-N3-C:J11-U01 2005-06-26-09.34.53.251232 R00-M1-N3-C:J11-U01 RAS KERNEL INFO program interrupt: unimplemented operation..0"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.9625
+   },
+   "HPC": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.9055,
+     "templates": 46,
+     "found": 46,
+     "templates_split": 2,
+     "lines_in_split_templates": 8,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 181,
+     "largest_splits": [
+      {
+       "event": "E43",
+       "lines": 4,
+       "into": 2,
+       "examples": [
+        "Targeting domains:node-D7 and nodes:node-[224\\ 228\\ 232]",
+        "Targeting domains:node-D[0\\ 5] and nodes:node-[27\\ 191]"
+       ]
+      },
+      {
+       "event": "E20",
+       "lines": 4,
+       "into": 3,
+       "examples": [
+        "inconsistent nodesets node-160 0x0001edfe <ok> node-161 0x1001fdfe <ok> node-162 0x1001fdfe <ok> node-163 0x1001fdfe <ok>",
+        "inconsistent nodesets node-1 0x000001fc <ok> node-2 0x000001fc <ok> node-7 0x000001fc <ok> node-4 0x000001fc <ok> node-6 0x000001fc <ok> node-5 0x000001fc <ok> node-3 0x000001fc <ok> node-14 0x0003fdf",
+        "inconsistent nodesets node-31 0x1fffffffe <ok> node-0 0xfffffffe <ok> node-1 0xfffffffe <ok> node-2 0xfffffffe <ok> node-30 0xfffffffe <ok>"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 91,
+       "templates": 3,
+       "examples": [
+        "NIFF: node node-129 has detected an available network connection on network 10.128.0.0 via interface ee0",
+        "NIFF: node node-148 has detected an available network connection on network 5.5.226.0 via interface alt0",
+        "NIFF: node node-130 has detected an available network connection on network 10.96.0.0 via interface scip0"
+       ]
+      },
+      {
+       "lines": 90,
+       "templates": 2,
+       "examples": [
+        "Fan speeds ( 3552 3534 3375 **** 3515 3479 )",
+        "Fan speeds ( 3552 3534 3375 4245 3515 3479 )"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.439,
+     "templates": 46,
+     "found": 36,
+     "templates_split": 6,
+     "lines_in_split_templates": 256,
+     "groups_merging_templates": 9,
+     "lines_in_merged_groups": 1111,
+     "largest_splits": [
+      {
+       "event": "E38",
+       "lines": 162,
+       "into": 2,
+       "examples": [
+        "2579921 node-140 node status 1074216940 1 running",
+        "2286759 full partition status 1061219795 -1 running"
+       ]
+      },
+      {
+       "event": "E32",
+       "lines": 60,
+       "into": 2,
+       "examples": [
+        "2567354 node-147 node status 1074098611 1 not responding",
+        "2567461 node-C0 domain status 1074098612 1 not responding"
+       ]
+      },
+      {
+       "event": "E21",
+       "lines": 13,
+       "into": 2,
+       "examples": [
+        "30700 Interconnect-1T00 switch_module bcast-error 1076189965 1 Link error",
+        "2557080 Interconnect-1N01 switch_module error 1072913499 1 Link error"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 431,
+       "templates": 3,
+       "examples": [
+        "2559971 gige7 gige temperature 1073151998 1 normal",
+        "2556843 gige5 gige temperature 1072878243 1 warning",
+        "2561239 gige4 gige temperature 1073375350 1 critical"
+       ]
+      },
+      {
+       "lines": 148,
+       "templates": 2,
+       "examples": [
+        "2567534 node-97 node status 1074098640 1 configured out",
+        "2567354 node-147 node status 1074098611 1 not responding"
+       ]
+      },
+      {
+       "lines": 141,
+       "templates": 6,
+       "examples": [
+        "2575909 node-162 action start 1074178193 1 boot  (command 1911)",
+        "2601401 node-184 action start 1074298390 1 wait  (command 1975)",
+        "2608062 node-238 action start 1074461014 1 halt  (command 1982)"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.887
+   },
+   "Thunderbird": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.956,
+     "templates": 149,
+     "found": 174,
+     "templates_split": 5,
+     "lines_in_split_templates": 78,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 10,
+     "largest_splits": [
+      {
+       "event": "E146",
+       "lines": 34,
+       "into": 5,
+       "examples": [
+        "Warning: we failed to resolve data source name an14 an15 an16 an17 an18 an19 an20 an21 an22 an23 an24 an25 an26 an27 an28 an29 an30 an31 an32 an33 an34 an35 an36 an37 an38 an39 an40 an41 an42 an43 an4",
+        "Warning: we failed to resolve data source name bn14 bn15 bn16 bn17 bn18 bn19 bn20 bn21 bn22 bn23 bn24 bn25 bn26 bn27 bn28 bn29 bn30 bn31 bn32 bn33 bn34 bn35 bn36 bn37 bn38 bn39 bn40 bn41 bn42 bn43 bn4",
+        "Warning: we failed to resolve data source name cn14 cn15 cn16 cn17 cn18 cn19 cn20 cn21 cn22 cn23 cn24 cn25 cn26 cn27 cn28 cn29 cn30 cn31 cn32 cn33 cn34 cn35 cn36 cn37 cn38 cn39 cn40 cn41 cn42 cn43 cn4"
+       ]
+      },
+      {
+       "event": "E106",
+       "lines": 16,
+       "into": 12,
+       "examples": [
+        "removing chargen",
+        "removing daytime",
+        "removing echo"
+       ]
+      },
+      {
+       "event": "E111",
+       "lines": 11,
+       "into": 2,
+       "examples": [
+        "RRD_update (/var/lib/ganglia/rrds/C Nodes/cn304/pkts_out.rrd): illegal attempt to update using time 1131563037 when last update time is 1131563037 (minimum one second step)",
+        "RRD_update (/var/lib/ganglia/rrds/unspecified/badmin3/disk_total.rrd): illegal attempt to update using time 1131559854 when last update time is 1131559854 (minimum one second step)"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 4,
+       "templates": 4,
+       "examples": [
+        "registered new driver hiddev",
+        "registered new driver hub",
+        "registered new driver usbfs"
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "kernel time sync disabled 0041",
+        "kernel time sync enabled 0001"
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)",
+        "INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9465,
+     "templates": 149,
+     "found": 154,
+     "templates_split": 7,
+     "lines_in_split_templates": 74,
+     "groups_merging_templates": 12,
+     "lines_in_merged_groups": 34,
+     "largest_splits": [
+      {
+       "event": "E146",
+       "lines": 34,
+       "into": 5,
+       "examples": [
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name an14 an15 an16 an17 an18 an19 an20 an21 an22 an23 an24 an25 an26 an27 an28",
+        "- 1131567053 2005.11.09 tbird-admin1 Nov 9 12:10:53 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name bn14 bn15 bn16 bn17 bn18 bn19 bn20 bn21 bn22 bn23 bn24 bn25 bn26 bn27 bn28",
+        "- 1131567054 2005.11.09 tbird-admin1 Nov 9 12:10:54 local@tbird-admin1 gmetad: Warning: we failed to resolve data source name cn14 cn15 cn16 cn17 cn18 cn19 cn20 cn21 cn22 cn23 cn24 cn25 cn26 cn27 cn28"
+       ]
+      },
+      {
+       "event": "E111",
+       "lines": 11,
+       "into": 2,
+       "examples": [
+        "- 1131566637 2005.11.09 tbird-admin1 Nov 9 12:03:57 local@tbird-admin1 /apps/x86_64/system/ganglia-3.0.1/sbin/gmetad[1682]: RRD_update (/var/lib/ganglia/rrds/C Nodes/cn304/pkts_out.rrd): illegal attem",
+        "- 1131567054 2005.11.09 tbird-admin1 Nov 9 12:10:54 local@tbird-admin1 /apps/x86_64/system/ganglia-3.0.1/sbin/gmetad[1691]: RRD_update (/var/lib/ganglia/rrds/unspecified/badmin3/disk_total.rrd): illeg"
+       ]
+      },
+      {
+       "event": "E15",
+       "lines": 10,
+       "into": 5,
+       "examples": [
+        "- 1131566491 2005.11.09 eadmin1 Nov 9 12:01:31 src@eadmin1 sendmail[4306]: jA9J1UvC004306: from=root, size=629060, class=0, nrcpts=1, msgid=<200511091901.jA9J1UvC004306@eadmin1>, relay=#7#@localhost",
+        "- 1131566494 2005.11.09 cadmin1 Nov 9 12:01:34 src@cadmin1 sendmail[19391]: jA9J1Wd7019391: from=root, size=1594553, class=0, nrcpts=1, msgid=<200511091901.jA9J1Wd7019391@cadmin1>, relay=#7#@localhost",
+        "- 1131566495 2005.11.09 badmin1 Nov 9 12:01:35 src@badmin1 sendmail[11176]: jA9J1WSU011176: from=root, size=1593894, class=0, nrcpts=1, msgid=<200511091901.jA9J1WSU011176@badmin1>, relay=#7#@localhost"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "- 1131566501 2005.11.09 aadmin1 Nov 9 12:01:41 src@aadmin1 dhcpd: DHCPOFFER on 10.100.4.251 to 00:11:43:e3:ba:c3 via eth1",
+        "- 1131566503 2005.11.09 aadmin1 Nov 9 12:01:43 src@aadmin1 dhcpd: DHCPACK on 10.100.4.251 to 00:11:43:e3:ba:c3 via eth1"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 md: ... autorun DONE.",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 md: Autodetecting RAID arrays."
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 4,
+       "examples": [
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 usbcore: registered new driver hiddev",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 usbcore: registered new driver hub",
+        "- 1131567043 2005.11.09 tbird-admin1 Nov 9 12:10:43 local@tbird-admin1 usbcore: registered new driver usbfs"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.955
+   },
+   "Windows": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.693,
+     "templates": 50,
+     "found": 47,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 614,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 609,
+       "templates": 2,
+       "examples": [
+        "Session: 30546173_4261722401 initialized by client WindowsUpdateAgent.",
+        "Session: 11152_142416105 initialized by client SPP."
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 2,
+       "examples": [
+        "Ending TrustedInstaller initialization.",
+        "Ending TrustedInstaller finalization."
+       ]
+      },
+      {
+       "lines": 2,
+       "templates": 2,
+       "examples": [
+        "Starting TrustedInstaller finalization.",
+        "Starting TrustedInstaller initialization."
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.689,
+     "templates": 50,
+     "found": 43,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 622,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 609,
+       "templates": 2,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Session: 30546173_4261722401 initialized by client WindowsUpdateAgent.",
+        "2016-09-29 00:01:03, Info                  CBS    Session: 11152_142416105 initialized by client SPP."
+       ]
+      },
+      {
+       "lines": 5,
+       "templates": 4,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Ending TrustedInstaller initialization.",
+        "2016-09-28 04:40:55, Info                  CBS    Starting TrustedInstaller finalization.",
+        "2016-09-28 04:40:55, Info                  CBS    Ending TrustedInstaller finalization."
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 2,
+       "examples": [
+        "2016-09-28 04:30:31, Info                  CBS    Starting the TrustedInstaller main loop.",
+        "2016-09-28 04:40:55, Info                  CBS    Ending the TrustedInstaller main loop."
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.997
+   },
+   "Linux": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.6865,
+     "templates": 118,
+     "found": 112,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 5,
+     "lines_in_merged_groups": 627,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 372,
+       "templates": 3,
+       "examples": [
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=220-135-151-1.hinet-ip.hinet.net  user=root",
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.46.224.253  user=guest",
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=212.0.132.20  user=test"
+       ]
+      },
+      {
+       "lines": 123,
+       "templates": 2,
+       "examples": [
+        "session opened for user cyrus by (uid=0)",
+        "session opened for user root by LOGIN(uid=0)"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4",
+        "authentication failure; logname= uid=0 euid=0 tty=:0 ruser= rhost="
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.6775,
+     "templates": 118,
+     "found": 103,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 11,
+     "lines_in_merged_groups": 645,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 372,
+       "templates": 3,
+       "examples": [
+        "Jun 15 02:04:59 combo sshd(pam_unix)[20882]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=220-135-151-1.hinet-ip.hinet.net  user=root",
+        "Jun 17 19:43:13 combo sshd(pam_unix)[30565]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=211.46.224.253  user=guest",
+        "Jul  8 20:14:55 combo sshd(pam_unix)[20963]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=212.0.132.20  user=test"
+       ]
+      },
+      {
+       "lines": 123,
+       "templates": 2,
+       "examples": [
+        "Jun 15 04:06:18 combo su(pam_unix)[21416]: session opened for user cyrus by (uid=0)",
+        "Jul  7 08:06:15 combo login(pam_unix)[2421]: session opened for user root by LOGIN(uid=0)"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "Jun 14 15:16:01 combo sshd(pam_unix)[19939]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=218.188.2.4 ",
+        "Jul 11 11:33:13 combo gdm(pam_unix)[2803]: authentication failure; logname= uid=0 euid=0 tty=:0 ruser= rhost= "
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.69
+   },
+   "Mac": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.77,
+     "templates": 341,
+     "found": 317,
+     "templates_split": 3,
+     "lines_in_split_templates": 173,
+     "groups_merging_templates": 25,
+     "lines_in_merged_groups": 287,
+     "largest_splits": [
+      {
+       "event": "E189",
+       "lines": 166,
+       "into": 7,
+       "examples": [
+        "com.apple.icloud.fmfd.heartbeat: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 439034 seconds.  Ignoring.",
+        "com.apple.Safari.SafeBrowsing.Update: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 2450 seconds.  Ignoring.",
+        "com.apple.CacheDelete.daily: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 12119 seconds.  Ignoring."
+       ]
+      },
+      {
+       "event": "E210",
+       "lines": 4,
+       "into": 2,
+       "examples": [
+        "en0: Supported channels 1 2 3 4 5 6 7 8 9 10 11 12 13 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161",
+        "en0: Supported channels 1 2 3 4 5 6 7 8 9 10 11 12 13 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165"
+       ]
+      },
+      {
+       "event": "E265",
+       "lines": 3,
+       "into": 2,
+       "examples": [
+        "network changed: v6(en0-:2607:f140:6000:8:d8d1:d506:6046:43e4) DNS- Proxy-",
+        "network changed: v4(en0-:10.105.162.105) v6(en0-:2607:f140:6000:8:c6b3:1ff:fecd:467f) DNS- Proxy-"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 37,
+       "templates": 2,
+       "examples": [
+        "Location icon should now be in state 'Inactive'",
+        "Location icon should now be in state 'Active'"
+       ]
+      },
+      {
+       "lines": 32,
+       "templates": 2,
+       "examples": [
+        "ARPT: 621241.634070: wl0: MDNS: IPV6 Addr: 2607:f140:6000:8:c6b3:1ff:fecd:467f",
+        "ARPT: 626126.086246: wl0: MDNS: IPV4 Addr: 10.105.160.95"
+       ]
+      },
+      {
+       "lines": 28,
+       "templates": 2,
+       "examples": [
+        "ARPT: 620702.879952: AirPort_Brcm43xx::platformWoWEnable: WWEN[disable]",
+        "ARPT: 621342.242614: AirPort_Brcm43xx::platformWoWEnable: WWEN[enable]"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.724,
+     "templates": 341,
+     "found": 311,
+     "templates_split": 6,
+     "lines_in_split_templates": 212,
+     "groups_merging_templates": 33,
+     "lines_in_merged_groups": 340,
+     "largest_splits": [
+      {
+       "event": "E189",
+       "lines": 166,
+       "into": 7,
+       "examples": [
+        "Jul  1 09:19:13 calvisitor-10-105-160-95 com.apple.cts[258]: com.apple.icloud.fmfd.heartbeat: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 439034 seconds.",
+        "Jul  1 09:22:02 calvisitor-10-105-160-95 com.apple.cts[258]: com.apple.Safari.SafeBrowsing.Update: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 2450 secon",
+        "Jul  1 09:41:44 calvisitor-10-105-160-95 com.apple.cts[43]: com.apple.CacheDelete.daily: scheduler_evaluate_activity told me to run this job; however, but the start time isn't for 12119 seconds.  Igno"
+       ]
+      },
+      {
+       "event": "E52",
+       "lines": 29,
+       "into": 2,
+       "examples": [
+        "Jul  1 09:29:02 calvisitor-10-105-160-95 sandboxd[129] ([31211]): com.apple.Addres(31211) deny network-outbound /private/var/run/mDNSResponder",
+        "Jul  3 01:54:51 authorMacBook-Pro sandboxd[129] ([32992]): com.apple.Addres(32992) deny network-outbound /private/var/run/mDNSResponder"
+       ]
+      },
+      {
+       "event": "E51",
+       "lines": 6,
+       "into": 2,
+       "examples": [
+        "Jul  2 13:44:30 authorMacBook-Pro sandboxd[129] ([10018]): QQ(10018) deny mach-lookup com.apple.networking.captivenetworksupport",
+        "Jul  1 14:29:01 calvisitor-10-105-160-95 sandboxd[129] ([10018]): QQ(10018) deny mach-lookup com.apple.networking.captivenetworksupport"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 37,
+       "templates": 2,
+       "examples": [
+        "Jul  1 11:29:32 calvisitor-10-105-160-95 locationd[82]: Location icon should now be in state 'Inactive'",
+        "Jul  1 13:42:01 calvisitor-10-105-160-95 locationd[82]: Location icon should now be in state 'Active'"
+       ]
+      },
+      {
+       "lines": 32,
+       "templates": 2,
+       "examples": [
+        "Jul  1 09:29:25 calvisitor-10-105-160-95 kernel[0]: ARPT: 621241.634070: wl0: MDNS: IPV6 Addr: 2607:f140:6000:8:c6b3:1ff:fecd:467f",
+        "Jul  1 11:38:18 calvisitor-10-105-160-95 kernel[0]: ARPT: 626126.086246: wl0: MDNS: IPV4 Addr: 10.105.160.95"
+       ]
+      },
+      {
+       "lines": 28,
+       "templates": 2,
+       "examples": [
+        "Jul  1 09:02:26 authorMacBook-Pro kernel[0]: ARPT: 620702.879952: AirPort_Brcm43xx::platformWoWEnable: WWEN[disable]",
+        "Jul  1 09:33:13 calvisitor-10-105-160-95 kernel[0]: ARPT: 621342.242614: AirPort_Brcm43xx::platformWoWEnable: WWEN[enable]"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7865
+   },
+   "Android": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.923,
+     "templates": 166,
+     "found": 161,
+     "templates_split": 4,
+     "lines_in_split_templates": 79,
+     "groups_merging_templates": 11,
+     "lines_in_merged_groups": 75,
+     "largest_splits": [
+      {
+       "event": "E10",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "acquire lock=166121161, flags=0x1, tag=\"RILJ_ACK_WL\", name=com.android.phone, ws=null, uid=1001, pid=2626",
+        "acquire lock=233570404, flags=0x1, tag=\"View Lock\", name=com.android.systemui, ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E108",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "release:lock=189667585, flg=0x0, tag=\"*launch*\", name=android\", ws=WorkSource{10113}, uid=1000, pid=1702",
+        "release:lock=233570404, flg=0x0, tag=\"View Lock\", name=com.android.systemui\", ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E41",
+       "lines": 25,
+       "into": 5,
+       "examples": [
+        "Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.qt.qtl.activity.info.NewsDetailXmlActivity) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm",
+        "Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.qt.qtl.activity.main.MainTabActivity) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm.Windo",
+        "Destroying surface Surface(name=InputMethod) called by com.android.server.wm.WindowStateAnimator.destroySurface:2060 com.android.server.wm.WindowStateAnimator.destroySurfaceLocked:913 com.android.serv"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 14,
+       "templates": 2,
+       "examples": [
+        "interceptKeyTq keycode=4 interactive=true keyguardActive=false policyFlags=2b000002 down true canceled false",
+        "interceptKeyTq keycode=4 interactive=true keyguardActive=false policyFlags=2b000002 down false canceled false"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 2,
+       "examples": [
+        "logNotificationVisibilityChanges runInThread start",
+        "logNotificationVisibilityChanges runInThread over"
+       ]
+      },
+      {
+       "lines": 12,
+       "templates": 2,
+       "examples": [
+        "The change in focus caused us to need to do a layout begin",
+        "The change in focus caused us to need to do a layout end"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.5615,
+     "templates": 166,
+     "found": 124,
+     "templates_split": 3,
+     "lines_in_split_templates": 77,
+     "groups_merging_templates": 28,
+     "lines_in_merged_groups": 800,
+     "largest_splits": [
+      {
+       "event": "E10",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "03-17 16:13:40.142  1702  2618 D PowerManagerService: acquire lock=166121161, flags=0x1, tag=\"RILJ_ACK_WL\", name=com.android.phone, ws=null, uid=1001, pid=2626",
+        "03-17 16:13:38.819  1702  8671 D PowerManagerService: acquire lock=233570404, flags=0x1, tag=\"View Lock\", name=com.android.systemui, ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E108",
+       "lines": 26,
+       "into": 2,
+       "examples": [
+        "03-17 16:13:38.936  1702 14638 D PowerManagerService: release:lock=189667585, flg=0x0, tag=\"*launch*\", name=android\", ws=WorkSource{10113}, uid=1000, pid=1702",
+        "03-17 16:13:38.905  1702 10454 D PowerManagerService: release:lock=233570404, flg=0x0, tag=\"View Lock\", name=com.android.systemui\", ws=null, uid=10037, pid=2227"
+       ]
+      },
+      {
+       "event": "E41",
+       "lines": 25,
+       "into": 3,
+       "examples": [
+        "03-17 16:13:46.277  1702 14640 I WindowManager: Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.qt.qtl.activity.info.NewsDetailXmlActivity) called by com.android.server.wm.WindowStateAn",
+        "03-17 16:13:39.006  1702  2639 I WindowManager: Destroying surface Surface(name=com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.WindowStateAnimator",
+        "03-17 16:13:38.994  1702 27365 I WindowManager: Destroying surface Surface(name=SurfaceView - com.tencent.qt.qtl/com.tencent.video.player.activity.PlayerActivity) called by com.android.server.wm.Windo"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 170,
+       "templates": 2,
+       "examples": [
+        "03-17 16:13:41.614  1702  1820 I DisplayPowerController: HBM brightnessIn =38",
+        "03-17 16:13:41.614  1702  1820 I DisplayPowerController: HBM brightnessOut =38"
+       ]
+      },
+      {
+       "lines": 118,
+       "templates": 2,
+       "examples": [
+        "03-17 16:13:38.935  1702  3697 W ActivityManager: getRunningAppProcesses: caller 10113 does not hold REAL_GET_TASKS; limiting output",
+        "03-17 16:13:48.009  1702 10454 W ActivityManager: getTasks: caller 10113 does not hold REAL_GET_TASKS; limiting output"
+       ]
+      },
+      {
+       "lines": 66,
+       "templates": 2,
+       "examples": [
+        "03-17 16:13:41.481  1702 27357 D PowerManagerService: Releasing suspend blocker \"PowerManagerService.WakeLocks\".",
+        "03-17 16:13:45.382  1702  3697 D PowerManagerService: Acquiring suspend blocker \"PowerManagerService.WakeLocks\"."
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.911
+   },
+   "HealthApp": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.981,
+     "templates": 75,
+     "found": 73,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 38,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 34,
+       "templates": 2,
+       "examples": [
+        "onReceive action: android.intent.action.SCREEN_ON",
+        "onReceive action: android.intent.action.SCREEN_OFF"
+       ]
+      },
+      {
+       "lines": 4,
+       "templates": 2,
+       "examples": [
+        "checkInsertStatus stepSum or calorieSum is enough",
+        "checkInsertStatus stepStatSum or calorieStatSum is enough"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.9715,
+     "templates": 75,
+     "found": 71,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 4,
+     "lines_in_merged_groups": 57,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 34,
+       "templates": 2,
+       "examples": [
+        "20171223-22:15:29:633|Step_StandReportReceiver|30002312|onReceive action: android.intent.action.SCREEN_ON",
+        "20171223-22:15:34:723|Step_StandReportReceiver|30002312|onReceive action: android.intent.action.SCREEN_OFF"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "20171223-22:19:58:424|HiH_HiSyncControl|30002312|initDataPrivacy the dataPrivacy switch is open, start push health data!",
+        "20171223-22:19:58:428|HiH_HiSyncControl|30002312|initUserPrivacy the userPrivacy switch is open, start push user data!"
+       ]
+      },
+      {
+       "lines": 10,
+       "templates": 2,
+       "examples": [
+        "20171223-22:19:58:424|HiH_|30002312|initDataPrivacy the dataPrivacy is true",
+        "20171223-22:19:58:428|HiH_|30002312|initUserPrivacy the userPrivacy is true"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.78
+   },
+   "Apache": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 1.0,
+     "templates": 6,
+     "found": 6,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [],
+     "largest_merges": []
+    },
+    "whole_line": {
+     "grouping_accuracy": 1.0,
+     "templates": 6,
+     "found": 6,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 0,
+     "lines_in_merged_groups": 0,
+     "largest_splits": [],
+     "largest_merges": []
+    },
+    "drain_published": 1.0
+   },
+   "OpenSSH": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.925,
+     "templates": 27,
+     "found": 24,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 150,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 139,
+       "templates": 2,
+       "examples": [
+        "Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2",
+        "Failed none for invalid user 0 from 5.188.10.180 port 49811 ssh2"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "PAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180",
+        "PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180"
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 2,
+       "examples": [
+        "Disconnecting: Too many authentication failures for root [preauth]",
+        "Disconnecting: Too many authentication failures for admin [preauth]"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.925,
+     "templates": 27,
+     "found": 24,
+     "templates_split": 0,
+     "lines_in_split_templates": 0,
+     "groups_merging_templates": 3,
+     "lines_in_merged_groups": 150,
+     "largest_splits": [],
+     "largest_merges": [
+      {
+       "lines": 139,
+       "templates": 2,
+       "examples": [
+        "Dec 10 06:55:48 LabSZ sshd[24200]: Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2",
+        "Dec 10 08:24:40 LabSZ sshd[24363]: Failed none for invalid user 0 from 5.188.10.180 port 49811 ssh2"
+       ]
+      },
+      {
+       "lines": 8,
+       "templates": 2,
+       "examples": [
+        "Dec 10 08:25:22 LabSZ sshd[24369]: PAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180 ",
+        "Dec 10 08:26:04 LabSZ sshd[24375]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=5.188.10.180 "
+       ]
+      },
+      {
+       "lines": 3,
+       "templates": 2,
+       "examples": [
+        "Dec 10 07:13:56 LabSZ sshd[24227]: Disconnecting: Too many authentication failures for root [preauth]",
+        "Dec 10 10:14:13 LabSZ sshd[24833]: Disconnecting: Too many authentication failures for admin [preauth]"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.7875
+   },
+   "Proxifier": {
+    "lines": 2000,
+    "message": {
+     "grouping_accuracy": 0.5035,
+     "templates": 8,
+     "found": 15,
+     "templates_split": 1,
+     "lines_in_split_templates": 947,
+     "groups_merging_templates": 1,
+     "lines_in_merged_groups": 46,
+     "largest_splits": [
+      {
+       "event": "E8",
+       "lines": 947,
+       "into": 9,
+       "examples": [
+        "proxy.cse.cuhk.edu.hk:5070 close, 1190 bytes (1.16 KB) sent, 1671 bytes (1.63 KB) received, lifetime 00:02",
+        "proxy.cse.cuhk.edu.hk:5070 close, 0 bytes sent, 0 bytes received, lifetime 00:01",
+        "qqmail.tencent.com:80 close, 336 bytes sent, 2854 bytes (2.78 KB) received, lifetime 00:01"
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 46,
+       "templates": 2,
+       "examples": [
+        "qa.sockets.stackexchange.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "223.167.104.147:80 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      }
+     ]
+    },
+    "whole_line": {
+     "grouping_accuracy": 0.0,
+     "templates": 8,
+     "found": 99,
+     "templates_split": 8,
+     "lines_in_split_templates": 2000,
+     "groups_merging_templates": 2,
+     "lines_in_merged_groups": 40,
+     "largest_splits": [
+      {
+       "event": "E2",
+       "lines": 954,
+       "into": 23,
+       "examples": [
+        "[10.30 16:49:06] chrome.exe - proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "[07.26 13:30:34] chrome.exe *64 - www.baidu.com:80 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS",
+        "[10.30 17:14:20] Dropbox.exe - proxy.cse.cuhk.edu.hk:5070 open through proxy proxy.cse.cuhk.edu.hk:5070 HTTPS"
+       ]
+      },
+      {
+       "event": "E8",
+       "lines": 947,
+       "into": 55,
+       "examples": [
+        "[10.30 16:49:08] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 1190 bytes (1.16 KB) sent, 1671 bytes (1.63 KB) received, lifetime 00:02",
+        "[07.26 13:30:39] chrome.exe *64 - www.baidu.com:80 close, 6719 bytes (6.56 KB) sent, 644545 bytes (629 KB) received, lifetime 00:05",
+        "[10.30 16:49:07] chrome.exe - proxy.cse.cuhk.edu.hk:5070 close, 0 bytes sent, 0 bytes received, lifetime 00:01"
+       ]
+      },
+      {
+       "event": "E7",
+       "lines": 31,
+       "into": 4,
+       "examples": [
+        "[10.30 17:57:12] YodaoDict.exe - oimagec7.ydstatic.com:80 error : A connection request was canceled before the completion. ",
+        "[07.26 13:48:21] chrome.exe *64 - hm.baidu.com:80 error : A connection request was canceled before the completion. ",
+        "[10.30 17:15:42] QQ.exe - tcpconn6.tencent.com:443 error : A connection request was canceled before the completion."
+       ]
+      }
+     ],
+     "largest_merges": [
+      {
+       "lines": 26,
+       "templates": 2,
+       "examples": [
+        "[07.27 05:05:50] chrome.exe *64 - qa.sockets.stackexchange.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "[07.26 17:23:54] chrome.exe *64 - mtalk.google.com:5228 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      },
+      {
+       "lines": 14,
+       "templates": 2,
+       "examples": [
+        "[07.27 05:05:53] Dropbox.exe - client-cf.dropbox.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - connection attempt failed with error 10061",
+        "[07.26 17:24:02] Dropbox.exe - bolt.dropbox.com:443 error : Could not connect to proxy proxy.cse.cuhk.edu.hk:5070 - Could not resolve proxy.cse.cuhk.edu.hk error 11001"
+       ]
+      }
+     ]
+    },
+    "drain_published": 0.5265
+   }
+  }
+ }
+}
