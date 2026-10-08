@@ -16,16 +16,41 @@ template distributions between a known-good baseline and the run you're investig
 Lines that are one event, such as a traceback or the steps a failed job skipped, are reported
 as one finding. On the synthetic 18,000-line, three-baseline example below — a simulated
 parallel test run with a real failure buried in it — that's a 6,042-line target reduced to 5
-findings, one of them the failing test's traceback. Two passing runs from the same example
-diff to 0 findings.
+findings, one of them the failing test's traceback. The example's passing runs diffed
+against each other give 0 or 1: the one is its retry line, which the three runs print 200,
+1,100 and 550 times.
 
-<p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output on a simulated parallel test run: header reads 18,350 to 6,042 lines, 407 templates, 5 findings (8 with --flat); a NEW block of three traceback lines with their line numbers, two more NEW findings (a new service alert and a new structured error event), one GONE finding with the baseline line it stands for, and a NEW VALUE finding showing one specific test's outcome flipping from PASSED in every baseline to FAILED in the target"></p>
+<p align="center"><img src="docs/assets/hero-diff.png" width="820" alt="logdelta diff output on a simulated parallel test run: header reads 18,350 to 6,042 lines, 16 templates, 5 findings (8 with --flat); a NEW block of four traceback lines with their line numbers, two more NEW findings (a new service alert and a new structured error event), one GONE finding for the one service instance that stopped writing its health check, with the baseline line it stands for, and a NEW VALUE finding showing one specific test's outcome flipping from PASSED in every baseline to FAILED in the target"></p>
 
-The same holds on logs nobody wrote for a demo. A failing `pytest` job of the pytest project
-itself on GitHub Actions (854 lines) against three passing runs of the same job (about 1,270
-lines each) comes out as 4 findings: the traceback, the short test summary, the lines the job
-exited on, and one GONE block for the 198 templates of the upload steps it never reached.
-Two of the passing runs against the third: 0.
+## On real logs
+
+Two studies in this repository run logdelta on public data with a known answer. Both changed
+it; the numbers are the released 0.3.4 against this checkout.
+
+- **[264 failed Kubernetes builds, each against a passing build of the same commit](studies/kubernetes-ci/README.md).**
+  Same code, one run failed: what differs between the two logs is the failure. The diff
+  names a test that failed in **264 of 264**, in a median of **4 findings** out of a
+  2,600-line log (0.3.4: 6). A passing build against passing builds is silent in 127 of 179
+  cases (0.3.4: 122). A baseline from another day used to double the report, because klog
+  starts every line with the date (`I1005`); it no longer does.
+- **[Loghub, the benchmark log parsers are scored on](studies/loghub/README.md).** 2,000
+  hand-labelled lines from each of 16 systems. Grouping accuracy went from **0.73 to 0.82**
+  on the message text and from **0.43 to 0.71** on whole lines, which is what logdelta is
+  given in use. The reference Drain publishes 0.865 with a log format, regexes and a
+  threshold chosen per system; logdelta runs one configuration on all sixteen.
+
+What 0.3.4 got wrong, found there and fixed in this checkout:
+
+- A line was filed under its first token, which in many logs is a value: a host, an id, a
+  count. Each value was a template of its own.
+- A wildcard counted as agreement, so a template got easier to join with every line it took
+  in. One ended up holding 343 Android lines of 27 different templates, and a line that fits
+  a template like that is never new.
+- Two JSON lines with the same keys were one template whatever they said. A new
+  `"level":"error"` line with a message no baseline had came back as **"No significant
+  differences found."**
+- Apache's error-log timestamp, `[Sun Dec 04 04:47:44 2005]`, was not masked, nor the access
+  log's `04/Dec/2005:04:47:44 +0000`.
 
 **[Try it in the browser →](https://antonsoo.github.io/logdelta/)** Paste two logs, or load one of
 the examples below. The page runs this crate's library compiled to WebAssembly, so the findings are
@@ -67,8 +92,8 @@ when it could not read its input (a missing file, or one that is not text), like
   templates that are already noisy across passing runs, so flaky lines don't drown out real
   findings.
 - **Blocks**: findings whose lines sit together are one finding. A traceback is one NEW
-  block that shows its lines with their numbers (in the pytest job above, 77 lines that
-  were 51 findings); the steps a failed job skipped are one GONE block. A stack trace logged fifty times is still one
+  block that shows its lines with their numbers (in a failing job of the pytest project, 77 lines that
+  were 51 findings in 0.2); the steps a failed job skipped are one GONE block. A stack trace logged fifty times is still one
   block, with the count. `--block-lines N` sets how much of a long block is printed
   (default 12: its start and its end), and `--flat` lists every template on its own, as
   versions before 0.3 did.
@@ -81,10 +106,17 @@ when it could not read its input (a missing file, or one that is not text), like
   headers, the Docker `json-file` wrapper, and bare leading timestamps (GitHub Actions'
   raw-log shape) are stripped before mining, keeping only what's worth comparing on (e.g.
   the stream name).
-- **JSON-aware**: a single-line JSON payload is flattened into `key=`/value tokens instead
-  of shredded by a whitespace split, so a quoted multi-word message clusters correctly and
-  its keys stay literal in the template while only the values wildcard.
-- **Masking**: ISO 8601/RFC 3339 and syslog timestamps, epoch seconds/ms, UUIDs, hex
+- **JSON- and logfmt-aware**: a single-line JSON payload is read as fields, not shredded by
+  a whitespace split. A field whose value is a sentence (`"msg":"user alice logged in"`,
+  `msg="..."` in logfmt) is mined as its words; every other field is an attribute,
+  `level="info"`, that keeps its name when its value varies (`level=<*>`). In this checkout
+  the words decide which template a line belongs to and the attributes do not, so two events
+  with the same fields and different messages are two templates.
+- **One instance going quiet** (unreleased): when a template is shared by a fixed set of
+  sources (`[svc-search-0]` … `[svc-search-4]`) and one of them stops writing it, that is a
+  GONE finding for that instance's line, with its counts.
+- **Masking**: ISO 8601/RFC 3339 and syslog timestamps (and, unreleased, `ctime`, RFC 2822
+  and Common Log Format ones, and durations like `1m6.046s`), epoch seconds/ms, UUIDs, hex
   ids/hashes, IPv4 with ports, IPv6 (uncompressed and bracketed forms — see
   [Limitations](#accuracy-and-limitations)), emails, URL query strings, basic-auth
   credentials, and numeric/hex/UUID path segments, quantities and durations (`512KiB`,
@@ -181,14 +213,14 @@ does the same over file paths. The [API docs](https://docs.rs/logdelta) open wit
 
 ## Web demo
 
-<p align="center"><img src="docs/assets/web-demo.png" width="820" alt="The logdelta web demo on the three-baseline CI example: 18,350 baseline lines to 6,042 target lines, 407 templates, 5 findings (8 before grouping), printed on greenbar paper: a new circuit-breaker line, a new structured error event with its UUID masked, a block of three new traceback lines shown as the target reads there, the failing test's status flip, and a gone health check with the baseline line it stands for"></p>
+<p align="center"><img src="docs/assets/web-demo.png" width="820" alt="The logdelta web demo on the three-baseline CI example: 18,350 baseline lines to 6,042 target lines, 16 templates, 5 findings (8 before grouping), printed on greenbar paper: a new circuit-breaker line, a new structured error event with its UUID masked, a block of four new traceback lines shown as the target reads there, the failing test's status flip, and a gone health check for the one instance that stopped, with the baseline line it stands for"></p>
 
 [antonsoo.github.io/logdelta](https://antonsoo.github.io/logdelta/) is a static page in `web/`.
 `web/wasm` wraps the library in a small C ABI (a JSON request in, the `diff` JSON out, no
 wasm-bindgen), `cargo build --target wasm32-unknown-unknown` compiles it, and a Web Worker runs
 it off the main thread. It is the same masking, mining and scoring code as the CLI: on the
-three-baseline example it reports the same 407 templates, 8 findings and one block as
-`logdelta diff ... --json`, in about a third of a second once the 1.1 MB module has loaded. The
+three-baseline example it reports the same 16 templates, 8 findings and one block as
+`logdelta diff ... --json`, in under a second once the 1.2 MB module has loaded. The
 library builds without the command-line dependencies (`default-features = false`; `clap` and
 `terminal_size` sit behind the default `cli` feature), and `diff_lines` / `mine_lines` take any
 line iterator, so the page diffs pasted text directly.
@@ -270,10 +302,11 @@ flowchart LR
 `json-file` wrapper, a CRI/containerd `<ts> stdout F ` prefix, a journald/syslog header, or a
 bare leading timestamp (the GitHub Actions raw-log shape) — keeping only the literal part of
 it worth comparing on (e.g. the stream name), since the timestamp itself is pure noise for
-clustering. What's left is either a single-line JSON object, flattened into `key=` / value
-token pairs (so a quoted multi-word message doesn't get shredded into unrelated tokens by a
-naive whitespace split), or plain text, which then gets the same regex-masking pass as
-before: timestamps, ids, durations, and so on become placeholder tokens like `<TS>` or
+clustering. What's left is either a single-line JSON object, flattened into its fields (a
+sentence as `key=` and its words, anything else as one `key=value` token), or plain text,
+which is split at whitespace except inside a short square-bracketed field (`[main]`,
+`[IPC Server handler 14 on 62270]`: one token, so a thread name's word count does not change
+the line's length) and then gets the same regex-masking pass as before: timestamps, ids, durations, and so on become placeholder tokens like `<TS>` or
 `<UUID>` (custom `--mask` patterns run first, so they take priority). A test runner's progress
 line (`....s....x.... [ 42%]`, one character per test) becomes `<PROGRESS> [ <NUM>%]`, or
 `<PROGRESS!>` when it holds an `F` or an `E`: which tests land on which line depends on how
@@ -282,30 +315,37 @@ the run was scheduled, so two passing runs never print the same dots. It deliber
 counts) are left as literal tokens on purpose, because they're often the signal, not the
 noise, and because the next stage handles them anyway.
 
-**2. Template mining** (`src/drain.rs`) implements Drain, an online log parsing algorithm
+**2. Template mining** (`src/drain.rs`) is built on Drain, an online log parsing algorithm
 (P. He, J. Zhu, Z. Zheng, M. R. Lyu, "Drain: An Online Log Parsing Approach with Fixed Depth
 Tree," IEEE ICWS 2017, pp. 33-40): each line's tokens are routed to a small set of candidate
-clusters by `(token count, first token)`, compared against each candidate by the fraction of
-positions that match, and merged into the best match above a similarity threshold (default
-`0.5`) — wildcarding any position that still disagrees — or used to start a new cluster if
-nothing matches well enough. This is where the short numbers masking left alone get
-generalized: if a position varies across enough real examples of an otherwise identical
-line, Drain wildcards it regardless of whether a regex would have caught it. One deliberate
-departure from a literal token-equality count: a position where *both* sides are the same
-masking placeholder (`<TS>`, `<NUM>`, ...) is left out of the fraction, unless the line has
-no literal content at all — otherwise two unrelated lines that merely both contain, say, a
-timestamp could accumulate enough incidental matches to clear the threshold and merge into a
-useless, over-generalized template. Left out, not counted as a mismatch: a line that is
-mostly placeholders (`<NUM> <NUM> <HEX> ok`) still has to match the template it started.
+clusters, compared against each candidate, and merged into the best match above a similarity
+threshold (default `0.5`) — wildcarding any position that still disagrees — or used to start
+a new cluster if nothing matches well enough. This is where the short numbers masking left
+alone get generalized: if a position varies across real examples of an otherwise identical
+line, it is wildcarded whether or not a regex would have caught it.
 
-The original paper routes lines through a fixed-depth tree keyed on several leading tokens,
-with an early wildcard branch for tokens containing digits. This implementation uses a
-two-level index (`token count`, then first token) instead: because masking already turns
-almost every digit-bearing field into a placeholder before mining starts, and because CI/
-service logs rarely have more than a handful of distinct templates sharing a first token,
-the two-level index gives the same groupings as the full-depth tree on every case in this
-repo's fixtures, more simply. Processing one baseline/target pair — or the whole `diff`
-comparison — is single-threaded, so clusters are matched and created in a fixed input order
+The released versions route by `(token count, first token)` and score by the share of
+positions that match, with a wildcard counting as a match. The source checkout departs from
+that, and from the paper, in the four ways the Loghub study showed were needed:
+
+- **Routing is by the first constant word**: the first token with no digit and no
+  placeholder in it. `www.baidu.com:80 open through proxy …` and
+  `proxy.cse.cuhk.edu.hk:5070 open through proxy …` are both filed under `open`.
+- **Tokens are compared by shape**, with every number in them written `#`:
+  `blk_38865049064139660` and `blk_-7128370237687728475` are both `blk_#`, `I1004` and
+  `I1005` are both `I#`, and `8`, `1005`, `<NUM>` and `12:01:03` are all `#`.
+- **Words decide; values and keys do not.** A position holds a word (a letter outside any
+  placeholder), a value (a number, a date, `<IP>`), an attribute (`key=value`) or structure
+  (a bare `key=`, punctuation). The score is the share of the cluster's *words* the line
+  still agrees with. That two lines both have a timestamp is no evidence they are the same
+  kind of line; that two JSON lines share a service name and a host is none either. Keys
+  must match exactly: a different key in the same place is a different kind of line.
+- **A cluster's evidence is fixed when it is created.** The denominator is the number of
+  words in its first line, and a position that has become `<*>` no longer agrees with
+  anything. A cluster can lose at most half its words to wildcards, and never gets easier
+  to join.
+
+Processing is single-threaded, so clusters are matched and created in a fixed input order
 with a deterministic tie-break: output is a pure function of the input.
 
 For `diff`, every baseline and the target are mined into *one shared* Drain instance
@@ -419,7 +459,9 @@ block.
 - **JSON flattening only looks at single-line, top-level JSON objects** (`{"key": ...}` with
   no embedded newlines) after any envelope is stripped. A pretty-printed multi-line JSON
   blob, or a bare JSON array/scalar as the whole line, falls through to the plain-text
-  pipeline instead.
+  pipeline instead. Which field is "the message" is decided by its value having more than
+  one word; a one-word event name (`"event":"startup"`) is an attribute, and two events
+  that differ only in such attributes are compared on them.
 - **Hex-id masking requires 7+ hex characters *and* at least one letter** (no upper bound —
   git SHAs, MD5, SHA-1/256/512 digests all match), so short (≤6 char) hex ids and
   purely-numeric hex-looking strings are not masked (the latter are usually genuine
@@ -445,10 +487,21 @@ block.
   e.g., Drain3's checkpointing). For a CI use case this is the right tradeoff — every run
   should be judged against the baselines you pass it, not a slowly-drifting global state —
   but it means two separate `diff` calls won't share cluster ids.
-- Regressions were checked against hand-verified expected output for every fixture (see
-  `tests/integration.rs` and the `insta` snapshots in `tests/snapshots/`), not against an
-  independent log-parsing oracle — there isn't a simple closed-form "correct" template set
-  for arbitrary text to check against.
+- **Template mining is scored, and it is not perfect.** On Loghub's 16 hand-labelled
+  systems the source checkout groups 82% of lines exactly as the labels do from the message
+  text and 71% from whole lines; [the study](studies/loghub/README.md) lists what is left.
+  Mostly: labels that turn on one word (`… by client WindowsUpdateAgent.` against
+  `… by client SPP.`), which logdelta merges and reports as a NEW VALUE when it matters; and
+  header words every line shares (`RAS KERNEL INFO`), which count as agreement between two
+  different short messages. A line whose first constant word is itself a value with no digit
+  in it (`alice logged in`, `bob logged in`) still gets a template per value.
+- **One instance going quiet is reported only when it is clearly not chance**: every
+  baseline had the source, the target has none of it though its share of each baseline put
+  at least 8 lines there, and the target has no source the first baseline lacks. Worker and
+  pod names that change from run to run fail the last test, on purpose.
+- Regressions are checked against hand-verified expected output for every fixture (see
+  `tests/integration.rs` and the `insta` snapshots in `tests/snapshots/`), and the miner
+  and the diff against the two studies above.
 
 ## Benchmarks
 

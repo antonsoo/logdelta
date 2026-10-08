@@ -5,6 +5,74 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### On real data
+
+Two studies, in `studies/`, score the miner and the diff on public data with known answers.
+What follows under "Template mining" is what they showed and what was changed for it.
+
+- **Loghub-2k**, the benchmark log parsers are scored on: 2,000 hand-labelled lines from
+  each of 16 systems. Grouping accuracy was 0.732 on the message text and 0.428 on whole
+  lines; it is 0.815 and 0.707, with one configuration for all sixteen (the reference Drain
+  publishes 0.865 with settings chosen per system). No system is worse on the message.
+- **264 failed Kubernetes CI builds**, each diffed against a passing build of the same
+  commit, with the failed test's name from the build's JUnit report. The diff names a failed
+  test in all 264, before and after; the median report went from 6 findings to 4, and a
+  passing build against passing builds is silent in 127 of 179 cases (was 122).
+
+### Template mining
+
+- **A new message in a JSON log is a new template.** Two JSON lines with the same keys
+  agreed on every key, which was half their tokens and enough to make them one template
+  whatever they said: a log of `"msg":"request handled"` with one new
+  `"level":"error","msg":"database connection failed"` in it diffed to "No significant
+  differences found." A field whose value is a sentence is now mined as its words, any
+  other field is an attribute (`level="info"`, shown as `level=<*>` when it varies), and
+  attributes and keys are structure: they must line up, and they are not evidence that two
+  lines say the same thing. logfmt's `msg="..."` gets the same treatment.
+- **A template no longer gets easier to join as it takes lines in.** A position that had
+  become `<*>` counted as agreement with anything, so each line a template absorbed lowered
+  the bar for the next. One template held 343 lines of 27 different Android log statements.
+  A cluster's evidence is now the words of its first line, and a wildcard agrees with
+  nothing, as in the Drain paper.
+- **A line is filed under its first constant word, not its first token.** Messages that
+  start with a value (`www.baidu.com:80 open through proxy …`,
+  `attempt_1445144423722_0020_m_000000_0 TaskAttempt Transitioned …`,
+  `1005 floating point alignment exceptions`) were a template per value.
+- **Tokens are compared by shape**, every number in them written `#`.
+  `blk_38865049064139660` and `blk_-7128370237687728475` are one token; so are klog's
+  `I1004` and `I1005`, which made every line of a Kubernetes log new the day after the
+  baseline was taken.
+- **A short square-bracketed field is one token**: `[main]` and
+  `[IPC Server handler 14 on 62270]` gave the lines of one Java log statement different
+  lengths, and a template each.
+- **More timestamps and durations are masked**: `ctime` (`Sun Dec 04 04:47:44 2005`, the
+  form of Apache's error log, `date` and `git log`), Common Log Format
+  (`04/Dec/2005:04:47:44 +0000`), RFC 2822, and durations in more than one unit
+  (`1m6.046s`, `2h45m`).
+
+### Added
+
+- **GONE for one source of a shared template.** With instances no longer split into a
+  template each, `[svc-search-3] health check ok` going silent while four other instances
+  carry on is reported as GONE for that instance's line, with its baseline counts. Only
+  when the position holds a fixed, small set of sources, every baseline had this one, and
+  its share of each baseline put at least 8 lines in the target.
+- NEW VALUE covers attributes: `level="error"` where every baseline had `level="info"`.
+- `bench/cluster_ids.rs`, an example program that prints the template id of each line of
+  a log, which is what a log-parsing benchmark scores.
+
+### Changed
+
+- JSON templates read `level="info" msg= server listening` where they read
+  `level= "info" msg= "server listening"`.
+- The CLI colours a placeholder wherever it is in a token (`trace=<UUID>`, `[<NUM>%]`).
+- On this repository's synthetic three-baseline example the diff finds 16 templates where
+  it found 407 (one per service instance per message), and the same 5 findings. Its passing
+  runs against each other give 0 or 1 finding where they gave 0: the retry line, which the
+  three runs print 200, 1,100 and 550 times, is now one template with a count that moved.
+- About a quarter more CPU time per line (measured on the 1M-line benchmark log; see
+  `bench/RESULTS.md`).
+
 ### Fixed
 
 - Watched-field context has an 8 KiB window budget with explicit clipping labels,

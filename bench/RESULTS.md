@@ -72,3 +72,22 @@ Two cases this release was checked on specifically:
   100,000 templates, 77.55 s and 45.7 MB for `templates`; a `diff` of two 20,000-line files
   took 22.83 s and 71 MB. 0.3.0: one template, 0.18 s and 7.2 MB; the `diff` of two
   100,000-line files takes 0.41 s.
+
+## Re-measured after the miner was reworked (2026-10-08)
+
+The source checkout against 0.3.4 from crates.io, the same 1M-line file (84 MB), run
+alternately four times each. The machine was busy with unrelated work throughout (a load
+average above 50 on 14 vCPUs), so wall time means little and the absolute numbers are well
+above the tables' earlier ones; the column to read is CPU time, and the comparison within a
+row.
+
+| Command | 0.3.4, user CPU | checkout, user CPU | | Peak RSS (both) |
+|---|---:|---:|---:|---:|
+| `templates`, 1,000,000 lines | 4.09-4.24 s | 5.17-5.50 s | +27% | 7.3-7.5 MB |
+| `diff`, 1M baseline + 1M target | 9.44-9.64 s | 11.91-12.10 s | +26% | 7.7-7.9 MB |
+
+About a quarter more work per line. It goes on what `studies/loghub` showed was missing:
+each token's shape and kind are worked out before a line is compared, a bracketed field is
+found before splitting, and there is one more regex pass (durations in more than one unit;
+the month-name timestamps cost a prefilter on most lines and a pass on the lines that have
+a month in them). Memory is unchanged: nothing new is kept per line.
