@@ -20,7 +20,13 @@
     1783731173,
     1783727513
    ],
-   "control": "2075714297635278848"
+   "control": "2075714297635278848",
+   "failure_reasons": [
+    {
+     "test": "TestCoSchedulingWithPermitPlugin",
+     "reason": "plugins_test.go:2247: Didn't expect the first pod to be scheduled. error: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -40,7 +46,13 @@
     1783756732,
     1783760395
    ],
-   "control": "2075882911592091648"
+   "control": "2075882911592091648",
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -60,7 +72,13 @@
     1783804256,
     1783793333
    ],
-   "control": "2076066872750510080"
+   "control": "2076066872750510080",
+   "failure_reasons": [
+    {
+     "test": "TestSchedulerPerf",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -81,7 +99,17 @@
     1783840853,
     1783829873
    ],
-   "control": "2076220383794565120"
+   "control": "2076220383794565120",
+   "failure_reasons": [
+    {
+     "test": "TestUnReservePreBindPlugins",
+     "reason": "plugins_test.go:1635: Expected a reasons other than Unschedulable, but got: context deadline exceeded"
+    },
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -101,7 +129,13 @@
     1783848174,
     1783844515
    ],
-   "control": "2076297140790890496"
+   "control": "2076297140790890496",
+   "failure_reasons": [
+    {
+     "test": "TestAggregatedAPIServer",
+     "reason": "apiserver_test.go:465: expect flunder:badname not admitted when wardle feature gates are specified"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -121,7 +155,13 @@
     1783862817,
     1783866479
    ],
-   "control": "2076235731092639744"
+   "control": "2076235731092639744",
+   "failure_reasons": [
+    {
+     "test": "TestStorageVersionMigrationWithCRD",
+     "reason": "storageversionmigrator_test.go:201: Failed to create CR: the server could not find the requested resource"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -141,7 +181,13 @@
     1783920955,
     1783924617
    ],
-   "control": "2076571698458529792"
+   "control": "2076571698458529792",
+   "failure_reasons": [
+    {
+     "test": "TestStoragedVersionInClusterScopedCRDStatus",
+     "reason": "versioning_test.go:250: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -159,7 +205,13 @@
     1783946578,
     1783942915
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestSchedulerPerf",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -179,7 +231,13 @@
     1783968417,
     1783972016
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -199,7 +257,13 @@
     1783968417,
     1783961189
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -220,7 +284,17 @@
     1783986658,
     1783990316
    ],
-   "control": "2076877970621861888"
+   "control": "2076877970621861888",
+   "failure_reasons": [
+    {
+     "test": "TestCoSchedulingWithPermitPlugin",
+     "reason": "plugins_test.go:2247: Didn't expect the first pod to be scheduled. error: context deadline exceeded"
+    },
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -240,7 +314,13 @@
     1783986658,
     1784001298
    ],
-   "control": "2076893327541669888"
+   "control": "2076893327541669888",
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -260,7 +340,13 @@
     1784004956,
     1783990316
    ],
-   "control": "2076816572009156608"
+   "control": "2076816572009156608",
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -280,7 +366,13 @@
     1784001298,
     1783990316
    ],
-   "control": "2076816572009156608"
+   "control": "2076816572009156608",
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"high-3\": status=scheduled on node node2, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -296,7 +388,13 @@
    "baselines_started": [
     1784015938
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestUnReservePreBindPlugins",
+     "reason": "plugins_test.go:1635: Expected a reasons other than Unschedulable, but got: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -312,7 +410,13 @@
    "baselines_started": [
     1784037844
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1192: Pod \"p-c\": status=scheduled on node node4, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -328,7 +432,13 @@
    "baselines_started": [
     1784085305
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCoSchedulingWithPermitPlugin",
+     "reason": "plugins_test.go:2247: Didn't expect the first pod to be scheduled. error: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -348,7 +458,13 @@
     1784096307,
     1784099944
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1140: Pod \"high-3\": status=scheduled on node node1, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -365,7 +481,17 @@
    "baselines_started": [
     1784118246
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCoSchedulingWithPermitPlugin",
+     "reason": "plugins_test.go:2247: Didn't expect the first pod to be scheduled. error: context deadline exceeded"
+    },
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1140: Pod \"high-3\": status=scheduled on node node2, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -381,7 +507,13 @@
    "baselines_started": [
     1784118246
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1140: Pod \"high-3\": status=scheduled on node node2, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -401,7 +533,13 @@
     1784165829,
     1784169509
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestStorageVersionMigrationWithCRD",
+     "reason": "storageversionmigrator_test.go:198: Failed to update a CRD: Name: testcrd, Err: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -421,7 +559,13 @@
     1784165829,
     1784162169
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestUnReservePreBindPlugins",
+     "reason": "plugins_test.go:1635: Expected a reasons other than Unschedulable, but got: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -439,7 +583,13 @@
     1784202426,
     1784198769
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestUnReservePreBindPlugins",
+     "reason": "plugins_test.go:1635: Expected a reasons other than Unschedulable, but got: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -457,7 +607,13 @@
     1784242688,
     1784250005
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCoSchedulingWithPermitPlugin",
+     "reason": "plugins_test.go:2247: Didn't expect the first pod to be scheduled. error: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -478,7 +634,17 @@
     1784378111,
     1784367129
    ],
-   "control": "2078397027225440256"
+   "control": "2078397027225440256",
+   "failure_reasons": [
+    {
+     "test": "TestEventSeries",
+     "reason": "events_test.go:155: error waiting for an Event with a non nil Series to be created: timed out waiting for the condition"
+    },
+    {
+     "test": "TestUnReservePreBindPlugins",
+     "reason": "plugins_test.go:1635: Expected a reasons other than Unschedulable, but got: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -494,7 +660,13 @@
    "baselines_started": [
     1784381772
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestUnReservePreBindPlugins",
+     "reason": "plugins_test.go:1635: Expected a reasons other than Unschedulable, but got: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -514,7 +686,13 @@
     1784392748,
     1784389092
    ],
-   "control": "2078565899626876928"
+   "control": "2078565899626876928",
+   "failure_reasons": [
+    {
+     "test": "TestUnschedulablePodBecomesSchedulable",
+     "reason": "filters_test.go:2703: Pod pod-1 got scheduled: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -532,7 +710,13 @@
     1784425689,
     1784429348
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestUnschedulablePodBecomesSchedulable",
+     "reason": "filters_test.go:2703: Pod pod-to-take-over-pvc got scheduled: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -552,7 +736,13 @@
     1784476876,
     1784473209
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestEventCompatibility",
+     "reason": "events_test.go:97: unexpected err: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -572,7 +762,13 @@
     1784517129,
     1784528108
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCoSchedulingWithPermitPlugin",
+     "reason": "plugins_test.go:2247: Didn't expect the first pod to be scheduled. error: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -589,7 +785,17 @@
    "baselines_started": [
     1784689282
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got conversion webhook for stable.example.com/v1beta1, Kind=MultiVersion failed: the server rejected our request due to an error in our request"
+    },
+    {
+     "test": "TestPreemptWithPermitPlugin",
+     "reason": "plugins_test.go:2601: Expected the preemptor pod to be scheduled. error: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -609,7 +815,13 @@
     1784838993,
     1784828132
    ],
-   "control": "2080406866990469120"
+   "control": "2080406866990469120",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:1073: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -627,7 +839,13 @@
     1784868272,
     1784875591
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:370: Expected pod tpb-batchp3 batched true, actually false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -647,7 +865,13 @@
     1784944651,
     1784933790
    ],
-   "control": "2080849786184929280"
+   "control": "2080849786184929280",
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:370: Expected pod tpb-batchp3 batched true, actually false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -667,7 +891,13 @@
     1784977413,
     1784973754
    ],
-   "control": "2080941394460938240"
+   "control": "2080941394460938240",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -687,7 +917,13 @@
     1785013954,
     1785024812
    ],
-   "control": "2081110007562113024"
+   "control": "2081110007562113024",
+   "failure_reasons": [
+    {
+     "test": "TestCascadingDeleteOnCRDConversionFailure",
+     "reason": "garbage_collector_test.go:1427: cache is not expected to be synced due to bad conversion webhook"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -707,7 +943,13 @@
     1785035732,
     1785024812
    ],
-   "control": "2081232059623280640"
+   "control": "2081232059623280640",
+   "failure_reasons": [
+    {
+     "test": "TestRecreateStatefulSetUpdate",
+     "reason": "statefulset_test.go:896: CurrentRevision should have changed from sts-7d6f4c6864 after recreate"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -727,7 +969,13 @@
     1785039392,
     1785050253
    ],
-   "control": "2081216710605541376"
+   "control": "2081216710605541376",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -748,7 +996,17 @@
     1785086735,
     1785075882
    ],
-   "control": "2081460821828833280"
+   "control": "2081460821828833280",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    },
+    {
+     "test": "TestAggregatedAPIServer",
+     "reason": "apiserver_test.go:465: expect flunder:badname not admitted when wardle feature gates are specified"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -768,7 +1026,13 @@
     1785119257,
     1785104793
    ],
-   "control": "2081491270089314304"
+   "control": "2081491270089314304",
+   "failure_reasons": [
+    {
+     "test": "TestEndpointHandlers",
+     "reason": "endpoints_test.go:207: expected http 200 at /readyz of component, got: 500 \"[+]shutdown ok\\n[-]sched-handler-sync failed: reason withheld\\nreadyz check failed\\n\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -788,7 +1052,13 @@
     1785108394,
     1785126451
    ],
-   "control": "2081506369587908608"
+   "control": "2081506369587908608",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -808,7 +1078,13 @@
     1785126451,
     1785130054
    ],
-   "control": "2081627418476417024"
+   "control": "2081627418476417024",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message custom webhook conversion error, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-failure-message-v1beta1-check-0/failure-message, ResourceVersion: 0, AdditionalErrorMs"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -828,7 +1104,13 @@
     1785137254,
     1785151895
    ],
-   "control": "2081627418476417024"
+   "control": "2081627418476417024",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -848,7 +1130,13 @@
     1785140914,
     1785137254
    ],
-   "control": "2081627418476417024"
+   "control": "2081627418476417024",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -870,7 +1158,21 @@
     1785210152,
     1785213765
    ],
-   "control": "2081978741466075136"
+   "control": "2081978741466075136",
+   "failure_reasons": [
+    {
+     "test": "TestEmbeddedResources",
+     "reason": "objectmeta_test.go:442: context deadline exceeded"
+    },
+    {
+     "test": "TestCustomResourceValidators",
+     "reason": "crd_validation_expressions_test.go:278: Unexpected error creating custom resource definition: etcdserver: request timed out"
+    },
+    {
+     "test": "TestConcurrencyIsolation",
+     "reason": "concurrency_util_test.go:299: noxu2 relative error is 5.574998720778595"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -890,7 +1192,13 @@
     1785243036,
     1785239376
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCertRotationContinuousRequests",
+     "reason": "cert_rotation_test.go:140: unexpected error when reading response body. Please retry. Original error: read tcp 127.0.0.1:57392->127.0.0.1:39221: use of closed network connection"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -910,7 +1218,13 @@
     1785286595,
     1785275735
    ],
-   "control": "2082284002965721088"
+   "control": "2082284002965721088",
+   "failure_reasons": [
+    {
+     "test": "TestCRD",
+     "reason": "discovery_test.go:364:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -930,7 +1244,13 @@
     1785304716,
     1785319358
    ],
-   "control": "2082421661478424576"
+   "control": "2082421661478424576",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -950,7 +1270,13 @@
     1785308375,
     1785323017
    ],
-   "control": "2082344909410406400"
+   "control": "2082344909410406400",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -968,7 +1294,13 @@
     1785341315,
     1785344977
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestJobPodReplacementPolicy",
+     "reason": "job_test.go:2852: Failed cleanup: Get \"https://127.0.0.1:33017/api/v1/namespaces/pod-replacement-policy/pods?limit=1\": dial tcp 127.0.0.1:33017: connect: connection refused"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -988,7 +1320,13 @@
     1785363097,
     1785373956
    ],
-   "control": "2082650421075120128"
+   "control": "2082650421075120128",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1008,7 +1346,13 @@
     1785395682,
     1785384758
    ],
-   "control": "2082741778099736576"
+   "control": "2082741778099736576",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1028,7 +1372,13 @@
     1785417638,
     1785406659
    ],
-   "control": "2082757125448142848"
+   "control": "2082757125448142848",
+   "failure_reasons": [
+    {
+     "test": "TestServiceCIDR28bits",
+     "reason": "services_test.go:260: creating kubernetes service timed out"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1048,7 +1398,13 @@
     1785501245,
     1785490239
    ],
-   "control": "2083184446885859328"
+   "control": "2083184446885859328",
+   "failure_reasons": [
+    {
+     "test": "TestPreemptWithPermitPlugin",
+     "reason": "plugins_test.go:2601: Expected the preemptor pod to be scheduled. error: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1064,7 +1420,13 @@
    "baselines_started": [
     1785512215
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1084,7 +1446,13 @@
     1785544778,
     1785533917
    ],
-   "control": "2083366901076987904"
+   "control": "2083366901076987904",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1104,7 +1472,13 @@
     1785617609,
     1785620975
    ],
-   "control": "2083610490298175488"
+   "control": "2083610490298175488",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1124,7 +1498,13 @@
     1785635555,
     1785646476
    ],
-   "control": "2083717194348236800"
+   "control": "2083717194348236800",
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:404: Expected pod nfmb-batchp3 batched true, actually false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1144,7 +1524,13 @@
     1785653794,
     1785642815
    ],
-   "control": "2083824400058028032"
+   "control": "2083824400058028032",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1164,7 +1550,13 @@
     1785726340,
     1785729755
    ],
-   "control": "2084067252855902208"
+   "control": "2084067252855902208",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1184,7 +1576,13 @@
     1785747936,
     1785736958
    ],
-   "control": "2084142751691051008"
+   "control": "2084142751691051008",
+   "failure_reasons": [
+    {
+     "test": "TestResourceClaimGranularStatusAuthorization",
+     "reason": "resourceclaim_test.go:123: Expected success, got: ResourceClaim.resource.k8s.io \"test-claim\" is invalid: status.allocation: Forbidden: changing status.allocation or status.reservedFor requires resource=\"resourceclaims/binding\", verb=\"update\" permission: resourceclaims.resource.k8s.io is forbidden: U"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1204,7 +1602,13 @@
     1785758917,
     1785762577
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:839: expected error with message returned 0 objects, expected 1, but got no error"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1225,7 +1629,17 @@
     1785777096,
     1785766240
    ],
-   "control": "2084341563256737792"
+   "control": "2084341563256737792",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    },
+    {
+     "test": "TestEventCompatibility",
+     "reason": "events_test.go:97: unexpected err: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1245,7 +1659,13 @@
     1785802657,
     1785813519
    ],
-   "control": "2084418071706996736"
+   "control": "2084418071706996736",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1265,7 +1685,13 @@
     1785842760,
     1785831782
    ],
-   "control": "2084616979284496384"
+   "control": "2084616979284496384",
+   "failure_reasons": [
+    {
+     "test": "TestDRA",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1285,7 +1711,13 @@
     1785875640,
     1785864720
    ],
-   "control": "2084754638812221440"
+   "control": "2084754638812221440",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message custom webhook conversion error, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-failure-message-v1beta1-check-0/failure-message, ResourceVersion: 0, AdditionalErrorMs"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1305,7 +1737,13 @@
     1785933843,
     1785937501
    ],
-   "control": "2084937593182490624"
+   "control": "2084937593182490624",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message custom webhook conversion error, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-failure-message-v1beta1-check-0/failure-message, ResourceVersion: 0, AdditionalErrorMs"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1323,7 +1761,13 @@
     1785981243,
     1785973981
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:404: Expected pod tpb-batchp3 batched true, actually false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1343,7 +1787,13 @@
     1786010220,
     1786006562
    ],
-   "control": "2085273312941838336"
+   "control": "2085273312941838336",
+   "failure_reasons": [
+    {
+     "test": "TestStructuredAuthenticationConfig",
+     "reason": "oidc_test.go:438:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1363,7 +1813,13 @@
     1786152423,
     1786141458
    ],
-   "control": "2085915801759518720"
+   "control": "2085915801759518720",
+   "failure_reasons": [
+    {
+     "test": "TestJobPodReplacementPolicy",
+     "reason": "job_test.go:2852: Failed cleanup: Get \"https://127.0.0.1:43007/api/v1/namespaces/pod-replacement-policy/pods?limit=1\": dial tcp 127.0.0.1:43007: connect: connection refused"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1384,7 +1840,17 @@
     1786228864,
     1786232560
    ],
-   "control": "2086251766063566848"
+   "control": "2086251766063566848",
+   "failure_reasons": [
+    {
+     "test": "TestEventSeries",
+     "reason": "events_test.go:155: error waiting for an Event with a non nil Series to be created: timed out waiting for the condition"
+    },
+    {
+     "test": "TestEndpointHandlers",
+     "reason": "endpoints_test.go:207: expected http 200 at /readyz of component, got: 500 \"[+]shutdown ok\\n[-]sched-handler-sync failed: reason withheld\\nreadyz check failed\\n\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1404,7 +1870,13 @@
     1786272486,
     1786261622
    ],
-   "control": "2086419372259151872"
+   "control": "2086419372259151872",
+   "failure_reasons": [
+    {
+     "test": "TestOIDC",
+     "reason": "oidc_test.go:438:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1424,7 +1896,13 @@
     1786421849,
     1786432762
    ],
-   "control": "2087015057547333632"
+   "control": "2087015057547333632",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:839: expected error with message returned 0 objects, expected 1, but got no error"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1444,7 +1922,13 @@
     1786454725,
     1786443743
    ],
-   "control": "2087183732833259520"
+   "control": "2087183732833259520",
+   "failure_reasons": [
+    {
+     "test": "TestRatchetingFunctionality",
+     "reason": "ratcheting_test.go:442: failed integration_test.updateMyCRDV1Beta1Schema operation 0: expected error when creating sentinel resource"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1464,7 +1948,13 @@
     1786505723,
     1786494743
    ],
-   "control": "2087397644761567232"
+   "control": "2087397644761567232",
+   "failure_reasons": [
+    {
+     "test": "TestRatchetingFunctionality",
+     "reason": "ratcheting_test.go:442: failed integration_test.updateMyCRDV1Beta1Schema operation 0: expected error when creating sentinel resource"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1484,7 +1974,13 @@
     1786524023,
     1786513045
    ],
-   "control": "2087474406195466240"
+   "control": "2087474406195466240",
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:401: Invalid node 'nsg-batchn2' for pod 'nsg-batchp1'. Expected 'nsg-batchn1'"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1505,7 +2001,17 @@
     1786586214,
     1786575233
    ],
-   "control": "2087735245875974144"
+   "control": "2087735245875974144",
+   "failure_reasons": [
+    {
+     "test": "TestRatchetingFunctionality",
+     "reason": "ratcheting_test.go:442: failed integration_test.updateMyCRDV1Beta1Schema operation 0: expected error when creating sentinel resource"
+    },
+    {
+     "test": "TestPolicyAdmissionV1beta1",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1525,7 +2031,13 @@
     1786651674,
     1786662659
    ],
-   "control": "2088055863834054656"
+   "control": "2088055863834054656",
+   "failure_reasons": [
+    {
+     "test": "TestTerminatingReplicas",
+     "reason": "replicaset_test.go:1138: len(pods) = 6, want 7"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1545,7 +2057,13 @@
     1786738974,
     1786728056
    ],
-   "control": "2088375977255112704"
+   "control": "2088375977255112704",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1beta1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: "
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1565,7 +2083,13 @@
     1786753616,
     1786742637
    ],
-   "control": "2088437382763253760"
+   "control": "2088437382763253760",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:1073: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1585,7 +2109,13 @@
     1786793636,
     1786782835
    ],
-   "control": "2088604985876025344"
+   "control": "2088604985876025344",
+   "failure_reasons": [
+    {
+     "test": "TestMutablePodResourcesForSuspendedJobsNotYetStarted",
+     "reason": "job_test.go:4330: Failed to update pod resources on suspended Job that was never started: Operation cannot be fulfilled on jobs.batch \"test-jobf7725\": the object has been modified; please apply your changes to the latest version and try again"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1605,7 +2135,13 @@
     1786902717,
     1786891855
    ],
-   "control": "2089062506818441216"
+   "control": "2089062506818441216",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: objec"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1625,7 +2161,13 @@
     1786961037,
     1786957377
    ],
-   "control": "2089261317004201984"
+   "control": "2089261317004201984",
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:401: Invalid node 'nsg-batchn2' for pod 'nsg-batchp1'. Expected 'nsg-batchn1'"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1645,7 +2187,13 @@
     1786986539,
     1786997397
    ],
-   "control": "2089383627396747264"
+   "control": "2089383627396747264",
+   "failure_reasons": [
+    {
+     "test": "TestTopologyAwareSchedulingWithGangPolicy",
+     "reason": "tas_test.go:1605: step 8 (Verify the new pod gets scheduled) failed: failed to wait for pod p4 to be scheduled: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1665,7 +2213,13 @@
     1787041098,
     1787030127
    ],
-   "control": "2089643125046775808"
+   "control": "2089643125046775808",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemption",
+     "reason": "preemption_test.go:2145: Expected the pod preemptor to be scheduled"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1685,7 +2239,13 @@
     1787139478,
     1787124837
    ],
-   "control": "2090055811198881792"
+   "control": "2090055811198881792",
+   "failure_reasons": [
+    {
+     "test": "TestTaintedNode",
+     "reason": "daemonset_test.go:488: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1705,7 +2265,13 @@
     1787128500,
     1787143139
    ],
-   "control": "2089979054139641856"
+   "control": "2089979054139641856",
+   "failure_reasons": [
+    {
+     "test": "TestTaintedNode",
+     "reason": "daemonset_test.go:488: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1725,7 +2291,13 @@
     1787150461,
     1787139478
    ],
-   "control": "2089994406558961664"
+   "control": "2089994406558961664",
+   "failure_reasons": [
+    {
+     "test": "TestAggregatedAPIServer",
+     "reason": "apiserver_test.go:465: expect flunder:badname not admitted when wardle feature gates are specified"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1745,7 +2317,13 @@
     1787219762,
     1787208782
    ],
-   "control": "2090392534516764672"
+   "control": "2090392534516764672",
+   "failure_reasons": [
+    {
+     "test": "TestPeerAggregatedDiscovery",
+     "reason": "peer_agg_discovery_test.go:364:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1765,7 +2343,13 @@
     1787329084,
     1787339941
    ],
-   "control": "2090820361363918848"
+   "control": "2090820361363918848",
+   "failure_reasons": [
+    {
+     "test": "TestRatchetingFunctionality",
+     "reason": "ratcheting_test.go:442: failed integration_test.updateMyCRDV1Beta1Schema operation 0: expected error when creating sentinel resource"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1785,7 +2369,13 @@
     1787354403,
     1787365321
    ],
-   "control": "2090926810727452672"
+   "control": "2090926810727452672",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1beta1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: "
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1805,7 +2395,13 @@
     1787365321,
     1787361720
    ],
-   "control": "2091033765894688768"
+   "control": "2091033765894688768",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemption",
+     "reason": "preemption_test.go:2135: Expected the pod preemptor-mid-priority to be scheduled, but no pod arrives at the activeQ"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1825,7 +2421,13 @@
     1787383563,
     1787379901
    ],
-   "control": "2091125622070841344"
+   "control": "2091125622070841344",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemption",
+     "reason": "preemption_test.go:2135: Expected the pod preemptor-mid-priority to be scheduled, but no pod arrives at the activeQ"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1845,7 +2447,13 @@
     1787390881,
     1787401862
    ],
-   "control": "2091064216965353472"
+   "control": "2091064216965353472",
+   "failure_reasons": [
+    {
+     "test": "TestPreemptionRespectsBindingPod",
+     "reason": "preemption_test.go:2762: Failed waiting for victim validation: victim pod was deleted"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1865,7 +2473,13 @@
     1787518024,
     1787507263
    ],
-   "control": "2091643540235882496"
+   "control": "2091643540235882496",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: objec"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1885,7 +2499,13 @@
     1787536204,
     1787547063
    ],
-   "control": "2091689342601793536"
+   "control": "2091689342601793536",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1beta1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: "
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1905,7 +2525,13 @@
     1787616098,
     1787627077
    ],
-   "control": "2092024196296085504"
+   "control": "2092024196296085504",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:1073: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1925,7 +2551,13 @@
     1787652279,
     1787641479
    ],
-   "control": "2092206645965754368"
+   "control": "2092206645965754368",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1beta1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: "
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1945,7 +2577,13 @@
     1787670543,
     1787659599
    ],
-   "control": "2092206645965754368"
+   "control": "2092206645965754368",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:1073: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1966,7 +2604,17 @@
     1787688643,
     1787677717
    ],
-   "control": "2092359150381043712"
+   "control": "2092359150381043712",
+   "failure_reasons": [
+    {
+     "test": "TestTaintedNode",
+     "reason": "daemonset_test.go:488: timed out waiting for the condition"
+    },
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:404: Expected pod nfmb-batchp3 batched true, actually false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -1986,7 +2634,13 @@
     1787761521,
     1787750559
    ],
-   "control": "2092588414007250944"
+   "control": "2092588414007250944",
+   "failure_reasons": [
+    {
+     "test": "TestCoreResourceEnqueue",
+     "reason": "queue_test.go:626: Failed to wait for the scheduler to handle the event: metric \"scheduler_event_handling_duration_seconds\" not found"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2002,7 +2656,13 @@
    "baselines_started": [
     1787772305
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestResourceClaimGranularStatusAuthorization",
+     "reason": "resourceclaim_test.go:71: Expected Invalid/Forbidden error, got: resourceclaims.resource.k8s.io \"test-claim\" is forbidden: User \"system:serviceaccount:dra-authz-test:dra-plugin-sa\" cannot update resource \"resourceclaims/status\" in API group \"resource.k8s.io\" in the namespace \"dra-authz-test\": rbac: "
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2022,7 +2682,13 @@
     1787910270,
     1787913864
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:841: expected error with message returned 0 objects, expected 1, but got Internal error occurred: StorageError: corrupt object, Code: 7, Key: /stable.example.com/multiversion/webhook-conversion-empty-response-v1beta1-check-0/empty-response, ResourceVersion: 0, AdditionalErrorMsg: "
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2040,7 +2706,13 @@
     1787935464,
     1787939068
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestSimpleDaemonSetRestartsPodsOnTerminalPhase",
+     "reason": "daemonset_test.go:488: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2060,7 +2732,13 @@
     1788011367,
     1788000567
    ],
-   "control": "2093712510711500800"
+   "control": "2093712510711500800",
+   "failure_reasons": [
+    {
+     "test": "TestBatchScenarios",
+     "reason": "batch_test.go:404: Expected pod nfmb-batchp3 batched true, actually false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2080,7 +2758,13 @@
     1788242582,
     1788238946
    ],
-   "control": "2094636861858254848"
+   "control": "2094636861858254848",
+   "failure_reasons": [
+    {
+     "test": "TestJobPodReplacementPolicy",
+     "reason": "job_test.go:2626: Failed cleanup: Delete \"https://127.0.0.1:44579/api/v1/namespaces/pod-replacement-policy/pods?limit=1000\": dial tcp 127.0.0.1:44579: connect: connection refused"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2096,7 +2780,13 @@
    "baselines_started": [
     1788267869
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPostFilterNotCalled",
+     "reason": "podgroup_test.go:892: Failed to wait for pod low-1 to be scheduled: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2116,7 +2806,13 @@
     1788615631,
     1788626433
    ],
-   "control": "2096216786499276800"
+   "control": "2096216786499276800",
+   "failure_reasons": [
+    {
+     "test": "TestStoragedVersionInClusterScopedCRDStatus",
+     "reason": "versioning_test.go:250: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2134,7 +2830,13 @@
     1789042355,
     1789046014
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestMutableSchedulingDirectivesForSuspendedJobsNotYetStarted",
+     "reason": "job_test.go:4063: Failed to update scheduling directives on suspended Job that was never started: Operation cannot be fulfilled on jobs.batch \"test-jobwntg7\": the object has been modified; please apply your changes to the latest version and try again"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2150,7 +2852,13 @@
    "baselines_started": [
     1789071398
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestStructuredAuthenticationConfig",
+     "reason": "oidc_test.go:204:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2170,7 +2878,13 @@
     1789324831,
     1789310428
    ],
-   "control": "2099221578578399232"
+   "control": "2099221578578399232",
+   "failure_reasons": [
+    {
+     "test": "TestMutablePodResourcesForSuspendedJobsNotYetStarted",
+     "reason": "job_test.go:4102: Failed to update pod resources on suspended Job that was never started: Operation cannot be fulfilled on jobs.batch \"test-jobbq4x2\": the object has been modified; please apply your changes to the latest version and try again"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2190,7 +2904,13 @@
     1789328430,
     1789314029
    ],
-   "control": "2099236677766615040"
+   "control": "2099236677766615040",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemption",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2206,7 +2926,13 @@
    "baselines_started": [
     1789378953
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestNotReadyNodeDaemonDoesLaunchPod",
+     "reason": "daemonset_test.go:488: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2226,7 +2952,13 @@
     1789415123,
     1789418745
    ],
-   "control": "2099615175890964480"
+   "control": "2099615175890964480",
+   "failure_reasons": [
+    {
+     "test": "TestCascadingDeleteOnCRDConversionFailure",
+     "reason": "garbage_collector_test.go:1427: cache is not expected to be synced due to bad conversion webhook"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2246,7 +2978,13 @@
     1789512572,
     1789508974
    ],
-   "control": "2099963727997571072"
+   "control": "2099963727997571072",
+   "failure_reasons": [
+    {
+     "test": "TestMutablePodResourcesWithPodReplacementPolicyFailed",
+     "reason": "job_test.go:4897: Failed to wait for terminating pods to be removed: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2266,7 +3004,13 @@
     1789534171,
     1789544970
    ],
-   "control": "2100069424152186880"
+   "control": "2100069424152186880",
+   "failure_reasons": [
+    {
+     "test": "TestStructuredAuthenticationConfigCEL",
+     "reason": "oidc_test.go:694:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2284,7 +3028,13 @@
     1789621052,
     1789624651
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestAggregatedAPIServer",
+     "reason": "apiserver_test.go:465: expect flunder:badname not admitted when wardle feature gates are specified"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2304,7 +3054,13 @@
     1789795146,
     1789784291
    ],
-   "control": "2101194253018337280"
+   "control": "2101194253018337280",
+   "failure_reasons": [
+    {
+     "test": "TestUpdateStatusDespitePodCreationFailure",
+     "reason": "daemonset_test.go:488: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2324,7 +3080,13 @@
     1789845972,
     1789849573
    ],
-   "control": "2101346255530627072"
+   "control": "2101346255530627072",
+   "failure_reasons": [
+    {
+     "test": "TestEventSeries",
+     "reason": "events_test.go:167: error waiting for an Event with a non nil Series to be created: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2344,7 +3106,13 @@
     1789885631,
     1789874773
    ],
-   "control": "2101573758287351808"
+   "control": "2101573758287351808",
+   "failure_reasons": [
+    {
+     "test": "TestLeaderElectionReleaseOnCancel",
+     "reason": "leader_election_release_test.go:107: expected lease holder to be cleared after shutdown, but got \"<nil>\": client rate limiter Wait returned an error: rate: Wait(n=1) would exceed context deadline"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2364,7 +3132,13 @@
     1789932552,
     1789928896
    ],
-   "control": "2101801509799858176"
+   "control": "2101801509799858176",
+   "failure_reasons": [
+    {
+     "test": "TestCoreResourceEnqueue",
+     "reason": "queue_test.go:665: Failed to wait for the scheduler to handle the event: metric \"scheduler_event_handling_duration_seconds\" not found"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2384,7 +3158,13 @@
     1789972395,
     1789961595
    ],
-   "control": "2101937658203738112"
+   "control": "2101937658203738112",
+   "failure_reasons": [
+    {
+     "test": "TestStoragedVersionInNamespacedCRDStatus",
+     "reason": "versioning_test.go:250: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2400,7 +3180,13 @@
    "baselines_started": [
     1790022816
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPodTopologyLabels",
+     "reason": "pods_test.go:208: Unexpected label values: \u00a0\u00a0map[string]string("
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2420,7 +3206,13 @@
     1790055376,
     1790051717
    ],
-   "control": "2102239911124930560"
+   "control": "2102239911124930560",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:1073: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2436,7 +3228,13 @@
    "baselines_started": [
     1790077338
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestMutablePodResourcesWithPodReplacementPolicyFailed",
+     "reason": "job_test.go:4897: Failed to wait for terminating pods to be removed: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2456,7 +3254,13 @@
     1790116997,
     1790106138
    ],
-   "control": "2102544168462061568"
+   "control": "2102544168462061568",
+   "failure_reasons": [
+    {
+     "test": "TestStorageVersionMigrationWithCRD",
+     "reason": "storageversionmigrator_test.go:198: Failed to update a CRD: Name: testcrd, Err: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2472,7 +3276,13 @@
    "baselines_started": [
     1790323637
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestEventSeries",
+     "reason": "events_test.go:167: error waiting for an Event with a non nil Series to be created: timed out waiting for the condition"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2492,7 +3302,13 @@
     1790493920,
     1790497521
    ],
-   "control": "2104140201793163264"
+   "control": "2104140201793163264",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemption",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2512,7 +3328,13 @@
     1790833924,
     1790830323
    ],
-   "control": "2105505878592458752"
+   "control": "2105505878592458752",
+   "failure_reasons": [
+    {
+     "test": "TestPodGroupPreemption",
+     "reason": "podgrouppreemption_test.go:1435: Pod \"high-2\": status=scheduled on node node1, phase=Pending"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2528,7 +3350,13 @@
    "baselines_started": [
     1791043892
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestMutablePodResourcesForSuspendedJobsNotYetStarted",
+     "reason": "job_test.go:4230: Failed to update pod resources on suspended Job that was never started: Operation cannot be fulfilled on jobs.batch \"test-jobqc8mm\": the object has been modified; please apply your changes to the latest version and try again"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2548,7 +3376,13 @@
     1791123450,
     1791127051
    ],
-   "control": "2106780645832265728"
+   "control": "2106780645832265728",
+   "failure_reasons": [
+    {
+     "test": "TestWebhookConverterWithWatchCache",
+     "reason": "conversion_test.go:1073: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2568,7 +3402,13 @@
     1791148653,
     1791137853
    ],
-   "control": "2106871243671080960"
+   "control": "2106871243671080960",
+   "failure_reasons": [
+    {
+     "test": "TestCPGScheduling",
+     "reason": "cpg_test.go:932: Test failed: step 9 (Verify root CPG and pg1, pg2 conditions are Scheduled) failed: failed to wait for CompositePodGroup cpg-root condition (status=True, reason=Scheduled): context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2588,7 +3428,13 @@
     1791152251,
     1791148653
    ],
-   "control": "2106825944776839168"
+   "control": "2106825944776839168",
+   "failure_reasons": [
+    {
+     "test": "TestCPGScheduling",
+     "reason": "cpg_test.go:932: Test failed: step 8 (Verify root CPG and pg1 conditions are Scheduled) failed: failed to wait for CompositePodGroup cpg-root condition (status=True, reason=Scheduled): context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-integration-master",
@@ -2606,7 +3452,13 @@
     1791188494,
     1791184894
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCPGScheduling",
+     "reason": "cpg_test.go:932: Test failed: step 8 (Verify root CPG and pg1 conditions are Scheduled) failed: failed to wait for PodGroup pg1 condition (status=True, reason=Scheduled): context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2624,7 +3476,13 @@
     1783676096,
     1783672437
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2642,7 +3500,13 @@
     1783676096,
     1783672437
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2658,7 +3522,13 @@
    "baselines_started": [
     1783709037
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestControllerSyncPool",
+     "reason": "resourceslicecontroller_test.go:1473:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2678,7 +3548,13 @@
     1783756615,
     1783760291
    ],
-   "control": "2075882406904074240"
+   "control": "2075882406904074240",
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1763: returned bound true"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2698,7 +3574,13 @@
     1783921016,
     1783924676
    ],
-   "control": "2076571955804246016"
+   "control": "2076571955804246016",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2718,7 +3600,13 @@
     1783968415,
     1783964759
    ],
-   "control": "2076709609799684096"
+   "control": "2076709609799684096",
+   "failure_reasons": [
+    {
+     "test": "TestReconstructedVolumeShouldUnmountSucceedAfterSetupFailed",
+     "reason": "reconciler_test.go:2033: Timed out waiting for pod \"pod1uid\" to be unmount from volume \"fake-plugin/pv\"."
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2738,7 +3626,13 @@
     1783986716,
     1783983058
    ],
-   "control": "2076862871513337856"
+   "control": "2076862871513337856",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2756,7 +3650,13 @@
     1784078111,
     1784070786
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestBindPodVolumes",
+     "reason": "binder_test.go:2102: returned error: binding volumes: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2776,7 +3676,13 @@
     1784096403,
     1784100063
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2794,7 +3700,13 @@
     1784121967,
     1784118305
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1757: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2814,7 +3726,13 @@
     1784169548,
     1784158566
    ],
-   "control": "2077599007441424384"
+   "control": "2077599007441424384",
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2834,7 +3752,13 @@
     1784187889,
     1784184186
    ],
-   "control": "2077629720542842880"
+   "control": "2077629720542842880",
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2850,7 +3774,13 @@
    "baselines_started": [
     1784198843
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:754:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2866,7 +3796,13 @@
    "baselines_started": [
     1784198843
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2886,7 +3822,13 @@
     1784261049,
     1784264735
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2907,7 +3849,17 @@
     1784315948,
     1784312288
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    },
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2926,7 +3878,17 @@
     1784327002,
     1784334248
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWatch",
+     "reason": null
+    },
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:754:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2946,7 +3908,13 @@
     1784396469,
     1784392811
    ],
-   "control": "2078581495575875584"
+   "control": "2078581495575875584",
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2966,7 +3934,13 @@
     1784411110,
     1784407614
    ],
-   "control": "2078566143479517184"
+   "control": "2078566143479517184",
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -2984,7 +3958,13 @@
     1784422117,
     1784429410
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3004,7 +3984,13 @@
     1784509869,
     1784495231
    ],
-   "control": "2079026438433935360"
+   "control": "2079026438433935360",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3024,7 +4010,13 @@
     1784513529,
     1784498891
    ],
-   "control": "2078949682452631552"
+   "control": "2078949682452631552",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3042,7 +4034,13 @@
     1784601255,
     1784604912
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_MultipleWriteChannels",
+     "reason": "websocket_test.go:617: error on webSocketServerStreams: websocket server finished before becoming ready"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3058,7 +4056,13 @@
    "baselines_started": [
     1784615892
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestFullFlow",
+     "reason": "podcertificatemanager_test.go:613: Error while waiting for podcertificate manager to return valid credentials: credential bundle is not issued yet"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3074,7 +4078,13 @@
    "baselines_started": [
     1784641537
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_HeartbeatTimeout",
+     "reason": "websocket_test.go:831: error on webSocketServerStreams: websocket server finished before becoming ready"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3091,7 +4101,17 @@
    "baselines_started": [
     1784663444
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    },
+    {
+     "test": "TestComputePodActionsWithContainerRestartRules",
+     "reason": "kuberuntime_manager_test.go:1891:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3107,7 +4127,13 @@
    "baselines_started": [
     1784682147
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestComputePodActionsWithContainerRestartRules",
+     "reason": "kuberuntime_manager_test.go:1891:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3123,7 +4149,13 @@
    "baselines_started": [
     1784718534
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestComputePodActionsWithContainerRestartRules",
+     "reason": "kuberuntime_manager_test.go:1891:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3140,7 +4172,17 @@
    "baselines_started": [
     1784733173
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestPriorityAndFairnessWithPanicRecoveryAndTimeoutFilter",
+     "reason": "priority-and-fairness_test.go:836: Waiting for the controller to shutdown"
+    },
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1757: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3160,7 +4202,13 @@
     1784824472,
     1784835451
    ],
-   "control": "2080392019930255360"
+   "control": "2080392019930255360",
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1757: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3180,7 +4228,13 @@
     1784886634,
     1784893955
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3200,7 +4254,13 @@
     1784893955,
     1784879312
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestReconstructedVolumeShouldUnmountSucceedAfterSetupFailed",
+     "reason": "reconciler_test.go:2033: Timed out waiting for pod \"pod1uid\" to be unmount from volume \"fake-plugin/pv\"."
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3220,7 +4280,13 @@
     1784937693,
     1784934306
    ],
-   "control": "2080851296969035776"
+   "control": "2080851296969035776",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3240,7 +4306,13 @@
     1785043235,
     1785032432
    ],
-   "control": "2081263521194053632"
+   "control": "2081263521194053632",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemptionFailure",
+     "reason": "executor_test.go:1339: Preemptor activated - wanted: true, got: false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3260,7 +4332,13 @@
     1785065193,
     1785079839
    ],
-   "control": "2081416778386247680"
+   "control": "2081416778386247680",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3280,7 +4358,13 @@
     1785083432,
     1785068854
    ],
-   "control": "2081431878555930624"
+   "control": "2081431878555930624",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3300,7 +4384,13 @@
     1785105213,
     1785094234
    ],
-   "control": "2081523485015805952"
+   "control": "2081523485015805952",
+   "failure_reasons": [
+    {
+     "test": "TestReconstructedVolumeShouldUnmountSucceedAfterSetupFailed",
+     "reason": "reconciler_test.go:2033: Timed out waiting for pod \"pod1uid\" to be unmount from volume \"fake-plugin/pv\"."
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3320,7 +4410,13 @@
     1785145174,
     1785141515
    ],
-   "control": "2081645035480158208"
+   "control": "2081645035480158208",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3340,7 +4436,13 @@
     1785218016,
     1785214354
    ],
-   "control": "2081950552844931072"
+   "control": "2081950552844931072",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3358,7 +4460,13 @@
     1785232658,
     1785228994
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1763: returned bound true"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3378,7 +4486,13 @@
     1785276456,
     1785287317
    ],
-   "control": "2082287280000602112"
+   "control": "2082287280000602112",
+   "failure_reasons": [
+    {
+     "test": "TestReconstructedVolumeShouldUnmountSucceedAfterSetupFailed",
+     "reason": "reconciler_test.go:2033: Timed out waiting for pod \"pod1uid\" to be unmount from volume \"fake-plugin/pv\"."
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3398,7 +4512,13 @@
     1785316596,
     1785305617
    ],
-   "control": "2082410088311558144"
+   "control": "2082410088311558144",
+   "failure_reasons": [
+    {
+     "test": "TestReconstructedVolumeShouldUnmountSucceedAfterSetupFailed",
+     "reason": "reconciler_test.go:2033: Timed out waiting for pod \"pod1uid\" to be unmount from volume \"fake-plugin/pv\"."
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3416,7 +4536,13 @@
     1785338560,
     1785345877
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3436,7 +4562,13 @@
     1785374917,
     1785378515
    ],
-   "control": "2082593546581315585"
+   "control": "2082593546581315585",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3456,7 +4588,13 @@
     1785407677,
     1785404034
    ],
-   "control": "2082746052326199296"
+   "control": "2082746052326199296",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3477,7 +4615,17 @@
     1785502598,
     1785491618
    ],
-   "control": "2083190239588782080"
+   "control": "2083190239588782080",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    },
+    {
+     "test": "TestReconstructedVolumeShouldUnmountSucceedAfterSetupFailed",
+     "reason": "reconciler_test.go:2033: Timed out waiting for pod \"pod1uid\" to be unmount from volume \"fake-plugin/pv\"."
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3497,7 +4645,13 @@
     1785553558,
     1785542770
    ],
-   "control": "2083403897589731328"
+   "control": "2083403897589731328",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1289: Expected desiredForceDetachMericCounter to be 2, got 1"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3517,7 +4671,13 @@
     1785590017,
     1785586423
    ],
-   "control": "2083587087029768192"
+   "control": "2083587087029768192",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3537,7 +4697,13 @@
     1785637232,
     1785648215
    ],
-   "control": "2083724241584263168"
+   "control": "2083724241584263168",
+   "failure_reasons": [
+    {
+     "test": "TestCreate",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3557,7 +4723,13 @@
     1785717154,
     1785731617
    ],
-   "control": "2084059453648277504"
+   "control": "2084059453648277504",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1291: Expected desiredForceDetachMericCounter to be 5, got 6"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3577,7 +4749,13 @@
     1785757498,
     1785753577
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3597,7 +4775,13 @@
     1785779169,
     1785782796
    ],
-   "control": "2084365220028878848"
+   "control": "2084365220028878848",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3617,7 +4801,13 @@
     1785779169,
     1785782796
    ],
-   "control": "2084365220028878848"
+   "control": "2084365220028878848",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3637,7 +4827,13 @@
     1785797197,
     1785793598
    ],
-   "control": "2084380319783325696"
+   "control": "2084380319783325696",
+   "failure_reasons": [
+    {
+     "test": "TestWatch",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3657,7 +4853,13 @@
     1785811716,
     1785815317
    ],
-   "control": "2084501871493386240"
+   "control": "2084501871493386240",
+   "failure_reasons": [
+    {
+     "test": "TestReconnectBrokenTCP",
+     "reason": "connection_test.go:148: unexpected err: Get \"https://127.0.0.1:36935/?timeout=1s\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3677,7 +4879,13 @@
     1785822600,
     1785818978
    ],
-   "control": "2084563122684694528"
+   "control": "2084563122684694528",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1291: Expected desiredForceDetachMericCounter to be 5, got 6"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3697,7 +4905,13 @@
     1785899220,
     1785888300
    ],
-   "control": "2084777289135951872"
+   "control": "2084777289135951872",
+   "failure_reasons": [
+    {
+     "test": "TestPriorityAndFairnessWithPanicRecoveryAndTimeoutFilter",
+     "reason": "priority-and-fairness_test.go:836: Waiting for the controller to shutdown"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3717,7 +4931,13 @@
     1785954078,
     1785943084
    ],
-   "control": "2085083812437430272"
+   "control": "2085083812437430272",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1291: Expected desiredForceDetachMericCounter to be 5, got 6"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3737,7 +4957,13 @@
     1785968702,
     1785957733
    ],
-   "control": "2085068460966023168"
+   "control": "2085068460966023168",
+   "failure_reasons": [
+    {
+     "test": "TestControllerSyncPool",
+     "reason": "resourceslicecontroller_test.go:1618:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3757,7 +4983,13 @@
     1785994202,
     1786008722
    ],
-   "control": "2085221469205303296"
+   "control": "2085221469205303296",
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1757: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3777,7 +5009,13 @@
     1785997803,
     1786012400
    ],
-   "control": "2085236818311122944"
+   "control": "2085236818311122944",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3797,7 +5035,13 @@
     1786059961,
     1786048983
    ],
-   "control": "2085527992217374720"
+   "control": "2085527992217374720",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3817,7 +5061,13 @@
     1786070944,
     1786081862
    ],
-   "control": "2085543344552808448"
+   "control": "2085543344552808448",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3837,7 +5087,13 @@
     1786114624,
     1786129481
    ],
-   "control": "2085818662387716096"
+   "control": "2085818662387716096",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3857,7 +5113,13 @@
     1786209424,
     1786198445
    ],
-   "control": "2086154880438767617"
+   "control": "2086154880438767617",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3877,7 +5139,13 @@
     1786213084,
     1786209424
    ],
-   "control": "2086108825990991872"
+   "control": "2086108825990991872",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3897,7 +5165,13 @@
     1786235044,
     1786238704
    ],
-   "control": "2086200930599964672"
+   "control": "2086200930599964672",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemptionFailure",
+     "reason": "executor_test.go:1339: Preemptor activated - wanted: true, got: false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3917,7 +5191,13 @@
     1786330332,
     1786319112
    ],
-   "control": "2086584214391623680"
+   "control": "2086584214391623680",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3937,7 +5217,13 @@
     1786337418,
     1786341066
    ],
-   "control": "2086614912968167424"
+   "control": "2086614912968167424",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3957,7 +5243,13 @@
     1786355588,
     1786352022
    ],
-   "control": "2086813222127538176"
+   "control": "2086813222127538176",
+   "failure_reasons": [
+    {
+     "test": "TestNewEndpointSliceListerGetter",
+     "reason": "endpointslice_test.go:136: slices for namespace2/service1 did not match expectation:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3977,7 +5269,13 @@
     1786362992,
     1786373682
    ],
-   "control": "2086752573146009600"
+   "control": "2086752573146009600",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -3997,7 +5295,13 @@
     1786399145,
     1786388226
    ],
-   "control": "2086950629263020032"
+   "control": "2086950629263020032",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4017,7 +5321,13 @@
     1786432088,
     1786417490
    ],
-   "control": "2087088608929386496"
+   "control": "2087088608929386496",
+   "failure_reasons": [
+    {
+     "test": "TestPriorityAndFairnessWithPanicRecoveryAndTimeoutFilter",
+     "reason": "priority-and-fairness_test.go:1123: Waiting for the controller to shutdown"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4037,7 +5347,13 @@
     1786421374,
     1786435702
    ],
-   "control": "2087012036163670016"
+   "control": "2087012036163670016",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4057,7 +5373,13 @@
     1786450557,
     1786439367
    ],
-   "control": "2087165362821926912"
+   "control": "2087165362821926912",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1291: Expected desiredForceDetachMericCounter to be 5, got 6"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4077,7 +5399,13 @@
     1786523496,
     1786512495
    ],
-   "control": "2087471638370062336"
+   "control": "2087471638370062336",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4097,7 +5425,13 @@
     1786556404,
     1786541878
    ],
-   "control": "2087517692637483008"
+   "control": "2087517692637483008",
+   "failure_reasons": [
+    {
+     "test": "TestMultipleServiceChanges",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4117,7 +5451,13 @@
     1786574510,
     1786563687
    ],
-   "control": "2087701277319368704"
+   "control": "2087701277319368704",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4137,7 +5477,13 @@
     1786636350,
     1786632677
    ],
-   "control": "2087976086238400512"
+   "control": "2087976086238400512",
+   "failure_reasons": [
+    {
+     "test": "TestControllerSyncPool",
+     "reason": "resourceslicecontroller_test.go:1618:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4157,7 +5503,13 @@
     1786683984,
     1786694903
    ],
-   "control": "2088114247576850432"
+   "control": "2088114247576850432",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1289: Expected desiredForceDetachMericCounter to be 2, got 1"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4178,7 +5530,17 @@
     1786702105,
     1786712910
    ],
-   "control": "2088190016646811648"
+   "control": "2088190016646811648",
+   "failure_reasons": [
+    {
+     "test": "TestCreate",
+     "reason": null
+    },
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1757: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4198,7 +5560,13 @@
     1786800563,
     1786814959
    ],
-   "control": "2088603228361986048"
+   "control": "2088603228361986048",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4218,7 +5586,13 @@
     1786818536,
     1786804077
    ],
-   "control": "2088618576184348672"
+   "control": "2088618576184348672",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4238,7 +5612,13 @@
     1786964577,
     1786953654
    ],
-   "control": "2089245462744797184"
+   "control": "2089245462744797184",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4258,7 +5638,13 @@
     1786982759,
     1786993619
    ],
-   "control": "2089367773103788032"
+   "control": "2089367773103788032",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4278,7 +5664,13 @@
     1787030134,
     1787019149
    ],
-   "control": "2089596784069316608"
+   "control": "2089596784069316608",
+   "failure_reasons": [
+    {
+     "test": "TestBindPodVolumes",
+     "reason": "binder_test.go:2102: returned error: binding volumes: context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4298,7 +5690,13 @@
     1787205000,
     1787215979
    ],
-   "control": "2090299923252645888"
+   "control": "2090299923252645888",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4318,7 +5716,13 @@
     1787215979,
     1787212349
    ],
-   "control": "2090315277257412609"
+   "control": "2090315277257412609",
+   "failure_reasons": [
+    {
+     "test": "TestNewReflectorWithCustomBackoff",
+     "reason": "reflector_test.go:884: expected upper bound 300ms, got 341.829148ms"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4338,7 +5742,13 @@
     1787332922,
     1787321973
    ],
-   "control": "2090867167120592897"
+   "control": "2090867167120592897",
+   "failure_reasons": [
+    {
+     "test": "TestPriorityAndFairnessWithPanicRecoveryAndTimeoutFilter",
+     "reason": "priority-and-fairness_test.go:836: Waiting for the controller to shutdown"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4358,7 +5768,13 @@
     1787347443,
     1787336581
    ],
-   "control": "2090927817037451264"
+   "control": "2090927817037451264",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnUnhealthyNodeWithForceDetachOnUnmountDisabled",
+     "reason": "reconciler_test.go:1289: Expected desiredForceDetachMericCounter to be 2, got 1"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4378,7 +5794,13 @@
     1787416740,
     1787413083
    ],
-   "control": "2091248939146678272"
+   "control": "2091248939146678272",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4398,7 +5820,13 @@
     1787533084,
     1787543944
    ],
-   "control": "2091676256247484416"
+   "control": "2091676256247484416",
+   "failure_reasons": [
+    {
+     "test": "TestIsConnectionReset",
+     "reason": "util_test.go:199: expected HTTP2ConnectionLost error, got Get \"https://127.0.0.1:46043\": read tcp 127.0.0.1:42380->127.0.0.1:46043: read: connection reset by peer"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4418,7 +5846,13 @@
     1787609497,
     1787598571
    ],
-   "control": "2092027211614785536"
+   "control": "2092027211614785536",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemptionFailure",
+     "reason": "executor_test.go:1334: Expected preemptor pod pod2 to be activated, but got map[]"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4438,7 +5872,13 @@
     1787722545,
     1787726019
    ],
-   "control": "2092439434250162176"
+   "control": "2092439434250162176",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4458,7 +5898,13 @@
     1787736880,
     1787747859
    ],
-   "control": "2092530787093057536"
+   "control": "2092530787093057536",
+   "failure_reasons": [
+    {
+     "test": "TestReconnectBrokenTCP",
+     "reason": "connection_test.go:148: unexpected err: Get \"https://127.0.0.1:46865/?timeout=1s\": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4474,7 +5920,13 @@
    "baselines_started": [
     1787864124
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCARotationConnectionBehavior_Disabled",
+     "reason": "ca_rotation_test.go:393: Failed to re-claim the same server address: listen tcp 127.0.0.1:46557: bind: address already in use"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4494,7 +5946,13 @@
     1787893379,
     1787896975
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemptionFailure",
+     "reason": "executor_test.go:1334: Expected preemptor pod pod2 to be activated, but got map[]"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4512,7 +5970,13 @@
     1788171954,
     1788168268
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4528,7 +5992,13 @@
    "baselines_started": [
     1788208174
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestExpectationsOnRecreate",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4548,7 +6018,13 @@
     1788244168,
     1788247769
    ],
-   "control": "2094704054021132288"
+   "control": "2094704054021132288",
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4568,7 +6044,13 @@
     1788276955,
     1788280589
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4584,7 +6066,13 @@
    "baselines_started": [
     1788345571
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestTimeTravelHealthcheck",
+     "reason": "factory_test.go:441: healthcheck() called etcd 1 times, expected only two calls"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4600,7 +6088,13 @@
    "baselines_started": [
     1788385709
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4616,7 +6110,13 @@
    "baselines_started": [
     1788385709
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4636,7 +6136,13 @@
     1788469112,
     1788472772
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestControllerSyncPool",
+     "reason": "resourceslicecontroller_test.go:1693:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4654,7 +6160,13 @@
     1788476433,
     1788483818
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4672,7 +6184,13 @@
     1788863914,
     1788871113
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_MultipleWriteChannels",
+     "reason": "websocket_test.go:617: error on webSocketServerStreams: websocket server finished before becoming ready"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4690,7 +6208,13 @@
     1789136377,
     1789129178
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_MultipleWriteChannels",
+     "reason": "websocket_test.go:617: error on webSocketServerStreams: websocket server finished before becoming ready"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4710,7 +6234,13 @@
     1789212688,
     1789223488
    ],
-   "control": "2098721026295730176"
+   "control": "2098721026295730176",
+   "failure_reasons": [
+    {
+     "test": "TestCause",
+     "reason": "contexthelper_test.go:239: ERROR: I0101 00:00:00.000000]"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4730,7 +6260,13 @@
     1789350095,
     1789339290
    ],
-   "control": "2099327779328757760"
+   "control": "2099327779328757760",
+   "failure_reasons": [
+    {
+     "test": "TestReconnectBrokenTCP",
+     "reason": "connection_test.go:148: unexpected err: Get \"https://127.0.0.1:37583/?timeout=1s\": context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4748,7 +6284,13 @@
     1789647213,
     1789643553
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestReconnectBrokenTCP",
+     "reason": "connection_test.go:148: unexpected err: Get \"https://127.0.0.1:40809/?timeout=1s\": context deadline exceeded"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4766,7 +6308,13 @@
     1789719790,
     1789727050
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_DifferentBufferSizes",
+     "reason": "websocket_test.go:138: error on webSocketServerStreams: websocket server finished before becoming ready"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4786,7 +6334,13 @@
     1789944613,
     1789933635
    ],
-   "control": "2101821392331739136"
+   "control": "2101821392331739136",
+   "failure_reasons": [
+    {
+     "test": "TestControllerSyncPool",
+     "reason": "resourceslicecontroller_test.go:1693:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4804,7 +6358,13 @@
     1790020276,
     1790016678
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestStreamTranslator_TTYResizeChannel",
+     "reason": "streamtranslator_test.go:703:  # HELP apiserver_stream_translator_requests_total [ALPHA] Total number of requests that were handled by the StreamTranslatorProxy, which processes streaming RemoteCommand/V5"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4820,7 +6380,13 @@
    "baselines_started": [
     1790082086
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemptionFailure",
+     "reason": "executor_test.go:1337: Preemptor activated - wanted: true, got: false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4840,7 +6406,13 @@
     1790147237,
     1790136533
    ],
-   "control": "2102594752095457280"
+   "control": "2102594752095457280",
+   "failure_reasons": [
+    {
+     "test": "TestCreate",
+     "reason": null
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4860,7 +6432,13 @@
     1790139973,
     1790136533
    ],
-   "control": "2102594752095457280"
+   "control": "2102594752095457280",
+   "failure_reasons": [
+    {
+     "test": "Test_Run_OneVolumeDetachOnOutOfServiceTaintedNode",
+     "reason": "reconciler_test.go:962: Expected desiredForceDetachMericCounter to be 1, got 0"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4876,7 +6454,13 @@
    "baselines_started": [
     1790172859
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:763:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4896,7 +6480,13 @@
     1790226977,
     1790223317
    ],
-   "control": "2102959911905267712"
+   "control": "2102959911905267712",
+   "failure_reasons": [
+    {
+     "test": "TestFallbackClient_SPDYSecondaryNonZeroExitCode",
+     "reason": "fallback_test.go:300:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4916,7 +6506,13 @@
     1790390743,
     1790379837
    ],
-   "control": "2103691742816505856"
+   "control": "2103691742816505856",
+   "failure_reasons": [
+    {
+     "test": "TestAsyncPreemptionFailure",
+     "reason": "executor_test.go:1337: Preemptor activated - wanted: true, got: false"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4936,7 +6532,13 @@
     1790441178,
     1790430320
    ],
-   "control": "2103904144099119104"
+   "control": "2103904144099119104",
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:758:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4956,7 +6558,13 @@
     1790502919,
     1790492121
    ],
-   "control": "2104162850594361344"
+   "control": "2104162850594361344",
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1761: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4976,7 +6584,13 @@
     1790894140,
     1790897730
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWaitForAllPodsUnmount",
+     "reason": "volume_manager_test.go:758:"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -4996,7 +6610,13 @@
     1790886968,
     1790897730
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCheckBindings",
+     "reason": "binder_test.go:1761: returned error: selectedNode annotation reset for PVC \"provisioned-pvc\""
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -5014,7 +6634,13 @@
     1790977471,
     1790973852
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCause",
+     "reason": "contexthelper_test.go:239: ERROR: I0101 00:00:00.000000]"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -5030,7 +6656,13 @@
    "baselines_started": [
     1791201837
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestCause",
+     "reason": "contexthelper_test.go:239: ERROR: I0101 00:00:00.000000]"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -5050,7 +6682,13 @@
     1791241358,
     1791244955
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_HeartbeatSucceeds",
+     "reason": "websocket_test.go:1104: client err reading message: read tcp 127.0.0.1:56820->127.0.0.1:38877: i/o timeout"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -5066,7 +6704,13 @@
    "baselines_started": [
     1791321129
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestStreamTranslator_TTYResizeChannel",
+     "reason": "streamtranslator_test.go:703:  # HELP apiserver_stream_translator_requests_total [ALPHA] Total number of requests that were handled by the StreamTranslatorProxy, which processes streaming RemoteCommand/V5"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -5082,7 +6726,13 @@
    "baselines_started": [
     1791368498
    ],
-   "control": null
+   "control": null,
+   "failure_reasons": [
+    {
+     "test": "TestIsConnectionReset",
+     "reason": "util_test.go:199: expected HTTP2ConnectionLost error, got Get \"https://127.0.0.1:40251\": read tcp 127.0.0.1:46878->127.0.0.1:40251: read: connection reset by peer"
+    }
+   ]
   },
   {
    "job": "ci-kubernetes-unit",
@@ -5102,7 +6752,13 @@
     1791433834,
     1791430175
    ],
-   "control": "2108021601562791936"
+   "control": "2108021601562791936",
+   "failure_reasons": [
+    {
+     "test": "TestWebSocketClient_DifferentBufferSizes",
+     "reason": "websocket_test.go:138: error on webSocketServerStreams: websocket server finished before becoming ready"
+    }
+   ]
   }
  ]
 }

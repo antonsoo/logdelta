@@ -13,24 +13,32 @@ was.
 
 **What came out**
 
-- **The diff names a failed test in all 264 cases**, with the released 0.3.4
-  and with this checkout. A failed build's log is about 2,600 lines; the test
-  that failed is in the handful of findings every time.
-- **There is less to read now: a median of 4 findings where 0.3.4 reported 6,**
-  and 8 where it reported 11 at the 90th percentile.
-- **A passing build diffed against passing builds says nothing in 127 of 179
-  cases** (0.3.4: 122), and three findings or more in 3 (0.3.4: 11). What it
-  does report there is real: a kernel module that loaded in one run and not the
-  others, a controller's line that some passing runs print and some do not.
-- **A baseline from another day cost 0.3.4 half its report.** Kubernetes logs
-  with klog, whose lines begin `I1005` for an info line on 5 October. Filed
-  under its first token, every such line was a new template the next day.
-  Against a passing build of another date 0.3.4's median report was 9 findings;
-  it is now 4, the same as for a baseline of the same day.
+- **Naming the failed test is not the achievement.** The diff names a test
+  the JUnit report lists as failed in all 264 cases, with the released 0.3.4
+  and with this checkout. So does `grep -- '--- FAIL'`, in two lines.
+- **What a diff adds is the reason, and logdelta shows it two times in
+  three.** The JUnit report holds each failed test's own assertion or panic
+  line. That line is among the lines logdelta prints in 159 of the 239 cases
+  that have one (67%; 61% to 72% resampling the 121 commits), in a report of
+  34 lines at the median. The grep never shows it. A plain set difference of
+  the two logs always does, in 1,275 lines.
+- **The rework of the miner did not change that.** 0.3.4 also showed the
+  reason in 159 of 239, in 39 lines. The reason is inside a block logdelta
+  reports in 223 of 239 cases with both versions; in 64 of them the terminal
+  report cuts the block short before the line that matters.
+- **Fewer findings, not less to read.** The median report went from 6 findings
+  to 4. That is grouping: the checkout's templates are finer, and more of them
+  fold into one block. Counted ungrouped, the mean went up, from 63 to 70.
+- **A passing build against passing builds is silent in 127 of 179 cases**
+  (0.3.4: 122), and has three findings or more in 3 (0.3.4: 11).
 
-None of these logs was looked at while the miner was being changed. The changes
-came from [the Loghub benchmark](../loghub/README.md); this is the check that
-they hold on logs they were not made on.
+The miner was reworked on [the Loghub benchmark](../loghub/README.md), and
+these logs are a check on those changes, with one exception that makes them
+less than a blind test. Kubernetes logs with klog, whose lines begin `I1005`
+for an info line on 5 October. That 0.3.4 filed every such line as new the day
+after its baseline was noticed in these logs, and the fix has a test written
+from them. The rows below for a baseline of another day measure that fix on
+the format it was made for.
 
 ## The cases
 
@@ -57,45 +65,74 @@ nearest in time, and one more as a control when the commit has a fourth.
 
 ## What is measured
 
-`evaluate.py` runs `logdelta diff --json` and reads the report.
+`evaluate.py` runs `logdelta diff` and reads the report.
 
 - **Names a failed test**: some NEW finding, or NEW VALUE finding, holds the
   name of a test the JUnit report lists as failed, in its line or its template.
-  The name comes from the report, not from the log.
-- **Findings**: how many things the report asks a reader to look at. Lines that
-  belong together (the output of one failed test) are one finding.
+- **Shows the reason**: the JUnit report's failure text for a failed test ends
+  with what the test said, `plugins_test.go:2247: Didn't expect the first pod
+  to be scheduled`, or a panic. The case counts when that line is among the
+  lines the default terminal report prints. 239 of the 264 failed builds have
+  such a line.
+- **Lines to read**: the lines that report prints.
+- **Findings**: grouped, as reported (lines that belong together are one
+  finding), and ungrouped.
 - **Control**: a passing build as the target, the same baselines. Every finding
   there is something that differs between passing runs.
+- **Without a log parser**, `evaluate.py --plain`: `grep -- '--- FAIL'` on the
+  failed log; a set difference, the failed log's lines that are not in the
+  passing one; and a grep for failure markers (`--- FAIL`, `_test.go:<line>:`,
+  `panic:`).
+
+The 264 cases come from 121 commits, and failures on one commit are not
+independent. Intervals resample commits.
 
 ## Results
+
+Failed build against one passing build of the same commit, 264 cases:
+
+| | Names a failed test | Shows the reason, of 239 | Lines to read, median |
+|---|---:|---:|---:|
+| `grep -- '--- FAIL'` | 264 | 0 | 2 |
+| grep for failure markers | 264 | 239 | 258 |
+| Set difference of lines | 264 | 239 | 1,275 |
+| logdelta 0.3.4 | 264 | 159 (61% to 72%) | 39 |
+| logdelta, this checkout | 264 | 159 (61% to 72%) | 34 |
+| this checkout, blocks printed whole | 264 | 223 | 58 |
+
+The last row is not an option the tool has. It is what the report would be if
+no block were cut short, and it is the cheapest improvement this study found:
+the reason is already in a finding in 93% of cases.
+
+By job the reason is shown in 98 of 125 unit-test cases (78%) and 61 of 114
+integration cases (54%), where one failed test prints hundreds of lines.
 
 | | 0.3.4 | this checkout |
 |---|---:|---:|
 | **Failed build against one passing build** (264) | | |
-| names a failed test | 264 | 264 |
 | findings: median, mean, 90th percentile | 6, 6.7, 11 | 4, 5.0, 8 |
+| ungrouped findings: median, mean | 43, 63.0 | 39.5, 70.4 |
 | **Failed build against up to three** (229) | | |
-| names a failed test | 229 | 229 |
 | findings: median, mean, 90th percentile | 5, 6.6, 11 | 4, 4.9, 9 |
+| shows the reason, of 206 | 141 | 141 |
 | **Passing build against passing builds** (179) | | |
 | no findings | 122 | 127 |
 | one, two, three or more | 28, 18, 11 | 29, 20, 3 |
 | **Failed build against a passing build of another day** (14) | | |
 | findings: median | 9 | 4 |
-| Templates found in a pair of logs, median | 103 | 606 |
+| ungrouped findings: median | 79 | 94 |
+| shows the reason, of 12 | 7 | 8 |
+| **Templates found in a pair of logs, median** (264) | 103 | 606 |
 
-By job, against one passing build: the integration job goes from a median of 9
-findings to 6 and the unit job from 4 to 3. The unit job's controls are silent
-in all 82 cases with both versions; the integration job's are silent in 45 of 97
-(0.3.4: 40).
+The grouped count fell in 258 of the 264 cases and the ungrouped count rose in
+134. Both follow from the last row. 0.3.4 found about a hundred templates in
+two logs of more than 2,000 lines each, because its templates grew: a wildcard
+counted as agreement, so `I1005 <DUR> <NUM> <*> <*> <*> <*> <*> <*> <*>` took
+in every klog line of ten tokens. This checkout finds about six hundred, one
+per log statement, and its blocks hold more of them. "This checkout" is also
+more than the miner: it reports values that went missing, which adds findings.
 
-The last row is the reason for the others. 0.3.4 found about a hundred
-templates in two logs of more than 2,000 lines each, because its templates grew: a
-wildcard counted as agreement, so `I1005 <DUR> <NUM> <*> <*> <*> <*> <*> <*>
-<*>` took in every klog line of ten tokens. A new line that fits a template
-like that is not new. This checkout finds about six hundred, one per log
-statement, and still reports less, because what it reports is grouped into the
-failure it belongs to.
+The other-day rows rest on 14 cases.
 
 ## One case
 
@@ -126,26 +163,24 @@ when it fails. The second block opens on the assertion.
 
 - **Hard cases.** These logs are friendly to a diff: the runner prints a failed
   test's output and nothing for a passing one, so the failure is hundreds of
-  lines that exist in no baseline. Naming the test is close to a floor. A
-  failure that only changes a count, or one line among thousands that look like
-  it, is not tested here.
+  lines that exist in no baseline, and it is announced with `--- FAIL`. A
+  failure that only changes a count, or one line among thousands that look
+  like it, in a log with no marker to grep for, is what a template diff is
+  for, and it is not tested here.
 - **Two jobs of one project**, both Go, both printed by gotestsum, both logging
   with klog.
-- **Precision by hand.** A finding is counted, not judged. Whether the 4
-  findings of a median report are the 4 a person would pick was not checked
-  beyond reading a few dozen.
+- **Precision by hand.** A finding is counted, not judged.
 - **That the control findings are wrong.** A line some passing runs print and
   others do not is a real difference. More baselines are how logdelta learns it
   is not news; three were not always enough.
 
 ## The threshold
 
-The same build with `--threshold 0.6`, the setting that scores best on Loghub:
-the failed test named in all 264, the controls silent in the same 127 of 179,
-and a mean of 4.7 findings against one passing build instead of 5.0. It finds
-more templates inside the blocks it reports (a median of 50 ungrouped findings
-where the default has 40). Within noise, on this evidence; the default is
-unchanged.
+The same build with `--threshold 0.6`, one of the two settings that score best
+on Loghub: the failed test named in all 264, the controls silent in the same
+127 of 179, a mean of 4.7 findings instead of 5.0, and the reason shown in 139
+of 239 cases instead of 159. On the measure that matters here it is worse. The
+default is unchanged.
 
 ## Reproduce
 
@@ -153,6 +188,8 @@ unchanged.
 git clone https://github.com/antonsoo/logdelta && cd logdelta && cargo build --release
 python3 studies/kubernetes-ci/collect.py        # 518 MB into studies/kubernetes-ci/cache/
 python3 studies/kubernetes-ci/evaluate.py       # this checkout
+python3 studies/kubernetes-ci/evaluate.py --threshold 0.6 --label "checkout --threshold 0.6"
+python3 studies/kubernetes-ci/evaluate.py --plain   # grep and a set difference
 
 cargo install --root /tmp/logdelta-0.3.4 logdelta@0.3.4
 python3 studies/kubernetes-ci/evaluate.py --binary /tmp/logdelta-0.3.4/bin/logdelta --label 0.3.4
@@ -160,7 +197,9 @@ python3 studies/kubernetes-ci/evaluate.py --binary /tmp/logdelta-0.3.4/bin/logde
 
 `collect.py` fetches the builds the manifest lists. The bucket keeps about
 three months, so the oldest will age out; `collect.py --rescan` chooses cases
-from the builds that are there now and rewrites the manifest.
+from the builds that are there now and rewrites the manifest, and
+`collect.py --reasons` reads each failed test's reason line from its JUnit
+report into the manifest.
 [`results.json`](results.json) has every case under each label.
 
 The same builds, read for their JUnit reports rather than their logs, are the

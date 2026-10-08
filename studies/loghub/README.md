@@ -14,29 +14,43 @@ been run on it.
 
 - **The released 0.3.4 scored 0.73, and 0.43 on the lines as the systems wrote
   them.** The reference implementation of Drain, the algorithm logdelta's miner
-  is built on, publishes 0.865 on the same data.
-- **Three causes, none of them a matter of tuning.** A line was filed under its
-  first token, and in too many logs the first token is a value. A wildcard
-  counted as agreement, so a template got easier to join with every line it
-  absorbed, until one of them held 343 Android lines of 27 different templates.
-  And the timestamp of Apache's error log, the most common one there is, was
-  not masked: `[Sun` and `[Mon` were two different first tokens.
-- **Reworked, it scores 0.82 and 0.71, with one configuration for all sixteen
-  systems.** The reference's 0.865 uses a log format, masking regexes and a
-  similarity threshold chosen for each system. On eight of the sixteen logdelta
-  now matches or passes it without being told where the header ends.
-- **The benchmark's best setting is not the default.** At a threshold of 0.6
-  logdelta scores 0.88 and 0.75, above the reference's average. On the task the
-  tool exists for, [diffing failed builds against passing ones](../kubernetes-ci/README.md),
-  0.6 and 0.5 are within noise of each other, and on this repository's small
-  examples 0.6 reports more. The default stays at the paper's 0.5.
+  is built on, publishes 0.865 on the same data, with a log format, masking
+  regexes and a similarity threshold chosen for each system. Rerun here at that
+  commit with one setting for all sixteen systems (its own log formats, no
+  regexes, threshold 0.5), it scores 0.703; with three generic regexes, 0.744.
+- **Three causes, found by reading the errors on these samples.** A line was
+  filed under its first token, and in too many logs the first token is a value.
+  A wildcard counted as agreement, so a template got easier to join with every
+  line it absorbed, until one of them held 343 Android lines of 27 different
+  templates (in the whole-line run). And the timestamp of Apache's error log,
+  the most common one there is, was not masked: `[Sun` and `[Mon` were two
+  different first tokens. The first two are departures from the Drain paper, not
+  constants; the third, and a rule for bracketed thread names, are formats added
+  because a sample showed them.
+- **Reworked, it scores 0.82 on the message and 0.71 on whole lines, with one
+  configuration for all sixteen systems. Those two numbers are in-sample:** the
+  changes were chosen by reading this benchmark's errors, and it is scored again
+  here. On eight of the sixteen systems logdelta passes (five) or ties (three)
+  the tuned reference without being told where the header ends, and it is above
+  the reference's one-setting run on eight, below it on two.
+- **0.6 and 0.7 both score about 0.88 on the message; the default stays 0.5.**
+  Choosing a threshold by its score on the benchmark is selection on the test
+  set, and the one task logdelta exists for, [diffing failed builds against
+  passing ones](../kubernetes-ci/README.md), does not prefer them: it names the
+  failed test at all of them, and 0.6 shows the failure's own assertion less often.
 
 ## The measure
 
-Grouping accuracy, as the benchmark defines it (Zhu et al., ICSE-SEIP 2019): a
-line is correctly parsed when the set of lines it was grouped with is exactly
-the set of lines that share its labelled template. It is unforgiving on
-purpose. Merge one stray line into a template of 608 and all 609 are wrong.
+The benchmark's accuracy: a line is correctly parsed when the set of lines it
+was grouped with is exactly the set of lines that share its labelled template.
+Zhu et al. (ICSE-SEIP 2019) define it and call it parsing accuracy; Jiang et al.
+(ISSTA 2024) call the same quantity Group Accuracy (GA) and note that it counts
+messages, so it rewards getting the frequent templates right. This page says
+grouping accuracy. It is unforgiving on purpose. Merge one stray line into a
+template of 608 and all 609 are wrong. `score.py` computes it the way
+`logparser/utils/evaluator.py` does at `d9d4180`, and the Drain runs below use
+that evaluator itself. A template-level score, Jiang et al.'s FGA, was not
+computed.
 
 Each system is scored twice, because logdelta is used differently from the way
 the benchmark feeds a parser:
@@ -51,31 +65,46 @@ the benchmark feeds a parser:
 
 ## Results
 
-| System | Templates | Message: 0.3.4 | now | Drain, tuned | Whole line: 0.3.4 | now |
-|---|---:|---:|---:|---:|---:|---:|
-| HDFS | 14 | 0.998 | 0.998 | 0.998 | 0.930 | 0.998 |
-| Hadoop | 114 | 0.960 | 0.962 | 0.948 | 0.444 | 0.932 |
-| Spark | 36 | 0.907 | 0.922 | 0.920 | 0.920 | 0.920 |
-| Zookeeper | 50 | 0.967 | 0.967 | 0.967 | 0.955 | 0.960 |
-| OpenStack | 43 | 0.288 | 0.881 | 0.733 | 0.117 | 0.232 |
-| BGL | 120 | 0.794 | 0.951 | 0.963 | 0.227 | 0.744 |
-| HPC | 46 | 0.741 | 0.889 | 0.887 | 0.062 | 0.433 |
-| Thunderbird | 149 | 0.944 | 0.953 | 0.955 | 0.545 | 0.941 |
-| Windows | 50 | 0.565 | 0.692 | 0.997 | 0.562 | 0.567 |
-| Linux | 118 | 0.685 | 0.686 | 0.690 | 0.658 | 0.677 |
-| Mac | 341 | 0.722 | 0.744 | 0.786 | 0.599 | 0.689 |
-| Android | 166 | 0.706 | 0.753 | 0.911 | 0.291 | 0.535 |
-| HealthApp | 75 | 0.712 | 0.900 | 0.780 | 0.015 | 0.971 |
-| Apache | 6 | 1.000 | 1.000 | 1.000 | 0.000 | 1.000 |
-| OpenSSH | 27 | 0.718 | 0.718 | 0.787 | 0.526 | 0.718 |
-| Proxifier | 8 | 0.000 | 0.025 | 0.526 | 0.002 | 0.000 |
-| **Average** | | **0.732** | **0.815** | **0.865** | **0.428** | **0.707** |
+| System | Templates | Message: 0.3.4 | now | Drain, tuned | Drain, one setting | Whole line: 0.3.4 | now |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| HDFS | 14 | 0.998 | 0.998 | 0.998 | 0.998 | 0.930 | 0.998 |
+| Hadoop | 114 | 0.960 | 0.962 | 0.948 | 0.948 | 0.444 | 0.932 |
+| Spark | 36 | 0.907 | 0.922 | 0.920 | 0.922 | 0.920 | 0.920 |
+| Zookeeper | 50 | 0.967 | 0.967 | 0.967 | 0.967 | 0.955 | 0.960 |
+| OpenStack | 43 | 0.288 | 0.881 | 0.733 | 0.331 | 0.117 | 0.232 |
+| BGL | 120 | 0.794 | 0.951 | 0.963 | 0.963 | 0.227 | 0.744 |
+| HPC | 46 | 0.741 | 0.889 | 0.887 | 0.741 | 0.062 | 0.433 |
+| Thunderbird | 149 | 0.944 | 0.953 | 0.955 | 0.955 | 0.545 | 0.941 |
+| Windows | 50 | 0.565 | 0.692 | 0.997 | 0.568 | 0.562 | 0.567 |
+| Linux | 118 | 0.685 | 0.686 | 0.690 | 0.232 | 0.658 | 0.677 |
+| Mac | 341 | 0.722 | 0.744 | 0.786 | 0.735 | 0.599 | 0.689 |
+| Android | 166 | 0.706 | 0.753 | 0.911 | 0.570 | 0.291 | 0.535 |
+| HealthApp | 75 | 0.712 | 0.900 | 0.780 | 0.576 | 0.015 | 0.971 |
+| Apache | 6 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000 | 1.000 |
+| OpenSSH | 27 | 0.718 | 0.718 | 0.787 | 0.718 | 0.526 | 0.718 |
+| Proxifier | 8 | 0.000 | 0.025 | 0.526 | 0.025 | 0.002 | 0.000 |
+| **Average** |  | **0.732** | **0.815** | **0.865** | **0.703** | **0.428** | **0.707** |
 
 "Drain, tuned" is the accuracy column of the reference implementation's own
 benchmark table (`logparser/Drain/README.md` at logpai/logparser `d9d4180`), run
 with the settings in its `benchmark.py`: for each system a log format, a list of
 regular expressions for that system's values, a tree depth and a similarity
-threshold between 0.2 and 0.7. logdelta's two columns use its defaults.
+threshold between 0.2 and 0.7. "Drain, one setting" is the same code at the
+same commit, rerun by [`drain_reference.py`](drain_reference.py) with depth 4
+and threshold 0.5 for all sixteen and no regexes; the log format is still each
+system's own, because the reference cannot run without one. The rerun with the
+tuned settings reproduces the published column to four places on all sixteen
+systems, which is the check that the harness is the reference's. With three
+generic regexes (an IPv4 address, a hexadecimal number, a bare number) the
+one-setting average is 0.744. logdelta's columns use its defaults. Neither
+side is a clean control: the Drain figures were tuned on this data by their
+authors, and logdelta's masking and routing rules were chosen after reading it.
+
+Of the 16 samples, logdelta is ahead of the one-setting Drain on eight (Hadoop,
+OpenStack, HPC, Windows, Linux, Mac, Android, HealthApp) and behind on two (BGL,
+Thunderbird), and level on the rest. Against the tuned column it passes on five
+(Hadoop, Spark, OpenStack, HPC, HealthApp) and ties on three (HDFS, Zookeeper,
+Apache).
 
 The 16 samples hold 1,363 labelled templates. 0.3.4 found 1,934 in the messages
 and 2,291 in the whole lines; it now finds 1,269 and 1,228.
@@ -186,14 +215,15 @@ templates differ by one word.
 - **That the miner is good at logs in general.** Sixteen systems, 2,000 lines
   each, most of them from the 2000s and 2010s. The fixes were made looking at
   these same lines, so the scores after are not a prediction for a seventeenth
-  system; the Kubernetes build logs, which were not looked at while the miner
-  was changed, are the check on that.
+  system. The Kubernetes build logs are a check on that, though not a blind
+  one: their date-stamped first token was seen and fixed for.
 - **Template text.** Grouping accuracy scores which lines are together, not
   what the template says. logdelta shows `<*>` where the labels show
   `blk_<*>`.
-- **A like-for-like race with Drain.** The published numbers were not rerun
-  here. They are on the message with per-system settings; logdelta's are with
-  none.
+- **A like-for-like race with Drain.** The published numbers are on the
+  message with per-system settings. The one-setting rerun above is the closer
+  comparison, and logdelta's own masking was itself shaped on these sixteen
+  systems.
 
 ## Reproduce
 
@@ -202,7 +232,11 @@ git clone https://github.com/antonsoo/logdelta && cd logdelta
 python3 studies/loghub/fetch.py                       # 11 MB from logpai/loghub, pinned
 cargo build --release --example cluster_ids
 python3 studies/loghub/score.py                       # this checkout
-python3 studies/loghub/score.py --threshold 0.6 --label "checkout --threshold 0.6"
+for t in 0.4 0.6 0.7 0.8; do
+  python3 studies/loghub/score.py --threshold $t --label "checkout --threshold $t"
+done
+
+# the reference Drain, tuned and with one setting: see the top of drain_reference.py
 
 # 0.3.4: the same example program built against the released library
 git worktree add /tmp/logdelta-0.3.4 v0.3.4

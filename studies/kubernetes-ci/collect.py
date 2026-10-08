@@ -2,6 +2,7 @@
 
     python3 studies/kubernetes-ci/collect.py            # the builds manifest.json lists
     python3 studies/kubernetes-ci/collect.py --rescan   # list the jobs afresh, rewrite it
+    python3 studies/kubernetes-ci/collect.py --reasons  # add each failed test's reason line to it
 
 Kubernetes' CI (Prow) publishes every build of every job to a public bucket:
 when it started and on which commit, how it ended, its JUnit report and its
@@ -24,6 +25,7 @@ into cache/. No Kubernetes code is run.
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import re
 import sys
@@ -43,6 +45,9 @@ OBJECTS = f"https://storage.googleapis.com/{BUCKET}"
 JOBS = ("ci-kubernetes-integration-master", "ci-kubernetes-unit")
 FAILED_TEST = re.compile(r"^[ \t]*--- FAIL: (\S+)", re.MULTILINE)
 BASELINES = 3
+# The line a Go test failed on: `file_test.go:123: message` as `t.Errorf` prints it, or a panic.
+REASON = re.compile(r"^\s*(?:[\w./-]+_test\.go:\d+:|panic:)")
+TOP_LEVEL = re.compile(r"^--- FAIL: (\S+)")
 
 
 def fetch(url: str, attempts: int = 4) -> bytes | None:
@@ -104,6 +109,33 @@ def failed_tests(job: str, build: str) -> list[str]:
     return list(names)
 
 
+def failure_reasons(job: str, build: str, tests: list[str]) -> list[dict[str, Any]]:
+    """For each failed top-level test, the last assertion or panic line before its `--- FAIL`.
+
+    Read from the failure text in the build's JUnit report, which holds the test's own
+    output. `reason` is None when the output holds no such line (a timeout, a data race).
+    """
+    texts: list[str] = []
+    for report in listing(f"logs/{job}/{build}/artifacts/junit", "items(name)"):
+        if report["name"].endswith(".xml"):
+            xml = (fetch(f"{OBJECTS}/{report['name']}") or b"").decode("utf-8", "replace")
+            texts += [html.unescape(m) for m in re.findall(r"<failure[^>]*>(.*?)</failure>", xml, re.S)]
+    found: dict[str, str | None] = dict.fromkeys(tests)
+    for text in texts:
+        lines = text.splitlines()
+        bound = -1  # the previous top-level result; a reason has to come after it
+        for index, line in enumerate(lines):
+            match = TOP_LEVEL.match(line)
+            if not match:
+                continue
+            name = match.group(1).split("/", 1)[0]
+            reasons = [l.strip() for l in lines[bound + 1 : index] if REASON.match(l)]
+            if reasons and name in found and found[name] is None:
+                found[name] = reasons[-1][:300]
+            bound = index
+    return [{"test": test, "reason": found[test]} for test in tests]
+
+
 def choose(job: str, builds: list[dict[str, Any]]) -> list[dict[str, Any]]:
     by_commit: dict[str, list[dict[str, Any]]] = {}
     for record in builds:
@@ -141,6 +173,11 @@ def main() -> None:
     parser.add_argument("--cache", type=Path, default=HERE / "cache")
     parser.add_argument("--workers", type=int, default=24)
     parser.add_argument("--rescan", action="store_true")
+    parser.add_argument(
+        "--reasons",
+        action="store_true",
+        help="add each failed test's assertion or panic line, from the JUnit report, to the manifest",
+    )
     args = parser.parse_args()
 
     if args.rescan:
@@ -167,6 +204,21 @@ def main() -> None:
         args.manifest.write_text(json.dumps(manifest, indent=1) + "\n")
     else:
         manifest = json.loads(args.manifest.read_text())
+
+    if args.reasons:
+        with ThreadPoolExecutor(min(args.workers, 4)) as pool:
+            reasons = list(
+                pool.map(
+                    lambda c: failure_reasons(c["job"], c["failed"], c["failed_tests"]),
+                    manifest["cases"],
+                )
+            )
+        for case, found in zip(manifest["cases"], reasons, strict=True):
+            case["failure_reasons"] = found
+        args.manifest.write_text(json.dumps(manifest, indent=1) + "\n")
+        have = sum(any(r["reason"] for r in found) for found in reasons)
+        print(f"{have} of {len(reasons)} cases have a reason line", file=sys.stderr)
+        return
 
     wanted = {
         (case["job"], build)

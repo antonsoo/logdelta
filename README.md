@@ -24,33 +24,38 @@ against each other give 0 or 1: the one is its retry line, which the three runs 
 
 ## On real logs
 
-Two studies in this repository run logdelta on public data with a known answer. Both changed
-it; the numbers are the released 0.3.4 against this checkout.
+Two studies in this repository run logdelta on public data with a known answer. The numbers
+are the released 0.3.4 against this checkout.
 
 - **[264 failed Kubernetes builds, each against a passing build of the same commit](studies/kubernetes-ci/README.md).**
-  Same code, one run failed: what differs between the two logs is the failure. The diff
-  names a test that failed in **264 of 264**, in a median of **4 findings** out of a
-  2,600-line log (0.3.4: 6). A passing build against passing builds is silent in 127 of 179
-  cases (0.3.4: 122). A baseline from another day used to double the report, because klog
-  starts every line with the date (`I1005`); it no longer does.
+  Same code, one run failed: what differs between the two logs is the failure. Naming the
+  failed test is easy: the diff does it in 264 of 264, and so does `grep -- '--- FAIL'`.
+  What a diff adds is the reason. The failed test's own assertion line is in logdelta's
+  report in **159 of 239** cases (67%), in a median of **34 lines** out of a 2,600-line log;
+  the grep never shows it, and a plain set difference shows it in 1,275 lines. The reason is
+  inside a reported block in 223 of 239, and the terminal report cuts 64 of those short. The
+  rework below did not move that number: 0.3.4 also showed 159, in 39 lines.
 - **[Loghub, the benchmark log parsers are scored on](studies/loghub/README.md).** 2,000
   hand-labelled lines from each of 16 systems. Grouping accuracy went from **0.73 to 0.82**
   on the message text and from **0.43 to 0.71** on whole lines, which is what logdelta is
-  given in use. The reference Drain publishes 0.865 with a log format, regexes and a
-  threshold chosen per system; logdelta runs one configuration on all sixteen.
+  given in use. Those "after" numbers are in-sample: the changes were chosen by reading this
+  benchmark's errors. The reference Drain publishes 0.865 with a log format, regexes and a
+  threshold chosen per system; run with one setting for all sixteen it scores 0.70, and
+  logdelta runs one configuration on all sixteen.
 
-What 0.3.4 got wrong, found there and fixed in this checkout:
+What 0.3.4 got wrong, and where it was found:
 
 - A line was filed under its first token, which in many logs is a value: a host, an id, a
-  count. Each value was a template of its own.
+  count. Each value was a template of its own. (Loghub; and Kubernetes' klog, where the
+  first token is the date, so every line was new the day after the baseline.)
 - A wildcard counted as agreement, so a template got easier to join with every line it took
   in. One ended up holding 343 Android lines of 27 different templates, and a line that fits
-  a template like that is never new.
+  a template like that is never new. (Loghub.)
 - Two JSON lines with the same keys were one template whatever they said. A new
   `"level":"error"` line with a message no baseline had came back as **"No significant
-  differences found."**
+  differences found."** (Found while writing a test, not in either study.)
 - Apache's error-log timestamp, `[Sun Dec 04 04:47:44 2005]`, was not masked, nor the access
-  log's `04/Dec/2005:04:47:44 +0000`.
+  log's `04/Dec/2005:04:47:44 +0000`. (Loghub.)
 
 **[Try it in the browser →](https://antonsoo.github.io/logdelta/)** Paste two logs, or load one of
 the examples below. The page runs this crate's library compiled to WebAssembly, so the findings are

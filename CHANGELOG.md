@@ -12,12 +12,17 @@ What follows under "Template mining" is what they showed and what was changed fo
 
 - **Loghub-2k**, the benchmark log parsers are scored on: 2,000 hand-labelled lines from
   each of 16 systems. Grouping accuracy was 0.732 on the message text and 0.428 on whole
-  lines; it is 0.815 and 0.707, with one configuration for all sixteen (the reference Drain
-  publishes 0.865 with settings chosen per system). No system is worse on the message.
+  lines; it is 0.815 and 0.707, with one configuration for all sixteen. Those two are
+  in-sample: the changes below were chosen by reading this benchmark's errors. The
+  reference Drain publishes 0.865 with settings chosen per system and scores 0.703 rerun
+  with one setting for all. No system is worse on the message.
 - **264 failed Kubernetes CI builds**, each diffed against a passing build of the same
-  commit, with the failed test's name from the build's JUnit report. The diff names a failed
-  test in all 264, before and after; the median report went from 6 findings to 4, and a
-  passing build against passing builds is silent in 127 of 179 cases (was 122).
+  commit, with the failed test's name and its assertion line from the build's JUnit report.
+  The diff names a failed test in all 264, before and after, as `grep -- '--- FAIL'` does.
+  It shows the test's own assertion line in 159 of 239 cases, before and after, in a median
+  of 34 lines (was 39). The median report went from 6 findings to 4 by grouping; the
+  ungrouped count did not fall. A passing build against passing builds is silent in 127 of
+  179 cases (was 122).
 
 ### Template mining
 
