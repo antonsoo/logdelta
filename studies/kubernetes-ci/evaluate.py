@@ -29,6 +29,7 @@ failure markers. Intervals resample the commits the cases come from.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 import re
@@ -71,13 +72,20 @@ def shown_reasons(case: dict[str, Any], text: str, place_only: bool = False) -> 
     return sum(reason_key(r, place_only) in flat for r in reasons), len(reasons)
 
 
-def diff(binary: Path, baselines: list[Path], target: Path) -> dict[str, Any] | None:
-    command = [str(binary), "diff", *map(str, baselines), "--target", str(target), "--json"]
-    command += EXTRA_ARGUMENTS
+def checked_output(command: list[str]) -> str:
+    """A failed command must not turn a measurement into an empty successful report."""
     out = subprocess.run(command, capture_output=True, text=True, check=False)
     if out.returncode not in (0, 1):
-        return None
-    report: dict[str, Any] = json.loads(out.stdout)
+        raise RuntimeError(f"{command!r} exited {out.returncode}: {out.stderr.strip()}")
+    if not out.stdout.strip():
+        raise RuntimeError(f"{command!r} produced no report")
+    return out.stdout
+
+
+def diff(binary: Path, baselines: list[Path], target: Path) -> dict[str, Any]:
+    command = [str(binary), "diff", *map(str, baselines), "--target", str(target), "--json"]
+    command += EXTRA_ARGUMENTS
+    report: dict[str, Any] = json.loads(checked_output(command))
     return report
 
 
@@ -86,8 +94,7 @@ def human(binary: Path, baselines: list[Path], target: Path, *extra: str) -> str
     command = [str(binary), "diff", *map(str, baselines), "--target", str(target)]
     command += ["--color", "never", *extra]
     command += EXTRA_ARGUMENTS
-    out = subprocess.run(command, capture_output=True, text=True, check=False)
-    return out.stdout if out.returncode in (0, 1) else ""
+    return checked_output(command)
 
 
 def reading(report: dict[str, Any]) -> tuple[int, int]:
@@ -116,10 +123,8 @@ def day(timestamp: int) -> str:
 
 def entry(
     case: dict[str, Any], binary: Path, baselines: list[Path], target: Path
-) -> dict[str, Any] | None:
+) -> dict[str, Any]:
     report = diff(binary, baselines, target)
-    if report is None:
-        return None
     text = human(binary, baselines, target)
     everything = human(binary, baselines, target, "--block-lines", "0")
     shown, have = shown_reasons(case, text)
@@ -140,12 +145,14 @@ def entry(
     }
 
 
-def evaluate(case: dict[str, Any], binary: Path, cache: Path) -> dict[str, Any] | None:
+def evaluate(case: dict[str, Any], binary: Path, cache: Path) -> dict[str, Any]:
     logs = cache / case["job"]
     failed = logs / f"{case['failed']}.log"
     baselines = [logs / f"{build}.log" for build in case["baselines"]]
-    if not failed.exists() or not all(path.exists() for path in baselines):
-        return None
+    control = logs / f"{case['control']}.log" if case["control"] else None
+    for path in [failed, *baselines, *([control] if control else [])]:
+        if not path.is_file():
+            raise FileNotFoundError(f"missing corpus input: {path}; run collect.py first")
     row: dict[str, Any] = {
         "job": case["job"],
         "failed": case["failed"],
@@ -153,19 +160,12 @@ def evaluate(case: dict[str, Any], binary: Path, cache: Path) -> dict[str, Any] 
         "commit": case["commit"],
         "another_day": day(case["failed_started"]) != day(case["baselines_started"][0]),
     }
-    one = entry(case, binary, baselines[:1], failed)
-    if one is None:
-        return None
-    row["one_baseline"] = one
+    row["one_baseline"] = entry(case, binary, baselines[:1], failed)
     if len(baselines) > 1:
-        several = entry(case, binary, baselines, failed)
-        if several is not None:
-            row["all_baselines"] = several
-    control = logs / f"{case['control']}.log" if case["control"] else None
-    if control is not None and control.exists():
+        row["all_baselines"] = entry(case, binary, baselines, failed)
+    if control is not None:
         quiet = diff(binary, baselines, control)
-        if quiet is not None:
-            row["control"] = {"findings": reading(quiet)[0], "ungrouped": reading(quiet)[1]}
+        row["control"] = {"findings": reading(quiet)[0], "ungrouped": reading(quiet)[1]}
     return row
 
 
@@ -234,12 +234,10 @@ def summarize(rows: list[dict[str, Any]], key: str) -> dict[str, Any]:
     return summary
 
 
-def plain(case: dict[str, Any], cache: Path) -> dict[str, Any] | None:
+def plain(case: dict[str, Any], cache: Path) -> dict[str, Any]:
     """What a reader gets from tools that know nothing about templates."""
     logs = cache / case["job"]
     failed, passed = logs / f"{case['failed']}.log", logs / f"{case['baselines'][0]}.log"
-    if not failed.exists() or not passed.exists():
-        return None
     target = failed.read_text(encoding="utf-8", errors="replace").splitlines()
     seen = set(passed.read_text(encoding="utf-8", errors="replace").splitlines())
     reads = {
@@ -300,16 +298,14 @@ def main() -> None:
 
     cases = json.loads(args.manifest.read_text())["cases"]
     if args.plain:
-        found = [r for r in (plain(c, args.cache) for c in cases) if r]
+        found = [plain(c, args.cache) for c in cases]
         results = json.loads(args.out.read_text()) if args.out.exists() else {}
         results["plain"] = {"summary": summarize_plain(found), "cases": found}
         args.out.write_text(json.dumps(results, indent=1) + "\n")
         print(json.dumps(results["plain"]["summary"], indent=1))
         return
     with ThreadPoolExecutor(args.workers) as pool:
-        rows = [
-            row for row in pool.map(lambda c: evaluate(c, args.binary, args.cache), cases) if row
-        ]
+        rows = list(pool.map(lambda c: evaluate(c, args.binary, args.cache), cases))
     summary: dict[str, Any] = {"cases": len(rows), "by_job": {}}
     groups = {"all": rows} | {
         job: [row for row in rows if row["job"] == job] for job in sorted({r["job"] for r in rows})
@@ -324,7 +320,15 @@ def main() -> None:
             ),
         }
     results = json.loads(args.out.read_text()) if args.out.exists() else {}
-    results[args.label] = {"summary": summary, "cases": rows}
+    results[args.label] = {
+        "measurement": {
+            "binary_sha256": hashlib.sha256(args.binary.read_bytes()).hexdigest(),
+            "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
+            "arguments": EXTRA_ARGUMENTS,
+        },
+        "summary": summary,
+        "cases": rows,
+    }
     args.out.write_text(json.dumps(results, indent=1) + "\n")
     overall = summary["by_job"]["all"]
     print(f"{args.label}: {len(rows)} cases")
