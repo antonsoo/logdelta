@@ -33,8 +33,13 @@ test("warm legacy cache cannot supply the engine of a subsequent production buil
   const external = [];
   try {
     for (const [index, bytes] of [original, second].entries()) {
-      const root = join(directory, String(index));
-      await mkdir(root);
+      const repository = join(directory, String(index));
+      const root = join(repository, "web");
+      await mkdir(root, { recursive: true });
+      // The preview and CLI share marker definitions outside web/. Preserve the
+      // actual repository layout when rebuilding either production snapshot.
+      await mkdir(join(repository, "src/output"), { recursive: true });
+      await cp(join(web, "../src/output/excerpt-patterns.json"), join(repository, "src/output/excerpt-patterns.json"));
       for (const path of ["src", "public", "index.html", "package.json", "vite.config.ts", "vite.csp.ts"]) await cp(join(web, path), join(root, path), { recursive: true });
       await symlink(join(web, "node_modules"), join(root, "node_modules"), "dir");
       await writeFile(join(root, "src/generated/logdelta.wasm"), bytes);
