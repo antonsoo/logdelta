@@ -60,6 +60,16 @@ pub struct DiffArgs {
     #[arg(long = "watch-by", value_name = "POINTER", requires = "watch_fields")]
     pub watch_by: Vec<String>,
 
+    /// Also compare known field values' rates within each group. Require at least this many
+    /// percentage points outside every observed baseline rate, plus --significance. Missing
+    /// baseline/target group observations make the requested rate check incomplete (exit 2).
+    #[arg(
+        long = "watch-rate-change",
+        value_name = "PERCENT_POINTS",
+        requires = "watch_fields"
+    )]
+    pub watch_rate_change: Option<f64>,
+
     /// List every template that differs on its own. By default findings whose lines sit
     /// together (a traceback, the steps a failed job skipped) are reported as one block.
     #[arg(long)]

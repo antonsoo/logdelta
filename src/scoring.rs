@@ -20,8 +20,8 @@
 pub const SMOOTHING_ALPHA: f64 = 0.5;
 
 /// Default significance cutoff. `10.83` is the chi-square critical value for 1 degree of
-/// freedom at p = 0.001; G is asymptotically chi-square distributed under the null
-/// hypothesis of equal rates, so this is a "p < 0.001-ish" threshold in the same units.
+/// freedom at p = 0.001. The smoothed, variability-adjusted score over possibly sparse
+/// or correlated log observations is a heuristic, not a calibrated p-value.
 pub const DEFAULT_SIGNIFICANCE: f64 = 10.83;
 
 /// G-statistic for one template's occurrence count in a baseline sample of `baseline_total`

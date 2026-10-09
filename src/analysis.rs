@@ -147,8 +147,16 @@ impl DiffResult {
             v.context = ctx.get(&v.first_target_line_no).cloned();
         }
         for field in &mut self.watched_fields {
+            let wanted: std::collections::BTreeSet<usize> = field
+                .finding_values()
+                .filter_map(|value| value.first_target.as_ref().map(|at| at.line_no))
+                .collect();
             for value in &mut field.values {
-                if value.is_new == Some(true) {
+                if value
+                    .first_target
+                    .as_ref()
+                    .is_some_and(|at| wanted.contains(&at.line_no))
+                {
                     if let Some(context) = value
                         .first_target
                         .as_ref()
@@ -173,7 +181,7 @@ impl DiffResult {
             .chain(
                 self.watched_fields
                     .iter()
-                    .flat_map(|f| f.new_values())
+                    .flat_map(|f| f.finding_values())
                     .filter_map(|v| v.first_target.as_ref().map(|at| at.line_no)),
             )
             .collect()
@@ -207,13 +215,24 @@ impl DiffResult {
     pub fn field_finding_count(&self) -> usize {
         self.watched_fields
             .iter()
-            .map(|f| f.new_values().count())
+            .map(|f| {
+                f.new_values().count()
+                    + f.rate_comparison
+                        .as_ref()
+                        .map_or(0, |rates| rates.finding_count())
+            })
             .sum()
     }
 
     /// An incomplete field watch must not pass a CI gate, even with no findings.
     pub fn complete(&self) -> bool {
-        self.watched_fields.iter().all(|field| field.complete)
+        self.watched_fields.iter().all(|field| {
+            field.complete
+                && field
+                    .rate_comparison
+                    .as_ref()
+                    .is_none_or(|rates| rates.complete)
+        })
     }
 }
 
@@ -226,6 +245,8 @@ pub struct DiffOptions {
     pub watch_fields: Vec<String>,
     /// JSON Pointers forming an exact group key for every watched field. Empty pools records.
     pub watch_by: Vec<String>,
+    /// Optional minimum percentage-point shift outside the observed baseline rate range.
+    pub watch_rate_change: Option<f64>,
 }
 
 impl Default for DiffOptions {
@@ -236,6 +257,7 @@ impl Default for DiffOptions {
             group: true,
             watch_fields: Vec::new(),
             watch_by: Vec::new(),
+            watch_rate_change: None,
         }
     }
 }
@@ -249,6 +271,11 @@ pub fn diff_runs(
     custom: &[CustomMask],
     opts: &DiffOptions,
 ) -> io::Result<DiffResult> {
+    crate::field_rates::validate_options(
+        &opts.watch_fields,
+        opts.watch_rate_change,
+        opts.significance,
+    )?;
     let baseline_lines = baselines
         .iter()
         .map(|path| read_lines(path))
@@ -268,6 +295,11 @@ where
     B: Iterator<Item = io::Result<String>>,
     T: Iterator<Item = io::Result<String>>,
 {
+    crate::field_rates::validate_options(
+        &opts.watch_fields,
+        opts.watch_rate_change,
+        opts.significance,
+    )?;
     let n_baselines = baselines.len();
     let mut fields = FieldTracker::new(&opts.watch_fields, &opts.watch_by, n_baselines)?;
     let mut drain = Drain::new(opts.threshold);
@@ -586,7 +618,20 @@ where
         findings,
         blocks,
         value_findings,
-        watched_fields: fields.finish(),
+        watched_fields: fields
+            .finish()
+            .into_iter()
+            .map(|mut field| {
+                if let Some(delta) = opts.watch_rate_change {
+                    field.rate_comparison = Some(crate::field_rates::compare(
+                        &field,
+                        delta,
+                        opts.significance,
+                    ));
+                }
+                field
+            })
+            .collect(),
     })
 }
 

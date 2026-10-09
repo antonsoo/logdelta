@@ -1,4 +1,5 @@
 mod excerpt;
+mod field_rates;
 mod fields;
 pub mod human;
 pub mod json;

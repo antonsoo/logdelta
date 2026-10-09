@@ -111,6 +111,28 @@ export interface WatchedField {
   baselines: FieldCoverage[];
   target: FieldCoverage;
   values: FieldValue[];
+  /** Available to native/direct WASM callers; the current page does not request rate checks. */
+  rate_comparison?: FieldRateComparison;
+}
+
+export interface FieldRateComparison {
+  min_change_pp: number;
+  significance: number;
+  complete: boolean;
+  groups: {
+    group_values_json: string[];
+    baseline_totals: number[];
+    target_total: number;
+    status: "compared" | "no_baseline_observations" | "no_target_observations";
+    changes: {
+      /** Index into the enclosing field's values, which retain counts and source evidence. */
+      value_index: number;
+      baseline_rates: (number | null)[];
+      target_rate: number;
+      range_distance_pp: number;
+      score: number;
+    }[];
+  }[];
 }
 
 export interface DiffRequest {

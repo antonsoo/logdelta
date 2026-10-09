@@ -35,6 +35,7 @@ struct DiffRequest {
     watch_fields: Vec<String>,
     #[serde(default)]
     watch_by: Vec<String>,
+    watch_rate_change: Option<f64>,
     threshold: Option<f64>,
     significance: Option<f64>,
 }
@@ -72,6 +73,7 @@ fn diff(request: &[u8]) -> Result<String, String> {
         group: true,
         watch_fields: req.watch_fields,
         watch_by: req.watch_by,
+        watch_rate_change: req.watch_rate_change,
     };
     let baselines: Vec<_> = req.baselines.iter().map(|b| lines(b)).collect();
     let mut result =
@@ -214,5 +216,38 @@ mod tests {
                 .unwrap_err()
                 .contains("requires at least one --watch-field")
         );
+    }
+
+    #[test]
+    fn requested_rates_and_unavailable_groups_survive_the_wasm_request_contract() {
+        let records = |errors: usize| {
+            "{\"route\":\"checkout\",\"status\":503}\n".repeat(errors)
+                + &"{\"route\":\"checkout\",\"status\":200}\n".repeat(1000 - errors)
+        };
+        let mut request = serde_json::json!({
+            "baselines": [records(10), records(12)], "target": records(200),
+            "watch_fields": ["/status"], "watch_by": ["/route"], "watch_rate_change": 5,
+        });
+        let output: serde_json::Value =
+            serde_json::from_str(&diff(request.to_string().as_bytes()).unwrap()).unwrap();
+        let rates = &output["watched_fields"][0]["rate_comparison"];
+        assert_eq!(rates["complete"], true);
+        assert_eq!(
+            rates["groups"][0]["baseline_totals"],
+            serde_json::json!([1000, 1000])
+        );
+        assert_eq!(rates["groups"][0]["changes"].as_array().unwrap().len(), 2);
+        request["target"] =
+            serde_json::json!(records(200) + "{\"route\":\"archive\",\"status\":200}\n");
+        let output: serde_json::Value =
+            serde_json::from_str(&diff(request.to_string().as_bytes()).unwrap()).unwrap();
+        assert_eq!(
+            output["watched_fields"][0]["rate_comparison"]["complete"],
+            false
+        );
+        request["watch_rate_change"] = serde_json::json!(0);
+        assert!(diff(request.to_string().as_bytes())
+            .unwrap_err()
+            .contains("percentage points"));
     }
 }

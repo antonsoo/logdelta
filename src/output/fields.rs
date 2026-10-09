@@ -3,7 +3,7 @@ use std::io::{self, Write};
 use super::{clip, printable, MAX_SHOWN_CHARS};
 use crate::fields::{FieldCoverage, FieldOccurrence, FieldValue, WatchedField};
 
-fn counts(values: &[u64]) -> String {
+pub(super) fn counts(values: &[u64]) -> String {
     values
         .iter()
         .map(u64::to_string)
@@ -42,7 +42,7 @@ fn group_label(field: &WatchedField, value: &FieldValue) -> String {
         .join(", ")
 }
 
-fn location(at: &FieldOccurrence) -> String {
+pub(super) fn location(at: &FieldOccurrence) -> String {
     let source = at
         .baseline_index
         .map_or_else(|| "target".into(), |n| format!("baseline {}", n + 1));
@@ -58,7 +58,7 @@ fn location(at: &FieldOccurrence) -> String {
 }
 
 /// Clip presentation to the terminal; JSON retains the recorded value and excerpt.
-fn terminal_line<W: Write>(out: &mut W, text: &str, width: usize) -> io::Result<()> {
+pub(super) fn terminal_line<W: Write>(out: &mut W, text: &str, width: usize) -> io::Result<()> {
     let text = printable(text);
     if text.chars().count() > width {
         writeln!(
@@ -194,6 +194,7 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
                 width,
             )?;
         }
+        super::field_rates::human(out, field, width)?;
         for c in field.baselines.iter().chain(std::iter::once(&field.target)) {
             if let Some(at) = &c.first_problem {
                 terminal_line(
@@ -208,7 +209,7 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
 }
 
 /// HTML code spans keep backticks, links, angle brackets and table pipes inert.
-fn code(text: &str) -> String {
+pub(super) fn code(text: &str) -> String {
     let escaped = clip(&printable(text), MAX_SHOWN_CHARS)
         .replace('&', "&amp;")
         .replace('<', "&lt;")
@@ -277,8 +278,13 @@ pub fn markdown<W: Write>(out: &mut W, fields: &[WatchedField]) -> io::Result<()
         {
             writeln!(out, "NEW GROUP means no baseline observation for this field and key; it does not establish a changed outcome within an observed group.\n")?;
         }
-        for value in field.new_values() {
-            if let Some(at) = &value.first_target {
+        super::field_rates::markdown(out, field)?;
+        for value in field.finding_values() {
+            if let Some(at) = value
+                .first_target
+                .as_ref()
+                .or(value.first_baseline.as_ref())
+            {
                 if !field.group_by.is_empty() {
                     writeln!(out, "Group {}: ", code(&group_label(field, value)))?;
                 }

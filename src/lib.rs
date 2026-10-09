@@ -49,6 +49,7 @@ pub mod analysis;
 pub mod blocks;
 pub mod context;
 pub mod drain;
+pub mod field_rates;
 pub mod fields;
 pub mod io;
 pub mod mask;

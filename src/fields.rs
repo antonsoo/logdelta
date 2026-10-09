@@ -183,11 +183,32 @@ pub struct WatchedField {
     pub baselines: Vec<FieldCoverage>,
     pub target: FieldCoverage,
     pub values: Vec<FieldValue>,
+    /// Optional comparison of known values' rates, with independent coverage.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rate_comparison: Option<crate::field_rates::FieldRateComparison>,
 }
 
 impl WatchedField {
     pub fn new_values(&self) -> impl Iterator<Item = &FieldValue> {
         self.values.iter().filter(|v| v.is_new == Some(true))
+    }
+
+    /// Values with source evidence used by a novelty or rate finding.
+    pub fn finding_values(&self) -> impl Iterator<Item = &FieldValue> {
+        let rate_indexes: HashSet<usize> = self
+            .rate_comparison
+            .iter()
+            .flat_map(|rates| &rates.groups)
+            .flat_map(|group| &group.changes)
+            .map(|change| change.value_index)
+            .collect();
+        self.values
+            .iter()
+            .enumerate()
+            .filter(move |(index, value)| {
+                value.is_new == Some(true) || rate_indexes.contains(index)
+            })
+            .map(|(_, value)| value)
     }
 }
 
@@ -389,6 +410,7 @@ impl FieldTracker {
                     baselines: field.baselines,
                     target: field.target,
                     values,
+                    rate_comparison: None,
                 }
             })
             .collect()
