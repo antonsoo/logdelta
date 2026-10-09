@@ -305,3 +305,267 @@ fn terminal_markdown_and_json_show_findings_coverage_and_honest_incompleteness()
         json!([[1, "before"]])
     );
 }
+
+fn grouped_report(baselines: &[&str], target: &str, by: &[&str]) -> (i32, Value) {
+    let mut args = vec!["--json"];
+    for pointer in by {
+        args.extend(["--watch-by", pointer]);
+    }
+    let (code, text) = diff(baselines, target, &["/v"], &args);
+    (code, serde_json::from_str(&text).unwrap())
+}
+
+#[test]
+fn recorded_http_responses_expose_a_route_failure_hidden_by_pooled_statuses() {
+    let good = include_str!("../examples/http-routes-good.log");
+    let other = include_str!("../examples/http-routes-good-2.log");
+    let failed = include_str!("../examples/http-routes-failed.log");
+    // The capture script checks these emitted records against the actual HTTP responses.
+    let (pooled_code, pooled) = report(&[good, other], failed, &["/http/status"]);
+    assert_eq!(pooled_code, 0);
+    assert!(pooled["watched_fields"][0].get("group_by").is_none());
+    let (code, text) = diff(
+        &[good, other],
+        failed,
+        &["/http/status"],
+        &["--watch-by", "/route", "--json", "-C", "1"],
+    );
+    assert_eq!(code, 1);
+    let grouped: Value = serde_json::from_str(&text).unwrap();
+    assert_eq!(grouped["findings"], json!([]));
+    assert_eq!(grouped["value_findings"], json!([]));
+    let field = &grouped["watched_fields"][0];
+    assert_eq!(field["complete"], true);
+    assert_eq!(field["group_by"], json!(["/route"]));
+    let values = field["values"].as_array().unwrap();
+    assert_eq!(values.len(), 3);
+    let new: Vec<_> = values.iter().filter(|v| v["is_new"] == true).collect();
+    assert_eq!(new.len(), 1);
+    let value = new[0];
+    assert_eq!(value["group_values_json"], json!(["\"/checkout\""]));
+    assert_eq!(value["group_seen_in_baseline"], true);
+    assert_eq!(value["value_json"], "503");
+    assert_eq!(value["baseline_counts"], json!([0, 0]));
+    assert_eq!(value["target_count"], 2);
+    assert_eq!(value["first_target"]["line_no"], 14);
+    assert_eq!(value["context"]["before"][0][0], 13);
+    assert_eq!(values[2]["group_values_json"], json!(["\"/maintenance\""]));
+    assert_eq!(values[2]["baseline_counts"], json!([20, 20]));
+    assert_eq!(values[2]["target_count"], 20);
+    assert_eq!(values[2]["is_new"], false);
+    assert_eq!(
+        diff(
+            &[good],
+            other,
+            &["/http/status"],
+            &["--watch-by", "/route", "--json"]
+        )
+        .0,
+        0
+    );
+}
+
+#[test]
+fn groups_use_the_union_of_baselines_and_distinguish_new_keys_from_changed_outcomes() {
+    let (code, report) = grouped_report(
+        &["{\"g\":\"a\",\"v\":200}", "{\"g\":\"b\",\"v\":503}"],
+        "{\"g\":\"a\",\"v\":503}\n{\"g\":\"b\",\"v\":503}\n{\"g\":\"c\",\"v\":503}",
+        &["/g"],
+    );
+    assert_eq!(code, 1);
+    let values = report["watched_fields"][0]["values"].as_array().unwrap();
+    assert_eq!(values[1]["group_seen_in_baseline"], true);
+    assert_eq!(values[1]["is_new"], true);
+    assert_eq!(values[2]["baseline_counts"], json!([0, 1]));
+    assert_eq!(values[2]["first_baseline"]["baseline_index"], 1);
+    assert_eq!(values[2]["is_new"], false);
+    assert_eq!(values[3]["group_seen_in_baseline"], false);
+    assert_eq!(values[3]["is_new"], true);
+    // Every run needs a usable observation, but an individual key need not occur in every run.
+    assert_eq!(report["watched_fields"][0]["complete"], true);
+}
+
+#[test]
+fn composite_group_keys_preserve_boundaries_types_number_spelling_and_decoded_strings() {
+    let baseline = r#"{"x":"a|b","y":"c","v":0}
+{"x":"a","y":"b|c","v":1}
+{"x":9007199254740992,"y":null,"v":0}
+{"x":200,"y":false,"v":0}
+{"x":"é","y":"\u0061","v":0}"#;
+    let target = r#"{"x":"a|b","y":"c","v":1}
+{"x":"a","y":"b|c","v":1}
+{"x":9007199254740993,"y":null,"v":0}
+{"x":200.0,"y":false,"v":0}
+{"x":"200","y":false,"v":0}
+{"x":"\u00e9","y":"a","v":0}"#;
+    let (code, report) = grouped_report(&[baseline], target, &["/x", "/y"]);
+    assert_eq!(code, 1);
+    let values = report["watched_fields"][0]["values"].as_array().unwrap();
+    let changed = values
+        .iter()
+        .find(|v| v["group_values_json"] == json!(["\"a|b\"", "\"c\""]) && v["value_json"] == "1")
+        .unwrap();
+    assert_eq!(changed["is_new"], true);
+    assert_eq!(changed["group_seen_in_baseline"], true);
+    let new_groups: Vec<_> = values
+        .iter()
+        .filter(|v| v["group_seen_in_baseline"] == false)
+        .map(|v| &v["group_values_json"])
+        .collect();
+    assert_eq!(
+        new_groups,
+        vec![
+            &json!(["\"200\"", "false"]),
+            &json!(["200.0", "false"]),
+            &json!(["9007199254740993", "null"])
+        ]
+    );
+    let decoded = values
+        .iter()
+        .find(|v| v["group_values_json"] == json!(["\"é\"", "\"a\""]))
+        .unwrap();
+    assert_eq!(decoded["baseline_counts"], json!([1]));
+    assert_eq!(decoded["target_count"], 1);
+    assert_eq!(decoded["is_new"], false);
+}
+
+#[test]
+fn unassignable_selected_records_make_novelty_unknown_but_unrelated_events_do_not() {
+    let good = "{\"g\":null,\"v\":200}";
+    for (problem, reason) in [
+        (r#"{"v":503}"#, "group_missing"),
+        (r#"{"g":[],"v":503}"#, "group_non_scalar"),
+        (r#"{"g":{},"v":503}"#, "group_non_scalar"),
+        (r#"{"g":"one","\u0067":"two","v":503}"#, "group_ambiguous"),
+    ] {
+        // Test both sides: a dropped baseline record can falsely imply a new target value.
+        for baseline_problem in [false, true] {
+            let mixed = format!("{good}\n{problem}");
+            let (baselines, target) = if baseline_problem {
+                (vec![mixed.as_str()], good)
+            } else {
+                (vec![good], mixed.as_str())
+            };
+            let (code, report) = grouped_report(&baselines, target, &["/g"]);
+            assert_eq!(code, 2, "{problem}");
+            let field = &report["watched_fields"][0];
+            assert_eq!(field["complete"], false);
+            let coverage = if baseline_problem {
+                &field["baselines"][0]
+            } else {
+                &field["target"]
+            };
+            assert_eq!(coverage[reason], 1);
+            assert_eq!(coverage["first_problem"]["line_no"], 2);
+            assert_eq!(coverage["matched"], 1);
+            for value in field["values"].as_array().unwrap() {
+                assert!(value["is_new"].is_null());
+                assert!(value.get("group_seen_in_baseline").is_none());
+            }
+        }
+    }
+    let unrelated = format!("{good}\nplain text\n{{\"g\":[]}}\n{{}}");
+    let (code, report) = grouped_report(&[&unrelated], &unrelated, &["/g"]);
+    assert_eq!(code, 0);
+    assert_eq!(report["watched_fields"][0]["target"]["missing"], 2);
+    assert_eq!(
+        report["watched_fields"][0]["values"][0]["group_values_json"],
+        json!(["null"])
+    );
+    assert_eq!(grouped_report(&[good, "{}"], good, &["/g"]).0, 2);
+}
+
+#[test]
+fn grouped_limits_bound_pairs_and_total_key_bytes_without_erasing_retained_counts() {
+    let target = (0..257)
+        .chain([0])
+        .map(|i| format!("{{\"g\":{i},\"v\":200}}\n"))
+        .collect::<String>();
+    let (code, report) = grouped_report(&["{\"g\":0,\"v\":200}"], &target, &["/g"]);
+    assert_eq!(code, 2);
+    let field = &report["watched_fields"][0];
+    assert_eq!(field["values"].as_array().unwrap().len(), 256);
+    assert_eq!(field["target"]["untracked"], 1);
+    assert_eq!(field["target"]["matched"], 258);
+    assert_eq!(field["target"]["first_problem"]["line_no"], 257);
+    assert_eq!(field["values"][0]["target_count"], 2);
+    assert!(field["values"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .all(|v| v["is_new"].is_null()));
+    // The bound is shared by all components, not 4 KiB for each of four components.
+    let large = json!({"g": "界".repeat(800), "h": "界".repeat(800), "v": 200}).to_string();
+    let (code, report) = grouped_report(&[r#"{"g":0,"h":0,"v":200}"#], &large, &["/g", "/h"]);
+    assert_eq!(code, 2);
+    assert_eq!(report["watched_fields"][0]["target"]["untracked"], 1);
+    assert_eq!(
+        report["watched_fields"][0]["target"]["first_problem"]["truncated"],
+        true
+    );
+}
+
+#[test]
+fn grouping_runs_before_masks_and_uses_the_same_envelope_and_pointer_rules() {
+    let wrapper = |g| {
+        json!({"log": format!("{{\"a/b\":{{\"~key\":[{g}]}},\"v\":200}}\n"), "stream": "stdout"})
+            .to_string()
+    };
+    let good = wrapper("9007199254740992");
+    let bad = wrapper("9007199254740993");
+    let (code, text) = diff(
+        &[&good],
+        &bad,
+        &["/v"],
+        &["--watch-by", "/a~1b/~0key/0", "--mask", "[0-9]+", "--json"],
+    );
+    assert_eq!(code, 1);
+    let report: Value = serde_json::from_str(&text).unwrap();
+    assert_eq!(
+        report["watched_fields"][0]["values"][1]["group_values_json"],
+        json!(["9007199254740993"])
+    );
+    assert_eq!(
+        report["watched_fields"][0]["values"][1]["group_seen_in_baseline"],
+        false
+    );
+}
+
+#[test]
+fn grouping_configuration_and_human_reports_cannot_silently_drop_the_requested_scope() {
+    for by in [
+        vec!["g"],
+        vec!["/bad~"],
+        vec!["/g", "/g"],
+        vec!["/g", "/h", "/i", "/j", "/k"],
+    ] {
+        let mut args = vec!["--json"];
+        for p in by {
+            args.extend(["--watch-by", p]);
+        }
+        let (code, text) = diff(&["{}"], "{}", &["/v"], &args);
+        assert_eq!(code, 2);
+        assert!(text.contains("--watch-by"));
+    }
+    assert_eq!(diff(&["{}"], "{}", &[], &["--watch-by", "/g"]).0, 2);
+    let baseline = r#"{"g":"old","v":200}"#;
+    let target = r#"{"g":"old","v":503}
+{"g":"<b>|new","v":503}"#;
+    for format in ["--markdown", "--json", "--color"] {
+        let mut args = vec!["--watch-by", "/g", format];
+        if format == "--color" {
+            args.push("never");
+        }
+        let (code, text) = diff(&[baseline], target, &["/v"], &args);
+        assert_eq!(code, 1);
+        assert!(text.contains("old"));
+        assert!(text.contains("503"));
+        if format != "--json" {
+            assert!(text.contains("NEW GROUP"));
+        }
+        if format == "--markdown" {
+            assert!(text.contains("&lt;b&gt;&#124;new"));
+            assert!(!text.contains("<b>"));
+        }
+    }
+}

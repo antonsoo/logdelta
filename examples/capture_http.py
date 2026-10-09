@@ -4,6 +4,7 @@
 The failed server deliberately returns 503 for requests 7 and 15, then exits 1.
 These are real server-emitted records from an injected fault, not production evidence.
 Run: python examples/capture_http.py [--output-directory /tmp/http-example]
+Add --scenario mixed-routes to interleave a maintenance route that always returns 503.
 """
 
 import argparse
@@ -18,9 +19,10 @@ import tempfile
 import time
 
 
-def serve(profile, port_file):
+def serve(profile, port_file, scenario):
     class Handler(BaseHTTPRequestHandler):
         count = 0
+        checkout_count = 0
         failures = 0
 
         def log_message(self, *_args):
@@ -29,10 +31,12 @@ def serve(profile, port_file):
         def do_GET(self):
             started = time.perf_counter_ns()
             type(self).count += 1
-            failed = profile == "failed" and self.count in (7, 15)
-            status = 503 if failed else 200
+            if self.path == "/checkout":
+                type(self).checkout_count += 1
+            failed = self.path == "/checkout" and profile == "failed" and self.checkout_count in (7, 15)
+            status = 503 if failed or self.path == "/maintenance" else 200
             type(self).failures += int(failed)
-            body = json.dumps({"ok": not failed}).encode()
+            body = json.dumps({"ok": status == 200}).encode()
             self.send_response(status)
             self.send_header("Content-Type", "application/json")
             self.send_header("Content-Length", str(len(body)))
@@ -51,7 +55,7 @@ def serve(profile, port_file):
         server.timeout = 10
         print("checkout service ready", flush=True)
         Path(port_file).write_text(str(server.server_port))
-        for _ in range(20):
+        for _ in range(40 if scenario == "mixed-routes" else 20):
             previous = Handler.count
             server.handle_request()
             if Handler.count == previous:
@@ -61,11 +65,11 @@ def serve(profile, port_file):
     return exit_code
 
 
-def capture(profile):
+def capture(profile, scenario):
     with tempfile.TemporaryDirectory(prefix="logdelta-http-") as directory:
         port_file = Path(directory) / "port"
         process = subprocess.Popen(
-            [sys.executable, __file__, "--serve", profile, "--port-file", str(port_file)],
+            [sys.executable, __file__, "--serve", profile, "--port-file", str(port_file), "--scenario", scenario],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
         )
         try:
@@ -75,24 +79,30 @@ def capture(profile):
                     raise RuntimeError("HTTP fixture server did not start")
                 time.sleep(0.01)
             statuses = []
-            for _ in range(20):
+            routes = ["/checkout", "/maintenance"] if scenario == "mixed-routes" else ["/checkout"]
+            schedule = [(i, route) for i in range(20) for route in routes]
+            for _, route in schedule:
                 connection = http.client.HTTPConnection("127.0.0.1", int(port_file.read_text()), timeout=5)
                 try:
-                    connection.request("GET", "/checkout")
+                    connection.request("GET", route)
                     response = connection.getresponse()
                     statuses.append(response.status)
                     assert json.loads(response.read())["ok"] == (response.status == 200)
                 finally:
                     connection.close()
             stdout, stderr = process.communicate(timeout=10)
-            expected = [503 if profile == "failed" and i in (6, 14) else 200 for i in range(20)]
+            expected = [503 if route == "/maintenance" or (profile == "failed" and i in (6, 14)) else 200 for i, route in schedule]
             assert statuses == expected, statuses
             assert process.returncode == int(profile == "failed"), (process.returncode, stderr)
             records = stdout.splitlines()
-            assert len(records) == 22, records
+            assert len(records) == len(schedule) + 2, records
             assert [json.loads(line)["http"]["status"] for line in records[1:-1]] == statuses
+            assert [json.loads(line)["route"] for line in records[1:-1]] == [route for _, route in schedule]
             assert json.loads(records[-1])["exit_code"] == process.returncode
-            return stdout
+            return stdout, {
+                "process_exit": process.returncode,
+                "responses": [{"route": route, "status": status} for (_, route), status in zip(schedule, statuses)],
+            }
         finally:
             if process.poll() is None:
                 process.kill()
@@ -104,14 +114,19 @@ def main():
     parser.add_argument("--output-directory", type=Path, default=Path(__file__).resolve().parent)
     parser.add_argument("--serve", choices=["good", "failed"], help=argparse.SUPPRESS)
     parser.add_argument("--port-file", help=argparse.SUPPRESS)
+    parser.add_argument("--scenario", choices=["single-route", "mixed-routes"], default="single-route")
     args = parser.parse_args()
     if args.serve:
-        return serve(args.serve, args.port_file)
-    captures = [("http-good.log", capture("good")), ("http-good-2.log", capture("good")), ("http-failed.log", capture("failed"))]
+        return serve(args.serve, args.port_file, args.scenario)
+    prefix = "http-routes" if args.scenario == "mixed-routes" else "http"
+    captures = [(f"{prefix}-{name}.log", capture(profile, args.scenario)) for name, profile in [("good", "good"), ("good-2", "good"), ("failed", "failed")]]
     args.output_directory.mkdir(parents=True, exist_ok=True)
-    for name, content in captures:
+    evidence = {"scenario": args.scenario, "provenance": "Controlled loopback HTTP requests; faults injected, not a production incident.", "runs": {}}
+    for name, (content, observed) in captures:
         (args.output_directory / name).write_text(content)
-        print(f"{name}: 22 lines; HTTP responses and process exit checked")
+        evidence["runs"][name] = observed
+        print(f"{name}: {len(content.splitlines())} lines; HTTP responses and process exit checked")
+    (args.output_directory / f"{prefix}-observed.json").write_text(json.dumps(evidence, indent=2) + "\n")
     return 0
 
 

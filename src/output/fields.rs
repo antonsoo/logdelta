@@ -1,7 +1,7 @@
 use std::io::{self, Write};
 
 use super::{clip, printable, MAX_SHOWN_CHARS};
-use crate::fields::{FieldCoverage, FieldOccurrence, WatchedField};
+use crate::fields::{FieldCoverage, FieldOccurrence, FieldValue, WatchedField};
 
 fn counts(values: &[u64]) -> String {
     values
@@ -21,12 +21,25 @@ fn coverage(c: &FieldCoverage) -> String {
         (c.ambiguous, "ambiguous"),
         (c.oversized_records, "oversized"),
         (c.untracked, "untracked"),
+        (c.group_missing, "missing group key"),
+        (c.group_non_scalar, "non-scalar group key"),
+        (c.group_ambiguous, "ambiguous group key"),
     ] {
         if n > 0 {
             parts.push(format!("{n} {label}"));
         }
     }
     parts.join("; ")
+}
+
+fn group_label(field: &WatchedField, value: &FieldValue) -> String {
+    field
+        .group_by
+        .iter()
+        .zip(&value.group_values_json)
+        .map(|(pointer, value)| format!("{pointer} = {value}"))
+        .collect::<Vec<_>>()
+        .join(", ")
 }
 
 fn location(at: &FieldOccurrence) -> String {
@@ -66,7 +79,12 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
     }
     writeln!(
         out,
-        "\nWatched JSON fields (before masking; pooled across records)"
+        "\nWatched JSON fields (before masking; {})",
+        if fields.iter().any(|f| !f.group_by.is_empty()) {
+            "within exact groups"
+        } else {
+            "pooled across records"
+        }
     )?;
     writeln!(
         out,
@@ -90,7 +108,7 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
         if !field.complete {
             writeln!(
                 out,
-                "  Need a scalar in every run, with no unassessed records."
+                "  Need a scalar in every run, with no unassessed records or group keys."
             )?;
         }
         for (index, c) in field.baselines.iter().enumerate() {
@@ -105,9 +123,30 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
             &format!("  Target:     {}", coverage(&field.target)),
             width,
         )?;
-        writeln!(out, "  Baseline | Target | Observation | Value (JSON)")?;
+        if field.group_by.is_empty() {
+            writeln!(out, "  Baseline | Target | Observation | Value (JSON)")?;
+        } else {
+            terminal_line(
+                out,
+                &format!("  Grouped by: {}", field.group_by.join(", ")),
+                width,
+            )?;
+        }
+        let mut previous_group: Option<&[String]> = None;
         for value in &field.values {
+            if !field.group_by.is_empty()
+                && previous_group != Some(value.group_values_json.as_slice())
+            {
+                terminal_line(
+                    out,
+                    &format!("  Group: {}", group_label(field, value)),
+                    width,
+                )?;
+                writeln!(out, "  Baseline | Target | Observation | Value (JSON)")?;
+                previous_group = Some(&value.group_values_json);
+            }
             let marker = match value.is_new {
+                Some(true) if value.group_seen_in_baseline == Some(false) => "NEW GROUP",
                 Some(true) => "NEW FIELD",
                 None => "UNKNOWN",
                 _ => "seen",
@@ -144,6 +183,17 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
                 }
             }
         }
+        if field
+            .values
+            .iter()
+            .any(|v| v.group_seen_in_baseline == Some(false))
+        {
+            terminal_line(
+                out,
+                "  NEW GROUP: no baseline observation for this field and key.",
+                width,
+            )?;
+        }
         for c in field.baselines.iter().chain(std::iter::once(&field.target)) {
             if let Some(at) = &c.first_problem {
                 terminal_line(
@@ -172,7 +222,8 @@ pub fn markdown<W: Write>(out: &mut W, fields: &[WatchedField]) -> io::Result<()
     if fields.is_empty() {
         return Ok(());
     }
-    writeln!(out, "\n#### Watched JSON fields\n\nCompared before masking, pooled across records. Values retain JSON types and number spelling.\n")?;
+    writeln!(out, "\n#### Watched JSON fields\n\nCompared before masking, {}. Values retain JSON types and number spelling.\n",
+        if fields.iter().any(|f| !f.group_by.is_empty()) { "within exact groups" } else { "pooled across records" })?;
     for field in fields {
         writeln!(
             out,
@@ -185,34 +236,52 @@ pub fn markdown<W: Write>(out: &mut W, fields: &[WatchedField]) -> io::Result<()
             code(&field.pointer)
         )?;
         if !field.complete {
-            writeln!(out, "Need a scalar in every run and no invalid, ambiguous, non-scalar or untracked records. Novelty is unknown.\n")?;
+            writeln!(out, "Need a scalar in every run and no invalid, ambiguous, non-scalar or untracked records or group keys. Novelty is unknown.\n")?;
         }
         writeln!(out, "| Run | Coverage |\n|---|---|")?;
         for (index, c) in field.baselines.iter().enumerate() {
             writeln!(out, "| Baseline {} | {} |", index + 1, coverage(c))?;
         }
         writeln!(out, "| Target | {} |\n", coverage(&field.target))?;
-        writeln!(
-            out,
-            "| Baseline counts | Target count | Value (JSON) | Observation |\n|---|---:|---|---|"
-        )?;
+        let groups = field
+            .group_by
+            .iter()
+            .map(|p| format!(" Group: {} |", code(p)))
+            .collect::<String>();
+        writeln!(out, "|{groups} Baseline counts | Target count | Value (JSON) | Observation |\n|{}---|---:|---|---|", "---|".repeat(field.group_by.len()))?;
         for value in &field.values {
             let marker = match value.is_new {
+                Some(true) if value.group_seen_in_baseline == Some(false) => "NEW GROUP",
                 Some(true) => "NEW FIELD VALUE",
                 None => "Unknown",
                 _ => "Seen in baseline",
             };
+            let groups = value
+                .group_values_json
+                .iter()
+                .map(|v| format!(" {} |", code(v)))
+                .collect::<String>();
             writeln!(
                 out,
-                "| {} | {} | {} | {marker} |",
+                "|{groups} {} | {} | {} | {marker} |",
                 counts(&value.baseline_counts),
                 value.target_count,
                 code(&value.value_json)
             )?;
         }
         writeln!(out)?;
+        if field
+            .values
+            .iter()
+            .any(|v| v.group_seen_in_baseline == Some(false))
+        {
+            writeln!(out, "NEW GROUP means no baseline observation for this field and key; it does not establish a changed outcome within an observed group.\n")?;
+        }
         for value in field.new_values() {
             if let Some(at) = &value.first_target {
+                if !field.group_by.is_empty() {
+                    writeln!(out, "Group {}: ", code(&group_label(field, value)))?;
+                }
                 writeln!(
                     out,
                     "{} at {}: {}\n",

@@ -224,6 +224,8 @@ pub struct DiffOptions {
     pub group: bool,
     /// JSON Pointers selecting scalar values to compare exactly, before masking.
     pub watch_fields: Vec<String>,
+    /// JSON Pointers forming an exact group key for every watched field. Empty pools records.
+    pub watch_by: Vec<String>,
 }
 
 impl Default for DiffOptions {
@@ -233,6 +235,7 @@ impl Default for DiffOptions {
             significance: DEFAULT_SIGNIFICANCE,
             group: true,
             watch_fields: Vec::new(),
+            watch_by: Vec::new(),
         }
     }
 }
@@ -266,7 +269,7 @@ where
     T: Iterator<Item = io::Result<String>>,
 {
     let n_baselines = baselines.len();
-    let mut fields = FieldTracker::new(&opts.watch_fields, n_baselines)?;
+    let mut fields = FieldTracker::new(&opts.watch_fields, &opts.watch_by, n_baselines)?;
     let mut drain = Drain::new(opts.threshold);
     let mut tracker = ValueTracker::with_baselines(n_baselines);
 

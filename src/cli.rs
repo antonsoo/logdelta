@@ -55,6 +55,11 @@ pub struct DiffArgs {
     #[arg(long = "watch-field", value_name = "POINTER")]
     pub watch_fields: Vec<String>,
 
+    /// Compare watched values within exact JSON groups (e.g. /route). Repeat for a
+    /// composite key, up to 4 fields. Missing group keys on watched records exit 2.
+    #[arg(long = "watch-by", value_name = "POINTER", requires = "watch_fields")]
+    pub watch_by: Vec<String>,
+
     /// List every template that differs on its own. By default findings whose lines sit
     /// together (a traceback, the steps a failed job skipped) are reported as one block.
     #[arg(long)]

@@ -122,6 +122,7 @@ fn run_diff(args: DiffArgs) -> anyhow::Result<ExitCode> {
         significance: args.significance,
         group: !args.flat,
         watch_fields: args.watch_fields,
+        watch_by: args.watch_by,
     };
     let mut result = diff_runs(&baseline_refs, &target, &masks, &opts)?;
 

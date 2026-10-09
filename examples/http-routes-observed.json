@@ -1,0 +1,501 @@
+{
+  "scenario": "mixed-routes",
+  "provenance": "Controlled loopback HTTP requests; faults injected, not a production incident.",
+  "runs": {
+    "http-routes-good.log": {
+      "process_exit": 0,
+      "responses": [
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        }
+      ]
+    },
+    "http-routes-good-2.log": {
+      "process_exit": 0,
+      "responses": [
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        }
+      ]
+    },
+    "http-routes-failed.log": {
+      "process_exit": 1,
+      "responses": [
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 503
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 503
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        },
+        {
+          "route": "/checkout",
+          "status": 200
+        },
+        {
+          "route": "/maintenance",
+          "status": 503
+        }
+      ]
+    }
+  }
+}
