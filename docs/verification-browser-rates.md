@@ -75,6 +75,35 @@ both downloads. Source excerpts enter the DOM only when their fold is opened,
 and closing it releases those nodes. A 64-group constructed control checks
 pagination, escaped keys, search and complete downloads; it is not incident data.
 
+## Clean build checks
+
+A fresh `git archive` of `c9d4e90` was extracted into an empty directory. `npm ci`
+installed from the lockfile; Rust targets and the WASM module were compiled in
+that fresh checkout. Subsequent changes add verification records, preserve
+captured bytes and correct the automation-only paste diagnosis; application code
+is unchanged.
+
+| Check | Result |
+| --- | --- |
+| Fresh `npm ci` | 134 packages installed; audit reported zero vulnerabilities |
+| `npm run lint`, `npm run typecheck` | Passed without warnings or errors |
+| `npm test` | 78 passed in 7 files |
+| `npm run build` | Complete Rust/WASM, TypeScript and Vite build |
+| `npx playwright test` | 122 passed in Chromium and Firefox, 1.5 minutes |
+| `cargo fmt --all -- --check` | Clean |
+| `cargo clippy --locked --all-targets --all-features -- -D warnings` | Clean |
+| `cargo test --locked` | 206 tests and 1 doctest passed |
+| `cargo build --locked --release` | Fresh native release build completed |
+| Fresh-build HTTP oracle and native/WASM replay | 6,000 responses, 12 scores and all 5 request workflows matched |
+| WASM SHA-256 across working and fresh checkout builds | Identical: `3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd` |
+
+The site is built with `npm --prefix web run build`, output **`web/dist/`**, base
+**`/logdelta/`**. Main JS is 55.13 kB / 18.14 kB gzip, CSS 30.06 kB / 7.10 kB gzip,
+and the unchanged WASM engine 1,266.41 kB / 458.01 kB gzip. The eight recorded
+browser comparisons took 78–114 ms inside the engine after loading; these are
+individual observations on a 14-vCPU, 48-GB WSL2 machine, not a performance
+guarantee. No runtime dependency was added.
+
 ## Interpretation limits
 
 Rates describe logged scalar observations, not all requests unless the supplied
@@ -85,10 +114,12 @@ counterexample and baseline-variation limits remain in the
 score, choose an automatic error definition, identify a change point, or infer a
 root cause. Full input logs are not bundled with the downloads.
 
-A separate Chromium editor limitation surfaced during this check: native text
-insertion of 6,400 JSON lines took 37.5 seconds in the page, 28.1 seconds in a
-standalone plain textarea, and 30.5 seconds in a styled standalone textarea on
-this machine. These are single diagnostic observations, not a benchmark. The
-large-report workflow uses real file imports, which avoid that insertion path.
-Use **Open file** for large logs. Native paste performance remains unresolved;
-this work does not alter the browser's editing or undo behavior.
+A large-input check initially stalled in Playwright's `fill()`/`Input.insertText`
+path in Chromium. The same operation took 28.1 seconds in a plain standalone
+textarea and 37.5 seconds in this page for 6,400 lines. That did **not** establish
+a product paste defect: actual clipboard paste of the same size completed in
+197 ms; the retained reproduction with the exact larger escaped-key fixture
+completed paste in 156 ms, undo in 20 ms and redo in 146 ms. A separate [clipboard/undo verification](field-rate-evidence/browser/paste.json)
+uses real Ctrl+V, Ctrl+Z and Ctrl+Shift+Z with exact content checks. The large
+report scenarios use real file inputs to avoid the automation insertion path.
+No editor behavior or timeout was changed to hide this discrepancy.

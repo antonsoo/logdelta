@@ -291,10 +291,6 @@ The report does not bundle full inputs or provide a report-import workflow. Brow
 and pagination never remove findings from downloads. Results show 50 findings per page;
 large blocks preview their start and end and can display up to 2,000 lines or templates.
 
-Use **Open file** for large logs: native Chromium text insertion can stall on
-several thousand lines, including in a plain textarea outside this application.
-[Observed paste limitation](docs/verification-browser-rates.md#interpretation-limits).
-
 The browser accepts up to 8 baselines, 25 MiB per input (compressed bytes, expanded bytes and
 decoded UTF-8 text are each bounded), and 50 MiB of decoded logs per comparison. Extra masks
 are limited to 100 nonblank lines and 64 KiB of text. Over-limit or failed imports leave the

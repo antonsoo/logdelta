@@ -1,0 +1,9 @@
+# Captures and actual downloaded reports retain their recorded bytes and hashes.
+examples/http*.log -text
+examples/http*-observed.json -text
+examples/http-rates/*.log -text
+examples/http-rates/*-observed.json -text
+docs/field-rate-evidence/** -text
+
+# This is unedited native CLI output, including its trailing spaces/newline.
+docs/field-rate-evidence/report.md -whitespace
