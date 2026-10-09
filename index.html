@@ -18,8 +18,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://raw.githubusercontent.com/antonsoo/logdelta/main/docs/assets/og.png" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%225%22 fill=%22%231d2a22%22/><path d=%22M7 11h18M7 16h10M7 21h14%22 stroke=%22%23e3eedd%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/><rect x=%2219%22 y=%2213.8%22 width=%226%22 height=%224.4%22 rx=%221.4%22 fill=%22%23e0438a%22/></svg>" />
-    <script type="module" crossorigin src="/logdelta/assets/index-ButXUUlo.js"></script>
-    <link rel="stylesheet" crossorigin href="/logdelta/assets/index-BpBv4wax.css">
+    <script type="module" crossorigin src="/logdelta/assets/index-Ax-k7u-Q.js"></script>
+    <link rel="stylesheet" crossorigin href="/logdelta/assets/index-D61Oky9c.css">
   </head>
   <body>
     <a class="skip-link" href="#inputs">Skip to log editors</a>
@@ -63,6 +63,27 @@
             <h2 id="target-title">Run to investigate <span class="pane-sub">target</span></h2>
           </div>
           <div id="target-editor"></div>
+        </section>
+        <section class="watch-input" aria-labelledby="watch-title">
+          <div>
+            <label id="watch-title" for="watch-fields">Watch exact JSON fields</label>
+            <p id="watch-help">Numbers are normally masked. Watch status or exit codes to catch value changes even when the log's shape stays the same. One JSON Pointer per line, such as <code>/http/status</code>.</p>
+            <textarea id="watch-fields" rows="2" spellcheck="false" aria-describedby="watch-help" placeholder="/http/status&#10;/exit_code"></textarea>
+          </div>
+          <div>
+            <label for="watch-by">Compare within groups <span class="optional">(optional)</span></label>
+            <p id="watch-by-help">Keep routes or services separate for every watched field. One JSON Pointer per line, up to four. A missing group key makes the watch incomplete; leave blank to pool records.</p>
+            <textarea id="watch-by" rows="2" spellcheck="false" aria-describedby="watch-by-help" placeholder="/route"></textarea>
+          </div>
+          <div class="rate-option">
+            <label class="rate-toggle"><input type="checkbox" id="watch-rates" aria-describedby="watch-rate-help" /> Compare rates of known values</label>
+            <p id="watch-rate-help">Catch an error that was already present but became common. Compare each value's share of logged observations within its group. Unobserved groups have unknown rates.</p>
+            <div class="rate-threshold" id="rate-threshold" hidden>
+              <label for="watch-rate-change">Minimum change</label>
+              <input type="number" id="watch-rate-change" value="5" min="0" max="100" step="any" aria-describedby="watch-rate-unit" disabled />
+              <span id="watch-rate-unit">percentage points beyond every observed baseline rate</span>
+            </div>
+          </div>
         </section>
         <div class="run-row">
           <details class="options">
