@@ -87,6 +87,8 @@ when it could not read its input (a missing file, or one that is not text), like
 - **Exact JSON field watches (unreleased)**: `--watch-field /http/status` catches a
   `200` to `503` change that numeric masking would hide. Select one or more scalar
   fields; inspect per-run counts, source lines and coverage in the CLI or browser.
+  Browser ledgers offer search, paged counts, and source excerpts for the visible rows;
+  [downloads retain the complete evidence](docs/verification-field-ledger.md).
   An unobserved field or a tracking limit produces an incomplete report, never a
   clean CI gate. See the [controlled HTTP example and field guide](docs/watched-fields.md).
   Add `--watch-by /route` to compare outcomes separately for each route: an expected

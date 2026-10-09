@@ -5,6 +5,15 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Browsing field evidence
+
+- Watched-field ledgers load when opened, with case-insensitive search across exact
+  group and value text, 32 rows per page, and source excerpts for the visible rows.
+  Closing a ledger releases its page elements; reopening preserves its view.
+- Filtering, paging, and closed folds never remove evidence from either download.
+  Coverage always describes the whole input. Keyboard navigation includes the search
+  box, page controls, tables, and source excerpts.
+
 ### Grouped field watches
 
 - `--watch-by /route` compares exact watched values within each route, so a known

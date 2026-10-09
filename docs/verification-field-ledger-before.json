@@ -1,0 +1,13 @@
+{
+  "source_revision": "0595411",
+  "browser": "Chromium 153.0.8010.12",
+  "scenario": "Same synthetic inputs as verification-field-ledger.json; one warm-asset local measurement",
+  "elapsed_ms": 1434.871161,
+  "dom_elements": 79859,
+  "report_html_bytes": 51624998,
+  "long_tasks_ms": [
+    783
+  ],
+  "heap_bytes": 286000000,
+  "errors": []
+}

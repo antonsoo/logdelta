@@ -83,6 +83,26 @@ the watched field to `/http/status` and **Compare within groups** to `/route`.
 Clear the latter and compare again to see the pooled result. The previous report
 and its downloads keep their applied settings while an edit is awaiting comparison.
 
+### Find a route in a large ledger
+
+Open a watched field and use **Find group or value**. Search is a case-insensitive
+substring of the displayed JSON scalar text; it changes the view, not the comparison.
+The ledger shows 32 values or group/value pairs per page. **First source occurrences**
+shows the source records for that page, so searching for a route also finds its
+baseline and target evidence. The displayed coverage always includes all input lines.
+
+Both downloads retain every tracked value and source excerpt, including rows hidden
+by search, pagination or a closed fold. Closing and reopening a field preserves its
+search and page; running a new comparison resets them.
+
+![Searching 256 retained pairs for one route, with its baseline and target source lines](assets/field-ledger/chromium-search.png)
+
+Closed field ledgers do not render hidden tables or excerpts. The
+[large-ledger verification](verification-field-ledger.md) measures this change and
+checks downloaded evidence against the native result. The engine still retains the
+complete bounded result in memory, so large values and repeated excerpts can produce
+a download much larger than the input.
+
 Repeat `--watch-by` to form a composite key, for example
 `--watch-by /service --watch-by /route`. Up to four pointers apply to **every**
 watched field. Each group component uses the same exact scalar rules as watched
