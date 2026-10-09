@@ -62,7 +62,8 @@ JSON reports for five workflows: enabled rates, disabled rates, unchanged
 target, missing group and malformed record. Comparison rounds non-integral
 numbers to 12 significant digits to allow last-bit native/WASM math differences.
 The same replay passed with the fresh Rust 1.85 installed binary. This verifies
-the engine request boundary; the browser page does not yet request rate checks.
+the engine request boundary; this initial check did not exercise the browser controls. The later
+[browser verification](verification-browser-rates.md) covers the full page workflow.
 
 ## Checks run
 
@@ -131,6 +132,6 @@ effect threshold and actual denominators remain necessary evidence to inspect.
 
 Rates describe **logged scalar observations**, not all requests that actually
 occurred unless the supplied logs establish that coverage. No traffic-time
-normalization or root-cause claim is made. The current browser page supports
-novelty watches only; rate checks are available through the CLI, Rust options
-and direct WASM JSON request.
+normalization or root-cause claim is made. Rate checks are now available through the browser as well as the source CLI,
+Rust options and direct WASM JSON request; see the
+[browser follow-up](verification-browser-rates.md).

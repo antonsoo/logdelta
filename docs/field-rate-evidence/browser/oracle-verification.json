@@ -1,0 +1,347 @@
+{
+  "scipy": "1.18.0",
+  "numpy": "2.5.3",
+  "httpResponsesChecked": 6000,
+  "scoreChecks": 12,
+  "binarySha256": "86e145d34c68bd91212d814e6a88ad652e3b52aac4b06fb3b8773abbdbb3cd51",
+  "sourceHashes": {
+    "http-rate-good.log": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2",
+    "http-rate-good-2.log": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89",
+    "http-rate-failed.log": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437"
+  },
+  "timings": {
+    "novelty_only_ms": [
+      55.80269900383428,
+      51.45818999881158,
+      50.64949599909596,
+      50.933708997035865
+    ],
+    "with_rates_ms": [
+      55.90883799595758,
+      52.66273800225463,
+      49.08026400516974,
+      50.62660800467711
+    ]
+  },
+  "medianMs": {
+    "novelty_only_ms": 51.19594949792372,
+    "with_rates_ms": 51.64467300346587
+  },
+  "cases": [
+    {
+      "name": "stable",
+      "exit": 0,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000,
+              1000
+            ],
+            "target_total": 1000,
+            "status": "compared",
+            "changes": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "rate-rise",
+      "exit": 1,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000,
+              1000
+            ],
+            "target_total": 1000,
+            "status": "compared",
+            "changes": [
+              {
+                "value_index": 0,
+                "baseline_rates": [
+                  0.99,
+                  0.988
+                ],
+                "target_rate": 0.8,
+                "range_distance_pp": -18.799999999999994,
+                "score": 338.5247319713398
+              },
+              {
+                "value_index": 1,
+                "baseline_rates": [
+                  0.01,
+                  0.012
+                ],
+                "target_rate": 0.2,
+                "range_distance_pp": 18.8,
+                "score": 287.0232638422318
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "rate-fall",
+      "exit": 1,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000,
+              1000
+            ],
+            "target_total": 1000,
+            "status": "compared",
+            "changes": [
+              {
+                "value_index": 0,
+                "baseline_rates": [
+                  0.8,
+                  0.78
+                ],
+                "target_rate": 0.99,
+                "range_distance_pp": 18.999999999999993,
+                "score": 288.48422934506954
+              },
+              {
+                "value_index": 1,
+                "baseline_rates": [
+                  0.2,
+                  0.22
+                ],
+                "target_rate": 0.01,
+                "range_distance_pp": -19.0,
+                "score": 270.0669642905687
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "baseline-range",
+      "exit": 0,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000,
+              10000
+            ],
+            "target_total": 10000,
+            "status": "compared",
+            "changes": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "small-fluctuation",
+      "exit": 0,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000
+            ],
+            "target_total": 5,
+            "status": "compared",
+            "changes": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "sparse-score-limit",
+      "exit": 1,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000
+            ],
+            "target_total": 5,
+            "status": "compared",
+            "changes": [
+              {
+                "value_index": 0,
+                "baseline_rates": [
+                  0.999
+                ],
+                "target_rate": 0.8,
+                "range_distance_pp": -19.899999999999995,
+                "score": 11.632123424609826
+              },
+              {
+                "value_index": 1,
+                "baseline_rates": [
+                  0.001
+                ],
+                "target_rate": 0.2,
+                "range_distance_pp": 19.900000000000002,
+                "score": 11.632123424609826
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "inclusive-boundary",
+      "exit": 1,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              10000
+            ],
+            "target_total": 10000,
+            "status": "compared",
+            "changes": [
+              {
+                "value_index": 0,
+                "baseline_rates": [
+                  0.9
+                ],
+                "target_rate": 0.85,
+                "range_distance_pp": -5.000000000000004,
+                "score": 114.92360436076308
+              },
+              {
+                "value_index": 1,
+                "baseline_rates": [
+                  0.1
+                ],
+                "target_rate": 0.15,
+                "range_distance_pp": 4.999999999999999,
+                "score": 114.92360436076302
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "below-effect-cutoff",
+      "exit": 0,
+      "rates": {
+        "min_change_pp": 5.01,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              10000
+            ],
+            "target_total": 10000,
+            "status": "compared",
+            "changes": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "known-value-vanishes",
+      "exit": 1,
+      "rates": {
+        "min_change_pp": 5.0,
+        "significance": 10.83,
+        "complete": true,
+        "groups": [
+          {
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_totals": [
+              1000
+            ],
+            "target_total": 1000,
+            "status": "compared",
+            "changes": [
+              {
+                "value_index": 0,
+                "baseline_rates": [
+                  0.8
+                ],
+                "target_rate": 1.0,
+                "range_distance_pp": 19.999999999999996,
+                "score": 293.9057179961825
+              },
+              {
+                "value_index": 1,
+                "baseline_rates": [
+                  0.2
+                ],
+                "target_rate": 0.0,
+                "range_distance_pp": -20.0,
+                "score": 293.90571799618255
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "sparseCaseCaution": {
+    "counts": [
+      [
+        1,
+        999
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "smoothedGScore": 11.632123424609826,
+    "fisherTwoSidedP": 0.009930427543557115
+  }
+}

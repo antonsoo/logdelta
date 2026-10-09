@@ -1,8 +1,8 @@
 # When an already-known error becomes common
 
 `--watch-rate-change 5` adds a rate comparison to explicit JSON field watches.
-It is available in the source checkout's CLI, Rust library and direct WASM
-request. It is unreleased; the browser page does not yet expose this option.
+It is available in the source checkout's CLI, Rust library, direct WASM request
+and browser. The CLI option is not yet in a registry release.
 
 A new-value watch cannot catch a 503 that was already present in passing runs.
 In the [captured HTTP example](../examples/http-rates/README.md), checkout returns
@@ -25,6 +25,39 @@ cargo run --release -- diff examples/http-rates/http-rate-good.log \
 | `/maintenance` | `503` | 1,000/1,000 | 1,000/1,000 | 1,000/1,000 | Unchanged |
 
 ![Captured terminal output identifying changed checkout rates](assets/field-rates.png)
+
+## In the browser
+
+In [the web app](https://antonsoo.github.io/logdelta/), choose **HTTP: a known error
+becomes common**. It loads the captured logs, watches `/http/status` within
+`/route`, and enables **Compare rates of known values** with a five-point minimum.
+For your own logs, select the fields and grouping keys, enable that checkbox,
+and choose a minimum in `(0, 100]`. Five points means a change such as 1% to 6%,
+not a 5% relative increase.
+
+The rate finding shows the observed baseline range, target share, exact counts
+and denominators, signed distance beyond the range and score. Known values that
+rise and fall together share one group finding. Open a source occurrence to see
+its original line and target context. An outcome absent from the target uses its
+first baseline occurrence instead. These records locate the value; they do not
+identify when a rate changed.
+
+![Browser report showing checkout's 503 increase, exact denominators and source evidence](assets/browser-rates/chromium-1440-light.png)
+
+Open the **Watched fields** ledger to inspect unchanged values and groups too.
+Search and pagination apply to that view; both downloads retain all evidence.
+Missing groups are labelled **Unobserved**, never 0%. An incomplete field ledger
+has counts but no rate denominators. Either condition keeps the overall report
+incomplete even if another group has a valid finding.
+
+**Download report** uses schema version 3 when rates are requested and records
+`settings.watch_rate_change` alongside sources and the executed engine's SHA-256.
+**Download JSON** retains the native result structure. Editing the checkbox or
+threshold cancels pending work and marks an existing report stale; its downloads
+continue to describe the settings actually used. Comparisons and downloads work
+offline after the app and inputs have loaded.
+
+[Browser verification and retained download](verification-browser-rates.md).
 
 ## What qualifies as a rate finding
 

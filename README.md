@@ -96,11 +96,13 @@ when it could not read its input (a missing file, or one that is not text), like
   composite key, such as service and route. New groups are identified separately
   from changed outcomes in observed groups. The [mixed-route capture](docs/watched-fields.md#compare-within-routes-or-services)
   checks the finding against 120 actual loopback HTTP responses.
-  Add [`--watch-rate-change 5`](docs/field-rates.md) in the CLI to catch an
+  Add [`--watch-rate-change 5`](docs/field-rates.md), or enable **Compare rates of
+  known values** in the browser, to catch an
   already-known error becoming common: the retained 6,000-response capture goes
   from 1.0-1.2% checkout errors to 20%. Reports show group denominators, baseline
   variation and source records; unobserved group rates cannot pass a CI gate.
-  This optional rate check is not yet exposed in the browser page.
+  The browser example **HTTP: a known error becomes common** replays the capture
+  and lets you inspect both the rate changes and the unchanged maintenance route.
 
 - **`logdelta diff <baseline>... --target <file>`** — reports templates that are **NEW** in
   the target, **GONE** from it (present in every baseline), or significantly **CHANGED** in
@@ -273,14 +275,14 @@ An older completed report remains labelled when inputs change: its excerpts and 
 always refer to the sources and settings captured when that comparison started.
 
 Open **Compared sources and settings** to map baseline counts to input names and see the
-applied masks, exact field watches, grouping keys and context. Blank, unused baseline editors are listed as omitted; an empty
+applied masks, exact field watches, grouping keys, rate threshold and context. Blank, unused baseline editors are listed as omitted; an empty
 file or **Use empty log** is an intentional input and is included. An empty target can
 therefore show the lines that disappeared from the good runs. Editing an imported log marks
 its source name as edited.
 
 | Download | Contents |
 | --- | --- |
-| **Download report** | `logdelta-report.json`: format `logdelta-report`, schema version 1, engine version and executed module SHA-256 (`engine.wasm_sha256`), completion time, applied settings, ordered source names/origins/line counts/UTF-8 sizes, omitted baseline slots, and the full engine result. |
+| **Download report** | `logdelta-report.json`: format `logdelta-report`, schema version 1 (pooled novelty), 2 (grouped novelty), or 3 (rates requested), engine version and executed module SHA-256 (`engine.wasm_sha256`), completion time, applied settings, ordered source names/origins/line counts/UTF-8 sizes, omitted baseline slots, and the full engine result. |
 | **Download JSON** | `logdelta-diff.json`: the original engine result, with the same structure as CLI `--json`. |
 
 Both downloads include original log excerpts from findings and watched-field evidence;
@@ -288,6 +290,10 @@ they are not sanitized logs. Field watches compare values before masking.
 The report does not bundle full inputs or provide a report-import workflow. Browser filters
 and pagination never remove findings from downloads. Results show 50 findings per page;
 large blocks preview their start and end and can display up to 2,000 lines or templates.
+
+Use **Open file** for large logs: native Chromium text insertion can stall on
+several thousand lines, including in a plain textarea outside this application.
+[Observed paste limitation](docs/verification-browser-rates.md#interpretation-limits).
 
 The browser accepts up to 8 baselines, 25 MiB per input (compressed bytes, expanded bytes and
 decoded UTF-8 text are each bounded), and 50 MiB of decoded logs per comparison. Extra masks
@@ -449,8 +455,9 @@ block.
 
 - **Numeric masking hides exact code changes by default.** Explicit
   [field watches](docs/watched-fields.md) protect selected JSON scalars independently
-  of template mining. They pool values across records, preserve types and number
-  spelling, and report unseen values rather than changed rates. Plain-text access
+  of template mining. They preserve types and number spelling, and report unseen
+  values in pooled or explicitly grouped records. Optional [rate comparisons](docs/field-rates.md)
+  also detect changes in known values, with explicit denominators and coverage. Plain-text access
   logs and unselected fields still have the usual masking limitations.
 
 - **Content flips are caught by value tracking, not by frequency scoring — and only up to a

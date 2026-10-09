@@ -16,8 +16,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   baseline fractions, target fraction, effect, score and source evidence.
   Several changed values in one group count as one rate finding. Missing group
   observations or incomplete ledgers cannot pass a rate gate (exit 2).
-- Available in the CLI, Rust options and direct WASM request; the current browser
-  page still performs novelty-only field watches. Default behavior is unchanged.
+- Available in the source CLI, Rust options, direct WASM request and browser.
+  The browser adds an opt-in rate control, a replay of the captured HTTP experiment,
+  count/denominator tables, baseline ranges, source records and unknown coverage.
+  Rate findings are grouped, paged and filterable; sources render on demand.
+  Version 3 portable reports retain the applied threshold and complete evidence
+  through edits, searches and pagination. Default behavior is unchanged.
 - [Controlled 6,000-response HTTP capture, independent oracle and limitations](docs/verification-field-rates.md).
 
 ### Browsing field evidence
