@@ -15,7 +15,7 @@ categories = ["command-line-utilities", "development-tools"]
 default-run = "logdelta"
 # The browser demo, the screenshots and the large benchmark fixtures stay in the
 # repository; the published crate carries the code, its docs and the small examples.
-exclude = ["/web", "/docs/assets", "/.github", "/examples/large", "/studies"]
+exclude = ["/web", "/docs/assets", "/.github", "/examples/large", "/examples/http-rates", "/studies"]
 
 [[bin]]
 name = "logdelta"

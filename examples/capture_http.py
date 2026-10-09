@@ -5,6 +5,8 @@ The failed server deliberately returns 503 for requests 7 and 15, then exits 1.
 These are real server-emitted records from an injected fault, not production evidence.
 Run: python examples/capture_http.py [--output-directory /tmp/http-example]
 Add --scenario mixed-routes to interleave a maintenance route that always returns 503.
+Add --scenario rate-change for 1,000 checkout and 1,000 maintenance responses per run,
+with checkout failures rising from 10/12 in the baselines to 200 in the target.
 """
 
 import argparse
@@ -17,6 +19,19 @@ import subprocess
 import sys
 import tempfile
 import time
+
+
+def response_status(profile, scenario, route, checkout_index):
+    if route == "/maintenance":
+        return 503
+    if scenario == "rate-change":
+        return 503 if checkout_index < {"good": 10, "good-2": 12, "failed": 200}[profile] else 200
+    return 503 if profile == "failed" and checkout_index in (6, 14) else 200
+
+
+def request_schedule(scenario):
+    routes = ["/checkout"] if scenario == "single-route" else ["/checkout", "/maintenance"]
+    return [(i, route) for i in range(1000 if scenario == "rate-change" else 20) for route in routes]
 
 
 def serve(profile, port_file, scenario):
@@ -33,8 +48,8 @@ def serve(profile, port_file, scenario):
             type(self).count += 1
             if self.path == "/checkout":
                 type(self).checkout_count += 1
-            failed = self.path == "/checkout" and profile == "failed" and self.checkout_count in (7, 15)
-            status = 503 if failed or self.path == "/maintenance" else 200
+            status = response_status(profile, scenario, self.path, self.checkout_count - 1)
+            failed = self.path == "/checkout" and profile == "failed" and status == 503
             type(self).failures += int(failed)
             body = json.dumps({"ok": status == 200}).encode()
             self.send_response(status)
@@ -55,7 +70,7 @@ def serve(profile, port_file, scenario):
         server.timeout = 10
         print("checkout service ready", flush=True)
         Path(port_file).write_text(str(server.server_port))
-        for _ in range(40 if scenario == "mixed-routes" else 20):
+        for _ in request_schedule(scenario):
             previous = Handler.count
             server.handle_request()
             if Handler.count == previous:
@@ -66,11 +81,12 @@ def serve(profile, port_file, scenario):
 
 
 def capture(profile, scenario):
-    with tempfile.TemporaryDirectory(prefix="logdelta-http-") as directory:
+    # A large capture must not fill an unread stdout pipe and stall the server mid-request.
+    with tempfile.TemporaryDirectory(prefix="logdelta-http-") as directory, tempfile.TemporaryFile(mode="w+", encoding="utf-8") as output:
         port_file = Path(directory) / "port"
         process = subprocess.Popen(
             [sys.executable, __file__, "--serve", profile, "--port-file", str(port_file), "--scenario", scenario],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            stdout=output, stderr=subprocess.PIPE, text=True,
         )
         try:
             deadline = time.monotonic() + 10
@@ -79,8 +95,7 @@ def capture(profile, scenario):
                     raise RuntimeError("HTTP fixture server did not start")
                 time.sleep(0.01)
             statuses = []
-            routes = ["/checkout", "/maintenance"] if scenario == "mixed-routes" else ["/checkout"]
-            schedule = [(i, route) for i in range(20) for route in routes]
+            schedule = request_schedule(scenario)
             for _, route in schedule:
                 connection = http.client.HTTPConnection("127.0.0.1", int(port_file.read_text()), timeout=5)
                 try:
@@ -90,9 +105,14 @@ def capture(profile, scenario):
                     assert json.loads(response.read())["ok"] == (response.status == 200)
                 finally:
                     connection.close()
-            stdout, stderr = process.communicate(timeout=10)
-            expected = [503 if route == "/maintenance" or (profile == "failed" and i in (6, 14)) else 200 for i, route in schedule]
+            _, stderr = process.communicate(timeout=10)
+            output.seek(0)
+            stdout = output.read()
+            expected = [response_status(profile, scenario, route, i) for i, route in schedule]
             assert statuses == expected, statuses
+            if scenario == "rate-change":
+                observed_failures = sum(status == 503 and route == "/checkout" for (_, route), status in zip(schedule, statuses))
+                assert observed_failures == {"good": 10, "good-2": 12, "failed": 200}[profile]
             assert process.returncode == int(profile == "failed"), (process.returncode, stderr)
             records = stdout.splitlines()
             assert len(records) == len(schedule) + 2, records
@@ -111,15 +131,20 @@ def capture(profile, scenario):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-directory", type=Path, default=Path(__file__).resolve().parent)
-    parser.add_argument("--serve", choices=["good", "failed"], help=argparse.SUPPRESS)
+    parser.add_argument("--output-directory", type=Path)
+    parser.add_argument("--serve", choices=["good", "good-2", "failed"], help=argparse.SUPPRESS)
     parser.add_argument("--port-file", help=argparse.SUPPRESS)
-    parser.add_argument("--scenario", choices=["single-route", "mixed-routes"], default="single-route")
+    parser.add_argument("--scenario", choices=["single-route", "mixed-routes", "rate-change"], default="single-route")
     args = parser.parse_args()
     if args.serve:
         return serve(args.serve, args.port_file, args.scenario)
-    prefix = "http-routes" if args.scenario == "mixed-routes" else "http"
-    captures = [(f"{prefix}-{name}.log", capture(profile, args.scenario)) for name, profile in [("good", "good"), ("good-2", "good"), ("failed", "failed")]]
+    prefix = {"single-route": "http", "mixed-routes": "http-routes", "rate-change": "http-rate"}[args.scenario]
+    profiles = [("good", "good"), ("good-2", "good-2" if args.scenario == "rate-change" else "good"), ("failed", "failed")]
+    captures = [(f"{prefix}-{name}.log", capture(profile, args.scenario)) for name, profile in profiles]
+    if args.output_directory is None:
+        args.output_directory = Path(__file__).resolve().parent
+        if args.scenario == "rate-change":
+            args.output_directory /= "http-rates"
     args.output_directory.mkdir(parents=True, exist_ok=True)
     evidence = {"scenario": args.scenario, "provenance": "Controlled loopback HTTP requests; faults injected, not a production incident.", "runs": {}}
     for name, (content, observed) in captures:

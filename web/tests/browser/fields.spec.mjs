@@ -367,6 +367,8 @@ for (const theme of ["light", "dark"]) {
     await expect(page.locator("#watch-by")).toBeFocused();
     await page.locator(".field-evidence > summary").focus();
     await page.keyboard.press("Enter");
+    // The browser dispatches toggle asynchronously; the ledger is populated by that event.
+    await expect(page.getByRole("searchbox", { name: "Find group or value" })).toBeVisible();
     await page.keyboard.press("Tab");
     await expect(page.getByRole("searchbox", { name: "Find group or value" })).toBeFocused();
     await page.keyboard.press("Tab");
