@@ -104,6 +104,20 @@ browser comparisons took 78–114 ms inside the engine after loading; these are
 individual observations on a 14-vCPU, 48-GB WSL2 machine, not a performance
 guarantee. No runtime dependency was added.
 
+## Published page
+
+Source `9b58fa9` was pushed to `main`; the verified build is on `gh-pages` at
+`f8c1e78`. No package registry release was made. All
+[40 served files](field-rate-evidence/browser/hosted-assets.json) match the clean
+build byte for byte, including the HTML, worker, WASM and all captured examples.
+
+[Hosted browser verification](field-rate-evidence/browser/hosted-verification.json)
+repeated the eight Chromium/Firefox, desktop/phone, light/dark workflows against
+https://antonsoo.github.io/logdelta/. Each loaded the capture, displayed the rate
+finding, inspected the source, then compared and exported offline. Every result
+matched the native report. No runtime errors, external requests or page overflow
+were observed. The application remains a static page; nothing was uploaded.
+
 ## Interpretation limits
 
 Rates describe logged scalar observations, not all requests unless the supplied
