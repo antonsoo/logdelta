@@ -1,0 +1,10 @@
+{
+  "baselineCommit": "17fb1d3",
+  "implementationCommit": "ee45551",
+  "fixtureCommit": "daa34a7",
+  "rust": "rustc 1.91.0 (f8297e351 2025-10-28)",
+  "installedRust": "rustc 1.85.0 (4d91de4e4 2025-02-17)",
+  "node": "v26.7.0",
+  "screenshotSha256": "15662231007872eb4ab75fa0231ceb71de3e932cdd14e46129682f716544eb71",
+  "scope": "Local verification only. Controlled injected fault, not a production incident. No publication."
+}

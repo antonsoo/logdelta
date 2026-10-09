@@ -1,0 +1,30 @@
+logdelta diff  http-rate-good.log, http-rate-good-2.log → http-rate-failed.log
+4,004 → 2,002 lines · 3 templates · 1 finding
+
+Watched JSON fields (before masking; within exact groups)
+Long text is clipped; --json retains recorded evidence.
+
+WATCHED  /http/status
+  Baseline 1: 2000 matched; 1 absent; 1 non-JSON
+  Baseline 2: 2000 matched; 1 absent; 1 non-JSON
+  Target:     2000 matched; 1 absent; 1 non-JSON
+  Grouped by: /route
+  Group: /route = "/checkout"
+  Baseline | Target | Observation | Value (JSON)
+  990/988 | 800 | seen | 200
+  10/12 | 200 | seen | 503
+  Group: /route = "/maintenance"
+  Baseline | Target | Observation | Value (JSON)
+  1000/1000 | 1000 | seen | 503
+  Rate check: >= 5 pp outside every baseline rate; score >= 10.83.
+  Rates are of matched field observations in this group; percentages rounded.
+  CHANGED RATES: /route = "/checkout"
+    Observations: baseline 1000/1000 | target 1000
+    200: baseline 99.0000% / 98.8000% -> target 80.0000%
+      -18.8000 pp beyond baseline range; score 338.52
+      First example target:402: {"ts":"2026-10-09T09:04:16.293378+00:00","event":"request_complete","route":"...
+    503: baseline 1.0000% / 1.2000% -> target 20.0000%
+      +18.8000 pp beyond baseline range; score 287.02
+      First example target:2: {"ts":"2026-10-09T09:04:14.953095+00:00","event":"request_complete","route":"/c...
+  No rate change passed both thresholds: /route = "/maintenance"
+    Observations: baseline 1000/1000 | target 1000

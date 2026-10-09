@@ -231,10 +231,15 @@ engine response that omits or changes the requested grouping.
 
 Without `--watch-by`, watches pool all records in a run. Use grouping or filter
 the input to the service/route/event of interest when those distinctions matter.
-Even within a group, watches do not detect changed proportions of already-known
-values, missing individual fields, record ordering, or changes in a plain-text
-access-log status. Disappearing groups are not field findings. Default template and frequency findings still run alongside
-the watches. A new value is evidence to inspect, not a causal diagnosis.
+By default, watches compare novelty only. In the CLI, add
+[`--watch-rate-change 5`](field-rates.md) to detect changed proportions of already-known
+values with a five-percentage-point minimum effect and the existing score cutoff.
+The browser page still performs novelty-only watches. Watches do not detect missing
+individual fields, record ordering, or changes in a plain-text access-log status.
+Disappearing groups are not novelty findings; with rate comparison requested,
+their rates are unknown and the comparison exits 2. Default template and frequency
+findings still run alongside the watches. A finding is evidence to inspect, not a
+causal diagnosis.
 
 Field tracking retains a bounded value ledger per watch and streams the input;
 it does not retain every record. The existing miner still retains distinct

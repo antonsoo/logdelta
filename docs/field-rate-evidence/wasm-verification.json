@@ -1,0 +1,35 @@
+{
+  "wasmSha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd",
+  "cases": [
+    {
+      "name": "enabled",
+      "nativeExit": 1,
+      "rateComplete": true,
+      "changedGroups": 1
+    },
+    {
+      "name": "disabled",
+      "nativeExit": 0,
+      "rateComplete": null,
+      "changedGroups": 0
+    },
+    {
+      "name": "unchanged",
+      "nativeExit": 0,
+      "rateComplete": true,
+      "changedGroups": 0
+    },
+    {
+      "name": "missing-group",
+      "nativeExit": 2,
+      "rateComplete": false,
+      "changedGroups": 1
+    },
+    {
+      "name": "invalid-record",
+      "nativeExit": 2,
+      "rateComplete": false,
+      "changedGroups": 0
+    }
+  ]
+}

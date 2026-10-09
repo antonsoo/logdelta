@@ -96,6 +96,11 @@ when it could not read its input (a missing file, or one that is not text), like
   composite key, such as service and route. New groups are identified separately
   from changed outcomes in observed groups. The [mixed-route capture](docs/watched-fields.md#compare-within-routes-or-services)
   checks the finding against 120 actual loopback HTTP responses.
+  Add [`--watch-rate-change 5`](docs/field-rates.md) in the CLI to catch an
+  already-known error becoming common: the retained 6,000-response capture goes
+  from 1.0-1.2% checkout errors to 20%. Reports show group denominators, baseline
+  variation and source records; unobserved group rates cannot pass a CI gate.
+  This optional rate check is not yet exposed in the browser page.
 
 - **`logdelta diff <baseline>... --target <file>`** — reports templates that are **NEW** in
   the target, **GONE** from it (present in every baseline), or significantly **CHANGED** in
@@ -376,9 +381,11 @@ between corpora ("Accurate Methods for the Statistics of Surprise and Coincidenc
 gets Laplace smoothing (`+0.5`) so a zero count never produces `ln(0)`. A template is
 **NEW** if it has zero baseline occurrences and at least one in the target; **GONE** if the
 reverse (present in *every* baseline, absent from the target); otherwise it's **CHANGED**
-if its G-score clears a significance cutoff (default `10.83`, the p < 0.001 chi-square
-critical value for 1 degree of freedom — G is asymptotically chi-square distributed under
-the null hypothesis of equal rates) *and* its count moved too, in the same direction.
+if its G-score clears a cutoff (default `10.83`, borrowed from the 0.001 chi-square
+critical value for 1 degree of freedom) *and* its count moved too, in the same direction.
+This is a heuristic cutoff, not a calibrated p-value: smoothing, sparse counts,
+correlated log records and the variability penalty below limit that interpretation.
+The [rate verification](docs/verification-field-rates.md) retains a sparse-count example.
 
 That second condition is a second G-test, on the counts alone: the template's total over the
 baseline runs against its count in the target, each run one sample of the same job (the

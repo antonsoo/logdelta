@@ -5,6 +5,21 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Changes in known field values' rates
+
+- `--watch-rate-change PERCENT_POINTS` adds an opt-in rate comparison to exact
+  field watches. A known value must move beyond every observed baseline rate
+  by the requested amount and pass the existing variability-adjusted score.
+  Denominators are matched field observations within the exact group, so changing
+  traffic mix need not look like changing outcomes on an individual route.
+- Terminal, Markdown and JSON reports retain counts, per-run denominators,
+  baseline fractions, target fraction, effect, score and source evidence.
+  Several changed values in one group count as one rate finding. Missing group
+  observations or incomplete ledgers cannot pass a rate gate (exit 2).
+- Available in the CLI, Rust options and direct WASM request; the current browser
+  page still performs novelty-only field watches. Default behavior is unchanged.
+- [Controlled 6,000-response HTTP capture, independent oracle and limitations](docs/verification-field-rates.md).
+
 ### Browsing field evidence
 
 - Watched-field ledgers load when opened, with case-insensitive search across exact

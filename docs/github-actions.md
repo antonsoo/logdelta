@@ -88,6 +88,7 @@ $ logdelta diff run-142.log run-141.log run-139.log --target run-143-failed.log 
   retention is 90 days); for older baselines, archive logs as workflow artifacts instead and
   download those.
 - `logdelta`'s exit code is `1` when it reports any finding, `0` when it finds nothing
-  significant and `2` when it cannot read a log, so `logdelta diff ... || true` (as used implicitly by `if: failure()`
+  significant and `2` when it cannot read a log or an explicitly requested field/rate
+  comparison is incomplete. For an advisory report, `logdelta diff ... || true` (as used implicitly by `if: failure()`
   already running only on an already-failed job) is usually what you want — don't let a
   logdelta finding fail an otherwise-passing job.
