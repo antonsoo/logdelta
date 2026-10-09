@@ -75,7 +75,11 @@ export class FieldLedger {
     });
   }
 
-  reset(): void { this.views.clear(); }
+  reset(): void {
+    this.views.clear();
+    this.fields = [];
+    this.labels = [];
+  }
 
   html(fields: WatchedField[], labels: string[]): string {
     this.fields = fields;

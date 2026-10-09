@@ -20,14 +20,14 @@ this change bounds the visible browser view without removing exported evidence.
 | --- | ---: | ---: |
 | Page elements | 79,859 | 1,555 |
 | Report HTML bytes | 51,624,998 | 874,514 |
-| Longest observed main-thread task, ms | 783 | 216 |
-| Compare click to completed status, ms | 1,435 | 1,088 |
+| Longest observed main-thread task, ms | 783 | 139 |
+| Compare click to completed status, ms | 1,435 | 821 |
 | Approximate reported JS heap, bytes | 286,000,000 | 116,000,000 |
 
 Single local measurements, WSL2 Linux, 14 logical CPUs and 48 GB RAM, warm engine
 assets, with other verification running on the machine. Timing and Chromium's
 rounded heap estimates vary; DOM counts and report HTML bytes are structural
-measurements. Firefox produced the same DOM counts and equivalent downloads;
+measurements (the HTML also includes a short elapsed-time label). Firefox produced the same DOM counts and equivalent downloads;
 it does not expose the long-task or heap APIs used here. The result still needs
 serialization, transport from the worker, and a bounded page of finding cards.
 There is still a main-thread task over 50 ms in this stress case.
@@ -35,6 +35,22 @@ There is still a main-thread task over 50 ms in this stress case.
 The committed [measurement and hashes](verification-field-ledger.json) include
 both browsers, input hashes, engine hash and screenshot hashes. The original
 measurement is retained in [the baseline record](verification-field-ledger-before.json).
+
+## Releasing a completed comparison
+
+Final review found that clearing the controller's view settings also needed to
+clear its references to the completed field data. Without that, **New comparison**
+removed the page elements but kept the old evidence alive until another comparison.
+The same closed-ledger fixture retained 52,554,048 bytes of live main-thread JS
+after reset and explicit garbage collection. Clearing those references reduced
+that measurement to 1,957,852 bytes. The [paired reset measurement](verification-field-ledger-reset.json)
+records both runs; this is live JS heap, not whole-process memory or a promise of
+immediate operating-system memory reclamation.
+
+The reproducible verification now checks this lifecycle through Chromium's heap
+API, resets the real WASM workspace in both browsers, and compares again. After
+the reset fix, all 34 field browser workflows passed. The earlier full browser
+run passed 98 workflows.
 
 ## User workflow and evidence
 

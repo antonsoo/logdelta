@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-09T06:16:55.651Z",
+  "checked_at": "2026-10-09T06:56:32.238Z",
   "scenario": "Controlled 128 groups, 16 watches, 3900 padding characters in each group key; not a captured production log",
   "input_bytes": 1065216,
   "input_sha256": {
@@ -13,14 +13,26 @@
       "browser": "chromium",
       "version": "153.0.8010.12",
       "measurement": {
-        "elapsed_ms": 1087.7667940000001,
+        "elapsed_ms": 820.8212369999999,
         "dom_elements": 1555,
         "report_html_bytes": 874514,
         "long_tasks_ms": [
-          216
+          139
         ],
         "long_tasks_supported": true,
         "heap_bytes": 116000000
+      },
+      "retained_heap": {
+        "usedSize": 52817956,
+        "totalSize": 54849536,
+        "embedderHeapUsedSize": 19941008,
+        "backingStorageSize": 1112699
+      },
+      "reset_heap": {
+        "usedSize": 2034940,
+        "totalSize": 2420736,
+        "embedderHeapUsedSize": 1774760,
+        "backingStorageSize": 47478
       },
       "native_result_equal_after_filtering": true,
       "engine_sha256": "e19b43243bc5e1480b8be9be761e1760d958d1d70dcec25cfcc1c608b5ddaeea",
@@ -35,13 +47,15 @@
       "browser": "firefox",
       "version": "155.0",
       "measurement": {
-        "elapsed_ms": 1079.1684079999995,
+        "elapsed_ms": 853.6951349999999,
         "dom_elements": 1555,
         "report_html_bytes": 874514,
         "long_tasks_ms": [],
         "long_tasks_supported": false,
         "heap_bytes": null
       },
+      "retained_heap": null,
+      "reset_heap": null,
       "native_result_equal_after_filtering": true,
       "engine_sha256": "e19b43243bc5e1480b8be9be761e1760d958d1d70dcec25cfcc1c608b5ddaeea",
       "screenshots": {

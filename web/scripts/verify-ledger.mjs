@@ -50,25 +50,40 @@ try {
       assert.equal(await page.locator(".field-values").count(), 0);
       const first = page.locator(".field-evidence").first();
       await first.locator(":scope > summary").click();
+      await first.locator(".field-values tbody tr").first().waitFor();
       assert.equal(await first.locator(".field-values tbody tr").count(), 32);
       await first.getByRole("searchbox").fill("/127/");
       assert.equal(await first.locator(".field-values tbody tr").count(), 2);
       await first.locator(".field-sources > summary").click();
+      await first.locator(".field-source-records .log-line").first().waitFor();
       assert.match(await first.locator(".field-source-records").innerText(), /Target, line 128/);
       const pending = page.waitForEvent("download");
       await page.getByRole("button", { name: "Download report", exact: true }).click();
       const report = JSON.parse(await readFile(await (await pending).path(), "utf8"));
       assert.deepEqual(report.result, reference);
 
+      // Reset must release the retained ledger as well as remove its page elements.
+      // Compare live main-thread JS after explicit GC, not rounded process RSS.
+      const protocol = name === "chromium" ? await page.context().newCDPSession(page) : null;
+      if (protocol) await protocol.send("HeapProfiler.collectGarbage");
+      const retainedHeap = protocol ? await protocol.send("Runtime.getHeapUsage") : null;
+      await page.getByRole("button", { name: "New comparison", exact: true }).click();
+      await page.evaluate(() => new Promise((resolve) => globalThis.requestAnimationFrame(() => globalThis.requestAnimationFrame(resolve))));
+      if (protocol) await protocol.send("HeapProfiler.collectGarbage");
+      const resetHeap = protocol ? await protocol.send("Runtime.getHeapUsage") : null;
+      if (retainedHeap && resetHeap) assert.ok(resetHeap.usedSize < retainedHeap.usedSize / 4, "New comparison retained the large field ledger");
+
       // Use readable route keys for screenshots of the same controls.
       await page.locator("#baseline").fill(log(200, 0));
       await page.locator("#target").fill(log(503, 0));
       await page.locator("#watch-fields").fill("/status0");
+      await page.locator("#watch-by").fill("/route");
       await page.getByRole("button", { name: "Compare runs", exact: true }).click();
       await page.getByRole("status").filter({ hasText: "Comparison complete" }).waitFor();
       await first.locator(":scope > summary").click();
       await first.getByRole("searchbox").fill("/127/");
       await first.locator(".field-sources > summary").click();
+      await first.locator(".field-source-records .log-line").first().waitFor();
       await page.evaluate(() => globalThis.document.fonts.ready);
       const screenshots = [`docs/assets/field-ledger/${name}-search.png`];
       await first.screenshot({ path: `${root}/${screenshots[0]}` });
@@ -81,7 +96,7 @@ try {
       }
       assert.deepEqual(errors, []);
       assert.deepEqual(external, []);
-      evidence.push({ browser: name, version: browser.version(), measurement, native_result_equal_after_filtering: true, engine_sha256: report.engine.wasm_sha256, screenshots: Object.fromEntries(await Promise.all(screenshots.map(async (path) => [path, hash(await readFile(`${root}/${path}`))]))), errors, external_requests: external });
+      evidence.push({ browser: name, version: browser.version(), measurement, retained_heap: retainedHeap, reset_heap: resetHeap, native_result_equal_after_filtering: true, engine_sha256: report.engine.wasm_sha256, screenshots: Object.fromEntries(await Promise.all(screenshots.map(async (path) => [path, hash(await readFile(`${root}/${path}`))]))), errors, external_requests: external });
     } finally { await browser.close(); }
   }
   const result = { checked_at: new Date().toISOString(), scenario: "Controlled 128 groups, 16 watches, 3900 padding characters in each group key; not a captured production log", input_bytes: Buffer.byteLength(good + target), input_sha256: { baseline: hash(good), target: hash(target) }, native_report_bytes: Buffer.byteLength(native.stdout), native_binary_sha256: hash(await readFile(`${root}/target/release/logdelta`)), evidence };

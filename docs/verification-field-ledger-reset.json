@@ -1,0 +1,49 @@
+{
+  "scope": "Same synthetic 128 groups and 16 watches; Chromium CDP live JS heap after explicit garbage collection",
+  "before_revision": "56874ef",
+  "before": {
+    "elapsed_ms": 1474.652971,
+    "dom_elements": 1555,
+    "report_html_bytes": 874514,
+    "long_tasks_ms": [
+      331
+    ],
+    "heap_bytes": 116000000,
+    "errors": [],
+    "heap_before_reset": {
+      "usedSize": 52729880,
+      "totalSize": 55111680,
+      "embedderHeapUsedSize": 19227720,
+      "backingStorageSize": 1112239
+    },
+    "heap_after_reset": {
+      "usedSize": 52554048,
+      "totalSize": 55111680,
+      "embedderHeapUsedSize": 1213320,
+      "backingStorageSize": 47023
+    }
+  },
+  "after": {
+    "elapsed_ms": 3645.832117,
+    "dom_elements": 1555,
+    "report_html_bytes": 874513,
+    "long_tasks_ms": [
+      56,
+      435
+    ],
+    "heap_bytes": 116000000,
+    "errors": [],
+    "heap_before_reset": {
+      "usedSize": 52730852,
+      "totalSize": 53800960,
+      "embedderHeapUsedSize": 19234208,
+      "backingStorageSize": 1112269
+    },
+    "heap_after_reset": {
+      "usedSize": 1957852,
+      "totalSize": 2682880,
+      "embedderHeapUsedSize": 1220128,
+      "backingStorageSize": 47053
+    }
+  }
+}
