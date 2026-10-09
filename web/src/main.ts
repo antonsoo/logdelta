@@ -6,7 +6,9 @@ import { EXAMPLES, loadExample, type Example } from "./examples";
 import { comparisonInput, exportReport, parseGroups, parseWatches, type CompletedComparison, type LogInput } from "./report";
 import { baselineCounts, formatCount, lineCount, printable, templateParts } from "./template";
 import { blockExcerpt } from "./excerpt";
-import type { Block, ContextWindow, DiffResult, FieldCoverage, FieldValue, Finding, ValueFinding, WatchedField } from "./types";
+import { contextHtml, esc, logLine } from "./html";
+import { FieldLedger, fieldGroupHtml } from "./field-ledger";
+import type { Block, DiffResult, FieldValue, Finding, ValueFinding, WatchedField } from "./types";
 
 type Filter = "all" | "new" | "gone" | "changed" | "value" | "field";
 type Editor = "baseline" | "target";
@@ -27,7 +29,6 @@ const state = {
   page: 0,
   details: new Set<number>(),
   sourceDetails: false,
-  fieldDetails: new Set<string>(),
   report: undefined as CompletedComparison | undefined,
   outcomeLines: [] as string[],
   expanded: new Set<number>(),
@@ -36,10 +37,8 @@ const state = {
 };
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
+const fieldLedger = new FieldLedger($("report-content"));
 const errorText = (error: unknown): string => error instanceof Error ? error.message : String(error);
-function esc(text: string): string {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
 function sourceFor(id: Editor): Source {
   return id === "target" ? state.target : state.baselines[state.active]!;
 }
@@ -302,7 +301,7 @@ function wireEditors(): void {
     state.expanded.clear();
     state.details.clear();
     state.sourceDetails = false;
-    state.fieldDetails.clear();
+    fieldLedger.reset();
     state.page = 0;
     state.revision++;
     $<HTMLInputElement>("context").value = "2";
@@ -418,7 +417,7 @@ async function compare(): Promise<void> {
     state.expanded.clear();
     state.details.clear();
     state.sourceDetails = false;
-    state.fieldDetails.clear();
+    fieldLedger.reset();
     state.page = 0;
     renderResults();
     const fieldsComplete = (outcome.result.watched_fields ?? []).every((f) => f.complete);
@@ -518,7 +517,7 @@ function renderResults(): void {
       <p>The report includes these source names, settings and all findings. Both downloads include original log excerpts; full input logs are not bundled.</p>
     </details>
     ${!fieldsComplete ? '<p class="field-incomplete" role="note">Field comparison incomplete. At least one watch could not be evaluated fully. Review its coverage below; zero findings would not establish a clean result.</p>' : ""}
-    ${watchedFieldsHtml(result.watched_fields ?? [])}
+    ${fieldLedger.html(result.watched_fields ?? [], report.sources.baselines.map((source) => source.label))}
     ${total === 0
       ? fieldsComplete ? `<p class="notice">No findings under these settings. Only template, frequency, established-value and selected field changes are reported; this does not prove the logs are identical.</p>` : ""
       : `<div class="filters" role="group" aria-label="Show findings">${filters.filter(([f]) => f === "all" || count(f) > 0).map(([f, label]) => `<button type="button" class="filter filter-${f}" aria-pressed="${state.filter === f}" data-filter="${f}">${label} <span>${count(f)}</span></button>`).join("")}</div>
@@ -571,54 +570,6 @@ function fieldFindingHtml(field: WatchedField, value: FieldValue): string {
   </li>`;
 }
 
-function fieldGroupHtml(field: WatchedField, value: FieldValue): string {
-  if (!field.group_by?.length) return "";
-  return `<p class="field-group">${field.group_by.map((p, i) => `<span><code>${esc(printable(p))}</code> = <code>${esc(printable(value.group_values_json![i]!))}</code></span>`).join(" ")}</p>`;
-}
-
-function coverageHtml(coverage: FieldCoverage): string {
-  return [
-    `${formatCount(coverage.matched)} matched`,
-    `${formatCount(coverage.missing)} absent`,
-    `${formatCount(coverage.non_json)} non-JSON`,
-    ...([[coverage.invalid_json, "invalid JSON"], [coverage.non_scalar, "non-scalar"], [coverage.ambiguous, "ambiguous"], [coverage.oversized_records, "oversized"], [coverage.untracked, "untracked"], [coverage.group_missing ?? 0, "missing group key"], [coverage.group_non_scalar ?? 0, "non-scalar group key"], [coverage.group_ambiguous ?? 0, "ambiguous group key"]] as const)
-      .filter(([n]) => n > 0).map(([n, label]) => `${formatCount(n)} ${label}`),
-  ].join("; ");
-}
-
-function watchedFieldsHtml(fields: WatchedField[]): string {
-  if (!fields.length) return "";
-  return `<section class="watched-fields" aria-label="Watched field evidence">
-    <h3>Watched fields</h3>
-    <p>Exact scalar values, ${fields.some((f) => f.group_by?.length) ? "compared within the selected groups" : "pooled across all JSON records in each run"}. A new value is an observation, not proof of a failure. Types and number spelling are preserved; masks do not redact this evidence.</p>
-    ${fields.map((field, index) => {
-      const labels = field.baselines.map((_, i) => state.report?.sources.baselines[i]?.label ?? `Baseline ${i + 1}`);
-      const coverage = [...field.baselines, field.target];
-      const grouped = !!field.group_by?.length;
-      const newCount = field.values.filter((v) => v.is_new === true).length;
-      const noun = grouped ? "group/value pair" : "value";
-      return `<details class="field-evidence" data-field-details="${index}" ${!field.complete || state.fieldDetails.has(field.pointer) ? "open" : ""}>
-        <summary><code>${esc(printable(field.pointer))}</code> <span>${field.complete ? `${newCount} new ${noun}${newCount === 1 ? "" : "s"}` : "Incomplete"}</span></summary>
-        ${!field.complete ? '<p class="field-incomplete">This watch needs a scalar value in every run and no invalid, ambiguous, non-scalar or untracked records or group keys. Novelty is unknown. Check the path and coverage, or narrow your input.</p>' : ""}
-        <div class="field-table-scroll" tabindex="0" role="group" aria-label="Field value counts for ${esc(field.pointer)}">
-          <table class="field-values"><caption>Value counts for <code>${esc(printable(field.pointer))}</code></caption>
-            <thead><tr>${(field.group_by ?? []).map((p) => `<th scope="col">Group <code>${esc(printable(p))}</code></th>`).join("")}<th scope="col">Value (JSON)</th>${labels.map((label) => `<th scope="col">${label}</th>`).join("")}<th scope="col">Target</th><th scope="col">Observation</th></tr></thead>
-            <tbody>${field.values.map((v) => `<tr class="${v.is_new === true ? "field-new" : ""}">${(v.group_values_json ?? []).map((g) => `<td class="field-key"><code>${esc(printable(g))}</code></td>`).join("")}<th scope="row"><code>${esc(printable(v.value_json))}</code></th>${v.baseline_counts.map((n) => `<td>${formatCount(n)}</td>`).join("")}<td>${formatCount(v.target_count)}</td><td>${v.is_new === true ? v.group_seen_in_baseline === false ? "New group" : "New value" : v.is_new === null ? "Unknown" : "Seen in baseline"}</td></tr>`).join("")}</tbody>
-          </table>
-        </div>
-        <p class="field-scroll-hint">Scroll the value table horizontally to see every run and observation.</p>
-        ${grouped ? '<p class="field-known">New group means no baseline observation of this field for that key. A group can be known in any baseline; it need not occur in every run.</p>' : ""}
-        <table class="field-coverage"><caption>Coverage of all input lines</caption><thead><tr><th scope="col">Run</th><th scope="col">Records</th></tr></thead><tbody>
-          ${coverage.map((c, i) => `<tr><th scope="row">${labels[i] ?? "Target"}</th><td>${coverageHtml(c)}</td></tr>`).join("")}
-        </tbody></table>
-        ${coverage.flatMap((c, i) => c.first_problem ? [`<p class="field-problem">First problem in ${labels[i] ?? "Target"}, line ${formatCount(c.first_problem.line_no)}${c.first_problem.truncated ? " (excerpt clipped)" : ""}:</p>${contextHtml(c.first_problem.line_no, c.first_problem.raw, undefined)}`] : []).join("")}
-        <details class="field-sources"><summary>First source occurrence of each value</summary>${field.values.map((v) => `${fieldGroupHtml(field, v)}<p><code>${esc(printable(v.value_json))}</code></p>${[v.first_baseline, v.first_target].flatMap((at) => at ? [`<p>${at.baseline_index === undefined ? "Target" : labels[at.baseline_index]}, line ${formatCount(at.line_no)}${at.truncated ? " (excerpt clipped)" : ""}</p>${contextHtml(at.line_no, at.raw, undefined)}`] : []).join("")}`).join("")}</details>
-        <p class="field-limits">Limits per field: ${grouped ? "256 distinct group/value pairs, 4 KiB for the combined group key" : "64 distinct values"} and 4 KiB per value. Records over 1 MiB are unassessed. Absent fields and non-JSON lines are counted separately; null is a value.${grouped ? " A selected scalar without all group keys makes the watch incomplete." : ""}</p>
-      </details>`;
-    }).join("")}
-  </section>`;
-}
-
 function templateHtml(template: string, emphasizeToken?: number): string {
   return templateParts(printable(template))
     .map((part) =>
@@ -627,16 +578,6 @@ function templateHtml(template: string, emphasizeToken?: number): string {
         : `<span class="slot ${part.token === emphasizeToken ? "slot-flipped" : ""}" title="masked: ${esc(part.name)}">${esc(part.text)}</span>`,
     )
     .join("");
-}
-
-function logLine(no: number, text: string, cls: string, times = 1): string {
-  const repeat = times > 1 ? `<span class="times">×${formatCount(times)}</span>` : "";
-  return `<div class="log-line ${cls}"><span class="gutter">${formatCount(no)}</span><span class="log-text">${esc(printable(text))}</span>${repeat}</div>`;
-}
-
-function contextHtml(lineNo: number | null, raw: string | null, context: ContextWindow | undefined): string {
-  if (lineNo === null || raw === null) return "";
-  return `<div class="log" tabindex="0" role="group" aria-label="Log lines">${(context?.before ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}${logLine(lineNo, raw, "is-hit")}${(context?.after ?? []).map(([n, t]) => logLine(n, t, "is-context")).join("")}</div>`;
 }
 
 const KIND_LABEL = { new: "New", gone: "Gone", changed: "Changed" } as const;
@@ -769,13 +710,6 @@ wireEditors();
 $("report-content").addEventListener("toggle", (event) => {
   const details = event.target as HTMLDetailsElement;
   if (details.id === "source-details") state.sourceDetails = details.open;
-  if (details.dataset["fieldDetails"] !== undefined) {
-    const field = state.report?.outcome.result.watched_fields?.[Number(details.dataset["fieldDetails"])];
-    if (field) {
-      if (details.open) state.fieldDetails.add(field.pointer);
-      else state.fieldDetails.delete(field.pointer);
-    }
-  }
   if (details.dataset["blockDetails"] !== undefined) {
     const index = Number(details.dataset["blockDetails"]);
     if (state.details.has(index) === details.open) return;

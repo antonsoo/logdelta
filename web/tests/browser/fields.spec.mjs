@@ -248,10 +248,71 @@ test("cardinality overflow retains bounded evidence and incomplete coverage", as
   await page.locator("#watch-fields").fill("/v");
   await run(page, true);
   await expect(page.locator(".field-coverage")).toContainText("36 untracked");
-  await expect(page.locator(".field-values tbody tr")).toHaveCount(64);
+  await expect(page.locator(".field-values tbody tr")).toHaveCount(32);
+  await page.getByRole("button", { name: "Next values", exact: true }).click();
+  await expect(page.locator(".field-position")).toHaveText("Showing 33–64 of 64 values");
   const field = (await report(page)).result.watched_fields[0];
   expect(field.target).toMatchObject({ matched: 100, untracked: 36, first_problem: { line_no: 65 } });
   expect(field.values.every((v) => v.is_new === null)).toBe(true);
+});
+
+test("large grouped ledgers load on demand, page every value, search sources, and export all evidence", async ({ page }) => {
+  await ready(page);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  const log = (status) => Array.from({ length: 128 }, (_, i) => JSON.stringify({ route: `/api/route/${String(i).padStart(3, "0")}`, status, replica: status })).join("\n");
+  await page.locator("#baseline").fill(log(200));
+  await page.locator("#target").fill(log(503));
+  await page.locator("#watch-fields").fill("/status\n/replica");
+  await page.locator("#watch-by").fill("/route");
+  await run(page);
+  await expect(page.locator(".field-values")).toHaveCount(0);
+  await expect(page.locator(".field-source-records .log-line")).toHaveCount(0);
+  const full = await report(page);
+  expect(full.result.watched_fields.map((f) => f.values.length)).toEqual([256, 256]);
+  const field = page.locator(".field-evidence").first();
+  await field.locator(":scope > summary").click();
+  const rows = field.locator(".field-values tbody tr");
+  const seen = [];
+  for (let n = 0; n < 8; n++) {
+    await expect(rows).toHaveCount(32);
+    seen.push(...await rows.evaluateAll((rs) => rs.map((r) => [r.cells[0].textContent, r.cells[1].textContent])));
+    if (n < 7) {
+      await field.getByRole("button", { name: "Next values", exact: true }).click();
+      await expect(field.locator(".field-position")).toBeFocused();
+    }
+  }
+  expect(seen).toEqual(full.result.watched_fields[0].values.map((v) => [v.group_values_json[0], v.value_json]));
+  await expect(field.getByRole("button", { name: "Next values", exact: true })).toBeDisabled();
+  const query = field.getByRole("searchbox", { name: "Find group or value" });
+  await query.fill("/API/route/127");
+  await expect(query).toBeFocused();
+  await expect(rows).toHaveCount(2);
+  await expect(field.locator(".field-position")).toHaveText("Showing 1–2 of 2 pairs (256 total)");
+  await expect(field.locator(".field-coverage")).toContainText("128 matched");
+  await field.locator(".field-sources > summary").click();
+  await expect(field.locator(".field-source-records")).toContainText("Target, line 128");
+  await expect(field.locator(".field-source-records .log-line")).toHaveCount(2);
+  await query.fill("no matching route");
+  await expect(field.locator(".field-position")).toHaveText("No matching values (256 total)");
+  await expect(rows).toHaveCount(0);
+  await expect(field.locator(".field-source-records")).toHaveCount(0);
+  expect(await report(page)).toEqual(full);
+  await query.fill("/127");
+  await field.locator(":scope > summary").click();
+  await expect(field.locator(".field-body")).toBeEmpty();
+  await field.locator(":scope > summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(query).toHaveValue("/127");
+  await expect(field.locator(".field-source-records")).toContainText("Target, line 128");
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(query).toHaveValue("/127");
+  await expect(field.locator(".field-sources")).toHaveAttribute("open", "");
+  await page.locator("#watch-by").fill("/missing");
+  expect(await report(page)).toEqual(full);
+  await expect(query).toHaveValue("/127");
+  await page.setViewportSize({ width: 375, height: 1000 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 
 test("large surrounding records have bounded context and visible clipping in the actual report", async ({ page }) => {
@@ -307,6 +368,8 @@ for (const theme of ["light", "dark"]) {
     await page.locator(".field-evidence > summary").focus();
     await page.keyboard.press("Enter");
     await page.keyboard.press("Tab");
+    await expect(page.getByRole("searchbox", { name: "Find group or value" })).toBeFocused();
+    await page.keyboard.press("Tab");
     await expect(page.locator(".field-table-scroll")).toBeFocused();
     await page.keyboard.press("End");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -321,6 +384,8 @@ for (const theme of ["light", "dark"]) {
     await page.keyboard.press("Enter");
     await expect(page.locator(".field-evidence").first()).toHaveAttribute("open", "");
     await expect(summary).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("searchbox", { name: "Find value" }).first()).toBeFocused();
     await page.keyboard.press("Tab");
     await expect(page.locator(".field-table-scroll").first()).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

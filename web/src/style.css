@@ -115,6 +115,11 @@ code {
 .field-evidence { margin: 10px 0; padding: 12px 16px; border: 1px solid var(--rule); border-left: 3px solid var(--magenta); background: var(--field); min-width: 0; }
 .field-evidence > summary { cursor: pointer; overflow-wrap: anywhere; }
 .field-evidence > summary > span { margin-left: 10px; color: var(--ink-soft); }
+.field-search { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 18px; }
+.field-search label { font-size: 14px; font-weight: 600; }
+.field-search input { width: min(100%, 44ch); min-width: 0; border: 1px solid var(--rule); border-radius: 4px; padding: 8px 10px; background: var(--paper); color: var(--ink); font: 14px var(--mono); }
+.field-pages { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; margin: 16px 0 0; font-size: 14px; }
+.field-position { color: var(--ink-soft); }
 .field-table-scroll { overflow-x: auto; margin-top: 14px; }
 .field-scroll-hint { display: none; font-size: 13px; color: var(--ink-soft); }
 .field-values, .field-coverage { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
