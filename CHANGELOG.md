@@ -5,6 +5,24 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Grouped field watches
+
+- `--watch-by /route` compares exact watched values within each route, so a known
+  503 on one route cannot hide a first 503 on another. Repeat for up to four
+  components, such as service and route. The same engine powers the browser's
+  **Compare within groups** control and mixed-route HTTP example.
+- Reports distinguish new values in observed groups from groups absent from
+  baseline observations. Counts, first source locations and context refer to
+  the exact group/value pair; numeric spelling and JSON types remain intact.
+- Missing, ambiguous or non-scalar group keys on selected records make the
+  watch incomplete and exit 2. Grouped ledgers retain at most 256 pairs per
+  field; limit overflow preserves counts and source problems without claiming
+  a complete comparison. Ungrouped watches retain their existing JSON shape.
+- Grouped browser downloads use report schema version 2 and record applied
+  grouping pointers. Edits keep completed evidence until a successful new
+  comparison; an engine that silently ignores grouping is rejected.
+- [Controlled HTTP capture, verification and limits](docs/verification-grouped-fields.md).
+
 ### Diagnostic excerpts
 
 - Terminal, Markdown and browser block previews keep source diagnostics and error

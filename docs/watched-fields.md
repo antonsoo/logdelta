@@ -43,6 +43,74 @@ compare again to see the limitation of template comparison directly. Edits mark
 the previous report as stale; its downloads retain its original settings and
 evidence until a replacement comparison succeeds.
 
+## Compare within routes or services
+
+A pooled watch cannot distinguish an expected error on one route from the same
+error appearing on another. The mixed-route HTTP capture demonstrates this with
+actual requests to the local server: `/maintenance` always returns 503, and two
+`/checkout` requests start returning 503 in the target. Both codes already exist
+in the baselines, so `--watch-field /http/status` alone reports no findings.
+
+```sh
+# Optional: capture fresh requests without replacing the committed evidence.
+python examples/capture_http.py --scenario mixed-routes --output-directory /tmp/http-routes
+
+# Pooled values: no findings, exit 0.
+cargo run --release -- diff examples/http-routes-good.log examples/http-routes-good-2.log \
+  --target examples/http-routes-failed.log --watch-field /http/status
+
+# Compare each route separately: one field finding, exit 1.
+cargo run --release -- diff examples/http-routes-good.log examples/http-routes-good-2.log \
+  --target examples/http-routes-failed.log --watch-field /http/status --watch-by /route
+```
+
+| `/route` (JSON) | `/http/status` (JSON) | Good 1 | Good 2 | Target | Observation |
+| --- | --- | ---: | ---: | ---: | --- |
+| `"/checkout"` | `200` | 20 | 20 | 18 | Seen in baselines |
+| `"/checkout"` | `503` | 0 | 0 | 2 | New in this group; target line 14 |
+| `"/maintenance"` | `503` | 20 | 20 | 20 | Seen in baselines |
+
+![The local browser report identifies checkout's two 503 responses, with maintenance's 503 responses still marked as known](assets/grouped-fields/chromium-evidence.png)
+
+The capture script checks 120 HTTP responses across the three runs against the
+emitted log records. Client observations are saved in
+[`http-routes-observed.json`](../examples/http-routes-observed.json); timestamps
+and durations come from the server. The fault is injected. This is a controlled
+experiment, not evidence from a production incident.
+
+In the local browser build, choose **HTTP: an error on the wrong route**. It sets
+the watched field to `/http/status` and **Compare within groups** to `/route`.
+Clear the latter and compare again to see the pooled result. The previous report
+and its downloads keep their applied settings while an edit is awaiting comparison.
+
+Repeat `--watch-by` to form a composite key, for example
+`--watch-by /service --watch-by /route`. Up to four pointers apply to **every**
+watched field. Each group component uses the same exact scalar rules as watched
+values: `1`, `1.0`, `"1"`, `true` and `null` are different keys. Strings are decoded,
+but Unicode normalization is not applied. Components are kept separately, so
+separators inside a service or route name cannot merge two different tuples.
+Use stable service names or route templates; individual request IDs and URLs
+containing unique identifiers will quickly reach the pair limit.
+
+| Baseline observations for this field and group | Target pair | Report |
+| --- | --- | --- |
+| Same exact group and value in any baseline | Present | Seen in baseline |
+| Same group, but this value absent from every baseline | Present | New field value |
+| No observation of the field in this group in any baseline | Present | New group; the value is shown, without claiming a changed outcome in an observed group |
+| Any incomplete coverage for the watched field | Retained | Unknown; exit 2 |
+
+A group need not occur in every baseline. Every input run must still have at
+least one usable observation of each selected field, and no unassessed records.
+A watched scalar without all group keys makes that watch incomplete, rather
+than silently omitting an unassignable observation. Events without the watched
+field remain separately counted and do not require group keys. For example,
+watching both `/http/status` and `/exit_code` with `--watch-by /route` is incomplete
+if the exit records have no route. Compare such fields in separate invocations.
+
+Grouping is optional and changes only exact field watches. It does not filter
+the input or alter template mining, frequency tests, block grouping or existing
+wildcard-value findings. [Verification and limits](verification-grouped-fields.md).
+
 ## Choosing a field
 
 Use one [JSON Pointer](https://www.rfc-editor.org/rfc/rfc6901.html) per
@@ -80,10 +148,14 @@ observation. This accommodates mixed event types in one file.
 | Condition | Result |
 | --- | --- |
 | Invalid, repeated or oversized pointer; more than 16 watches | Input error |
+| More than 4 grouping pointers, repeated/invalid grouping pointer, or grouping without a watch | Input error |
 | No selected scalar in any one run, including an empty run | Incomplete watch |
 | Malformed object-shaped JSON or a duplicate member on the selected path | Incomplete; first problem line retained |
 | Selected array or object | Incomplete; select a scalar inside it |
-| More than 64 distinct values across the combined runs | Incomplete; first 64 retained, other occurrences counted as untracked |
+| Pooled watch: more than 64 distinct values across the combined runs | Incomplete; first 64 retained, other occurrences counted as untracked |
+| With grouping: more than 256 distinct group/value pairs across the combined runs | Incomplete; first 256 pairs retained, other occurrences counted as untracked; replaces the pooled 64-value limit |
+| Selected scalar has a missing, non-scalar or ambiguous group key | Incomplete; counted as `group_missing`, `group_non_scalar` or `group_ambiguous`, with first problem line |
+| Group components' encoded JSON text exceeds 4 KiB in total | Incomplete; counted as untracked |
 | Encoded scalar larger than 4 KiB | Incomplete; counted as untracked |
 | Input line larger than 1 MiB | Incomplete; counted as oversized |
 | Raw source excerpt larger than 4 KiB | Excerpt clipped at a UTF-8 boundary and labelled; selected value remains complete |
@@ -94,6 +166,10 @@ For incomplete watches, counts and retained source records remain visible, but
 `matched` includes scalar occurrences whose values exceeded a limit; `untracked`
 is that subset, not an additional class of lines. A complete watch says the
 requested values were assessed, not that the logs themselves are complete.
+For grouped watches, `matched` requires the watched scalar and all group scalars
+to be selected. The three group-error counts classify records separately from
+`matched`; a key or pair that exceeds a size/count limit is instead `untracked`
+within `matched`. Group-error properties are omitted from JSON when zero.
 
 The CLI emits a report even for incomplete watches and gives them precedence
 over findings when choosing the exit status:
@@ -120,12 +196,24 @@ download is the same result shape as the native engine. Both include original
 values and source excerpts, including known values used to assess the watch;
 mask rules do **not** sanitize either download. Full input logs are not bundled.
 
-Watches pool all records in a run. If one route already returns 503 in a baseline,
-a different route starting to return 503 will not introduce a new pooled value.
-Filter to the service/route/event of interest before comparing when that
-distinction matters. Watches do not detect changed proportions of already-known
+Grouped JSON adds `group_by` to each watched field and `group_values_json` to
+each value row. The latter contains encoded scalar strings in pointer order;
+keep them as strings to preserve large numbers. On a complete grouped watch,
+`group_seen_in_baseline` records whether the group had an observation of this
+field in any baseline. It is absent when coverage is incomplete. `is_new`
+means a new **group/value pair** in grouped mode, including entirely new groups.
+Counts and first source locations refer to that exact pair.
+
+Browser reports with grouping use `schema_version: 2` and include
+`settings.watch_by`. Pooled reports keep version 1 and their existing structure;
+the native JSON result is the same in both exports. The browser rejects an
+engine response that omits or changes the requested grouping.
+
+Without `--watch-by`, watches pool all records in a run. Use grouping or filter
+the input to the service/route/event of interest when those distinctions matter.
+Even within a group, watches do not detect changed proportions of already-known
 values, missing individual fields, record ordering, or changes in a plain-text
-access-log status. Default template and frequency findings still run alongside
+access-log status. Disappearing groups are not field findings. Default template and frequency findings still run alongside
 the watches. A new value is evidence to inspect, not a causal diagnosis.
 
 Field tracking retains a bounded value ledger per watch and streams the input;

@@ -89,6 +89,11 @@ when it could not read its input (a missing file, or one that is not text), like
   fields; inspect per-run counts, source lines and coverage in the CLI or browser.
   An unobserved field or a tracking limit produces an incomplete report, never a
   clean CI gate. See the [controlled HTTP example and field guide](docs/watched-fields.md).
+  Add `--watch-by /route` to compare outcomes separately for each route: an expected
+  `503` from maintenance can no longer hide checkout's first `503`. Repeat it for a
+  composite key, such as service and route. New groups are identified separately
+  from changed outcomes in observed groups. The [mixed-route capture](docs/watched-fields.md#compare-within-routes-or-services)
+  checks the finding against 120 actual loopback HTTP responses.
 
 - **`logdelta diff <baseline>... --target <file>`** — reports templates that are **NEW** in
   the target, **GONE** from it (present in every baseline), or significantly **CHANGED** in
@@ -261,7 +266,7 @@ An older completed report remains labelled when inputs change: its excerpts and 
 always refer to the sources and settings captured when that comparison started.
 
 Open **Compared sources and settings** to map baseline counts to input names and see the
-applied masks, exact field watches and context. Blank, unused baseline editors are listed as omitted; an empty
+applied masks, exact field watches, grouping keys and context. Blank, unused baseline editors are listed as omitted; an empty
 file or **Use empty log** is an intentional input and is included. An empty target can
 therefore show the lines that disappeared from the good runs. Editing an imported log marks
 its source name as edited.
@@ -564,6 +569,9 @@ records the compiler matrix, identical warm/fresh builds and replacement hosted 
 The [field-watch verification](docs/verification-fields-2026-10-07.md) records the
 controlled HTTP failure, native/browser report parity, bounded evidence and local
 screenshots for the unreleased exact-field comparison.
+The [grouped-watch verification](docs/verification-grouped-fields.md) adds the mixed-route
+HTTP capture, independent per-group counts, installed-package checks and native/browser
+parity. It is local verification; these additions have not been released or deployed.
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
