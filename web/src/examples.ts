@@ -11,6 +11,7 @@ export interface Example {
   baselines: string[];
   target: string;
   watchFields?: string[];
+  watchBy?: string[];
 }
 
 export const EXAMPLES: Example[] = [
@@ -35,6 +36,15 @@ export const EXAMPLES: Example[] = [
     baselines: ["examples/http-good.log", "examples/http-good-2.log"],
     target: "examples/http-failed.log",
     watchFields: ["/http/status", "/exit_code"],
+  },
+  {
+    id: "http-routes",
+    label: "HTTP: an error on the wrong route",
+    note: "Controlled local HTTP experiment: /maintenance always returns 503, while two /checkout requests start returning 503. A pooled status watch finds nothing. Grouping by /route exposes the checkout change. Clear Compare within groups and compare again to see the difference.",
+    baselines: ["examples/http-routes-good.log", "examples/http-routes-good-2.log"],
+    target: "examples/http-routes-failed.log",
+    watchFields: ["/http/status"],
+    watchBy: ["/route"],
   },
   {
     id: "large",

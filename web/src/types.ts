@@ -82,12 +82,19 @@ export interface FieldCoverage {
   ambiguous: number;
   oversized_records: number;
   untracked: number;
+  group_missing?: number;
+  group_non_scalar?: number;
+  group_ambiguous?: number;
   first_problem?: FieldOccurrence;
 }
 
 export interface FieldValue {
   /** Encoded JSON text, so large integers never pass through a JavaScript Number. */
   value_json: string;
+  /** Exact encoded scalars in group_by order; absent for pooled watches. */
+  group_values_json?: string[];
+  /** Absent for pooled or incomplete watches. */
+  group_seen_in_baseline?: boolean;
   baseline_counts: number[];
   target_count: number;
   is_new: boolean | null;
@@ -99,6 +106,7 @@ export interface FieldValue {
 
 export interface WatchedField {
   pointer: string;
+  group_by?: string[];
   complete: boolean;
   baselines: FieldCoverage[];
   target: FieldCoverage;
@@ -111,4 +119,5 @@ export interface DiffRequest {
   context: number;
   masks: string[];
   watch_fields?: string[];
+  watch_by?: string[];
 }

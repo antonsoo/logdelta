@@ -3,7 +3,7 @@ import "./style.css";
 import { engine } from "./engine";
 import { MAX_BASELINES, readLogFile } from "./files";
 import { EXAMPLES, loadExample, type Example } from "./examples";
-import { comparisonInput, exportReport, parseWatches, type CompletedComparison, type LogInput } from "./report";
+import { comparisonInput, exportReport, parseGroups, parseWatches, type CompletedComparison, type LogInput } from "./report";
 import { baselineCounts, formatCount, lineCount, printable, templateParts } from "./template";
 import { blockExcerpt } from "./excerpt";
 import type { Block, ContextWindow, DiffResult, FieldCoverage, FieldValue, Finding, ValueFinding, WatchedField } from "./types";
@@ -224,7 +224,7 @@ function wireEditors(): void {
       const name = source.origin === "file" || source.origin === "example" ? `${source.name} (edited)` : source.origin === "edited" ? source.name : "Pasted log";
       const origin = source.origin === "file" || source.origin === "example" || source.origin === "edited" ? "edited" : "pasted";
       setSource(source, { text: target.value, name, origin, ready: true });
-    } else if (target.id === "masks" || target.id === "context" || target.id === "watch-fields") {
+    } else if (target.id === "masks" || target.id === "context" || target.id === "watch-fields" || target.id === "watch-by") {
       target.removeAttribute("aria-invalid");
       changed();
     }
@@ -310,6 +310,8 @@ function wireEditors(): void {
     $<HTMLTextAreaElement>("masks").value = "";
     $<HTMLTextAreaElement>("watch-fields").value = "";
     $("watch-fields").removeAttribute("aria-invalid");
+    $<HTMLTextAreaElement>("watch-by").value = "";
+    $("watch-by").removeAttribute("aria-invalid");
     clearExampleSelection();
     renderEditors();
     renderResults();
@@ -351,6 +353,8 @@ async function useExample(example: Example): Promise<void> {
     state.target = newSource({ text: target, name: example.target, origin: "example", ready: true });
     $<HTMLTextAreaElement>("watch-fields").value = (example.watchFields ?? []).join("\n");
     $("watch-fields").removeAttribute("aria-invalid");
+    $<HTMLTextAreaElement>("watch-by").value = (example.watchBy ?? []).join("\n");
+    $("watch-by").removeAttribute("aria-invalid");
     state.revision++;
     renderEditors();
     $("example-note").textContent = example.note;
@@ -378,7 +382,9 @@ async function compare(): Promise<void> {
   const context = $<HTMLInputElement>("context");
   let input;
   try {
-    input = comparisonInput(state.baselines, state.target, context.value, $<HTMLTextAreaElement>("masks").value, $<HTMLTextAreaElement>("watch-fields").value);
+    input = comparisonInput(state.baselines, state.target, context.value, $<HTMLTextAreaElement>("masks").value, $<HTMLTextAreaElement>("watch-fields").value, $<HTMLTextAreaElement>("watch-by").value);
+    $("watch-fields").removeAttribute("aria-invalid");
+    $("watch-by").removeAttribute("aria-invalid");
   } catch (error) {
     status(errorText(error), true);
     if (context.value.trim() === "" || !context.validity.valid) {
@@ -388,6 +394,12 @@ async function compare(): Promise<void> {
     }
     try { parseWatches($<HTMLTextAreaElement>("watch-fields").value); }
     catch { $("watch-fields").setAttribute("aria-invalid", "true"); $("watch-fields").focus(); }
+    let invalidGroup: boolean;
+    try {
+      const groups = parseGroups($<HTMLTextAreaElement>("watch-by").value);
+      invalidGroup = groups.length > 0 && !$<HTMLTextAreaElement>("watch-fields").value.trim();
+    } catch { invalidGroup = true; }
+    if (invalidGroup) { $("watch-by").setAttribute("aria-invalid", "true"); $("watch-by").focus(); }
     refreshActivity();
     return;
   }
@@ -410,7 +422,7 @@ async function compare(): Promise<void> {
     state.page = 0;
     renderResults();
     const fieldsComplete = (outcome.result.watched_fields ?? []).every((f) => f.complete);
-    status(fieldsComplete ? `Comparison complete: ${formatCount(outcome.result.findings.length + outcome.result.value_findings.length + fieldFindingCount(outcome.result))} findings before grouping.` : "Field comparison incomplete. Check coverage below; this report cannot establish a clean result.", !fieldsComplete);
+    status(fieldsComplete ? `Comparison complete: ${formatCount(outcome.result.findings.length + outcome.result.value_findings.length + fieldFindingCount(outcome.result))} findings before block grouping.` : "Field comparison incomplete. Check coverage below; this report cannot establish a clean result.", !fieldsComplete);
   } catch (error) {
     if (!controller.signal.aborted && state.comparison === controller) status(`Comparison failed: ${errorText(error)} Correct the inputs or try comparing again.`, true);
   } finally {
@@ -489,7 +501,7 @@ function renderResults(): void {
         <span class="arrow" aria-hidden="true">→</span>
         <span class="figure">${formatCount(result.target_total)}</span> target lines ·
         <span class="figure">${formatCount(result.total_templates)}</span> templates ·
-        <span class="figure strong">${formatCount(total)}</span> ${total === 1 ? "finding" : "findings"}${result.blocks.length > 0 ? ` <span class="ungrouped">(${formatCount(ungrouped)} before grouping)</span>` : ""}
+        <span class="figure strong">${formatCount(total)}</span> ${total === 1 ? "finding" : "findings"}${result.blocks.length > 0 ? ` <span class="ungrouped">(${formatCount(ungrouped)} before block grouping)</span>` : ""}
       </p>
       <p class="summary-meta">Compared in ${ms < 1000 ? `${Math.round(ms)} ms` : `${(ms / 1000).toFixed(1)} s`} in this tab. <button type="button" class="link-button" id="download-report">Download report</button> <button type="button" class="link-button" id="download-json">Download JSON</button></p>
     </div>
@@ -501,6 +513,7 @@ function renderResults(): void {
       ${report.sources.omitted_baselines.length ? `<p>Unused baseline editors omitted: ${report.sources.omitted_baselines.join(", ")}. Empty imported logs are included.</p>` : ""}
       <p>Context: ${report.request.context} lines. Extra masks: ${report.request.masks.length}.</p>
       ${report.request.watch_fields?.length ? `<p>Watched JSON fields, before masks: ${report.request.watch_fields.map((p) => `<code>${esc(printable(p))}</code>`).join(", ")}.</p>` : ""}
+      ${report.request.watch_by?.length ? `<p>Compared within groups: ${report.request.watch_by.map((p) => `<code>${esc(printable(p))}</code>`).join(", ")}.</p>` : ""}
       ${report.request.masks.length ? `<pre>${esc(report.request.masks.map(printable).join("\n"))}</pre>` : ""}
       <p>The report includes these source names, settings and all findings. Both downloads include original log excerpts; full input logs are not bundled.</p>
     </details>
@@ -544,15 +557,23 @@ function fieldFindingCount(result: DiffResult): number {
 
 function fieldFindingHtml(field: WatchedField, value: FieldValue): string {
   const at = value.first_target;
-  const known = field.values.filter((v) => v.baseline_counts.some((n) => n > 0));
+  const grouped = !!field.group_by?.length;
+  const newGroup = value.group_seen_in_baseline === false;
+  const known = field.values.filter((v) => v.baseline_counts.some((n) => n > 0) && (v.group_values_json ?? []).every((g, i) => g === value.group_values_json?.[i]));
   return `<li class="finding kind-field">
-    <div class="finding-head"><span class="kind">Field value</span><span class="counts"><code>${esc(printable(field.pointer))}</code> has a value never seen in the baselines</span></div>
+    <div class="finding-head"><span class="kind">${newGroup ? "New group" : "Field value"}</span><span class="counts"><code>${esc(printable(field.pointer))}</code> ${newGroup ? "was observed in a group absent from baseline observations" : `has a value never seen in the baselines${grouped ? " within this group" : ""}`}</span></div>
+    ${fieldGroupHtml(field, value)}
     <p class="field-change"><code class="new-value">${esc(printable(value.value_json))}</code> <span>${formatCount(value.target_count)} in the target</span></p>
-    <p class="field-known">Baseline values: ${known.map((v) => `<code>${esc(printable(v.value_json))}</code>`).join(", ")}. Compared before masking.</p>
+    <p class="field-known">${newGroup ? "No baseline observation of this field in this group. This does not establish a changed outcome within an observed group." : `Baseline values${grouped ? " in this group" : ""}: ${known.map((v) => `<code>${esc(printable(v.value_json))}</code>`).join(", ")}. Compared before masking.`}</p>
     ${at ? contextHtml(at.line_no, at.raw, value.context) : ""}
     ${value.context_truncated ? '<p class="notice">Surrounding context clipped: up to 8 KiB and 10 lines per side, nearest lines first. Open the original log for more.</p>' : ""}
     ${at?.truncated ? '<p class="notice">Source excerpt clipped at 4 KiB. The compared value is complete; open the original log at this line for the full record.</p>' : ""}
   </li>`;
+}
+
+function fieldGroupHtml(field: WatchedField, value: FieldValue): string {
+  if (!field.group_by?.length) return "";
+  return `<p class="field-group">${field.group_by.map((p, i) => `<span><code>${esc(printable(p))}</code> = <code>${esc(printable(value.group_values_json![i]!))}</code></span>`).join(" ")}</p>`;
 }
 
 function coverageHtml(coverage: FieldCoverage): string {
@@ -560,7 +581,7 @@ function coverageHtml(coverage: FieldCoverage): string {
     `${formatCount(coverage.matched)} matched`,
     `${formatCount(coverage.missing)} absent`,
     `${formatCount(coverage.non_json)} non-JSON`,
-    ...([[coverage.invalid_json, "invalid JSON"], [coverage.non_scalar, "non-scalar"], [coverage.ambiguous, "ambiguous"], [coverage.oversized_records, "oversized"], [coverage.untracked, "untracked"]] as const)
+    ...([[coverage.invalid_json, "invalid JSON"], [coverage.non_scalar, "non-scalar"], [coverage.ambiguous, "ambiguous"], [coverage.oversized_records, "oversized"], [coverage.untracked, "untracked"], [coverage.group_missing ?? 0, "missing group key"], [coverage.group_non_scalar ?? 0, "non-scalar group key"], [coverage.group_ambiguous ?? 0, "ambiguous group key"]] as const)
       .filter(([n]) => n > 0).map(([n, label]) => `${formatCount(n)} ${label}`),
   ].join("; ");
 }
@@ -569,26 +590,30 @@ function watchedFieldsHtml(fields: WatchedField[]): string {
   if (!fields.length) return "";
   return `<section class="watched-fields" aria-label="Watched field evidence">
     <h3>Watched fields</h3>
-    <p>Exact scalar values, pooled across all JSON records in each run. A new value is an observation, not proof of a failure. Types and number spelling are preserved; masks do not redact this evidence.</p>
+    <p>Exact scalar values, ${fields.some((f) => f.group_by?.length) ? "compared within the selected groups" : "pooled across all JSON records in each run"}. A new value is an observation, not proof of a failure. Types and number spelling are preserved; masks do not redact this evidence.</p>
     ${fields.map((field, index) => {
       const labels = field.baselines.map((_, i) => state.report?.sources.baselines[i]?.label ?? `Baseline ${i + 1}`);
       const coverage = [...field.baselines, field.target];
+      const grouped = !!field.group_by?.length;
+      const newCount = field.values.filter((v) => v.is_new === true).length;
+      const noun = grouped ? "group/value pair" : "value";
       return `<details class="field-evidence" data-field-details="${index}" ${!field.complete || state.fieldDetails.has(field.pointer) ? "open" : ""}>
-        <summary><code>${esc(printable(field.pointer))}</code> <span>${field.complete ? `${field.values.filter((v) => v.is_new === true).length} new ${field.values.filter((v) => v.is_new === true).length === 1 ? "value" : "values"}` : "Incomplete"}</span></summary>
-        ${!field.complete ? '<p class="field-incomplete">This watch needs a scalar value in every run and no invalid, ambiguous, non-scalar or untracked records. Novelty is unknown. Check the path and coverage, or narrow your input.</p>' : ""}
+        <summary><code>${esc(printable(field.pointer))}</code> <span>${field.complete ? `${newCount} new ${noun}${newCount === 1 ? "" : "s"}` : "Incomplete"}</span></summary>
+        ${!field.complete ? '<p class="field-incomplete">This watch needs a scalar value in every run and no invalid, ambiguous, non-scalar or untracked records or group keys. Novelty is unknown. Check the path and coverage, or narrow your input.</p>' : ""}
         <div class="field-table-scroll" tabindex="0" role="group" aria-label="Field value counts for ${esc(field.pointer)}">
           <table class="field-values"><caption>Value counts for <code>${esc(printable(field.pointer))}</code></caption>
-            <thead><tr><th scope="col">Value (JSON)</th>${labels.map((label) => `<th scope="col">${label}</th>`).join("")}<th scope="col">Target</th><th scope="col">Observation</th></tr></thead>
-            <tbody>${field.values.map((v) => `<tr class="${v.is_new === true ? "field-new" : ""}"><th scope="row"><code>${esc(printable(v.value_json))}</code></th>${v.baseline_counts.map((n) => `<td>${formatCount(n)}</td>`).join("")}<td>${formatCount(v.target_count)}</td><td>${v.is_new === true ? "New value" : v.is_new === null ? "Unknown" : "Seen in baseline"}</td></tr>`).join("")}</tbody>
+            <thead><tr>${(field.group_by ?? []).map((p) => `<th scope="col">Group <code>${esc(printable(p))}</code></th>`).join("")}<th scope="col">Value (JSON)</th>${labels.map((label) => `<th scope="col">${label}</th>`).join("")}<th scope="col">Target</th><th scope="col">Observation</th></tr></thead>
+            <tbody>${field.values.map((v) => `<tr class="${v.is_new === true ? "field-new" : ""}">${(v.group_values_json ?? []).map((g) => `<td class="field-key"><code>${esc(printable(g))}</code></td>`).join("")}<th scope="row"><code>${esc(printable(v.value_json))}</code></th>${v.baseline_counts.map((n) => `<td>${formatCount(n)}</td>`).join("")}<td>${formatCount(v.target_count)}</td><td>${v.is_new === true ? v.group_seen_in_baseline === false ? "New group" : "New value" : v.is_new === null ? "Unknown" : "Seen in baseline"}</td></tr>`).join("")}</tbody>
           </table>
         </div>
         <p class="field-scroll-hint">Scroll the value table horizontally to see every run and observation.</p>
+        ${grouped ? '<p class="field-known">New group means no baseline observation of this field for that key. A group can be known in any baseline; it need not occur in every run.</p>' : ""}
         <table class="field-coverage"><caption>Coverage of all input lines</caption><thead><tr><th scope="col">Run</th><th scope="col">Records</th></tr></thead><tbody>
           ${coverage.map((c, i) => `<tr><th scope="row">${labels[i] ?? "Target"}</th><td>${coverageHtml(c)}</td></tr>`).join("")}
         </tbody></table>
         ${coverage.flatMap((c, i) => c.first_problem ? [`<p class="field-problem">First problem in ${labels[i] ?? "Target"}, line ${formatCount(c.first_problem.line_no)}${c.first_problem.truncated ? " (excerpt clipped)" : ""}:</p>${contextHtml(c.first_problem.line_no, c.first_problem.raw, undefined)}`] : []).join("")}
-        <details class="field-sources"><summary>First source occurrence of each value</summary>${field.values.map((v) => `<p><code>${esc(printable(v.value_json))}</code></p>${[v.first_baseline, v.first_target].flatMap((at) => at ? [`<p>${at.baseline_index === undefined ? "Target" : labels[at.baseline_index]}, line ${formatCount(at.line_no)}${at.truncated ? " (excerpt clipped)" : ""}</p>${contextHtml(at.line_no, at.raw, undefined)}`] : []).join("")}`).join("")}</details>
-        <p class="field-limits">Limits per field: 64 distinct values and 4 KiB per value. Records over 1 MiB are unassessed. Absent fields and non-JSON lines are counted separately; null is a value.</p>
+        <details class="field-sources"><summary>First source occurrence of each value</summary>${field.values.map((v) => `${fieldGroupHtml(field, v)}<p><code>${esc(printable(v.value_json))}</code></p>${[v.first_baseline, v.first_target].flatMap((at) => at ? [`<p>${at.baseline_index === undefined ? "Target" : labels[at.baseline_index]}, line ${formatCount(at.line_no)}${at.truncated ? " (excerpt clipped)" : ""}</p>${contextHtml(at.line_no, at.raw, undefined)}`] : []).join("")}`).join("")}</details>
+        <p class="field-limits">Limits per field: ${grouped ? "256 distinct group/value pairs, 4 KiB for the combined group key" : "64 distinct values"} and 4 KiB per value. Records over 1 MiB are unassessed. Absent fields and non-JSON lines are counted separately; null is a value.${grouped ? " A selected scalar without all group keys makes the watch incomplete." : ""}</p>
       </details>`;
     }).join("")}
   </section>`;

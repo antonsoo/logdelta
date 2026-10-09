@@ -104,10 +104,11 @@ code {
   outline-offset: 2px;
 }
 
-.watch-input { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 20px; padding: 16px 0; border-top: 1px dashed var(--rule); }
+.watch-input { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; margin-top: 20px; padding: 16px 0; border-top: 1px dashed var(--rule); }
 .watch-input label { font-weight: 600; }
+.watch-input .optional { font-weight: 400; color: var(--ink-soft); }
 .watch-input p { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; max-width: 64ch; }
-.watch-input textarea { width: 100%; min-height: 76px; resize: vertical; background: var(--field); color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; font: 13px/1.6 var(--mono); padding: 10px 12px; }
+.watch-input textarea { width: 100%; min-height: 76px; margin-top: 10px; resize: vertical; background: var(--field); color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; font: 13px/1.6 var(--mono); padding: 10px 12px; }
 .watched-fields { margin: 20px 0; }
 .watched-fields h3 { margin: 0; font-size: 20px; font-weight: 600; }
 .watched-fields > p, .field-limits { color: var(--ink-soft); font-size: 14px; max-width: 90ch; }
@@ -120,6 +121,7 @@ code {
 .field-values caption, .field-coverage caption { text-align: left; color: var(--ink-soft); padding-bottom: 8px; }
 .field-values td, .field-values th, .field-coverage td, .field-coverage th { border-bottom: 1px solid var(--rule); padding: 8px 12px 8px 0; text-align: left; vertical-align: top; }
 .field-values th { min-width: 85px; }
+.field-values .field-key { min-width: 16ch; }
 .field-values code { display: block; max-width: 48ch; overflow-wrap: anywhere; }
 .field-coverage th { width: 90px; }
 .field-new { background: var(--hit); }
@@ -131,6 +133,8 @@ code {
 .field-change { font-size: 20px; overflow-wrap: anywhere; margin: 10px 0; }
 .field-change > span { margin-left: 10px; font: 14px var(--sans); color: var(--ink-soft); }
 .field-known { font-size: 14px; color: var(--ink-soft); }
+.field-group { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px; overflow-wrap: anywhere; }
+.field-group > span { min-width: 0; }
 @media (max-width: 640px) {
   .watch-input { grid-template-columns: 1fr; gap: 10px; }
   .field-evidence { padding: 10px; }

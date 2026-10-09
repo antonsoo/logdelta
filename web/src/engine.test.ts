@@ -24,6 +24,23 @@ function setup() {
 }
 
 describe("diff worker ownership", () => {
+  it.each(["omitted-groups", "wrong-pointer", "wrong-key-count", "missing-group-history", "nonstring-key"])("refuses a grouped comparison with %s evidence", async (failure) => {
+    const { engine, workers } = setup();
+    const pending = engine.run({ ...request, watch_fields: ["/status"], watch_by: ["/route"] }, new AbortController().signal);
+    const field = { pointer: "/status", complete: true, baselines: [{}], target: {}, group_by: ["/route"], values: [{ value_json: "200", baseline_counts: [1], target_count: 1, is_new: false, group_values_json: ['"/checkout"'], group_seen_in_baseline: true }] };
+    const malformed = JSON.parse(JSON.stringify(field));
+    if (failure === "omitted-groups") { delete malformed.group_by; delete malformed.values[0].group_values_json; delete malformed.values[0].group_seen_in_baseline; }
+    if (failure === "wrong-pointer") malformed.group_by = ["/service"];
+    if (failure === "wrong-key-count") malformed.values[0].group_values_json = [];
+    if (failure === "missing-group-history") delete malformed.values[0].group_seen_in_baseline;
+    if (failure === "nonstring-key") malformed.values[0].group_values_json = [200];
+    workers[0]!.reply({ json: JSON.stringify({ ...result, watched_fields: [malformed] }) });
+    await expect(pending).rejects.toThrow("requested field evidence");
+    // A retry can use a fresh engine, preserving the same explicit grouping contract.
+    const retry = engine.run({ ...request, watch_fields: ["/status"], watch_by: ["/route"] }, new AbortController().signal);
+    workers[1]!.reply({ json: JSON.stringify({ ...result, watched_fields: [field] }) });
+    await expect(retry).resolves.toMatchObject({ result: { watched_fields: [field] } });
+  });
   it("rejects an engine reply that silently omits a requested watch", async () => {
     const { engine, workers } = setup();
     const pending = engine.run({ ...request, watch_fields: ["/status"] }, new AbortController().signal);

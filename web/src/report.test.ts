@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { comparisonInput, exportReport, parseWatches, type CompletedComparison, type LogInput } from "./report";
+import { comparisonInput, exportReport, parseGroups, parseWatches, type CompletedComparison, type LogInput } from "./report";
 import { MAX_LOG_BYTES } from "./files";
 
 const log = (text = "one\r\ntwo\n", name = "run.log"): LogInput => ({ text, name, origin: "file", ready: true });
@@ -7,6 +7,18 @@ const unused = (): LogInput => ({ text: "", name: "No log loaded", origin: "past
 const capture = (baselines = [log()], target = log(), context = "2", masks = "") => comparisonInput(baselines, target, context, masks);
 
 describe("comparison evidence", () => {
+  it("captures grouping as an exact applied setting and requires a watched outcome", () => {
+    const input = comparisonInput([log()], log(), "0", "", "/status", "/route \n/a~1b/~01/0");
+    expect(input.request.watch_by).toEqual(["/route ", "/a~1b/~01/0"]);
+    for (const value of ["route", "/route\n/route", "/a~2b", "/a~", "/".repeat(1025), "/a\n/b\n/c\n/d\n/e"]) expect(() => parseGroups(value)).toThrow();
+    expect(() => comparisonInput([log()], log(), "0", "", "", "/route")).toThrow("at least one watched field");
+    const result = { baseline_totals: [1], target_total: 1, total_templates: 1, findings: [], blocks: [], value_findings: [] };
+    const report: CompletedComparison = { ...input, outcome: { result, ms: 1, engineSha256: "a".repeat(64) }, completedAt: "2026-10-09T00:00:00Z", revision: 1 };
+    const exported = exportReport(report);
+    input.request.watch_by![0] = "/edited";
+    expect(exported.schema_version).toBe(2);
+    expect(exported.settings.watch_by).toEqual(["/route ", "/a~1b/~01/0"]);
+  });
   it("captures exact field selectors without trimming meaningful key whitespace", () => {
     const input = comparisonInput([log()], log(), "2", "", "/status \n\n/a~1b/~01/0");
     expect(input.request.watch_fields).toEqual(["/status ", "/a~1b/~01/0"]);

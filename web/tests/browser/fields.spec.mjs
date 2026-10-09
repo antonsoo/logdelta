@@ -63,6 +63,122 @@ test("real WASM exposes the masked incident with exact counts, sources and coher
   expect((await report(page)).settings.watch_fields).toEqual([]);
 });
 
+test("grouping the captured HTTP requests identifies checkout while maintenance stays known", async ({ page }) => {
+  await ready(page);
+  await page.locator('[data-example="http-routes"]').click();
+  await expect(page.locator(".kind-field")).toHaveCount(1);
+  await expect(page.locator("#watch-by")).toHaveValue("/route");
+  await expect(page.locator(".kind-field .field-group")).toHaveText('/route = "/checkout"');
+  await expect(page.locator(".kind-field .field-known")).toHaveText("Baseline values in this group: 200. Compared before masking.");
+  await expect(page.locator(".kind-field .is-hit")).toContainText('"status":503');
+  await page.locator(".field-evidence > summary").click();
+  const table = page.locator(".field-values");
+  await expect(table.getByRole("row", { name: '"/checkout" 200 20 20 18 Seen in baseline' })).toBeVisible();
+  await expect(table.getByRole("row", { name: '"/checkout" 503 0 0 2 New value' })).toBeVisible();
+  await expect(table.getByRole("row", { name: '"/maintenance" 503 20 20 20 Seen in baseline' })).toBeVisible();
+  const grouped = await report(page);
+  expect(grouped.schema_version).toBe(2);
+  expect(grouped.settings.watch_by).toEqual(["/route"]);
+  expect(grouped.result).toEqual(await report(page, "Download JSON"));
+  expect(grouped.result.watched_fields[0].values.find((v) => v.is_new)).toMatchObject({ group_values_json: ['"/checkout"'], group_seen_in_baseline: true, value_json: "503", baseline_counts: [0, 0], target_count: 2, first_target: { line_no: 14 } });
+  await page.locator("#watch-by").fill("");
+  await expect(page.locator("#report-status")).toContainText("Inputs changed");
+  expect(await report(page)).toEqual(grouped);
+  await run(page);
+  await expect(page.locator(".summary-line")).toContainText("0 findings");
+  const pooled = await report(page);
+  expect(pooled.schema_version).toBe(1);
+  expect(pooled.settings.watch_by).toBeUndefined();
+  expect(pooled.result.watched_fields[0].group_by).toBeUndefined();
+  await page.locator("#watch-by").fill("/route");
+  await run(page);
+  await expect(page.locator(".kind-field")).toHaveCount(1);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  await expect(page.locator("#watch-by")).toHaveValue("");
+});
+
+test("missing group keys fail visibly and invalid group settings retain the completed evidence", async ({ page }) => {
+  await ready(page);
+  await page.locator('[data-example="http-routes"]').click();
+  await expect(page.locator(".kind-field")).toHaveCount(1);
+  const before = await report(page);
+  await page.locator("#watch-by").fill("route");
+  await page.getByRole("button", { name: "Compare runs", exact: true }).click();
+  await expect(page.locator("#watch-by")).toBeFocused();
+  await expect(page.locator("#watch-by")).toHaveAttribute("aria-invalid", "true");
+  expect(await report(page)).toEqual(before);
+  await page.locator("#watch-by").fill("/route");
+  await page.locator("#watch-fields").fill("");
+  await page.getByRole("button", { name: "Compare runs", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("at least one watched field");
+  await expect(page.locator("#watch-by")).toBeFocused();
+  await page.locator("#watch-fields").fill("/http/status");
+  await page.locator("#target").fill('{"route":"/checkout","http":{"status":200}}\n{"http":{"status":503}}');
+  await run(page, true);
+  await expect(page.locator(".field-coverage")).toContainText("1 missing group key");
+  await expect(page.locator(".field-problem")).toContainText("Target, line 2");
+  await expect(page.locator("#report-content")).not.toContainText("No findings under");
+  const incomplete = (await report(page)).result.watched_fields[0];
+  expect(incomplete.complete).toBe(false);
+  expect(incomplete.values.every((v) => v.is_new === null && v.group_seen_in_baseline === undefined)).toBe(true);
+});
+
+test("composite groups and unseen routes retain exact keys without implying an observed regression", async ({ page }) => {
+  await ready(page);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  await page.locator("#baseline").fill('{"service":9007199254740992,"route":"/checkout","v":200}');
+  await page.locator("#target").fill('{"service":9007199254740992,"route":"/checkout","v":503}\n{"service":9007199254740993,"route":"<img src=x onerror=alert(1)>","v":200}');
+  await page.locator("#watch-fields").fill("/v");
+  await page.locator("#watch-by").fill("/service\n/route");
+  await run(page);
+  await expect(page.locator(".kind-field")).toHaveCount(2);
+  const newGroup = page.locator(".kind-field").filter({ has: page.locator(".kind", { hasText: "New group" }) });
+  await expect(newGroup).toContainText("No baseline observation of this field in this group");
+  await expect(newGroup.locator(".field-group")).toContainText("9007199254740993");
+  await expect(page.locator("#report-content img")).toHaveCount(0);
+  const exported = await report(page);
+  expect(exported.settings.watch_by).toEqual(["/service", "/route"]);
+  expect(exported.result.watched_fields[0].values.find((v) => v.group_seen_in_baseline === false).group_values_json).toEqual(["9007199254740993", '"<img src=x onerror=alert(1)>"']);
+});
+
+test("a real engine response that ignored grouping is rejected and the last report survives", async ({ page }) => {
+  await page.addInitScript(() => {
+    const NativeWorker = Worker;
+    window.Worker = class extends NativeWorker {
+      postMessage(message) {
+        if (window.omitGrouping) { message = window.structuredClone(message); delete message.request.watch_by; }
+        return super.postMessage(message);
+      }
+    };
+  });
+  await ready(page);
+  await page.locator('[data-example="http-routes"]').click();
+  await expect(page.locator(".kind-field")).toHaveCount(1);
+  const before = await report(page);
+  await page.evaluate(() => { window.omitGrouping = true; });
+  await page.getByRole("button", { name: "Compare runs", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("did not return the requested field evidence");
+  expect(await report(page)).toEqual(before);
+  await page.evaluate(() => { window.omitGrouping = false; });
+  await run(page);
+  await expect(page.locator(".kind-field")).toHaveCount(1);
+});
+
+test("group cardinality overflow remains incomplete in the real WASM report", async ({ page }) => {
+  await ready(page);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  await page.locator("#baseline").fill('{"route":0,"status":200}');
+  await page.locator("#target").fill(Array.from({ length: 257 }, (_, i) => JSON.stringify({ route: i, status: 200 })).join("\n"));
+  await page.locator("#watch-fields").fill("/status");
+  await page.locator("#watch-by").fill("/route");
+  await run(page, true);
+  const field = (await report(page)).result.watched_fields[0];
+  expect(field.values).toHaveLength(256);
+  expect(field.target).toMatchObject({ matched: 257, untracked: 1, first_problem: { line_no: 257 } });
+  await expect(page.locator(".field-coverage")).toContainText("1 untracked");
+  await expect(page.locator(".kind-field")).toHaveCount(0);
+});
+
 test("unobserved and ambiguous fields cannot look clean; corrected selectors recover", async ({ page }) => {
   await example(page);
   for (const pointer of ["/typo", "/http"]) {
@@ -179,6 +295,23 @@ test("editing a watch cancels a held real WASM reply and preserves the previous 
 });
 
 for (const theme of ["light", "dark"]) {
+  test(`grouped evidence is keyboard accessible at 320px in ${theme} mode`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 780 });
+    await page.emulateMedia({ colorScheme: theme });
+    await ready(page);
+    await page.locator('[data-example="http-routes"]').click();
+    await expect(page.locator(".kind-field")).toHaveCount(1);
+    await page.locator("#watch-fields").focus();
+    await page.keyboard.press("Tab");
+    await expect(page.locator("#watch-by")).toBeFocused();
+    await page.locator(".field-evidence > summary").focus();
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Tab");
+    await expect(page.locator(".field-table-scroll")).toBeFocused();
+    await page.keyboard.press("End");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
   test(`field evidence is keyboard accessible at 320px in ${theme} mode`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 780 });
     await page.emulateMedia({ colorScheme: theme });

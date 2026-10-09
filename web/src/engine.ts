@@ -12,6 +12,7 @@ export interface DiffOutcome {
 interface Job {
   id: number;
   watchFields: string[];
+  watchBy: string[];
   resolve: (outcome: DiffOutcome) => void;
   reject: (error: unknown) => void;
   cleanup: () => void;
@@ -62,10 +63,14 @@ export class DiffEngine {
             throw new Error("The diff engine returned an incomplete report. Try comparing again.");
           }
           const fields = result.watched_fields ?? [];
+          const groupBy = this.job.watchBy;
           if (!Array.isArray(fields) || fields.length !== this.job.watchFields.length || fields.some((field, index) =>
             !field || field.pointer !== this.job!.watchFields[index] || typeof field.complete !== "boolean" ||
+            !Array.isArray(field.group_by ?? []) || (field.group_by ?? []).length !== groupBy.length || (field.group_by ?? []).some((p, i) => p !== groupBy[i]) ||
             !Array.isArray(field.baselines) || field.baselines.length !== result.baseline_totals.length || !field.target ||
             !Array.isArray(field.values) || field.values.some((v) => !v || typeof v.value_json !== "string" ||
+              !Array.isArray(v.group_values_json ?? []) || (v.group_values_json ?? []).length !== groupBy.length || (v.group_values_json ?? []).some((g) => typeof g !== "string") ||
+              (groupBy.length && field.complete ? typeof v.group_seen_in_baseline !== "boolean" : v.group_seen_in_baseline !== undefined) ||
               !Array.isArray(v.baseline_counts) || v.baseline_counts.length !== result.baseline_totals.length ||
               !Number.isSafeInteger(v.target_count) || (field.complete ? typeof v.is_new !== "boolean" : v.is_new !== null)))) {
             throw new Error("The diff engine did not return the requested field evidence. Reload the page and compare again.");
@@ -92,7 +97,7 @@ export class DiffEngine {
     const id = this.nextId++;
     return new Promise((resolve, reject) => {
       const abort = () => this.cancel(signal.reason);
-      this.job = { id, watchFields: [...(request.watch_fields ?? [])], resolve, reject, cleanup: () => signal.removeEventListener("abort", abort) };
+      this.job = { id, watchFields: [...(request.watch_fields ?? [])], watchBy: [...(request.watch_by ?? [])], resolve, reject, cleanup: () => signal.removeEventListener("abort", abort) };
       signal.addEventListener("abort", abort, { once: true });
       try {
         this.getWorker().postMessage({ id, request } satisfies WorkerRequest);

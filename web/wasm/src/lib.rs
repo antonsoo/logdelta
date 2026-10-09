@@ -33,6 +33,8 @@ struct DiffRequest {
     masks: Vec<String>,
     #[serde(default)]
     watch_fields: Vec<String>,
+    #[serde(default)]
+    watch_by: Vec<String>,
     threshold: Option<f64>,
     significance: Option<f64>,
 }
@@ -69,6 +71,7 @@ fn diff(request: &[u8]) -> Result<String, String> {
         significance: req.significance.unwrap_or(DEFAULT_SIGNIFICANCE),
         group: true,
         watch_fields: req.watch_fields,
+        watch_by: req.watch_by,
     };
     let baselines: Vec<_> = req.baselines.iter().map(|b| lines(b)).collect();
     let mut result =
@@ -185,6 +188,31 @@ mod tests {
             diff(br#"{"baselines": ["a"], "target": "b", "masks": ["("]}"#)
                 .unwrap_err()
                 .starts_with("mask")
+        );
+    }
+
+    #[test]
+    fn grouped_fields_survive_the_request_boundary_and_invalid_scope_is_rejected() {
+        let request = serde_json::json!({
+            "baselines": ["{\"route\":\"checkout\",\"status\":200}\n{\"route\":\"maintenance\",\"status\":503}"],
+            "target": "{\"route\":\"checkout\",\"status\":503}\n{\"route\":\"maintenance\",\"status\":503}",
+            "watch_fields": ["/status"],
+            "watch_by": ["/route"]
+        });
+        let out: serde_json::Value =
+            serde_json::from_str(&diff(request.to_string().as_bytes()).unwrap()).unwrap();
+        let field = &out["watched_fields"][0];
+        assert_eq!(field["group_by"], serde_json::json!(["/route"]));
+        assert_eq!(field["values"][1]["is_new"], true);
+        assert_eq!(
+            field["values"][1]["group_values_json"],
+            serde_json::json!(["\"checkout\""])
+        );
+        assert_eq!(field["values"][1]["group_seen_in_baseline"], true);
+        assert!(
+            diff(br#"{"baselines":["{}"],"target":"{}","watch_by":["/route"]}"#)
+                .unwrap_err()
+                .contains("requires at least one --watch-field")
         );
     }
 }

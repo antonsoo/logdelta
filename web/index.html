@@ -65,8 +65,13 @@
           <div>
             <label id="watch-title" for="watch-fields">Watch exact JSON fields</label>
             <p id="watch-help">Numbers are normally masked. Watch status or exit codes to catch value changes even when the log's shape stays the same. One JSON Pointer per line, such as <code>/http/status</code>.</p>
+            <textarea id="watch-fields" rows="2" spellcheck="false" aria-describedby="watch-help" placeholder="/http/status&#10;/exit_code"></textarea>
           </div>
-          <textarea id="watch-fields" rows="2" spellcheck="false" aria-describedby="watch-help" placeholder="/http/status&#10;/exit_code"></textarea>
+          <div>
+            <label for="watch-by">Compare within groups <span class="optional">(optional)</span></label>
+            <p id="watch-by-help">Keep routes or services separate for every watched field. One JSON Pointer per line, up to four. A missing group key makes the watch incomplete; leave blank to pool records.</p>
+            <textarea id="watch-by" rows="2" spellcheck="false" aria-describedby="watch-by-help" placeholder="/route"></textarea>
+          </div>
         </section>
         <div class="run-row">
           <details class="options">
