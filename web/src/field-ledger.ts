@@ -1,4 +1,5 @@
-import { contextHtml, esc } from "./html";
+import { contextHtml, esc, fieldGroupHtml } from "./html";
+import { fieldComplete, rateCell, rateObservation, rateSummary, rateCoverageHtml } from "./field-rates";
 import { formatCount, printable } from "./template";
 import type { FieldCoverage, FieldValue, WatchedField } from "./types";
 
@@ -8,11 +9,6 @@ interface View {
   query: string;
   page: number;
   sources: boolean;
-}
-
-export function fieldGroupHtml(field: WatchedField, value: FieldValue): string {
-  if (!field.group_by?.length) return "";
-  return `<p class="field-group">${field.group_by.map((p, i) => `<span><code>${esc(printable(p))}</code> = <code>${esc(printable(value.group_values_json![i]!))}</code></span>`).join(" ")}</p>`;
 }
 
 function coverageHtml(coverage: FieldCoverage): string {
@@ -93,7 +89,7 @@ export class FieldLedger {
         const noun = field.group_by?.length ? "group/value pair" : "value";
         const open = this.view(field).open;
         return `<details class="field-evidence" data-field-details="${index}" ${open ? "open" : ""}>
-          <summary><code>${esc(printable(field.pointer))}</code> <span>${field.complete ? `${count} new ${noun}${count === 1 ? "" : "s"}` : "Incomplete"}</span></summary>
+          <summary><code>${esc(printable(field.pointer))}</code> <span>${field.complete ? `${count} new ${noun}${count === 1 ? "" : "s"}` : "Incomplete"}${rateSummary(field)}</span></summary>
           <div class="field-body">${open ? this.body(field, index) : ""}</div>
         </details>`;
       }).join("")}
@@ -103,7 +99,7 @@ export class FieldLedger {
   private view(field: WatchedField): View {
     let view = this.views.get(field.pointer);
     if (!view) {
-      view = { open: !field.complete, query: "", page: 0, sources: false };
+      view = { open: !fieldComplete(field), query: "", page: 0, sources: false };
       this.views.set(field.pointer, view);
     }
     return view;
@@ -131,9 +127,9 @@ export class FieldLedger {
       ${count > PAGE_SIZE ? `<button type="button" class="link-button" data-field-page="previous" ${start === 0 ? "disabled" : ""}>Previous values</button><button type="button" class="link-button" data-field-page="next" ${start + values.length >= count ? "disabled" : ""}>Next values</button>` : ""}
     </nav>
     ${values.length ? `<div class="field-table-scroll" tabindex="0" role="group" aria-label="Field value counts for ${esc(field.pointer)}">
-      <table class="field-values"><caption>Value counts for <code>${esc(printable(field.pointer))}</code></caption>
+      <table class="field-values"><caption>${field.rate_comparison?.groups.length ? "Value counts / group observations (share)" : "Value counts"} for <code>${esc(printable(field.pointer))}</code></caption>
         <thead><tr>${(field.group_by ?? []).map((p) => `<th scope="col">Group <code>${esc(printable(p))}</code></th>`).join("")}<th scope="col">Value (JSON)</th>${this.labels.map((label) => `<th scope="col">${esc(label)}</th>`).join("")}<th scope="col">Target</th><th scope="col">Observation</th></tr></thead>
-        <tbody>${values.map((v) => `<tr class="${v.is_new === true ? "field-new" : ""}">${(v.group_values_json ?? []).map((g) => `<td class="field-key"><code>${esc(printable(g))}</code></td>`).join("")}<th scope="row"><code>${esc(printable(v.value_json))}</code></th>${v.baseline_counts.map((n) => `<td>${formatCount(n)}</td>`).join("")}<td>${formatCount(v.target_count)}</td><td>${v.is_new === true ? v.group_seen_in_baseline === false ? "New group" : "New value" : v.is_new === null ? "Unknown" : "Seen in baseline"}</td></tr>`).join("")}</tbody>
+        <tbody>${values.map((v) => `<tr class="${v.is_new === true ? "field-new" : ""}">${(v.group_values_json ?? []).map((g) => `<td class="field-key"><code>${esc(printable(g))}</code></td>`).join("")}<th scope="row"><code>${esc(printable(v.value_json))}</code></th>${v.baseline_counts.map((_, i) => `<td>${rateCell(field, v, i)}</td>`).join("")}<td>${rateCell(field, v)}</td><td>${v.is_new === true ? v.group_seen_in_baseline === false ? "New group" : "New value" : v.is_new === null ? "Unknown" : "Seen in baseline"}${rateObservation(field, v)}</td></tr>`).join("")}</tbody>
       </table>
     </div>
     <p class="field-scroll-hint">Scroll the value table horizontally to see every run and observation.</p>
@@ -147,6 +143,7 @@ export class FieldLedger {
   private body(field: WatchedField, index: number): string {
     const grouped = !!field.group_by?.length;
     return `${!field.complete ? '<p class="field-incomplete">This watch needs a scalar value in every run and no invalid, ambiguous, non-scalar or untracked records or group keys. Novelty is unknown. Check the path and coverage, or narrow your input.</p>' : ""}
+      ${rateCoverageHtml(field)}
       <div class="field-search"><label for="field-query-${index}">Find ${grouped ? "group or value" : "value"}</label><input type="search" id="field-query-${index}" data-field-query="${index}" value="${esc(this.view(field).query)}" autocomplete="off" spellcheck="false" placeholder="Case-insensitive text in the JSON values"></div>
       <div data-field-list="${index}">${this.list(field)}</div>
       ${grouped ? '<p class="field-known">New group means no baseline observation of this field for that key. A group can be known in any baseline; it need not occur in every run.</p>' : ""}

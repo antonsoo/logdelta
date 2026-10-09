@@ -1,5 +1,6 @@
 import type { DiffRequest, DiffResult } from "./types";
 import type { WorkerRequest, WorkerResponse } from "./worker";
+import { validRateEvidence } from "./rate-contract";
 
 export interface DiffOutcome {
   result: DiffResult;
@@ -13,6 +14,7 @@ interface Job {
   id: number;
   watchFields: string[];
   watchBy: string[];
+  watchRateChange: number | undefined;
   resolve: (outcome: DiffOutcome) => void;
   reject: (error: unknown) => void;
   cleanup: () => void;
@@ -75,6 +77,9 @@ export class DiffEngine {
               !Number.isSafeInteger(v.target_count) || (field.complete ? typeof v.is_new !== "boolean" : v.is_new !== null)))) {
             throw new Error("The diff engine did not return the requested field evidence. Reload the page and compare again.");
           }
+          if (fields.some((field) => !validRateEvidence(field, this.job!.watchRateChange))) {
+            throw new Error("The diff engine did not return the requested rate evidence. Reload the page and compare again.");
+          }
           this.finish(undefined, { result, ms: reply.ms, engineSha256: reply.engineSha256 });
         } else throw new Error("The diff engine returned an unreadable response. Try comparing again.");
       } catch (error) {
@@ -97,7 +102,7 @@ export class DiffEngine {
     const id = this.nextId++;
     return new Promise((resolve, reject) => {
       const abort = () => this.cancel(signal.reason);
-      this.job = { id, watchFields: [...(request.watch_fields ?? [])], watchBy: [...(request.watch_by ?? [])], resolve, reject, cleanup: () => signal.removeEventListener("abort", abort) };
+      this.job = { id, watchFields: [...(request.watch_fields ?? [])], watchBy: [...(request.watch_by ?? [])], watchRateChange: request.watch_rate_change, resolve, reject, cleanup: () => signal.removeEventListener("abort", abort) };
       signal.addEventListener("abort", abort, { once: true });
       try {
         this.getWorker().postMessage({ id, request } satisfies WorkerRequest);

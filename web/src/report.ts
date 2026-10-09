@@ -32,7 +32,7 @@ export interface CompletedComparison extends ComparisonInput {
 }
 
 /** Capture text and metadata together, before crossing any asynchronous boundary. */
-export function comparisonInput(baselines: readonly LogInput[], target: LogInput, context: string, masks: string, watches = "", groups = ""): ComparisonInput {
+export function comparisonInput(baselines: readonly LogInput[], target: LogInput, context: string, masks: string, watches = "", groups = "", rateChange?: string): ComparisonInput {
   if (baselines.length > MAX_BASELINES) throw new Error("The browser supports up to 8 baselines. Use the CLI for more runs.");
   if (!baselines.some((b) => b.ready) || !target.ready) throw new Error("Add at least one baseline and a target log. To compare an empty log, open an empty file or choose Use empty log.");
   const n = Number(context);
@@ -61,7 +61,16 @@ export function comparisonInput(baselines: readonly LogInput[], target: LogInput
   const watchFields = parseWatches(watches);
   const watchBy = parseGroups(groups);
   if (watchBy.length && !watchFields.length) throw new Error("Choose at least one watched field before grouping its values.");
-  return { request: { baselines: texts, target: target.text, context: n, masks: extraMasks, ...(watchFields.length ? { watch_fields: watchFields } : {}), ...(watchBy.length ? { watch_by: watchBy } : {}) }, sources };
+  const minChange = parseRateChange(rateChange, watchFields.length > 0);
+  return { request: { baselines: texts, target: target.text, context: n, masks: extraMasks, ...(watchFields.length ? { watch_fields: watchFields } : {}), ...(watchBy.length ? { watch_by: watchBy } : {}), ...(minChange === undefined ? {} : { watch_rate_change: minChange }) }, sources };
+}
+
+export function parseRateChange(text: string | undefined, hasWatch: boolean): number | undefined {
+  if (text === undefined) return undefined;
+  if (!hasWatch) throw new Error("Choose at least one watched field before comparing its rates.");
+  const value = Number(text);
+  if (!text.trim() || !Number.isFinite(value) || value <= 0 || value > 100) throw new Error("Minimum rate change must be greater than 0 and at most 100 percentage points.");
+  return value;
 }
 
 export function parseWatches(text: string): string[] {
@@ -88,10 +97,10 @@ function parsePointers(text: string, grouping: boolean): string[] {
 export function exportReport(report: CompletedComparison) {
   return {
     format: "logdelta-report",
-    schema_version: report.request.watch_by?.length ? 2 : 1,
+    schema_version: report.request.watch_rate_change !== undefined ? 3 : report.request.watch_by?.length ? 2 : 1,
     engine: { name: "logdelta", version, wasm_sha256: report.outcome.engineSha256 },
     completed_at: report.completedAt,
-    settings: { context: report.request.context, masks: [...report.request.masks], watch_fields: [...(report.request.watch_fields ?? [])], ...(report.request.watch_by?.length ? { watch_by: [...report.request.watch_by] } : {}) },
+    settings: { context: report.request.context, masks: [...report.request.masks], watch_fields: [...(report.request.watch_fields ?? [])], ...(report.request.watch_by?.length ? { watch_by: [...report.request.watch_by] } : {}), ...(report.request.watch_rate_change === undefined ? {} : { watch_rate_change: report.request.watch_rate_change }) },
     sources: report.sources,
     result: report.outcome.result,
   };

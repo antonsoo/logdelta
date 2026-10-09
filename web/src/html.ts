@@ -1,5 +1,10 @@
 import { formatCount, printable } from "./template";
-import type { ContextWindow } from "./types";
+import type { ContextWindow, WatchedField } from "./types";
+
+export function fieldGroupHtml(field: WatchedField, value: { group_values_json?: string[] }): string {
+  if (!field.group_by?.length) return "";
+  return `<p class="field-group">${field.group_by.map((p, i) => `<span><code>${esc(printable(p))}</code> = <code>${esc(printable(value.group_values_json![i]!))}</code></span>`).join(" ")}</p>`;
+}
 
 export function esc(text: string): string {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

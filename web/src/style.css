@@ -109,6 +109,22 @@ code {
 .watch-input .optional { font-weight: 400; color: var(--ink-soft); }
 .watch-input p { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; max-width: 64ch; }
 .watch-input textarea { width: 100%; min-height: 76px; margin-top: 10px; resize: vertical; background: var(--field); color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; font: 13px/1.6 var(--mono); padding: 10px 12px; }
+.rate-option { grid-column: 1 / -1; padding-top: 12px; border-top: 1px dotted var(--rule); }
+.rate-toggle { display: flex; align-items: center; gap: 10px; width: fit-content; cursor: pointer; }
+.rate-toggle input { width: 18px; height: 18px; margin: 0; accent-color: var(--magenta); flex-shrink: 0; }
+.rate-threshold { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; font-size: 14px; }
+.rate-threshold input { width: 8ch; padding: 8px; font: 14px var(--mono); border: 1px solid var(--rule); border-radius: 4px; background: var(--field); color: var(--ink); }
+.rate-threshold > span { color: var(--ink-soft); }
+.rate-fraction { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rate-target, .rate-distance { font-weight: 600; }
+.rate-observation { display: block; min-width: 18ch; margin-top: 4px; color: var(--ink-soft); }
+.kind-rate .kind, .filter-rate { color: var(--changed); }
+.rate-source { margin: 12px 0; font-size: 14px; }
+.rate-source > summary { cursor: pointer; overflow-wrap: anywhere; }
+.rate-source .log { margin-top: 8px; }
+.rate-headline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 18px; overflow-wrap: anywhere; }
+.rate-headline > code { font-weight: 600; min-width: 0; }
+.rate-headline-distance { flex-basis: 100%; font-size: 14px; color: var(--ink-soft); }
 .watched-fields { margin: 20px 0; }
 .watched-fields h3 { margin: 0; font-size: 20px; font-weight: 600; }
 .watched-fields > p, .field-limits { color: var(--ink-soft); font-size: 14px; max-width: 90ch; }

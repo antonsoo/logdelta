@@ -98,7 +98,8 @@ writeFileSync(join(generatedDir, "logdelta.wasm"), bytes);
 rmSync(join(publicDir, "logdelta.wasm"), { force: true });
 
 const examples = join(web, "..", "examples");
-for (const dir of ["", "large"]) {
+for (const dir of ["", "large", "http-rates"]) {
+  mkdirSync(join(publicDir, "examples", dir), { recursive: true });
   for (const name of readdirSync(join(examples, dir))) {
     if (name.endsWith(".log")) copyFileSync(join(examples, dir, name), join(publicDir, "examples", dir, name));
   }

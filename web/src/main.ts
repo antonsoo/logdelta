@@ -3,14 +3,15 @@ import "./style.css";
 import { engine } from "./engine";
 import { MAX_BASELINES, readLogFile } from "./files";
 import { EXAMPLES, loadExample, type Example } from "./examples";
-import { comparisonInput, exportReport, parseGroups, parseWatches, type CompletedComparison, type LogInput } from "./report";
+import { comparisonInput, exportReport, parseGroups, parseWatches, parseRateChange, type CompletedComparison, type LogInput } from "./report";
 import { baselineCounts, formatCount, lineCount, printable, templateParts } from "./template";
 import { blockExcerpt } from "./excerpt";
-import { contextHtml, esc, logLine } from "./html";
-import { FieldLedger, fieldGroupHtml } from "./field-ledger";
+import { contextHtml, esc, logLine, fieldGroupHtml } from "./html";
+import { FieldLedger } from "./field-ledger";
 import type { Block, DiffResult, FieldValue, Finding, ValueFinding, WatchedField } from "./types";
+import { fieldComplete, rateFindingCount, rateFindingHtml, rateSourceHtml } from "./field-rates";
 
-type Filter = "all" | "new" | "gone" | "changed" | "value" | "field";
+type Filter = "rate" | "all" | "new" | "gone" | "changed" | "value" | "field";
 type Editor = "baseline" | "target";
 interface Source extends LogInput {
   id: number;
@@ -96,6 +97,25 @@ function changed(): void {
   status(wasComparing ? "Comparison cancelled because inputs changed. Compare again when ready." : "");
   refreshActivity();
 }
+
+function refreshRateControl(): void {
+  const enabled = $<HTMLInputElement>("watch-rates").checked;
+  $("rate-threshold").hidden = !enabled;
+  $<HTMLInputElement>("watch-rate-change").disabled = !enabled;
+}
+function setRateControl(value: number | undefined): void {
+  $<HTMLInputElement>("watch-rates").checked = value !== undefined;
+  $<HTMLInputElement>("watch-rate-change").value = String(value ?? 5);
+  $("watch-rate-change").removeAttribute("aria-invalid");
+  refreshRateControl();
+}
+$("report-content").addEventListener("toggle", (event) => {
+  const details = event.target;
+  if (!(details instanceof HTMLDetailsElement) || !details.isConnected || !details.hasAttribute("data-rate-source")) return;
+  const [field, value] = details.dataset["rateSource"]!.split(":").map(Number);
+  const record = state.report?.outcome.result.watched_fields?.[field!]?.values[value!];
+  details.querySelector<HTMLElement>(".rate-source-body")!.innerHTML = details.open && record ? rateSourceHtml(record) : "";
+}, true);
 
 // ---------------------------------------------------------------------------
 // theme
@@ -223,8 +243,9 @@ function wireEditors(): void {
       const name = source.origin === "file" || source.origin === "example" ? `${source.name} (edited)` : source.origin === "edited" ? source.name : "Pasted log";
       const origin = source.origin === "file" || source.origin === "example" || source.origin === "edited" ? "edited" : "pasted";
       setSource(source, { text: target.value, name, origin, ready: true });
-    } else if (target.id === "masks" || target.id === "context" || target.id === "watch-fields" || target.id === "watch-by") {
+    } else if (target.id === "masks" || target.id === "context" || target.id === "watch-fields" || target.id === "watch-by" || target.id === "watch-rates" || target.id === "watch-rate-change") {
       target.removeAttribute("aria-invalid");
+      if (target.id === "watch-rates") refreshRateControl();
       changed();
     }
   });
@@ -311,6 +332,7 @@ function wireEditors(): void {
     $("watch-fields").removeAttribute("aria-invalid");
     $<HTMLTextAreaElement>("watch-by").value = "";
     $("watch-by").removeAttribute("aria-invalid");
+    setRateControl(undefined);
     clearExampleSelection();
     renderEditors();
     renderResults();
@@ -354,6 +376,7 @@ async function useExample(example: Example): Promise<void> {
     $("watch-fields").removeAttribute("aria-invalid");
     $<HTMLTextAreaElement>("watch-by").value = (example.watchBy ?? []).join("\n");
     $("watch-by").removeAttribute("aria-invalid");
+    setRateControl(example.watchRateChange);
     state.revision++;
     renderEditors();
     $("example-note").textContent = example.note;
@@ -381,9 +404,10 @@ async function compare(): Promise<void> {
   const context = $<HTMLInputElement>("context");
   let input;
   try {
-    input = comparisonInput(state.baselines, state.target, context.value, $<HTMLTextAreaElement>("masks").value, $<HTMLTextAreaElement>("watch-fields").value, $<HTMLTextAreaElement>("watch-by").value);
+    input = comparisonInput(state.baselines, state.target, context.value, $<HTMLTextAreaElement>("masks").value, $<HTMLTextAreaElement>("watch-fields").value, $<HTMLTextAreaElement>("watch-by").value, $<HTMLInputElement>("watch-rates").checked ? $<HTMLInputElement>("watch-rate-change").value : undefined);
     $("watch-fields").removeAttribute("aria-invalid");
     $("watch-by").removeAttribute("aria-invalid");
+    $("watch-rate-change").removeAttribute("aria-invalid");
   } catch (error) {
     status(errorText(error), true);
     if (context.value.trim() === "" || !context.validity.valid) {
@@ -399,6 +423,11 @@ async function compare(): Promise<void> {
       invalidGroup = groups.length > 0 && !$<HTMLTextAreaElement>("watch-fields").value.trim();
     } catch { invalidGroup = true; }
     if (invalidGroup) { $("watch-by").setAttribute("aria-invalid", "true"); $("watch-by").focus(); }
+    try { parseRateChange($<HTMLInputElement>("watch-rates").checked ? $<HTMLInputElement>("watch-rate-change").value : undefined, !!$<HTMLTextAreaElement>("watch-fields").value.trim()); }
+    catch {
+      const invalid = $<HTMLTextAreaElement>("watch-fields").value.trim() ? $("watch-rate-change") : $("watch-fields");
+      invalid.setAttribute("aria-invalid", "true"); invalid.focus();
+    }
     refreshActivity();
     return;
   }
@@ -420,7 +449,7 @@ async function compare(): Promise<void> {
     fieldLedger.reset();
     state.page = 0;
     renderResults();
-    const fieldsComplete = (outcome.result.watched_fields ?? []).every((f) => f.complete);
+    const fieldsComplete = (outcome.result.watched_fields ?? []).every(fieldComplete);
     status(fieldsComplete ? `Comparison complete: ${formatCount(outcome.result.findings.length + outcome.result.value_findings.length + fieldFindingCount(outcome.result))} findings before block grouping.` : "Field comparison incomplete. Check coverage below; this report cannot establish a clean result.", !fieldsComplete);
   } catch (error) {
     if (!controller.signal.aborted && state.comparison === controller) status(`Comparison failed: ${errorText(error)} Correct the inputs or try comparing again.`, true);
@@ -447,6 +476,7 @@ function rows(result: DiffResult): Row[] {
   const blocks = (kind: Block["kind"]) =>
     result.blocks.flatMap((block, index) => (block.kind === kind ? [{ at: block.first_line_no, row: { filter: kind, render: () => blockHtml(block, index, result) } as Row }] : []));
   return [
+    ...(result.watched_fields ?? []).flatMap((field, index) => (field.rate_comparison?.groups ?? []).filter((g) => g.changes.length).map((group): Row => ({ filter: "rate", render: () => rateFindingHtml(field, group, index, state.report!.sources.baselines.map((s) => s.label)) }))),
     ...(result.watched_fields ?? []).flatMap((field) => field.values.filter((v) => v.is_new === true).map((value): Row => ({ filter: "field", render: () => fieldFindingHtml(field, value) }))),
     ...inLineOrder([...blocks("new"), ...alone("new").map((f) => ({ at: f.first_target_line_no ?? Infinity, row: single(f) }))]),
     // A new value on a line inside a block is shown as part of that block.
@@ -483,9 +513,9 @@ function renderResults(): void {
   const count = (f: Filter) => (f === "all" ? all : all.filter((r) => r.filter === f)).length;
   const total = count("all");
   const ungrouped = result.findings.length + result.value_findings.length + fieldFindingCount(result);
-  const fieldsComplete = (result.watched_fields ?? []).every((f) => f.complete);
+  const fieldsComplete = (result.watched_fields ?? []).every(fieldComplete);
   const baselineLines = result.baseline_totals.reduce((a, b) => a + b, 0);
-  const filters: [Filter, string][] = [["all", "All"], ["field", "Field value"], ["new", "New"], ["gone", "Gone"], ["changed", "Changed"], ["value", "New value"]];
+  const filters: [Filter, string][] = [["all", "All"], ["rate", "Field rate"], ["field", "Field value"], ["new", "New"], ["gone", "Gone"], ["changed", "Changed"], ["value", "New value"]];
   const visible = state.filter === "all" ? all : all.filter((r) => r.filter === state.filter);
   const pageSize = 50;
   state.page = Math.min(state.page, Math.max(0, Math.ceil(visible.length / pageSize) - 1));
@@ -513,10 +543,11 @@ function renderResults(): void {
       <p>Context: ${report.request.context} lines. Extra masks: ${report.request.masks.length}.</p>
       ${report.request.watch_fields?.length ? `<p>Watched JSON fields, before masks: ${report.request.watch_fields.map((p) => `<code>${esc(printable(p))}</code>`).join(", ")}.</p>` : ""}
       ${report.request.watch_by?.length ? `<p>Compared within groups: ${report.request.watch_by.map((p) => `<code>${esc(printable(p))}</code>`).join(", ")}.</p>` : ""}
+      ${report.request.watch_rate_change !== undefined ? `<p>Known-value rates: minimum ${report.request.watch_rate_change} percentage points beyond every observed baseline rate. Counts use matched scalar observations within each group. The score is a triage heuristic, not a calibrated p-value.</p>` : ""}
       ${report.request.masks.length ? `<pre>${esc(report.request.masks.map(printable).join("\n"))}</pre>` : ""}
       <p>The report includes these source names, settings and all findings. Both downloads include original log excerpts; full input logs are not bundled.</p>
     </details>
-    ${!fieldsComplete ? '<p class="field-incomplete" role="note">Field comparison incomplete. At least one watch could not be evaluated fully. Review its coverage below; zero findings would not establish a clean result.</p>' : ""}
+    ${!fieldsComplete ? '<p class="field-incomplete" role="note">Field comparison incomplete. At least one field or requested rate comparison could not be evaluated fully. Review its coverage below; zero findings would not establish a clean result.</p>' : ""}
     ${fieldLedger.html(result.watched_fields ?? [], report.sources.baselines.map((source) => source.label))}
     ${total === 0
       ? fieldsComplete ? `<p class="notice">No findings under these settings. Only template, frequency, established-value and selected field changes are reported; this does not prove the logs are identical.</p>` : ""
@@ -551,7 +582,7 @@ function renderResults(): void {
 }
 
 function fieldFindingCount(result: DiffResult): number {
-  return (result.watched_fields ?? []).reduce((n, f) => n + f.values.filter((v) => v.is_new === true).length, 0);
+  return (result.watched_fields ?? []).reduce((n, f) => n + f.values.filter((v) => v.is_new === true).length + rateFindingCount(f), 0);
 }
 
 function fieldFindingHtml(field: WatchedField, value: FieldValue): string {

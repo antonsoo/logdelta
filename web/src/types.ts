@@ -111,7 +111,7 @@ export interface WatchedField {
   baselines: FieldCoverage[];
   target: FieldCoverage;
   values: FieldValue[];
-  /** Available to native/direct WASM callers; the current page does not request rate checks. */
+  /** Present only when the comparison requested a minimum rate change. */
   rate_comparison?: FieldRateComparison;
 }
 
@@ -142,4 +142,8 @@ export interface DiffRequest {
   masks: string[];
   watch_fields?: string[];
   watch_by?: string[];
+  watch_rate_change?: number;
 }
+
+export type FieldRateGroup = FieldRateComparison["groups"][number];
+export type FieldRateChange = FieldRateGroup["changes"][number];

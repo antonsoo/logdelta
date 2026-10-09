@@ -12,6 +12,7 @@ export interface Example {
   target: string;
   watchFields?: string[];
   watchBy?: string[];
+  watchRateChange?: number;
 }
 
 export const EXAMPLES: Example[] = [
@@ -45,6 +46,16 @@ export const EXAMPLES: Example[] = [
     target: "examples/http-routes-failed.log",
     watchFields: ["/http/status"],
     watchBy: ["/route"],
+  },
+  {
+    id: "http-rates",
+    label: "HTTP: a known error becomes common",
+    note: "6,000 captured local HTTP responses with deliberately injected faults. Checkout's 503 rate rises from 1% and 1.2% to 20%, while maintenance stays unchanged. Both outcomes were already known. Uncheck Compare rates of known values and compare again: novelty alone finds nothing.",
+    baselines: ["examples/http-rates/http-rate-good.log", "examples/http-rates/http-rate-good-2.log"],
+    target: "examples/http-rates/http-rate-failed.log",
+    watchFields: ["/http/status"],
+    watchBy: ["/route"],
+    watchRateChange: 5,
   },
   {
     id: "large",

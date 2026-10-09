@@ -72,6 +72,15 @@
             <p id="watch-by-help">Keep routes or services separate for every watched field. One JSON Pointer per line, up to four. A missing group key makes the watch incomplete; leave blank to pool records.</p>
             <textarea id="watch-by" rows="2" spellcheck="false" aria-describedby="watch-by-help" placeholder="/route"></textarea>
           </div>
+          <div class="rate-option">
+            <label class="rate-toggle"><input type="checkbox" id="watch-rates" aria-describedby="watch-rate-help" /> Compare rates of known values</label>
+            <p id="watch-rate-help">Catch an error that was already present but became common. Compare each value's share of logged observations within its group. Unobserved groups have unknown rates.</p>
+            <div class="rate-threshold" id="rate-threshold" hidden>
+              <label for="watch-rate-change">Minimum change</label>
+              <input type="number" id="watch-rate-change" value="5" min="0" max="100" step="any" aria-describedby="watch-rate-unit" disabled />
+              <span id="watch-rate-unit">percentage points beyond every observed baseline rate</span>
+            </div>
+          </div>
         </section>
         <div class="run-row">
           <details class="options">
