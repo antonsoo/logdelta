@@ -1,0 +1,74 @@
+{
+  "created_at": "2026-10-09T05:53:43.775187+00:00",
+  "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "binary_sha256": "9ed9e9951b7774c9a59a005016299257e60ecfa9cc0721e0207661689ed8a882",
+  "captured_http": {
+    "provenance": "Controlled loopback HTTP requests; faults injected, not a production incident.",
+    "client_responses_checked": 120,
+    "pooled_exit": 0,
+    "grouped_exit": 1,
+    "retained_pairs": 3,
+    "finding": {
+      "value_json": "503",
+      "group_values_json": [
+        "\"/checkout\""
+      ],
+      "group_seen_in_baseline": true,
+      "baseline_counts": [
+        0,
+        0
+      ],
+      "target_count": 2,
+      "is_new": true,
+      "first_target": {
+        "line_no": 14,
+        "raw": "{\"ts\":\"2026-10-09T05:32:28.263948+00:00\",\"event\":\"request_complete\",\"route\":\"/checkout\",\"http\":{\"status\":503},\"elapsed_ms\":0.047,\"request_id\":9007199254741005}",
+        "truncated": false
+      }
+    },
+    "input_sha256": {
+      "http-routes-good.log": "b59721f12e56c9a71df1b35ad409f83c440d8fe462897cfc7179f092b32967a4",
+      "http-routes-good-2.log": "9e6c7883e934e923f292a06258ab7ff245cff0a020d2dde66d38cd9c116af307",
+      "http-routes-failed.log": "0fd3ee9d378583aa7389e7343cdc246e904e33198386f30d22ecfdf8399ca103",
+      "http-routes-observed.json": "3b0c96a942b917e1b025e55317daffb6c4e9d496dc7f7859fff3b536d842a9a0"
+    }
+  },
+  "reference": {
+    "seed": 20261009,
+    "cases": 40,
+    "field_comparisons": 80,
+    "ledger_rows_checked": 3242,
+    "checks": [
+      "exact keys",
+      "per-run counts",
+      "new pairs",
+      "new versus observed groups",
+      "first source lines",
+      "original source excerpts"
+    ]
+  },
+  "benchmark": {
+    "provenance": "Synthetic repeated traffic; one measured process per setting, warm filesystem cache.",
+    "lines_per_run": 100000,
+    "input_bytes": 13177780,
+    "measurements": [
+      {
+        "watch_by": [],
+        "exit": 0,
+        "elapsed_seconds": 0.6846,
+        "retained_pairs": 2,
+        "peak_rss_kib": 7772
+      },
+      {
+        "watch_by": [
+          "/service",
+          "/route"
+        ],
+        "exit": 1,
+        "elapsed_seconds": 0.7246,
+        "retained_pairs": 17,
+        "peak_rss_kib": 8012
+      }
+    ]
+  }
+}

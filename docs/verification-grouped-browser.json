@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-09T06:00:27.272Z",
+  "scope": "Local production build; controlled loopback HTTP fixture",
+  "native_binary_sha256": "9ed9e9951b7774c9a59a005016299257e60ecfa9cc0721e0207661689ed8a882",
+  "evidence": [
+    {
+      "browser": "chromium",
+      "version": "153.0.8010.12",
+      "native_result_equal": true,
+      "engine_sha256": "e19b43243bc5e1480b8be9be761e1760d958d1d70dcec25cfcc1c608b5ddaeea",
+      "screenshots": [
+        "docs/assets/grouped-fields/chromium-evidence.png",
+        "docs/assets/grouped-fields/mobile-dark.png",
+        "docs/assets/grouped-fields/controls.png",
+        "docs/assets/grouped-fields/mobile-incomplete.png"
+      ],
+      "errors": [],
+      "external_requests": [],
+      "screenshot_sha256": {
+        "docs/assets/grouped-fields/chromium-evidence.png": "1a475b2e5f537bdbb268ad1d91445676687512da145ea4e809dbd8da0b94889d",
+        "docs/assets/grouped-fields/mobile-dark.png": "1bfe7bcb6ca69d914698c3d5ab5b6d391aa6dbc4c5db8474e2b4220bc2bc4c0c",
+        "docs/assets/grouped-fields/controls.png": "08c44ecbb4b105e00d7f8ce62d59ddf6bc36e7c047787c9d2ab950fe55c85d83",
+        "docs/assets/grouped-fields/mobile-incomplete.png": "0f7981a1a77cf9075f4e04f9c52131cf9d65745a89eabb096a847c98edad5f19"
+      }
+    },
+    {
+      "browser": "firefox",
+      "version": "155.0",
+      "native_result_equal": true,
+      "engine_sha256": "e19b43243bc5e1480b8be9be761e1760d958d1d70dcec25cfcc1c608b5ddaeea",
+      "screenshots": [
+        "docs/assets/grouped-fields/firefox-evidence.png"
+      ],
+      "errors": [],
+      "external_requests": [],
+      "screenshot_sha256": {
+        "docs/assets/grouped-fields/firefox-evidence.png": "f7654c310db71b3ab74911617548cf7a86903c9c54f2314cea93b599c2c4a3b0"
+      }
+    }
+  ]
+}
