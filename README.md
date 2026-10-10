@@ -126,6 +126,9 @@ when it could not read its input (a missing file, or one that is not text), like
 - **`logdelta novel --baseline <file>... [target|-]`** — a streaming filter: prints only
   lines whose template has never appeared in the baseline(s). Flushes per line, so
   `tail -f app.log | logdelta novel --baseline last-week.log` surfaces new behavior live.
+  The source checkout recognizes gzip and UTF-8/UTF-16 byte-order marks even when
+  a pipe splits their headers across writes. A [real-pipe replay](studies/streaming-inputs/README.md)
+  checks live delivery, corrupt gzip, and unchanged evidence across 32,000 public log lines.
 - **Structural envelopes**: CRI/containerd (`kubectl logs`) prefixes, journald/syslog
   headers, the Docker `json-file` wrapper, and bare leading timestamps (GitHub Actions'
   raw-log shape) are stripped before mining, keeping only what's worth comparing on (e.g.

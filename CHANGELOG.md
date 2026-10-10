@@ -5,6 +5,16 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Streamed encoding headers
+
+- Recognize gzip and UTF-8/UTF-16 byte-order marks across short reads from pipes.
+  A split mark no longer makes a known line appear new or causes compressed/UTF-16
+  bytes to be mined as log text. Interrupted header reads are retried.
+- Wait only while the available bytes could still complete a recognized header;
+  short plain-text lines remain live before EOF. Incomplete or mismatched prefixes
+  retain their original bytes. Concatenated gzip members continue to work.
+- [Before/after CLI replay and public-corpus checks](studies/streaming-inputs/README.md).
+
 ### Changes in known field values' rates
 
 - `--watch-rate-change PERCENT_POINTS` adds an opt-in rate comparison to exact

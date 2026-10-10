@@ -1,0 +1,152 @@
+{
+  "source_revision": "7ac1d80165a0090f3fcdf49a3ed939e1502c25eb",
+  "before_revision": "1baa53b",
+  "scope": "Native input decoding; no UI behavior changed",
+  "clean_native": [
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.132,
+      "log": "clean-0.log"
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 7.904,
+      "log": "clean-1.log"
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--all-features",
+        "--quiet"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 21.416,
+      "log": "clean-2.log"
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "--doc",
+        "--quiet"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.392,
+      "log": "clean-3.log"
+    },
+    {
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "install",
+        "--locked",
+        "--path",
+        ".",
+        "--root",
+        "<scratch>/installed"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 29.366,
+      "log": "clean-4.log"
+    }
+  ],
+  "native_tests": {
+    "unit_and_integration": 211,
+    "doctests": 1,
+    "toolchains": [
+      "1.91.0",
+      "1.85.0"
+    ]
+  },
+  "initial_environment_issue": "Rust 1.85 rustfmt was not installed; formatting and clippy used installed stable Rust 1.91. Tests and fresh installation used Rust 1.85.",
+  "wasm_target_check": "cargo check --locked --manifest-path web/wasm/Cargo.toml --target wasm32-unknown-unknown passed",
+  "web": [
+    {
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 2.284,
+      "log": "web-0.log"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.549,
+      "log": "web-1.log"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.42,
+      "log": "web-2.log"
+    },
+    {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.987,
+      "log": "web-3.log"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 19.354,
+      "log": "web-4.log"
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "verify:wasm"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 285.401,
+      "log": "web-5.log"
+    }
+  ],
+  "output_directory": "web/dist",
+  "no_browser_rerun": "Only native file/pipe I/O changed; browser inputs bypass this module.",
+  "replay_sha256": "8dfbbfec2471623da98f020027f2434ae50635a2c9e5cdf58389be0ce724a0fd",
+  "implementation_sha256": "7a435afa4bcb169ec26e3fd0fe912aac635099bb8a035bc4be44a904127ef256",
+  "web_unit_tests": 78,
+  "wasm_configuration_replays": 20
+}

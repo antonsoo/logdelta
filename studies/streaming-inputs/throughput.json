@@ -1,0 +1,95 @@
+{
+  "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "input_bytes": 17835560,
+  "input_sha256": "a596bb73f2d2141cb604b0bdf85192b573b42682949e628a3ed1414d7d8de4d1",
+  "binary_sha256": {
+    "before": "86e145d34c68bd91212d814e6a88ad652e3b52aac4b06fb3b8773abbdbb3cd51",
+    "current": "d942a469c17b88bf3b435e93736a46e6646dbc86a5a9506ccd0b9759d2148678"
+  },
+  "runs": [
+    {
+      "encoding": ".log",
+      "binary": "before",
+      "repeat": 0,
+      "seconds": 1.1625492960010888,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".log",
+      "binary": "current",
+      "repeat": 0,
+      "seconds": 0.9845313929981785,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".log",
+      "binary": "current",
+      "repeat": 1,
+      "seconds": 0.9641869170009159,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".log",
+      "binary": "before",
+      "repeat": 1,
+      "seconds": 0.9612166560109472,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".log",
+      "binary": "before",
+      "repeat": 2,
+      "seconds": 0.8943784110015258,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".log",
+      "binary": "current",
+      "repeat": 2,
+      "seconds": 0.8220184670062736,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".gz",
+      "binary": "before",
+      "repeat": 0,
+      "seconds": 0.8016845209931489,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".gz",
+      "binary": "current",
+      "repeat": 0,
+      "seconds": 0.7438931189972209,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".gz",
+      "binary": "current",
+      "repeat": 1,
+      "seconds": 0.8022582430130569,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".gz",
+      "binary": "before",
+      "repeat": 1,
+      "seconds": 0.756901137996465,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".gz",
+      "binary": "before",
+      "repeat": 2,
+      "seconds": 0.7477130519982893,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    },
+    {
+      "encoding": ".gz",
+      "binary": "current",
+      "repeat": 2,
+      "seconds": 0.736883713005227,
+      "stdout_sha256": "f612e867c57078eb7b5cd9fc513e890234b5dfa97a4f920005de0ce1719ec734"
+    }
+  ]
+}
