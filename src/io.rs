@@ -12,7 +12,7 @@
 //! aborts a multi-gigabyte log.
 
 use std::fs::File;
-use std::io::{self, BufRead, BufReader, Read};
+use std::io::{self, BufRead, BufReader, Cursor, Read};
 
 use flate2::read::MultiGzDecoder;
 
@@ -30,7 +30,8 @@ pub fn open_source(path: &str) -> io::Result<Box<dyn BufRead>> {
 
 const GZIP_MAGIC: [u8; 2] = [0x1F, 0x8B];
 
-fn opened<R: BufRead + 'static>(mut reader: R) -> io::Result<Box<dyn BufRead>> {
+fn opened<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
+    let mut reader = complete_magic_prefix(reader, &[&GZIP_MAGIC])?;
     if reader.fill_buf()?.starts_with(&GZIP_MAGIC) {
         decoded(BufReader::with_capacity(
             BUFFER,
@@ -43,11 +44,54 @@ fn opened<R: BufRead + 'static>(mut reader: R) -> io::Result<Box<dyn BufRead>> {
 
 const BUFFER: usize = 256 * 1024;
 
+/// `fill_buf` may expose only one byte of a pipe. Join successive short reads only while
+/// they could still be an encoding signature. Ordinary text (even a lone newline) must
+/// stay available immediately, without waiting for a fixed-size prefix or EOF.
+///
+/// The usual file path leaves the existing buffer untouched. A split signature uses at
+/// most the longest signature's length of replay storage; no bytes are lost on a mismatch
+/// or an incomplete signature at EOF.
+fn complete_magic_prefix<R: BufRead>(
+    mut reader: R,
+    signatures: &[&[u8]],
+) -> io::Result<impl BufRead> {
+    let mut prefix = Vec::new();
+    let width = signatures.iter().map(|s| s.len()).max().unwrap_or(0);
+    loop {
+        let head = match reader.fill_buf() {
+            Err(e) if e.kind() == io::ErrorKind::Interrupted => continue,
+            result => result?,
+        };
+        if head.is_empty() {
+            break;
+        }
+        let incomplete = signatures.iter().any(|signature| {
+            prefix.len() + head.len() < signature.len()
+                && signature.starts_with(&prefix)
+                && signature[prefix.len()..].starts_with(head)
+        });
+        if incomplete {
+            let n = head.len();
+            prefix.extend_from_slice(head);
+            reader.consume(n);
+        } else {
+            if !prefix.is_empty() {
+                let n = head.len().min(width - prefix.len());
+                prefix.extend_from_slice(&head[..n]);
+                reader.consume(n);
+            }
+            break;
+        }
+    }
+    Ok(Cursor::new(prefix).chain(reader))
+}
+
 /// `reader` as UTF-8 text: past a UTF-8 byte-order mark, or transcoded from UTF-16 when it
 /// starts with that mark. Anything else is passed through untouched, unless it is plainly not
 /// text: a NUL byte in the first block (an image, an archive, an executable) is refused, since
 /// "mining" one gave hundreds of junk templates and a diff that exited 0.
-fn decoded<R: BufRead + 'static>(mut reader: R) -> io::Result<Box<dyn BufRead>> {
+fn decoded<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
+    let mut reader = complete_magic_prefix(reader, &[b"\xEF\xBB\xBF", b"\xFF\xFE", b"\xFE\xFF"])?;
     let head = reader.fill_buf()?;
     if head.starts_with(&[0xEF, 0xBB, 0xBF]) {
         reader.consume(3);
@@ -236,7 +280,7 @@ pub fn read_line_from<R: Read>(reader: &mut R, buf: &mut Vec<u8>) -> io::Result<
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::Cursor;
+    use std::io::Write;
 
     #[test]
     fn splits_lines_and_strips_crlf() {
@@ -315,6 +359,137 @@ mod tests {
             self.at += n;
             Ok(n)
         }
+    }
+
+    fn gzip(bytes: &[u8]) -> Vec<u8> {
+        let mut encoder = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::default());
+        encoder.write_all(bytes).unwrap();
+        encoder.finish().unwrap()
+    }
+
+    #[test]
+    fn encoding_detection_survives_short_reads_including_the_signature() {
+        let text = "known status ready\r\nERROR café 🔥 disk unavailable\r\n";
+        let encodings = [
+            text.as_bytes().to_vec(),
+            [b"\xEF\xBB\xBF".as_slice(), text.as_bytes()].concat(),
+            utf16(text, false),
+            utf16(text, true),
+        ];
+        for plain in encodings {
+            for data in [plain.clone(), gzip(&plain)] {
+                for step in 1..=9 {
+                    let source = BufReader::new(Trickle {
+                        data: data.clone(),
+                        at: 0,
+                        step,
+                    });
+                    let lines: Vec<_> = LineIter::new(opened(source).unwrap())
+                        .collect::<io::Result<_>>()
+                        .unwrap();
+                    assert_eq!(
+                        lines,
+                        vec!["known status ready", "ERROR café 🔥 disk unavailable"],
+                        "step {step}, header {:?}",
+                        &data[..3]
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn concatenated_gzip_members_survive_one_byte_reads() {
+        // Multiple gzip members remain one text stream; a mark belongs only at its start.
+        let data = [gzip(b"\xEF\xBB\xBFfirst\n"), gzip(b"second\n")].concat();
+        let source = BufReader::new(Trickle {
+            data,
+            at: 0,
+            step: 1,
+        });
+        let lines: Vec<_> = LineIter::new(opened(source).unwrap())
+            .collect::<io::Result<_>>()
+            .unwrap();
+        assert_eq!(lines, vec!["first", "second"]);
+    }
+
+    #[test]
+    fn partial_and_mismatched_signatures_preserve_every_byte() {
+        for data in [
+            b"\x1F".as_slice(),
+            b"\x1Fx\n",
+            b"\xEF",
+            b"\xEF\xBB",
+            b"\xEFx\n",
+            b"\xEF\xBBx\n",
+            b"\xFF",
+            b"\xFFx\n",
+            b"\xFE",
+            b"\xFEx\n",
+        ] {
+            let source = BufReader::new(Trickle {
+                data: data.to_vec(),
+                at: 0,
+                step: 1,
+            });
+            let mut actual = Vec::new();
+            opened(source).unwrap().read_to_end(&mut actual).unwrap();
+            assert_eq!(actual, data);
+        }
+    }
+
+    #[test]
+    fn a_complete_line_does_not_wait_for_more_input() {
+        struct StillOpen(Trickle);
+        impl Read for StillOpen {
+            fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+                if self.0.at == self.0.data.len() {
+                    panic!("read beyond the available complete line before returning it");
+                }
+                self.0.read(buf)
+            }
+        }
+        for data in [
+            b"\n".to_vec(),
+            b"x\n".to_vec(),
+            b"\xEF\xBB\xBF\n".to_vec(),
+            utf16("\n", false),
+            utf16("\n", true),
+        ] {
+            let source = BufReader::new(StillOpen(Trickle {
+                data,
+                at: 0,
+                step: 1,
+            }));
+            let mut reader = opened(source).unwrap();
+            assert!(read_line_from(&mut reader, &mut Vec::new())
+                .unwrap()
+                .is_some());
+        }
+    }
+
+    #[test]
+    fn an_interrupted_header_read_is_retried() {
+        struct InterruptedOnce(Option<Cursor<Vec<u8>>>);
+        impl Read for InterruptedOnce {
+            fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+                match &mut self.0 {
+                    Some(reader) => reader.read(buf),
+                    None => {
+                        self.0 = Some(Cursor::new(b"\xEF\xBB\xBFfirst\n".to_vec()));
+                        Err(io::ErrorKind::Interrupted.into())
+                    }
+                }
+            }
+        }
+        let source = BufReader::new(InterruptedOnce(None));
+        assert_eq!(
+            LineIter::new(opened(source).unwrap())
+                .next()
+                .unwrap()
+                .unwrap(),
+            "first"
+        );
     }
 
     #[test]
