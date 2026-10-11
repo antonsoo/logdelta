@@ -36,6 +36,58 @@ fn report(baselines: &[&str], target: &str, pointers: &[&str]) -> (i32, Value) {
 }
 
 #[test]
+fn lossy_input_cannot_pass_an_exact_field_watch_but_literal_replacement_text_can() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let good = dir.path().join("valid.log");
+    std::fs::write(&good, "{\"route\":\"caf\u{FFFD}\"}\n").unwrap();
+    let invalid = b"{\"route\":\"caf\xff\"}\n";
+    let mut encoder = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::default());
+    encoder.write_all(invalid).unwrap();
+    for (name, bytes) in [
+        ("invalid.log", invalid.to_vec()),
+        ("invalid.gz", encoder.finish().unwrap()),
+    ] {
+        let bad = dir.path().join(name);
+        std::fs::write(&bad, bytes).unwrap();
+        for (baseline, target) in [(&good, &bad), (&bad, &good)] {
+            Command::cargo_bin("logdelta")
+                .unwrap()
+                .arg("diff")
+                .arg(baseline)
+                .arg("--target")
+                .arg(target)
+                .args(["--watch-field", "/route", "--json"])
+                .assert()
+                .code(2)
+                .stdout("")
+                .stderr(predicates::str::contains("invalid UTF-8"))
+                .stderr(predicates::str::contains(name));
+            // Ordinary exploratory template comparison keeps its tolerant contract.
+            Command::cargo_bin("logdelta")
+                .unwrap()
+                .arg("diff")
+                .arg(baseline)
+                .arg("--target")
+                .arg(target)
+                .args(["--json"])
+                .assert()
+                .code(0);
+        }
+    }
+    Command::cargo_bin("logdelta")
+        .unwrap()
+        .arg("diff")
+        .arg(&good)
+        .arg("--target")
+        .arg(&good)
+        .args(["--watch-field", "/route", "--json"])
+        .assert()
+        .code(0)
+        .stdout(predicates::str::contains("\"complete\": true"));
+}
+
+#[test]
 fn unchanged_templates_do_not_hide_watched_status_and_exit_code() {
     let good = include_str!("../examples/http-good.log");
     let other = include_str!("../examples/http-good-2.log");

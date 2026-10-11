@@ -1,11 +1,18 @@
 import { describe, expect, it, vi } from "vitest";
 import { gzipSync } from "node:zlib";
-import { MAX_LOG_BYTES, readBounded, readLogFile, textBytes } from "./files";
+import { MAX_LOG_BYTES, readBounded, readLogFile, readLogFileInput, textBytes } from "./files";
 
 const signal = () => new AbortController().signal;
 const utf8 = (text: string) => new TextEncoder().encode(text);
 
 describe("bounded log imports", () => {
+  it("carries gzip decoding loss without confusing a literal replacement character", async () => {
+    const invalid = Buffer.from([0x61, 0xff, 0x0a]);
+    expect(await readLogFileInput(new File([gzipSync(invalid)], "damaged.gz"), signal()))
+      .toEqual({ text: "a\uFFFD\n", decodingLoss: "UTF-8" });
+    expect(await readLogFileInput(new File([gzipSync(utf8("a\uFFFD\n"))], "literal.gz"), signal()))
+      .toEqual({ text: "a\uFFFD\n" });
+  });
   it.each(["", "ascii\n", "café", "日本語", "a😀b", "\ud800x\udc00", "\ufeffhi\r\n"])("counts UTF-8 bytes without changing %j", (text) => {
     expect(textBytes(text)).toBe(utf8(text).length);
   });

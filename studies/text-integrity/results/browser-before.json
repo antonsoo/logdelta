@@ -1,0 +1,155 @@
+[
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 1440,
+    "encoding": "UTF-8",
+    "phase": "before",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+      },
+      "completed_at": "2026-10-11T23:47:00.088Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "misleadingExactWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+      },
+      "completed_at": "2026-10-11T23:47:00.206Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exactWatchBlocked": false,
+    "screenshot": "chromium-1440-before.png",
+    "screenshotSha256": "cbe56d81486452a8d830320d7140609bc2b1640b537ad48b8959405871689ba4",
+    "offlineAfterWorkerLoad": true,
+    "accessibility": []
+  }
+]

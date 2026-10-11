@@ -10,6 +10,8 @@
 //! invalid sequences are replaced with `U+FFFD` (via `String::from_utf8_lossy`), matching
 //! the brief's "non-UTF-8 bytes handled lossily" requirement. A single malformed line never
 //! aborts a multi-gigabyte log.
+//! Exact field watches use `read_lines_exact` instead: replacement decoding can
+//! collapse distinct source values, so it cannot establish an exact comparison.
 
 use std::fs::File;
 use std::io::{self, BufRead, BufReader, Cursor, Read};
@@ -20,25 +22,29 @@ use flate2::read::MultiGzDecoder;
 /// two bytes, whatever the name, and decompressed (as a multi-stream gzip, since concatenated
 /// `.gz` logs are common).
 pub fn open_source(path: &str) -> io::Result<Box<dyn BufRead>> {
+    open_source_mode(path, false)
+}
+
+fn open_source_mode(path: &str, exact: bool) -> io::Result<Box<dyn BufRead>> {
     if path == "-" {
-        return opened(BufReader::with_capacity(BUFFER, io::stdin()));
+        return opened_mode(BufReader::with_capacity(BUFFER, io::stdin()), exact);
     }
     let file = File::open(path).map_err(|e| io::Error::new(e.kind(), format!("{path}: {e}")))?;
-    opened(BufReader::with_capacity(BUFFER, file))
+    opened_mode(BufReader::with_capacity(BUFFER, file), exact)
         .map_err(|e| io::Error::new(e.kind(), format!("{path}: {e}")))
 }
 
 const GZIP_MAGIC: [u8; 2] = [0x1F, 0x8B];
 
-fn opened<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
+fn opened_mode<R: BufRead + 'static>(reader: R, exact: bool) -> io::Result<Box<dyn BufRead>> {
     let mut reader = complete_magic_prefix(reader, &[&GZIP_MAGIC])?;
     if reader.fill_buf()?.starts_with(&GZIP_MAGIC) {
-        decoded(BufReader::with_capacity(
-            BUFFER,
-            MultiGzDecoder::new(reader),
-        ))
+        decoded_mode(
+            BufReader::with_capacity(BUFFER, MultiGzDecoder::new(reader)),
+            exact,
+        )
     } else {
-        decoded(reader)
+        decoded_mode(reader, exact)
     }
 }
 
@@ -90,7 +96,7 @@ fn complete_magic_prefix<R: BufRead>(
 /// starts with that mark. Anything else is passed through untouched, unless it is plainly not
 /// text: a NUL byte in the first block (an image, an archive, an executable) is refused, since
 /// "mining" one gave hundreds of junk templates and a diff that exited 0.
-fn decoded<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
+fn decoded_mode<R: BufRead + 'static>(reader: R, exact: bool) -> io::Result<Box<dyn BufRead>> {
     let mut reader = complete_magic_prefix(reader, &[b"\xEF\xBB\xBF", b"\xFF\xFE", b"\xFE\xFF"])?;
     let head = reader.fill_buf()?;
     if head.starts_with(&[0xEF, 0xBB, 0xBF]) {
@@ -111,7 +117,7 @@ fn decoded<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
     reader.consume(2);
     Ok(Box::new(BufReader::with_capacity(
         BUFFER,
-        Utf16Reader::new(reader, big_endian),
+        Utf16Reader::new(reader, big_endian, exact),
     )))
 }
 
@@ -128,10 +134,11 @@ struct Utf16Reader<R: Read> {
     out: Vec<u8>,
     pos: usize,
     done: bool,
+    exact: bool,
 }
 
 impl<R: Read> Utf16Reader<R> {
-    fn new(inner: R, big_endian: bool) -> Self {
+    fn new(inner: R, big_endian: bool, exact: bool) -> Self {
         Utf16Reader {
             inner,
             big_endian,
@@ -140,13 +147,18 @@ impl<R: Read> Utf16Reader<R> {
             out: Vec::new(),
             pos: 0,
             done: false,
+            exact,
         }
     }
 
-    fn push(&mut self, decoded: Result<char, std::char::DecodeUtf16Error>) {
+    fn push(&mut self, decoded: Result<char, std::char::DecodeUtf16Error>) -> io::Result<()> {
+        if decoded.is_err() && self.exact {
+            return Err(invalid_encoding("UTF-16"));
+        }
         let ch = decoded.unwrap_or(char::REPLACEMENT_CHARACTER);
         self.out
             .extend_from_slice(ch.encode_utf8(&mut [0; 4]).as_bytes());
+        Ok(())
     }
 
     /// Decodes the next block of input into `out`.
@@ -164,6 +176,9 @@ impl<R: Read> Utf16Reader<R> {
         if n == 0 {
             self.done = true;
             if self.half_unit.take().is_some() || self.lead.take().is_some() {
+                if self.exact {
+                    return Err(invalid_encoding("UTF-16"));
+                }
                 self.out.extend_from_slice(
                     char::REPLACEMENT_CHARACTER
                         .encode_utf8(&mut [0; 4])
@@ -190,7 +205,7 @@ impl<R: Read> Utf16Reader<R> {
             self.lead = units.pop();
         }
         for decoded in char::decode_utf16(units) {
-            self.push(decoded);
+            self.push(decoded)?;
         }
         Ok(())
     }
@@ -213,6 +228,7 @@ impl<R: Read> Read for Utf16Reader<R> {
 pub struct LineIter<R: BufRead> {
     reader: R,
     buf: Vec<u8>,
+    exact: bool,
 }
 
 impl<R: BufRead> LineIter<R> {
@@ -220,6 +236,7 @@ impl<R: BufRead> LineIter<R> {
         LineIter {
             reader,
             buf: Vec::with_capacity(4096),
+            exact: false,
         }
     }
 }
@@ -235,7 +252,13 @@ impl<R: BufRead> Iterator for LineIter<R> {
                 while matches!(self.buf.last(), Some(b'\n' | b'\r')) {
                     self.buf.pop();
                 }
-                Some(Ok(String::from_utf8_lossy(&self.buf).into_owned()))
+                Some(if self.exact {
+                    std::str::from_utf8(&self.buf)
+                        .map(str::to_owned)
+                        .map_err(|_| invalid_encoding("UTF-8"))
+                } else {
+                    Ok(String::from_utf8_lossy(&self.buf).into_owned())
+                })
             }
             Err(e) => Some(Err(e)),
         }
@@ -245,6 +268,21 @@ impl<R: BufRead> Iterator for LineIter<R> {
 /// Convenience: opens and iterates `path` in one call.
 pub fn read_lines(path: &str) -> io::Result<LineIter<Box<dyn BufRead>>> {
     Ok(LineIter::new(open_source(path)?))
+}
+
+/// Like `read_lines`, but malformed UTF-8/UTF-16 is an error, including in gzip.
+/// A genuine encoded U+FFFD remains valid; only decoder substitutions are refused.
+pub fn read_lines_exact(path: &str) -> io::Result<LineIter<Box<dyn BufRead>>> {
+    let mut lines = LineIter::new(open_source_mode(path, true)?);
+    lines.exact = true;
+    Ok(lines)
+}
+
+fn invalid_encoding(encoding: &str) -> io::Error {
+    io::Error::new(
+        io::ErrorKind::InvalidData,
+        format!("invalid {encoding}; exact field watches require valid UTF-8 or BOM-marked UTF-16"),
+    )
 }
 
 /// A single line read directly from a `Read` source without buffering the whole thing,
@@ -281,6 +319,14 @@ pub fn read_line_from<R: Read>(reader: &mut R, buf: &mut Vec<u8>) -> io::Result<
 mod tests {
     use super::*;
     use std::io::Write;
+
+    fn opened<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
+        opened_mode(reader, false)
+    }
+
+    fn decoded<R: BufRead + 'static>(reader: R) -> io::Result<Box<dyn BufRead>> {
+        decoded_mode(reader, false)
+    }
 
     #[test]
     fn splits_lines_and_strips_crlf() {
@@ -506,10 +552,64 @@ mod tests {
                     at: 0,
                     step,
                 };
-                let reader = BufReader::new(Utf16Reader::new(source, big_endian));
+                let reader = BufReader::new(Utf16Reader::new(source, big_endian, false));
                 let lines: Vec<String> = LineIter::new(reader).map(|r| r.unwrap()).collect();
                 assert_eq!(lines.len(), 200, "step {step}");
                 assert!(lines.iter().all(|l| l == line), "step {step}");
+            }
+        }
+    }
+
+    #[test]
+    fn exact_decoding_survives_split_encodings_but_rejects_substitutions() {
+        let text = "route caf\u{FFFD} \u{1F525}\r\nnext\n";
+        let valid = [
+            text.as_bytes().to_vec(),
+            utf16(text, false),
+            utf16(text, true),
+        ];
+        let mut malformed = vec![b"route caf\xff\n".to_vec(), b"route caf\xc3".to_vec()];
+        for big_endian in [false, true] {
+            for tail in [vec![0xD800], vec![0xDC00], vec![0xD800, 0x0061]] {
+                let mut bytes = utf16("route ", big_endian);
+                for unit in tail {
+                    bytes.extend_from_slice(&if big_endian {
+                        u16::to_be_bytes(unit)
+                    } else {
+                        u16::to_le_bytes(unit)
+                    });
+                }
+                malformed.push(bytes);
+            }
+            let mut odd = utf16("route ", big_endian);
+            odd.push(0x61);
+            malformed.push(odd);
+        }
+        for (inputs, valid) in [(&valid[..], true), (&malformed[..], false)] {
+            for input in inputs {
+                for compressed in [false, true] {
+                    for step in 1..=9 {
+                        let data = if compressed {
+                            gzip(input)
+                        } else {
+                            input.clone()
+                        };
+                        let source = BufReader::new(Trickle { data, at: 0, step });
+                        let mut lines = LineIter::new(opened_mode(source, true).unwrap());
+                        lines.exact = true;
+                        let result = lines.collect::<io::Result<Vec<_>>>();
+                        if valid {
+                            assert_eq!(
+                                result.unwrap(),
+                                vec!["route caf\u{FFFD} \u{1F525}", "next"]
+                            );
+                        } else {
+                            let error = result.unwrap_err();
+                            assert_eq!(error.kind(), io::ErrorKind::InvalidData);
+                            assert!(error.to_string().contains("exact field watches"));
+                        }
+                    }
+                }
             }
         }
     }

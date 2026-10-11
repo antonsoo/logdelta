@@ -1,7 +1,7 @@
 // The example logs committed in the repository (examples/), staged into public/ at build time.
 // Fixtures are synthetic or controlled local experiments; see examples/README.md.
 import { readBounded, MAX_LOG_BYTES } from "./files";
-import { decodeLog } from "./decode";
+import { decodeLogInput } from "./decode";
 
 export interface Example {
   id: string;
@@ -71,7 +71,9 @@ export async function loadExample(example: Example, signal: AbortSignal): Promis
     const response = await fetch(`${import.meta.env.BASE_URL}${path}`, { signal });
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
     if (!response.body) throw new Error(`${path}: no response body`);
-    return decodeLog(await readBounded(response.body, MAX_LOG_BYTES, signal));
+    const input = decodeLogInput(await readBounded(response.body, MAX_LOG_BYTES, signal));
+    if (input.decodingLoss) throw new Error(`${path}: invalid ${input.decodingLoss} in example log`);
+    return input.text;
   };
   const [target, ...baselines] = await Promise.all([fetchText(example.target), ...example.baselines.map(fetchText)]);
   return { baselines, target: target! };

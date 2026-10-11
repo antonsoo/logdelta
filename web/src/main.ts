@@ -1,7 +1,7 @@
 import "./fonts/fonts.css";
 import "./style.css";
 import { engine } from "./engine";
-import { MAX_BASELINES, readLogFile } from "./files";
+import { MAX_BASELINES, readLogFileInput } from "./files";
 import { EXAMPLES, loadExample, type Example } from "./examples";
 import { comparisonInput, exportReport, parseGroups, parseWatches, parseRateChange, type CompletedComparison, type LogInput } from "./report";
 import { baselineCounts, formatCount, lineCount, printable, templateParts } from "./template";
@@ -161,7 +161,7 @@ function refreshEditor(id: Editor): void {
   const source = sourceFor(id);
   const area = $<HTMLTextAreaElement>(id);
   if (area.value !== source.text) area.value = source.text;
-  $(`${id}-source`).textContent = source.loading ? `Opening ${source.loading.name}…` : printable(source.name);
+  $(`${id}-source`).textContent = source.loading ? `Opening ${source.loading.name}…` : printable(source.name) + (source.decodingLoss ? ` — invalid ${source.decodingLoss} replaced for display; exact field watches unavailable` : "");
   const lines = lineCount(source.text);
   $(`${id}-count`).textContent = source.ready ? `${formatCount(lines)} ${lines === 1 ? "line" : "lines"}` : "No input";
   const emptyButton = document.querySelector<HTMLButtonElement>(`[data-empty="${id}"]`)!;
@@ -202,6 +202,7 @@ function refreshSource(source: Source): void {
 }
 function setSource(source: Source, input: LogInput): void {
   stopFile(source);
+  delete source.decodingLoss;
   Object.assign(source, input);
   changed();
   refreshSource(source);
@@ -216,10 +217,12 @@ async function loadFile(id: Editor, file: File): Promise<void> {
   status(`Opening ${printable(file.name)}…`);
   refreshSource(source);
   try {
-    const text = await readLogFile(file, controller.signal);
+    const input = await readLogFileInput(file, controller.signal);
     if (controller.signal.aborted || source.loading?.controller !== controller) return;
-    setSource(source, { text, name: file.name, origin: "file", ready: true });
-    status(`Opened ${printable(file.name)}. Compare runs to update the findings.`);
+    setSource(source, { ...input, name: file.name, origin: "file", ready: true });
+    status(input.decodingLoss
+      ? `Opened ${printable(file.name)} with invalid ${input.decodingLoss} replaced for display. Exact field watches are unavailable for this input.`
+      : `Opened ${printable(file.name)}. Compare runs to update the findings.`, !!input.decodingLoss);
   } catch (error) {
     if (controller.signal.aborted || source.loading?.controller !== controller) return;
     source.loading = undefined;
@@ -242,7 +245,7 @@ function wireEditors(): void {
       const source = sourceFor(target.id);
       const name = source.origin === "file" || source.origin === "example" ? `${source.name} (edited)` : source.origin === "edited" ? source.name : "Pasted log";
       const origin = source.origin === "file" || source.origin === "example" || source.origin === "edited" ? "edited" : "pasted";
-      setSource(source, { text: target.value, name, origin, ready: true });
+      setSource(source, { text: target.value, name, origin, ready: true, ...(source.decodingLoss ? { decodingLoss: source.decodingLoss } : {}) });
     } else if (target.id === "masks" || target.id === "context" || target.id === "watch-fields" || target.id === "watch-by" || target.id === "watch-rates" || target.id === "watch-rate-change") {
       target.removeAttribute("aria-invalid");
       if (target.id === "watch-rates") refreshRateControl();
@@ -537,7 +540,7 @@ function renderResults(): void {
     <details class="provenance" id="source-details" ${state.sourceDetails ? "open" : ""}>
       <summary>Compared sources and settings</summary>
       <table><caption>Baseline counts in the findings follow this order.</caption><thead><tr><th scope="col">Input</th><th scope="col">Source</th><th scope="col">Lines</th></tr></thead>
-        <tbody>${[...report.sources.baselines, report.sources.target].map((source) => `<tr><th scope="row">${esc(source.label)}</th><td>${esc(printable(source.name))}</td><td>${formatCount(source.lines)}</td></tr>`).join("")}</tbody>
+        <tbody>${[...report.sources.baselines, report.sources.target].map((source) => `<tr><th scope="row">${esc(source.label)}</th><td>${esc(printable(source.name))}${source.decoding_loss ? ` (invalid ${esc(source.decoding_loss)} replaced)` : ""}</td><td>${formatCount(source.lines)}</td></tr>`).join("")}</tbody>
       </table>
       ${report.sources.omitted_baselines.length ? `<p>Unused baseline editors omitted: ${report.sources.omitted_baselines.join(", ")}. Empty imported logs are included.</p>` : ""}
       <p>Context: ${report.request.context} lines. Extra masks: ${report.request.masks.length}.</p>

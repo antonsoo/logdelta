@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readFile } from "node:fs/promises";
 import { TextEncoder } from "node:util";
+import { Buffer } from "node:buffer";
+import { gzipSync } from "node:zlib";
 
 async function ready(page) {
   await page.goto("./");
@@ -36,6 +38,41 @@ test.beforeEach(async ({ page, baseURL }) => {
 test.afterEach(async ({ page }) => {
   expect(await page.evaluate(() => window.fieldDiagnostics())).toEqual({ errors: [], external: [] });
   expect(await page.evaluate(() => window.fieldViolations)).toEqual([]);
+});
+
+test("lossy imports remain inspectable but cannot pass an exact watch after edits", async ({ page }) => {
+  await ready(page);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  const literal = Buffer.from('{"route":"caf\uFFFD"}\n');
+  const malformed = gzipSync(Buffer.concat([Buffer.from('{"route":"caf'), Buffer.from([255]), Buffer.from('"}\n')]));
+  const open = async (side, name, buffer) => {
+    await page.locator(`input[data-file-for="${side}"]`).setInputFiles({ name, mimeType: "application/octet-stream", buffer });
+    await expect(page.getByRole("status")).toContainText(`Opened ${name}`);
+  };
+  await open("baseline", "valid.log", literal);
+  await open("target", "damaged.gz", malformed);
+  await expect(page.locator("#target-source")).toContainText("exact field watches unavailable");
+  await run(page);
+  const exploratory = await report(page);
+  expect(exploratory.sources.target.decoding_loss).toBe("UTF-8");
+  await page.locator("#target").fill('{"route":"caf\uFFFD"}\n# edited comment\n');
+  const watches = page.locator("#watch-fields");
+  await watches.fill("/route");
+  await page.getByRole("button", { name: "Compare runs", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("Exact field watches require valid text");
+  await expect(page.locator("#report-status")).toContainText("Inputs changed");
+  expect(await report(page)).toEqual(exploratory);
+  await open("target", "valid-again.log", literal);
+  await expect(page.locator("#target-source")).not.toContainText("invalid UTF-8");
+  await run(page);
+  const exact = await report(page);
+  expect(exact.result.watched_fields[0].complete).toBe(true);
+  expect(exact.result.watched_fields[0].values[0].value_json).toBe('"caf\uFFFD"');
+  expect(exact.sources.target.decoding_loss).toBeUndefined();
+  await open("baseline", "damaged-baseline.gz", malformed);
+  await page.getByRole("button", { name: "Compare runs", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("Baseline 1 (damaged-baseline.gz) contained invalid UTF-8");
+  expect(await report(page)).toEqual(exact);
 });
 
 test("real WASM exposes the masked incident with exact counts, sources and coherent exports", async ({ page }) => {

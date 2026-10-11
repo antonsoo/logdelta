@@ -10,6 +10,8 @@ export interface LogInput {
   origin: "file" | "example" | "pasted" | "edited" | "empty";
   /** An empty file is a real input; an unused editor is not. */
   ready: boolean;
+  /** Remains attached to an imported source through edits; editing cannot recover its bytes. */
+  decodingLoss?: string;
 }
 
 export interface SourceInfo {
@@ -18,6 +20,7 @@ export interface SourceInfo {
   origin: LogInput["origin"];
   lines: number;
   utf8_bytes: number;
+  decoding_loss?: string;
 }
 
 export interface ComparisonInput {
@@ -35,17 +38,19 @@ export interface CompletedComparison extends ComparisonInput {
 export function comparisonInput(baselines: readonly LogInput[], target: LogInput, context: string, masks: string, watches = "", groups = "", rateChange?: string): ComparisonInput {
   if (baselines.length > MAX_BASELINES) throw new Error("The browser supports up to 8 baselines. Use the CLI for more runs.");
   if (!baselines.some((b) => b.ready) || !target.ready) throw new Error("Add at least one baseline and a target log. To compare an empty log, open an empty file or choose Use empty log.");
+  const watchFields = parseWatches(watches);
   const n = Number(context);
   if (context.trim() === "" || !Number.isInteger(n) || n < 0 || n > 10) throw new Error("Context lines must be a whole number from 0 to 10.");
   let total = 0;
   const describe = (source: LogInput, label: string): SourceInfo => {
+    if (watchFields.length && source.decodingLoss) throw new Error(`${label} (${source.name}) contained invalid ${source.decodingLoss}. Exact field watches require valid text; reopen a correctly encoded log.`);
     // Check code units first so a giant paste can be rejected without walking every character.
     if (source.text.length > MAX_LOG_BYTES) throw new Error(`${label} exceeds the 25 MiB browser limit. Use the CLI for larger logs.`);
     const size = textBytes(source.text);
     if (size > MAX_LOG_BYTES) throw new Error(`${label} exceeds the 25 MiB browser limit. Use the CLI for larger logs.`);
     total += size;
     if (total > MAX_COMPARISON_BYTES) throw new Error("The comparison exceeds the 50 MiB total browser limit. Use the CLI for larger logs.");
-    return { label, name: source.name, origin: source.origin, lines: lineCount(source.text), utf8_bytes: size };
+    return { label, name: source.name, origin: source.origin, lines: lineCount(source.text), utf8_bytes: size, ...(source.decodingLoss ? { decoding_loss: source.decodingLoss } : {}) };
   };
   const sources: ComparisonInput["sources"] = { baselines: [], target: describe(target, "Target"), omitted_baselines: [] };
   const texts: string[] = [];
@@ -58,7 +63,6 @@ export function comparisonInput(baselines: readonly LogInput[], target: LogInput
   });
   const extraMasks = masks.split("\n").map((m) => m.trim()).filter(Boolean);
   if (extraMasks.length > 100 || textBytes(masks) > 64 * 1024) throw new Error("Use at most 100 extra masks and 64 KiB of mask text in the browser.");
-  const watchFields = parseWatches(watches);
   const watchBy = parseGroups(groups);
   if (watchBy.length && !watchFields.length) throw new Error("Choose at least one watched field before grouping its values.");
   const minChange = parseRateChange(rateChange, watchFields.length > 0);

@@ -1,4 +1,4 @@
-import { decodeLog } from "./decode";
+import { decodeLogInput, type DecodedLog } from "./decode";
 
 export const MAX_LOG_BYTES = 25 * 1024 * 1024;
 export const MAX_COMPARISON_BYTES = 50 * 1024 * 1024;
@@ -57,6 +57,11 @@ export async function readBounded(stream: ReadableStream<Uint8Array>, limit: num
 }
 
 export async function readLogFile(file: File, signal: AbortSignal): Promise<string> {
+  return (await readLogFileInput(file, signal)).text;
+}
+
+/** Keep decoding provenance for callers that offer exact field comparisons. */
+export async function readLogFileInput(file: File, signal: AbortSignal): Promise<DecodedLog> {
   signal.throwIfAborted();
   if (file.size > MAX_LOG_BYTES) throw tooLarge();
   const header = new Uint8Array(await file.slice(0, 2).arrayBuffer());
@@ -64,7 +69,7 @@ export async function readLogFile(file: File, signal: AbortSignal): Promise<stri
   let stream = file.stream();
   // Like the CLI, recognize gzip by magic bytes, regardless of the filename.
   if (header[0] === 0x1f && header[1] === 0x8b) stream = stream.pipeThrough(new DecompressionStream("gzip"));
-  const text = decodeLog(await readBounded(stream, MAX_LOG_BYTES, signal));
-  if (textBytes(text) > MAX_LOG_BYTES) throw tooLarge();
-  return text;
+  const input = decodeLogInput(await readBounded(stream, MAX_LOG_BYTES, signal));
+  if (textBytes(input.text) > MAX_LOG_BYTES) throw tooLarge();
+  return input;
 }

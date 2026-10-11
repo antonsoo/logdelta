@@ -151,7 +151,11 @@ when it could not read its input (a missing file, or one that is not text), like
   terminal escape sequences (colors, hyperlinks) — plus `--mask REGEX` (repeatable) and
   `--mask-file` for your own patterns.
 - **Inputs**: files, stdin (`-`), and `.gz` transparently; non-UTF-8 bytes are handled
-  lossily instead of crashing.
+  lossily for ordinary template exploration. In the source checkout, exact field
+  watches require valid UTF-8 or BOM-marked UTF-16 and exit 2 on decoding errors.
+  Otherwise distinct damaged values could collapse to the same replacement
+  character and pass the gate. Browser imports retain that warning through edits
+  and report downloads. [Before/after replay](studies/text-integrity/README.md).
 - **Output**: colored terminal output (TTY auto-detected, override with `--color`, raw
   lines truncated to the real terminal width instead of wrapping mid-word), `--json`, and
   `--markdown` for `$GITHUB_STEP_SUMMARY` or a PR comment. Reports print log lines without

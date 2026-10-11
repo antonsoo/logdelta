@@ -11,7 +11,7 @@ use crate::blocks::{gone_blocks, Block, Extent, NewRuns, ProtoBlock};
 use crate::context::ContextWindow;
 use crate::drain::{is_wildcard, Cluster, Drain, DEFAULT_SIMILARITY_THRESHOLD};
 use crate::fields::{FieldTracker, WatchedField};
-use crate::io::read_lines;
+use crate::io::{read_lines, read_lines_exact};
 use crate::mask::{tokenize_line, CustomMask};
 use crate::scoring::{count_g_test, score_template, DEFAULT_SIGNIFICANCE};
 use crate::values::ValueTracker;
@@ -276,11 +276,22 @@ pub fn diff_runs(
         opts.watch_rate_change,
         opts.significance,
     )?;
+    let read = |path: &str| {
+        let lines = if opts.watch_fields.is_empty() {
+            read_lines(path)
+        } else {
+            read_lines_exact(path)
+        }?;
+        let name = path.to_owned();
+        Ok(lines.map(move |line| {
+            line.map_err(|error| io::Error::new(error.kind(), format!("{name}: {error}")))
+        }))
+    };
     let baseline_lines = baselines
         .iter()
-        .map(|path| read_lines(path))
+        .map(|path| read(path))
         .collect::<io::Result<Vec<_>>>()?;
-    diff_lines(baseline_lines, read_lines(target)?, custom, opts)
+    diff_lines(baseline_lines, read(target)?, custom, opts)
 }
 
 /// [`diff_runs`] over any sources of lines: files, stdin, or text already in memory (the

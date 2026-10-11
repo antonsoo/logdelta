@@ -36,6 +36,21 @@ against the union of values observed in all baselines. No repetition or
 significance threshold applies: selecting the field explicitly says that its
 exact values matter. Every distinct new target value is reported.
 
+Exactness starts at decoding. The source checkout requires valid UTF-8 or
+UTF-16 with its byte-order mark for a file or stdin used with `--watch-field`.
+Malformed bytes, lone UTF-16 surrogates and odd UTF-16 tails make the CLI exit 2
+without emitting a comparison report, including inside gzip. Any decoding error
+in the input is refused, even outside the selected JSON field. The original
+bytes might have changed a key, value or record boundary.
+
+Ordinary comparisons without a field watch keep their tolerant decoding. In the
+browser, a damaged import stays readable with a warning. Its portable report
+includes `decoding_loss` on the affected source. Adding a watch, including after
+editing that input, refuses the exact comparison and preserves the previous
+report as stale. Reopen a correctly encoded file to recover; a literal encoded
+replacement character is valid and does not itself trigger a warning.
+[Synthetic byte-level reproductions and installed checks](../studies/text-integrity/README.md).
+
 In the local browser build, choose **HTTP: a failure hidden by masking**. It
 loads both baseline files and both watches. Open a watched field to inspect
 per-run counts, coverage and first source occurrences. Clear the watches and

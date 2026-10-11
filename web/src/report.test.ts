@@ -7,6 +7,18 @@ const unused = (): LogInput => ({ text: "", name: "No log loaded", origin: "past
 const capture = (baselines = [log()], target = log(), context = "2", masks = "") => comparisonInput(baselines, target, context, masks);
 
 describe("comparison evidence", () => {
+  it("retains lossy-decoding provenance for exploration and refuses exact watches on either side", () => {
+    const valid = log('{"route":"caf\uFFFD"}\n');
+    const damaged = { ...valid, name: "damaged.log", decodingLoss: "UTF-8" };
+    for (const [baseline, target] of [[valid, damaged], [damaged, valid]] as const) {
+      const exploratory = capture([baseline], target);
+      expect([...exploratory.sources.baselines, exploratory.sources.target].filter(s => s.decoding_loss))
+        .toEqual([expect.objectContaining({ name: "damaged.log", decoding_loss: "UTF-8" })]);
+      expect(() => comparisonInput([baseline], target, "0", "", "/route"))
+        .toThrow("Exact field watches require valid text");
+    }
+    expect(comparisonInput([valid], valid, "0", "", "/route").request.watch_fields).toEqual(["/route"]);
+  });
   it("captures grouping as an exact applied setting and requires a watched outcome", () => {
     const input = comparisonInput([log()], log(), "0", "", "/status", "/route \n/a~1b/~01/0");
     expect(input.request.watch_by).toEqual(["/route ", "/a~1b/~01/0"]);

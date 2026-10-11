@@ -5,6 +5,18 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Exact watches and damaged text
+
+- Require valid UTF-8 or BOM-marked UTF-16 when reading files/stdin for exact
+  field watches, including gzip. Invalid byte sequences can no longer collapse
+  into a replacement character and establish a clean gate; the CLI exits 2.
+- Preserve tolerant decoding for ordinary template exploration. Browser imports
+  retain visible decoding-loss provenance through edits and portable reports;
+  exact watches require a correctly encoded replacement input. A genuine encoded
+  U+FFFD remains valid. Packaged examples reject damaged encoding on import.
+- Retain 44 native cases and public-log/streaming compatibility evidence in
+  `studies/text-integrity`.
+
 ### Streamed encoding headers
 
 - Recognize gzip and UTF-8/UTF-16 byte-order marks across short reads from pipes.

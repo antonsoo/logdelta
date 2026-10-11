@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeLog, NotTextError } from "./decode";
+import { decodeLog, decodeLogInput, NotTextError } from "./decode";
 
 const TEXT = "ERROR caf\u00e9 \u2192 \u{1F525} failed\r\nsecond line\r\n";
 
@@ -12,6 +12,19 @@ function utf16(text: string, bigEndian: boolean): Uint8Array {
 }
 
 describe("decodeLog", () => {
+  it("distinguishes valid replacement characters from substitutions for damaged bytes", () => {
+    const text = '{"route":"caf\uFFFD"}\n';
+    expect(decodeLogInput(new TextEncoder().encode(text))).toEqual({ text });
+    expect(decodeLogInput(utf16(text, false))).toEqual({ text });
+    expect(decodeLogInput(new Uint8Array([123, 34, 114, 34, 58, 34, 255, 34, 125])))
+      .toEqual({ text: '{"r":"\uFFFD"}', decodingLoss: "UTF-8" });
+    for (const bigEndian of [false, true]) {
+      expect(decodeLogInput(utf16('{"r":"\ud800"}', bigEndian)))
+        .toEqual({ text: '{"r":"\uFFFD"}', decodingLoss: bigEndian ? "UTF-16BE" : "UTF-16LE" });
+      const odd = utf16("abc", bigEndian).slice(0, -1);
+      expect(decodeLogInput(odd).decodingLoss).toBe(bigEndian ? "UTF-16BE" : "UTF-16LE");
+    }
+  });
   it("reads UTF-8, with or without a byte-order mark", () => {
     const utf8 = new TextEncoder().encode(TEXT);
     expect(decodeLog(utf8)).toBe(TEXT);
