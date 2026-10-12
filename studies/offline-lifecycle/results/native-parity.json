@@ -1,0 +1,189 @@
+{
+  "synthetic": true,
+  "binary_sha256": "bfe4534203af41e1afd6f45c936473198bb03f889388a49ca2266760cffe8bc0",
+  "cases": [
+    {
+      "target_repetitions": 1,
+      "browser_reports": 16,
+      "native_exit": 1,
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/status",
+            "group_by": [
+              "/route"
+            ],
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "200",
+                "group_values_json": [
+                  "\"/private-demo\""
+                ],
+                "group_seen_in_baseline": true,
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 0,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"/private-demo\",\"status\":200}",
+                  "truncated": false
+                }
+              },
+              {
+                "value_json": "500",
+                "group_values_json": [
+                  "\"/private-demo\""
+                ],
+                "group_seen_in_baseline": true,
+                "baseline_counts": [
+                  0
+                ],
+                "target_count": 1,
+                "is_new": true,
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"/private-demo\",\"status\":500}",
+                  "truncated": false
+                },
+                "context": {
+                  "before": [],
+                  "after": []
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "target_repetitions": 2,
+      "browser_reports": 4,
+      "native_exit": 1,
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 2,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/status",
+            "group_by": [
+              "/route"
+            ],
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 2,
+              "matched": 2,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "200",
+                "group_values_json": [
+                  "\"/private-demo\""
+                ],
+                "group_seen_in_baseline": true,
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 0,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"/private-demo\",\"status\":200}",
+                  "truncated": false
+                }
+              },
+              {
+                "value_json": "500",
+                "group_values_json": [
+                  "\"/private-demo\""
+                ],
+                "group_seen_in_baseline": true,
+                "baseline_counts": [
+                  0
+                ],
+                "target_count": 2,
+                "is_new": true,
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"/private-demo\",\"status\":500}",
+                  "truncated": false
+                },
+                "context": {
+                  "before": [],
+                  "after": [
+                    [
+                      2,
+                      "{\"route\":\"/private-demo\",\"status\":500}"
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

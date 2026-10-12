@@ -82,3 +82,34 @@ Firefox's successful cache reuse as a reproduced failure.
 
 This is local source/build evidence. It does not assert that a registry package
 or the hosted demo contains the change.
+
+## Clean-build verification
+
+A fresh archive of `6d3915db8ad844569bafe318cf5a5b8cd691c70e` passed `npm ci`,
+typecheck, lint, 83 unit tests, the production build and all 124 browser checks
+on Node 26.7.0 and Rust 1.91.0, WSL2 Linux. The WASM crate also passed formatting,
+Clippy and its three tests. The browser suite includes initial HTTP failures,
+invalid/incompatible modules and retry, startup failures, stale replies, and the
+two-build fixture which verifies that an old cached module cannot identify a
+new build. The clean build's WASM is byte-identical to the module verified in the
+[text-integrity package/build study](../text-integrity/README.md).
+
+The [repaired browser receipt](results/browser-after.json) retains all four
+offline flows and 20 exported reports. Their complete results match the
+previously installed native package ([parity receipt](results/native-parity.json)).
+All report engine hashes match the actual clean-built module. There were no
+page errors, unhandled rejections, off-origin requests, CSP violations,
+horizontal overflow or accessibility violations in these flows. Local blob
+worker creation is recorded separately from HTTP requests.
+
+All 39 files served by the preview match the clean build byte for byte, and 69
+source/configuration files match the tested archive. The
+[artifact receipt](results/artifact-checks.json) lists every hash and command.
+All before/after screenshots were inspected, including narrow layouts in both
+browsers.
+
+![After: a replacement worker completes the comparison offline](../../docs/assets/offline-lifecycle/chromium-1440-after.png)
+
+Additional repaired captures: [Chromium 375px](../../docs/assets/offline-lifecycle/chromium-375-after.png),
+[Firefox 1440px](../../docs/assets/offline-lifecycle/firefox-1440-after.png),
+[Firefox 375px](../../docs/assets/offline-lifecycle/firefox-375-after.png).
