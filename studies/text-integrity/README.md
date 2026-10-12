@@ -77,6 +77,18 @@ recovery and a damaged baseline. Checks run offline **after loading the worker**
 They do not cover a fresh worker after New comparison; that separate lifecycle
 failure was reproduced during this study and remains a distinct repair.
 
+The [clean-build browser receipt](results/browser-after.json) retains all 12
+flows, complete downloads and screenshot hashes. No page errors, off-origin
+requests, CSP violations, horizontal overflow or accessibility violations were
+observed in those flows. Screenshots were inspected at both sizes in both
+browsers; the error and stale-report notice remain readable on narrow screens.
+
+![After: damaged input cannot establish an exact watch](../../docs/assets/text-integrity/chromium-1440-after.png)
+
+Additional captures: [Chromium 375px](../../docs/assets/text-integrity/chromium-375-after.png),
+[Firefox 1440px](../../docs/assets/text-integrity/firefox-1440-after.png),
+[Firefox 375px](../../docs/assets/text-integrity/firefox-375-after.png).
+
 ```sh
 cd web
 npm ci
@@ -89,3 +101,23 @@ node studies/text-integrity/check_browser.mjs \
 
 This study concerns local source and built artifacts. It does not establish that
 a registry package or the hosted demo contains the repair.
+
+## Clean package and build verification
+
+A fresh archive of `509bd44ce04311f49238558f4bb0a09c864993dc` was checked on
+WSL2 Linux with Rust 1.91.0, Rust 1.85.0 and Node 26.7.0. Rust formatting,
+Clippy with warnings denied, 213 native tests and one doctest passed. The minimum
+supported Rust toolchain passed the same native tests. The WASM crate passed its
+formatting, Clippy and three tests; the web package passed a fresh `npm ci`,
+typecheck, lint, 81 unit tests, production build and all 124 Chromium/Firefox
+workflow checks. The separate WASM build verification exercised configuration,
+failure recovery and identical output from distinct checkout paths
+([complete results](results/wasm-build.json)).
+
+`cargo package --locked` was verified, then the packaged source was installed
+into an isolated prefix. The installed executable passed all 44 cases; every
+full report and diagnostic matched the source replay
+([installed receipt](results/installed.json)). All 40 files served by the local
+production preview byte-matched the clean build, and 69 source/configuration
+files matched the tested archive. Exact commands, hashes and scopes are retained
+in [artifact-checks.json](results/artifact-checks.json).

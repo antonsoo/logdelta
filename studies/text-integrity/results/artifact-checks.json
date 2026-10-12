@@ -1,0 +1,770 @@
+{
+  "source_commit": "509bd44ce04311f49238558f4bb0a09c864993dc",
+  "platform": "WSL2 Linux x86_64",
+  "rust": "1.91.0",
+  "minimum_supported_rust_checked": "1.85.0",
+  "node": "26.7.0",
+  "checks": [
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "seconds": 0.331,
+      "group": "native"
+    },
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 26.054,
+      "group": "native"
+    },
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--all-features"
+      ],
+      "exit": 0,
+      "seconds": 46.937,
+      "group": "native"
+    },
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--doc"
+      ],
+      "exit": 0,
+      "seconds": 1.242,
+      "group": "native"
+    },
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "package",
+        "--locked"
+      ],
+      "exit": 0,
+      "seconds": 8.933,
+      "group": "native"
+    },
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "install",
+        "--path",
+        "target/package/logdelta-0.3.4",
+        "--locked",
+        "--root",
+        "SCRATCH/installed"
+      ],
+      "exit": 0,
+      "seconds": 52.181,
+      "group": "native"
+    },
+    {
+      "cwd": ".",
+      "command": [
+        "cargo",
+        "+1.85.0",
+        "test",
+        "--locked",
+        "--target-dir",
+        "SCRATCH/msrv-target"
+      ],
+      "exit": 0,
+      "seconds": 72.349,
+      "group": "msrv"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "rustfmt",
+        "--check",
+        "scripts/canonical-metadata.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.113,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "wasm/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "seconds": 0.085,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--manifest-path",
+        "wasm/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 19.549,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "wasm/Cargo.toml"
+      ],
+      "exit": 0,
+      "seconds": 27.104,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "exit": 0,
+      "seconds": 4.634,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit": 0,
+      "seconds": 3.396,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit": 0,
+      "seconds": 5.035,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit": 0,
+      "seconds": 2.272,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit": 0,
+      "seconds": 35.679,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npx",
+        "playwright",
+        "test"
+      ],
+      "exit": 0,
+      "seconds": 201.008,
+      "group": "web"
+    },
+    {
+      "cwd": "web",
+      "command": [
+        "npm",
+        "run",
+        "verify:wasm"
+      ],
+      "exit": 0,
+      "seconds": 536.515,
+      "group": "wasm"
+    }
+  ],
+  "native_tests": 213,
+  "native_doctests": 1,
+  "wasm_tests": 3,
+  "web_unit_tests": 81,
+  "browser_suite": 124,
+  "installed_cases": 44,
+  "installed_matches_all_source_cases": true,
+  "crate": {
+    "file": "logdelta-0.3.4.crate",
+    "bytes": 218078,
+    "sha256": "ddf15af6d21d9f9aaf18c47dc8ad59e3b5671071748304324dfeadac0368c635"
+  },
+  "installed_binary_sha256": "bfe4534203af41e1afd6f45c936473198bb03f889388a49ca2266760cffe8bc0",
+  "source_files": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "900d2b4d5ff835c7f48491c2fad82dce5dca8900258b22ca9317f3347b84427a"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "544e5b607f1c0a13f827f6e17635e8edf006d96329ada1d87caea48eeecaac37"
+    },
+    {
+      "path": "src/analysis.rs",
+      "sha256": "ee6710c9240d83dfc2e20446fa382559174ea4602db466f6eb33bfdbed4f740a"
+    },
+    {
+      "path": "src/blocks.rs",
+      "sha256": "5dbf414acd6f2adec72c56ca2d7ba9f0ebe49592716049a567354e0e4bf5d555"
+    },
+    {
+      "path": "src/cli.rs",
+      "sha256": "325b7399bb0d7518291fe7c135dbfd7d27d295c314534b5d708c1b2ede78f4ff"
+    },
+    {
+      "path": "src/context.rs",
+      "sha256": "68a1de50b754f60f9deabc5d2c4e4e860fe51b30e69729bf57780f205aa2b210"
+    },
+    {
+      "path": "src/drain.rs",
+      "sha256": "b4ee4128a3180e4fbdb77977f17f17d458f1628fb9de3aaf3173b004c0519c79"
+    },
+    {
+      "path": "src/field_rates.rs",
+      "sha256": "d4dcfc04835c74cad25530b6de62c64b391a71bd2439f6a888210aa9ce847b69"
+    },
+    {
+      "path": "src/fields.rs",
+      "sha256": "922744133de7545193688565f32c6e1de8bf0ef8c138687ea5cc7b22d7c693ae"
+    },
+    {
+      "path": "src/io.rs",
+      "sha256": "1d91add06cb1919655dba79d264bc7c927ba652994a2fb2c0d650a78afcd540f"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "418774a8d0168be44b9be0a6c67ada285c76ee04841c6d1ab529cb194ebc9486"
+    },
+    {
+      "path": "src/main.rs",
+      "sha256": "3a6ddc46285d6ef8144d9a28c71e36bbb179066568cd04c6207a88c25b51966e"
+    },
+    {
+      "path": "src/mask.rs",
+      "sha256": "ea7e974d606a25897913a75e28d35d4bb9abb7b5e8342f1dbe6428b27061d797"
+    },
+    {
+      "path": "src/output/excerpt-patterns.json",
+      "sha256": "4ed4eab6a7b0e70edcd831fb295fed9553ef959a6504b1a66bb0851c22310b8b"
+    },
+    {
+      "path": "src/output/excerpt.rs",
+      "sha256": "7cd77db34b5b87499f6cdb1944bbadbfe547fdf3b566c1c986934c3f3a1cd9e8"
+    },
+    {
+      "path": "src/output/field_rates.rs",
+      "sha256": "9755eec564a010e3aa2e90c39255c2a95a0412f53c980602037233ae7940bb9d"
+    },
+    {
+      "path": "src/output/fields.rs",
+      "sha256": "4e8637b3eb1785cdd6001329d19fafe7f523cd918862a1c0450897db65d99e7a"
+    },
+    {
+      "path": "src/output/human.rs",
+      "sha256": "840043b5a60cd68ba76e386d0d09523120e452e49b22bb325f2347ad642c13a9"
+    },
+    {
+      "path": "src/output/json.rs",
+      "sha256": "a90eeda50fd6baf42450a43dec3377119b881d72287a88669af1a020d9534c29"
+    },
+    {
+      "path": "src/output/markdown.rs",
+      "sha256": "d869031bcfdfea64eac7c81fdbf3242abfca2f5248f33970ad8d5547fdc86bf1"
+    },
+    {
+      "path": "src/output/mod.rs",
+      "sha256": "24630dfae092931313a934e35fa72c08f1c4fd7441617119bdf82f2e39f56e26"
+    },
+    {
+      "path": "src/scoring.rs",
+      "sha256": "d8054a209214fc7a8d7e928cd75b7bc5387595b33ed03143dd6413d39976aef4"
+    },
+    {
+      "path": "src/values.rs",
+      "sha256": "dc72a798f1dfe387a087c97882209557b4d1f303d3cad93a9c2317bcfe760f86"
+    },
+    {
+      "path": "web/package-lock.json",
+      "sha256": "508603a21b90e461046542d29746c50203aba23e0939d0127f0757d118f0b449"
+    },
+    {
+      "path": "web/package.json",
+      "sha256": "ed3f4af28de24753095c12f6b9804919f8b6a6b07cb29f2d539a663fb3543fc0"
+    },
+    {
+      "path": "web/src/decode.test.ts",
+      "sha256": "7a78fad33f5008ee607b3466cc099495843d54ef03aac668f16cc934a7ec0bbf"
+    },
+    {
+      "path": "web/src/decode.ts",
+      "sha256": "9432aad924d41b943632cc03c1445418a66ffdaa88c8e916cdcd45849396ff78"
+    },
+    {
+      "path": "web/src/engine.test.ts",
+      "sha256": "ed76056ff8864b44cf40dafdd19782792b4b3736c625aeb0a17dae374f756c33"
+    },
+    {
+      "path": "web/src/engine.ts",
+      "sha256": "228b336d6d5a6e320c77afe5157bb5ae4ab9697292b5b1718bccae42e8f10119"
+    },
+    {
+      "path": "web/src/examples.ts",
+      "sha256": "7c07c4ebf4dd13a4e9fdeb43b4004d98975e01adc3235e8eec6fbd7178a4f8ed"
+    },
+    {
+      "path": "web/src/excerpt.test.ts",
+      "sha256": "7562cbb2a2b16f00b0af821e557a880b0cda8b90c8800603cff1d2448f49b441"
+    },
+    {
+      "path": "web/src/excerpt.ts",
+      "sha256": "283ddee22fdfe6de8120a25f15da6354b9331e6f6b1fea15747ca3d7a71c042c"
+    },
+    {
+      "path": "web/src/field-ledger.ts",
+      "sha256": "af96858c2ada912f92d5d72d881271eb263a1a9e12df507ebab01216625dc0ee"
+    },
+    {
+      "path": "web/src/field-rates.ts",
+      "sha256": "1194d6657a4827f02f363c9f158e9581eb6268017440deb81d58829a0b380f0f"
+    },
+    {
+      "path": "web/src/files.test.ts",
+      "sha256": "8095af19b0134f5fc58e05504ca0aa6114474cc7544e6c8e66e39c4f6aef5e2c"
+    },
+    {
+      "path": "web/src/files.ts",
+      "sha256": "c8091cd91e8a66070283979c29ff5842b3774eb919923d36359a075d755fac9e"
+    },
+    {
+      "path": "web/src/fonts/LICENSE.txt",
+      "sha256": "582d018b5a2183cf8af2063e8c8d58f2200286cdd98b6f1e80d652d6cd0242c1"
+    },
+    {
+      "path": "web/src/fonts/barlow-400-latin-ext.woff2",
+      "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+    },
+    {
+      "path": "web/src/fonts/barlow-400-latin.woff2",
+      "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+    },
+    {
+      "path": "web/src/fonts/barlow-400-vietnamese.woff2",
+      "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+    },
+    {
+      "path": "web/src/fonts/barlow-500-latin-ext.woff2",
+      "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+    },
+    {
+      "path": "web/src/fonts/barlow-500-latin.woff2",
+      "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+    },
+    {
+      "path": "web/src/fonts/barlow-500-vietnamese.woff2",
+      "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+    },
+    {
+      "path": "web/src/fonts/barlow-600-latin-ext.woff2",
+      "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+    },
+    {
+      "path": "web/src/fonts/barlow-600-latin.woff2",
+      "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+    },
+    {
+      "path": "web/src/fonts/barlow-600-vietnamese.woff2",
+      "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+    },
+    {
+      "path": "web/src/fonts/big-shoulders-stencil-display-latin-ext.woff2",
+      "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+    },
+    {
+      "path": "web/src/fonts/big-shoulders-stencil-display-latin.woff2",
+      "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+    },
+    {
+      "path": "web/src/fonts/big-shoulders-stencil-display-vietnamese.woff2",
+      "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+    },
+    {
+      "path": "web/src/fonts/fonts.css",
+      "sha256": "dba5c01064b05f26b16baf60bf1710f9557374201846edf7f53b1f405e76072b"
+    },
+    {
+      "path": "web/src/fonts/jetbrains-mono-cyrillic-ext.woff2",
+      "sha256": "62213be8a78b42f1e29d1452d91e2f8b3e745572a9dd98d3941e39fa00b37d76"
+    },
+    {
+      "path": "web/src/fonts/jetbrains-mono-cyrillic.woff2",
+      "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+    },
+    {
+      "path": "web/src/fonts/jetbrains-mono-greek.woff2",
+      "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+    },
+    {
+      "path": "web/src/fonts/jetbrains-mono-latin-ext.woff2",
+      "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+    },
+    {
+      "path": "web/src/fonts/jetbrains-mono-latin.woff2",
+      "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+    },
+    {
+      "path": "web/src/fonts/jetbrains-mono-vietnamese.woff2",
+      "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+    },
+    {
+      "path": "web/src/html.ts",
+      "sha256": "6d1ba95a083d68051662f9dcbfe64f19d530628c57f1c2957142d7aa4d74e4f9"
+    },
+    {
+      "path": "web/src/main.ts",
+      "sha256": "0522a2488e4c01f380d1652eb0c1f8352f57d0e5938795648352597e60b3a4d8"
+    },
+    {
+      "path": "web/src/rate-contract.test.ts",
+      "sha256": "a75281ffd22d94e98a4bacd96acd35bd29b39bebc6e2b662698f80c194ab5573"
+    },
+    {
+      "path": "web/src/rate-contract.ts",
+      "sha256": "554c13f74266ae9ed6797d539ee278b6d0de32b242927619342d1160389fb431"
+    },
+    {
+      "path": "web/src/report.test.ts",
+      "sha256": "8a7b7effc3469e930f3533a9411a8937fae38962ff59dc5e05f52c4d1f6e3578"
+    },
+    {
+      "path": "web/src/report.ts",
+      "sha256": "4524ca03ee16e8c32b8d29e5c8b5d760848123b88971c7a74db9377f563027bc"
+    },
+    {
+      "path": "web/src/style.css",
+      "sha256": "db259f8646bc1fc773ac0fc958fdcc2fb25b98a0933f9447869264ff0bd3044d"
+    },
+    {
+      "path": "web/src/template.test.ts",
+      "sha256": "98d8c728279d0be9c3f8c6163e8eb4aa972b8398acfb6d40d1d581306422f6f0"
+    },
+    {
+      "path": "web/src/template.ts",
+      "sha256": "ca5ff08f8a8b151bafdb8b7e504996c816d454250dd58be91a669e0f6d57a35a"
+    },
+    {
+      "path": "web/src/types.ts",
+      "sha256": "3a93d29f5b8de48a37d4aa7ec725201125616fdac6653ed9107707ae33214958"
+    },
+    {
+      "path": "web/src/worker.ts",
+      "sha256": "9e5a3cb573d2c1d526eadaac513694a97d9a7e46ec06466bec3396b13fd10c98"
+    },
+    {
+      "path": "web/vite.config.ts",
+      "sha256": "04988ffac923d42e7a0a9c539827a416ac3da50bfe81a31eb03c17a2f5efe24b"
+    },
+    {
+      "path": "web/vite.csp.ts",
+      "sha256": "a0a3087ad8ac363a358684d8e0166f4d9eccb0a2f77e731a8548a9287f7b8962"
+    }
+  ],
+  "served_files": [
+    {
+      "path": "assets/barlow-400-latin-ext-HxX4XjxC.woff2",
+      "bytes": 14268,
+      "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-400-latin-qiz4-Cze.woff2",
+      "bytes": 22196,
+      "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2",
+      "bytes": 7588,
+      "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-500-latin-BPAOfeC8.woff2",
+      "bytes": 22008,
+      "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-500-latin-ext-DOaysfXq.woff2",
+      "bytes": 14416,
+      "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-500-vietnamese-zTViEIzf.woff2",
+      "bytes": 7668,
+      "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-600-latin-DILqtrty.woff2",
+      "bytes": 22772,
+      "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-600-latin-ext-B8NK_A3D.woff2",
+      "bytes": 14968,
+      "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32",
+      "status": 200
+    },
+    {
+      "path": "assets/barlow-600-vietnamese-DcjprdFV.woff2",
+      "bytes": 7896,
+      "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943",
+      "status": 200
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2",
+      "bytes": 30268,
+      "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b",
+      "status": 200
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2",
+      "bytes": 36488,
+      "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa",
+      "status": 200
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2",
+      "bytes": 9868,
+      "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3",
+      "status": 200
+    },
+    {
+      "path": "assets/index-CjVbDv1t.js",
+      "bytes": 55959,
+      "sha256": "df6de6a26cf3b8568de9e37381799db0f697fc9dd54af8a48ac69d4368d3ed42",
+      "status": 200
+    },
+    {
+      "path": "assets/index-D61Oky9c.css",
+      "bytes": 30067,
+      "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29",
+      "status": 200
+    },
+    {
+      "path": "assets/jetbrains-mono-cyrillic-Buze_B52.woff2",
+      "bytes": 8872,
+      "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf",
+      "status": 200
+    },
+    {
+      "path": "assets/jetbrains-mono-greek-D3oMJlXt.woff2",
+      "bytes": 6836,
+      "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66",
+      "status": 200
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-6fWv1k7M.woff2",
+      "bytes": 31432,
+      "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be",
+      "status": 200
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2",
+      "bytes": 11624,
+      "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52",
+      "status": 200
+    },
+    {
+      "path": "assets/jetbrains-mono-vietnamese-BehTv68k.woff2",
+      "bytes": 5888,
+      "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2",
+      "status": 200
+    },
+    {
+      "path": "assets/logdelta-Dj5_ytal.wasm",
+      "bytes": 1266415,
+      "sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71",
+      "status": 200
+    },
+    {
+      "path": "assets/worker-O6f85cmR.js",
+      "bytes": 1317,
+      "sha256": "575e3b9b1305a24c788cc18f44b74078312436e9c29bfc601a335c9037f273d0",
+      "status": 200
+    },
+    {
+      "path": "examples/http-failed.log",
+      "bytes": 3255,
+      "sha256": "0f5b829c82f9380e866889c8179f72797af4e9e63dbe9a781fe73be043d23b29",
+      "status": 200
+    },
+    {
+      "path": "examples/http-good-2.log",
+      "bytes": 3258,
+      "sha256": "8d2d57bd6df4809e7da06995bec070261d6f4c13fb96a86781a654c502138c94",
+      "status": 200
+    },
+    {
+      "path": "examples/http-good.log",
+      "bytes": 3258,
+      "sha256": "3ee4f1523f70c2bae861de101de6e8780706248d027d92a08de82778406c328f",
+      "status": 200
+    },
+    {
+      "path": "examples/http-rates/http-rate-failed.log",
+      "bytes": 322846,
+      "sha256": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437",
+      "status": 200
+    },
+    {
+      "path": "examples/http-rates/http-rate-good-2.log",
+      "bytes": 322855,
+      "sha256": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89",
+      "status": 200
+    },
+    {
+      "path": "examples/http-rates/http-rate-good.log",
+      "bytes": 322823,
+      "sha256": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2",
+      "status": 200
+    },
+    {
+      "path": "examples/http-routes-failed.log",
+      "bytes": 6515,
+      "sha256": "0fd3ee9d378583aa7389e7343cdc246e904e33198386f30d22ecfdf8399ca103",
+      "status": 200
+    },
+    {
+      "path": "examples/http-routes-good-2.log",
+      "bytes": 6515,
+      "sha256": "9e6c7883e934e923f292a06258ab7ff245cff0a020d2dde66d38cd9c116af307",
+      "status": 200
+    },
+    {
+      "path": "examples/http-routes-good.log",
+      "bytes": 6517,
+      "sha256": "b59721f12e56c9a71df1b35ad409f83c440d8fe462897cfc7179f092b32967a4",
+      "status": 200
+    },
+    {
+      "path": "examples/k8s-service-incident.log",
+      "bytes": 981,
+      "sha256": "8690badd898dfb20cd791a7ac26d2dc540b032a57377afa4f08fb8d6cbfeacf9",
+      "status": 200
+    },
+    {
+      "path": "examples/k8s-service.log",
+      "bytes": 922,
+      "sha256": "d4d2da992b4927935414cbf0fd72b079111aed57b0c511fb105c98a53c54ce2c",
+      "status": 200
+    },
+    {
+      "path": "examples/large/baseline-1.log",
+      "bytes": 421486,
+      "sha256": "41a9a5f37ea1a6fffaeb8af7eb72454b7efb8a3193d96af057a8827a1b703fbd",
+      "status": 200
+    },
+    {
+      "path": "examples/large/baseline-2.log",
+      "bytes": 496184,
+      "sha256": "362019fc11c931c88f45961c21174da770b4604b4b716acce1da043d0bab2af2",
+      "status": 200
+    },
+    {
+      "path": "examples/large/baseline-3.log",
+      "bytes": 450456,
+      "sha256": "da1a43a63780f8e3cb33023a8ea0b7bed69316db6ca1300805cdb90c794c1f86",
+      "status": 200
+    },
+    {
+      "path": "examples/large/target-failure.log",
+      "bytes": 450505,
+      "sha256": "2711a6fb4f676821c3c8651de8414f9d5962a9b9ffd8987965f502edba9e7ebc",
+      "status": 200
+    },
+    {
+      "path": "examples/npm-build.log",
+      "bytes": 432,
+      "sha256": "33343ebf9cfb997893e9b60bb5f4b5dd980a5dfe01647e282664d1c9fefd35a4",
+      "status": 200
+    },
+    {
+      "path": "examples/pytest-fail.log",
+      "bytes": 1156,
+      "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06",
+      "status": 200
+    },
+    {
+      "path": "examples/pytest-pass.log",
+      "bytes": 1564,
+      "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef",
+      "status": 200
+    },
+    {
+      "path": "index.html",
+      "bytes": 8142,
+      "sha256": "ad3625cce37db8386cc8eb7a1a4f25b30c8d028fb530ae9130aa96ac02a1c84a",
+      "status": 200
+    }
+  ],
+  "scope": "Clean git archive, packaged crate installed locally, and local production browser build. No registry release or hosted deployment.",
+  "wasm_build_scenarios": 20,
+  "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+}

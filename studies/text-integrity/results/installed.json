@@ -1,0 +1,2811 @@
+{
+  "binary_sha256": "bfe4534203af41e1afd6f45c936473198bb03f889388a49ca2266760cffe8bc0",
+  "cases": [
+    {
+      "case": "literal-utf8",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "331fc6375b29d441aa846704b708faa89b9dc64c24ab8c03761a17ae35c3ee00",
+      "input_base64": "eyJyb3V0ZSI6ImNhZu+/vSJ9Cg==",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "331fc6375b29d441aa846704b708faa89b9dc64c24ab8c03761a17ae35c3ee00",
+      "input_base64": "eyJyb3V0ZSI6ImNhZu+/vSJ9Cg==",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "9d906e4a226c1d1316d0bebad827dd3b53db745a4354872f10f2f8b20df59e67",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkx7v3+vUi0XAIyY+r0TAAAA",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "9d906e4a226c1d1316d0bebad827dd3b53db745a4354872f10f2f8b20df59e67",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkx7v3+vUi0XAIyY+r0TAAAA",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8-bom",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "c9c398e5d087ee826c6def7cded402ef0857183ac0d51fb4909ed814d0bda0e5",
+      "input_base64": "77u/eyJyb3V0ZSI6ImNhZu+/vSJ9Cg==",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8-bom",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "c9c398e5d087ee826c6def7cded402ef0857183ac0d51fb4909ed814d0bda0e5",
+      "input_base64": "77u/eyJyb3V0ZSI6ImNhZu+/vSJ9Cg==",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8-bom",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "046787b6cbaba67f89b98d6b699c13da7647b36d80c13a4f4a77ce2faae17826",
+      "input_base64": "H4sIAAAAAAACA3u/e3+1UlF+aUmqkpVScmLa+/17lWq5AKniWkMWAAAA",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf8-bom",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "046787b6cbaba67f89b98d6b699c13da7647b36d80c13a4f4a77ce2faae17826",
+      "input_base64": "H4sIAAAAAAACA3u/e3+1UlF+aUmqkpVScmLa+/17lWq5AKniWkMWAAAA",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-le",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "ac2be5280b080457ee61bc0a4b860f748721dd59ac2056ab4c5db8fb8fcebebd",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAP3/IgB9AAoA",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-le",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "ac2be5280b080457ee61bc0a4b860f748721dd59ac2056ab4c5db8fb8fcebebd",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAP3/IgB9AAoA",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-le",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "65c38e6a053c65ce7f6289934fef27783b529525b58a9651f565f66d208a3a41",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjSGv/+VGGoZuBgAdoqpiyQAAAA=",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-le",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "65c38e6a053c65ce7f6289934fef27783b529525b58a9651f565f66d208a3a41",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjSGv/+VGGoZuBgAdoqpiyQAAAA=",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-be",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "1534a0e30dd1f77f0327e7e8625e8c81ce6f51d748956822af90bf76f3d4f4c8",
+      "input_base64": "/v8AewAiAHIAbwB1AHQAZQAiADoAIgBjAGEAZv/9ACIAfQAK",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-be",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "1534a0e30dd1f77f0327e7e8625e8c81ce6f51d748956822af90bf76f3d4f4c8",
+      "input_base64": "/v8AewAiAHIAbwB1AHQAZQAiADoAIgBjAGEAZv/9ACIAfQAK",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-be",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "2503f05df2ed8434a6826819d5eb3134337cac6301097975f1389469f61fffb7",
+      "input_base64": "H4sIAAAAAAACA/v3n6GaQYmhiCGfoZShhCEVyLYC4mSGRIa0/3+BrFoGLgCgIs6GJAAAAA==",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "literal-utf16-be",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "2503f05df2ed8434a6826819d5eb3134337cac6301097975f1389469f61fffb7",
+      "input_base64": "H4sIAAAAAAACA/v3n6GaQYmhiCGfoZShhCEVyLYC4mSGRIa0/3+BrFoGLgCgIs6GJAAAAA==",
+      "expected_exit": 0,
+      "watch": {
+        "exit": 0,
+        "stdout_sha256": "52a7978a76ccd108d01fcbd85d7d13464a97f257e25f78edad0c6eb13647885e",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 1,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  },
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "valid-nonbmp",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "4e9b551df0483d6f2e64121eeb1b733b11e074dc9e1d25d398802964de8a9ab0",
+      "input_base64": "eyJyb3V0ZSI6ImNhZsOpL/CflKUifQo=",
+      "expected_exit": 1,
+      "watch": {
+        "exit": 1,
+        "stdout_sha256": "ac153ffb976f3f1208d708b7fcb06b22f7e9acb41bc6d030cce4a43e1fc86d0b",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"café/🔥\"",
+                  "baseline_counts": [
+                    0
+                  ],
+                  "target_count": 1,
+                  "is_new": true,
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"café/🔥\"}",
+                    "truncated": false
+                  }
+                },
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 0,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "65f3291c676f8842d1a8ccf07b1f62333f1e59e84347099a240d06d2272b8761",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "valid-nonbmp",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "4e9b551df0483d6f2e64121eeb1b733b11e074dc9e1d25d398802964de8a9ab0",
+      "input_base64": "eyJyb3V0ZSI6ImNhZsOpL/CflKUifQo=",
+      "expected_exit": 1,
+      "watch": {
+        "exit": 1,
+        "stdout_sha256": "ac153ffb976f3f1208d708b7fcb06b22f7e9acb41bc6d030cce4a43e1fc86d0b",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"café/🔥\"",
+                  "baseline_counts": [
+                    0
+                  ],
+                  "target_count": 1,
+                  "is_new": true,
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"café/🔥\"}",
+                    "truncated": false
+                  }
+                },
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 0,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "65f3291c676f8842d1a8ccf07b1f62333f1e59e84347099a240d06d2272b8761",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "valid-nonbmp",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "3ab0c727a5cf04730c66ac34c3a0ee349e3c79417ace17d43f63857afaaa1651",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkw7vFL/w/wpS5VquQBwNoj7FwAAAA==",
+      "expected_exit": 1,
+      "watch": {
+        "exit": 1,
+        "stdout_sha256": "ac153ffb976f3f1208d708b7fcb06b22f7e9acb41bc6d030cce4a43e1fc86d0b",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"café/🔥\"",
+                  "baseline_counts": [
+                    0
+                  ],
+                  "target_count": 1,
+                  "is_new": true,
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"café/🔥\"}",
+                    "truncated": false
+                  }
+                },
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 0,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "65f3291c676f8842d1a8ccf07b1f62333f1e59e84347099a240d06d2272b8761",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "valid-nonbmp",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "3ab0c727a5cf04730c66ac34c3a0ee349e3c79417ace17d43f63857afaaa1651",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkw7vFL/w/wpS5VquQBwNoj7FwAAAA==",
+      "expected_exit": 1,
+      "watch": {
+        "exit": 1,
+        "stdout_sha256": "ac153ffb976f3f1208d708b7fcb06b22f7e9acb41bc6d030cce4a43e1fc86d0b",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": [],
+          "watched_fields": [
+            {
+              "pointer": "/route",
+              "complete": true,
+              "baselines": [
+                {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                }
+              ],
+              "target": {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              },
+              "values": [
+                {
+                  "value_json": "\"café/🔥\"",
+                  "baseline_counts": [
+                    0
+                  ],
+                  "target_count": 1,
+                  "is_new": true,
+                  "first_target": {
+                    "line_no": 1,
+                    "raw": "{\"route\":\"café/🔥\"}",
+                    "truncated": false
+                  }
+                },
+                {
+                  "value_json": "\"caf�\"",
+                  "baseline_counts": [
+                    1
+                  ],
+                  "target_count": 0,
+                  "is_new": false,
+                  "first_baseline": {
+                    "baseline_index": 0,
+                    "line_no": 1,
+                    "raw": "{\"route\":\"caf�\"}",
+                    "truncated": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "stderr": ""
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "65f3291c676f8842d1a8ccf07b1f62333f1e59e84347099a240d06d2272b8761",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "route=\"café/🔥\"",
+              "score": 1.0464962875290955,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 1,
+              "first_target_raw": "{\"route\":\"café/🔥\"}"
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "route=\"caf�\"",
+              "score": 1.0464962875290957,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 1,
+              "first_baseline_raw": "{\"route\":\"caf�\"}"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf8",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "783f19780309babbef98ffcc3cd9ace43efe2b1473b26e4c3444ee4f039aa8ec",
+      "input_base64": "eyJyb3V0ZSI6ImNhZv8ifQo=",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-8; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf8",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "783f19780309babbef98ffcc3cd9ace43efe2b1473b26e4c3444ee4f039aa8ec",
+      "input_base64": "eyJyb3V0ZSI6ImNhZv8ifQo=",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-8; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf8",
+      "gzip": false,
+      "mode": "baseline",
+      "input_sha256": "783f19780309babbef98ffcc3cd9ace43efe2b1473b26e4c3444ee4f039aa8ec",
+      "input_base64": "eyJyb3V0ZSI6ImNhZv8ifQo=",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-8; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf8",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "802a05fa35469cde4fb0fcb4c5354844fe0ea89e1c1ae6614f27624c61c1f5f9",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkz7r1TLBQB05CHmEQAAAA==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-8; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf8",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "802a05fa35469cde4fb0fcb4c5354844fe0ea89e1c1ae6614f27624c61c1f5f9",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkz7r1TLBQB05CHmEQAAAA==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-8; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf8",
+      "gzip": true,
+      "mode": "baseline",
+      "input_sha256": "802a05fa35469cde4fb0fcb4c5354844fe0ea89e1c1ae6614f27624c61c1f5f9",
+      "input_base64": "H4sIAAAAAAACA6tWKsovLUlVslJKTkz7r1TLBQB05CHmEQAAAA==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-8; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-le",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "4019e553b818cc72767313b18e7400c88e5e3e162f6523b2fe5a1dd3557cec31",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAADYIgB9AAoA",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-le",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "4019e553b818cc72767313b18e7400c88e5e3e162f6523b2fe5a1dd3557cec31",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAADYIgB9AAoA",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-le",
+      "gzip": false,
+      "mode": "baseline",
+      "input_sha256": "4019e553b818cc72767313b18e7400c88e5e3e162f6523b2fe5a1dd3557cec31",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAADYIgB9AAoA",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-le",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "5e60693e0b28a9a7e9febeb0a5b29c3362cdfc3a2b451f5e942d9082a39b389f",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjQGhhtKDLUMXAwA/4zd5SQAAAA=",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-le",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "5e60693e0b28a9a7e9febeb0a5b29c3362cdfc3a2b451f5e942d9082a39b389f",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjQGhhtKDLUMXAwA/4zd5SQAAAA=",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-le",
+      "gzip": true,
+      "mode": "baseline",
+      "input_sha256": "5e60693e0b28a9a7e9febeb0a5b29c3362cdfc3a2b451f5e942d9082a39b389f",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjQGhhtKDLUMXAwA/4zd5SQAAAA=",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-be",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "50c1cdbe5be2532e297536264888c2d92d01586949c66a4e36d216ca4cb44c92",
+      "input_base64": "/v8AewAiAHIAbwB1AHQAZQAiADoAIgBjAGEAZtgAACIAfQAK",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-be",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "50c1cdbe5be2532e297536264888c2d92d01586949c66a4e36d216ca4cb44c92",
+      "input_base64": "/v8AewAiAHIAbwB1AHQAZQAiADoAIgBjAGEAZtgAACIAfQAK",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-be",
+      "gzip": false,
+      "mode": "baseline",
+      "input_sha256": "50c1cdbe5be2532e297536264888c2d92d01586949c66a4e36d216ca4cb44c92",
+      "input_base64": "/v8AewAiAHIAbwB1AHQAZQAiADoAIgBjAGEAZtgAACIAfQAK",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-be",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "01c5282bda28c01561d5b37e576748ede0fab5c9ab6da55e7ce35056be62345b",
+      "input_base64": "H4sIAAAAAAACA/v3n6GaQYmhiCGfoZShhCEVyLYC4mSGRIa0GwxAVi0DFwD2EtRwJAAAAA==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-be",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "01c5282bda28c01561d5b37e576748ede0fab5c9ab6da55e7ce35056be62345b",
+      "input_base64": "H4sIAAAAAAACA/v3n6GaQYmhiCGfoZShhCEVyLYC4mSGRIa0GwxAVi0DFwD2EtRwJAAAAA==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "invalid-utf16-be",
+      "gzip": true,
+      "mode": "baseline",
+      "input_sha256": "01c5282bda28c01561d5b37e576748ede0fab5c9ab6da55e7ce35056be62345b",
+      "input_base64": "H4sIAAAAAAACA/v3n6GaQYmhiCGfoZShhCEVyLYC4mSGRIa0GwxAVi0DFwD2EtRwJAAAAA==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 0,
+        "stdout_sha256": "ec94910dde67b2bb23747a96fffdca7831e7338f66d1f3dddc7398a4ecc06051",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 1,
+          "total_templates": 1,
+          "findings": [],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "odd-utf16-tail",
+      "gzip": false,
+      "mode": "file",
+      "input_sha256": "d6412f8bde44513015ebc009d3456df4628c44da7b1742ca11cf117ade8294e4",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAP3/IgB9AAoAYQ==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "6d44e357645995d7aaddcbeb8058e9b1bea6283a43b140c5a3272483b31133eb",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 2,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "�",
+              "score": 0.321893008257659,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 2,
+              "first_target_raw": "�"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "odd-utf16-tail",
+      "gzip": false,
+      "mode": "stdin",
+      "input_sha256": "d6412f8bde44513015ebc009d3456df4628c44da7b1742ca11cf117ade8294e4",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAP3/IgB9AAoAYQ==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "6d44e357645995d7aaddcbeb8058e9b1bea6283a43b140c5a3272483b31133eb",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 2,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "�",
+              "score": 0.321893008257659,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 2,
+              "first_target_raw": "�"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "odd-utf16-tail",
+      "gzip": false,
+      "mode": "baseline",
+      "input_sha256": "d6412f8bde44513015ebc009d3456df4628c44da7b1742ca11cf117ade8294e4",
+      "input_base64": "//57ACIAcgBvAHUAdABlACIAOgAiAGMAYQBmAP3/IgB9AAoAYQ==",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "b251389e27aa34997b74253325628237f3f5d844ea988670cf6a87ceaa19b9d6",
+        "report": {
+          "baseline_totals": [
+            2
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "�",
+              "score": 0.321893008257659,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 2,
+              "first_baseline_raw": "�"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "odd-utf16-tail",
+      "gzip": true,
+      "mode": "file",
+      "input_sha256": "149f4ce12488421311968ab666b889ad5d9e9151c64e598108e3aee21e5d8c16",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjSGv/+VGGoZuBgSAcDDWlElAAAA",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: target.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "6d44e357645995d7aaddcbeb8058e9b1bea6283a43b140c5a3272483b31133eb",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 2,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "�",
+              "score": 0.321893008257659,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 2,
+              "first_target_raw": "�"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "odd-utf16-tail",
+      "gzip": true,
+      "mode": "stdin",
+      "input_sha256": "149f4ce12488421311968ab666b889ad5d9e9151c64e598108e3aee21e5d8c16",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjSGv/+VGGoZuBgSAcDDWlElAAAA",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: -: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "6d44e357645995d7aaddcbeb8058e9b1bea6283a43b140c5a3272483b31133eb",
+        "report": {
+          "baseline_totals": [
+            1
+          ],
+          "target_total": 2,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "�",
+              "score": 0.321893008257659,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 2,
+              "first_target_raw": "�"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "case": "odd-utf16-tail",
+      "gzip": true,
+      "mode": "baseline",
+      "input_sha256": "149f4ce12488421311968ab666b889ad5d9e9151c64e598108e3aee21e5d8c16",
+      "input_base64": "H4sIAAAAAAACA/v/r5pBiaGIIZ+hlKGEIRXItgLiZIZEhjSGv/+VGGoZuBgSAcDDWlElAAAA",
+      "expected_exit": 2,
+      "watch": {
+        "exit": 2,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report": null,
+        "stderr": "logdelta: baseline.log: invalid UTF-16; exact field watches require valid UTF-8 or BOM-marked UTF-16\n"
+      },
+      "ordinary": {
+        "exit": 1,
+        "stdout_sha256": "b251389e27aa34997b74253325628237f3f5d844ea988670cf6a87ceaa19b9d6",
+        "report": {
+          "baseline_totals": [
+            2
+          ],
+          "target_total": 1,
+          "total_templates": 2,
+          "findings": [
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "�",
+              "score": 0.321893008257659,
+              "baseline_counts": [
+                1
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 2,
+              "first_baseline_raw": "�"
+            }
+          ],
+          "blocks": [],
+          "value_findings": []
+        },
+        "stderr": ""
+      }
+    }
+  ]
+}

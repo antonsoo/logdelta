@@ -1,0 +1,1862 @@
+[
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 1440,
+    "encoding": "UTF-8",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:33.350Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-8"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:37.218Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": "chromium-1440-after.png",
+    "screenshotSha256": "621a01aaf1f228b700350566852458024d42a029db0c938057726d4524337b3c",
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-8. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 1440,
+    "encoding": "UTF-16LE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:38.181Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16LE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:41.053Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16LE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 1440,
+    "encoding": "UTF-16BE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:41.748Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16BE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:44.345Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16BE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 375,
+    "encoding": "UTF-8",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:45.898Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-8"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:48.305Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": "chromium-375-after.png",
+    "screenshotSha256": "3742159abccfb561f8d3ce58cdcd76d3929ba44b983a4bcf4ce98aa16563d99a",
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-8. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 375,
+    "encoding": "UTF-16LE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:49.086Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16LE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:51.130Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16LE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "chromium",
+    "browserVersion": "153.0.8010.12",
+    "width": 375,
+    "encoding": "UTF-16BE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:52.014Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16BE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:54:53.880Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16BE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "firefox",
+    "browserVersion": "155.0",
+    "width": 1440,
+    "encoding": "UTF-8",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:01.470Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-8"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:03.801Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": "firefox-1440-after.png",
+    "screenshotSha256": "9dd873f0dba91d0962f4200c726978f6dce694929fdbc5371c83ee1a99263905",
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-8. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "firefox",
+    "browserVersion": "155.0",
+    "width": 1440,
+    "encoding": "UTF-16LE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:04.565Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16LE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:06.765Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16LE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "firefox",
+    "browserVersion": "155.0",
+    "width": 1440,
+    "encoding": "UTF-16BE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:07.597Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16BE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:09.512Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16BE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "firefox",
+    "browserVersion": "155.0",
+    "width": 375,
+    "encoding": "UTF-8",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:10.798Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-8"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:12.714Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": "firefox-375-after.png",
+    "screenshotSha256": "dbfbf9cf4dbb0ee84aad4ab6a8a759d05fe02ffc8fe0e5578658f4d3219343aa",
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-8. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "firefox",
+    "browserVersion": "155.0",
+    "width": 375,
+    "encoding": "UTF-16LE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:13.343Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16LE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:15.138Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16LE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  },
+  {
+    "engine": "firefox",
+    "browserVersion": "155.0",
+    "width": 375,
+    "encoding": "UTF-16BE",
+    "phase": "after",
+    "ordinary": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:15.692Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": []
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "damaged.gz",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19,
+          "decoding_loss": "UTF-16BE"
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    "exactWatchBlocked": true,
+    "restoredLiteralWatch": {
+      "format": "logdelta-report",
+      "schema_version": 1,
+      "engine": {
+        "name": "logdelta",
+        "version": "0.3.4",
+        "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+      },
+      "completed_at": "2026-10-11T23:55:17.621Z",
+      "settings": {
+        "context": 2,
+        "masks": [],
+        "watch_fields": [
+          "/route"
+        ]
+      },
+      "sources": {
+        "baselines": [
+          {
+            "label": "Baseline 1",
+            "name": "valid.log",
+            "origin": "file",
+            "lines": 1,
+            "utf8_bytes": 19
+          }
+        ],
+        "target": {
+          "label": "Target",
+          "name": "valid-again.log",
+          "origin": "file",
+          "lines": 1,
+          "utf8_bytes": 19
+        },
+        "omitted_baselines": []
+      },
+      "result": {
+        "baseline_totals": [
+          1
+        ],
+        "target_total": 1,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": [],
+        "watched_fields": [
+          {
+            "pointer": "/route",
+            "complete": true,
+            "baselines": [
+              {
+                "lines": 1,
+                "matched": 1,
+                "missing": 0,
+                "non_json": 0,
+                "invalid_json": 0,
+                "non_scalar": 0,
+                "ambiguous": 0,
+                "oversized_records": 0,
+                "untracked": 0
+              }
+            ],
+            "target": {
+              "lines": 1,
+              "matched": 1,
+              "missing": 0,
+              "non_json": 0,
+              "invalid_json": 0,
+              "non_scalar": 0,
+              "ambiguous": 0,
+              "oversized_records": 0,
+              "untracked": 0
+            },
+            "values": [
+              {
+                "value_json": "\"caf�\"",
+                "baseline_counts": [
+                  1
+                ],
+                "target_count": 1,
+                "is_new": false,
+                "first_baseline": {
+                  "baseline_index": 0,
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                },
+                "first_target": {
+                  "line_no": 1,
+                  "raw": "{\"route\":\"caf�\"}",
+                  "truncated": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "screenshot": null,
+    "screenshotSha256": null,
+    "offlineAfterWorkerLoad": true,
+    "status": "Target (damaged.gz (edited)) contained invalid UTF-16BE. Exact field watches require valid text; reopen a correctly encoded log.",
+    "accessibility": []
+  }
+]

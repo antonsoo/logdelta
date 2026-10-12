@@ -1,0 +1,118 @@
+{
+  "cases": 20,
+  "reproducibleSha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71",
+  "reproducibleBytes": 1266415,
+  "results": [
+    {
+      "name": "warm Cargo cache with previous wrapper",
+      "sha256": "a70c921b293a54a94a4530b65b784838702be4c9cc0b5cb4ada1b3c89eb870ea",
+      "bytes": 1266154
+    },
+    {
+      "name": "standard target layout after compiler-wrapper update",
+      "sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71",
+      "bytes": 1266415
+    },
+    {
+      "name": "different checkout and CARGO_TARGET_DIR",
+      "sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71",
+      "bytes": 1266415
+    },
+    {
+      "name": "Cargo-configured target directory",
+      "sha256": "5745de9af95d609b09bebe1537fb6cb0364d28a4a79517e1761f2e0ff6651970",
+      "bytes": 1266439,
+      "probe": 0
+    },
+    {
+      "name": "RUSTFLAGS",
+      "sha256": "860315945dbc5a2f62e1ac5a8507cdb8541ccbd7fff6c8c1a9eb08a5e5f19f44",
+      "bytes": 1266628,
+      "probe": 1
+    },
+    {
+      "name": "encoded flags with spaces and priority",
+      "sha256": "e87a91f4d9bf9254573e24f4021e22661f4e32f4ba47cea31cf9f9de1ae6cc05",
+      "bytes": 1266628,
+      "probe": 2
+    },
+    {
+      "name": "target environment flags",
+      "sha256": "1f8c90c1b8d381ee98d45794a323186d95ac7fbaa297056ceb173f35c7af01b8",
+      "bytes": 1266178,
+      "probe": 4
+    },
+    {
+      "name": "build environment flags",
+      "sha256": "7b4ce3e1798d831a7b23fa13ddfa0a0de77cffceb49c1ca66b6f55547a6fa255",
+      "bytes": 1266767,
+      "probe": 8
+    },
+    {
+      "name": "build config array",
+      "sha256": "7b4ce3e1798d831a7b23fa13ddfa0a0de77cffceb49c1ca66b6f55547a6fa255",
+      "bytes": 1266767,
+      "probe": 8
+    },
+    {
+      "name": "build config string",
+      "sha256": "7b4ce3e1798d831a7b23fa13ddfa0a0de77cffceb49c1ca66b6f55547a6fa255",
+      "bytes": 1266767,
+      "probe": 8
+    },
+    {
+      "name": "target config flags",
+      "sha256": "1f8c90c1b8d381ee98d45794a323186d95ac7fbaa297056ceb173f35c7af01b8",
+      "bytes": 1266178,
+      "probe": 4
+    },
+    {
+      "name": "matching cfg flags",
+      "sha256": "42b112670481a6572b3a9ad41fca54701f45747ea1807383a57044af5cf0e59f",
+      "bytes": 1266743,
+      "probe": 16
+    },
+    {
+      "name": "joined target and cfg flags with build fallback excluded",
+      "sha256": "9045be4944a0496d1f4dbfe307b566a9616f8e16d187942c6409053c5d07d19b",
+      "bytes": 1265840,
+      "probe": 20
+    },
+    {
+      "name": "environment flags override config",
+      "sha256": "860315945dbc5a2f62e1ac5a8507cdb8541ccbd7fff6c8c1a9eb08a5e5f19f44",
+      "bytes": 1266628,
+      "probe": 1
+    },
+    {
+      "name": "caller crate metadata",
+      "sha256": "567eae77a883f6a3e159bf8cf2290be07c96c6a72a7e9eaf6867698750c953dd",
+      "bytes": 1266161,
+      "probe": 1
+    },
+    {
+      "name": "environment compiler wrappers retain caller metadata",
+      "sha256": "567eae77a883f6a3e159bf8cf2290be07c96c6a72a7e9eaf6867698750c953dd",
+      "bytes": 1266161,
+      "probe": 1
+    },
+    {
+      "name": "configured compiler wrappers retain caller metadata",
+      "sha256": "567eae77a883f6a3e159bf8cf2290be07c96c6a72a7e9eaf6867698750c953dd",
+      "bytes": 1266161,
+      "probe": 1
+    },
+    {
+      "name": "failed compilation retains staged engine",
+      "sha256": "567eae77a883f6a3e159bf8cf2290be07c96c6a72a7e9eaf6867698750c953dd"
+    },
+    {
+      "name": "failed metadata retains staged engine",
+      "sha256": "567eae77a883f6a3e159bf8cf2290be07c96c6a72a7e9eaf6867698750c953dd"
+    },
+    {
+      "name": "missing artifact retains staged engine",
+      "sha256": "567eae77a883f6a3e159bf8cf2290be07c96c6a72a7e9eaf6867698750c953dd"
+    }
+  ]
+}
