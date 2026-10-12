@@ -75,7 +75,8 @@ Firefox at 1440px dark and 375px light. Each flow checks the ordinary report,
 blocked exact watch after editing, unchanged stale download, valid U+FFFD
 recovery and a damaged baseline. Checks run offline **after loading the worker**.
 They do not cover a fresh worker after New comparison; that separate lifecycle
-failure was reproduced during this study and remains a distinct repair.
+failure was reproduced during this study and is addressed by the separate
+[offline lifecycle repair](../offline-lifecycle/README.md).
 
 The [clean-build browser receipt](results/browser-after.json) retains all 12
 flows, complete downloads and screenshot hashes. No page errors, off-origin

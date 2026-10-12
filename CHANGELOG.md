@@ -5,6 +5,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- The built browser demo can recreate its diff worker offline after Cancel,
+  editing or New comparison. It retains successfully executed module bytes in
+  page memory, while still terminating workers and rehashing each replacement's
+  instantiated bytes. Failed first downloads and incompatible engines remain
+  retryable.
+
 ### Exact watches and damaged text
 
 - Require valid UTF-8 or BOM-marked UTF-16 when reading files/stdin for exact

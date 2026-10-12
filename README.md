@@ -256,8 +256,8 @@ library builds without the command-line dependencies (`default-features = false`
 `terminal_size` sit behind the default `cli` feature), and `diff_lines` / `mine_lines` take any
 line iterator, so the page diffs pasted text directly.
 
-The worker imports a fingerprinted engine asset; rebuilding the binary changes its URL
-and the worker's dependency, so a newly loaded interface cannot reuse an older engine
+The interface imports a fingerprinted engine asset; rebuilding the binary changes its URL
+and the interface's dependency, so a newly loaded interface cannot reuse an older engine
 cached under the former fixed `logdelta.wasm` URL. Each portable report records the SHA-256
 of the exact bytes instantiated by its worker. This identifies the executed artifact;
 it is not a signature or an independent audit of the engine.
@@ -303,10 +303,16 @@ decoded UTF-8 text are each bounded), and 50 MiB of decoded logs per comparison.
 are limited to 100 nonblank lines and 64 KiB of text. Over-limit or failed imports leave the
 previous input intact. Use the streaming CLI for larger workloads.
 
-Once the engine has loaded, comparisons and downloads can run offline. Restarting after
-Cancel or New comparison may need the site's engine files again, depending on the browser
-cache; loading examples and reloading the page also need those assets. Logs are not stored
-in the URL or browser storage. Only the theme preference is persisted.
+After the built demo completes its first comparison, comparisons and downloads work
+offline, including after Cancel, editing during a comparison and New comparison.
+The worker program is bundled into the interface; successfully executed engine bytes
+stay in page memory and initialize replacement workers without another HTTP request.
+Terminating a worker still releases its logs and WebAssembly memory. Every replacement
+hashes the bytes it instantiates. Loading examples and reloading the page need the site
+assets again; this is not an offline page installation. Logs are not stored in the URL
+or browser storage. Only the theme preference is persisted. The
+[offline lifecycle replay](studies/offline-lifecycle/README.md) retains the failure and
+the rebuilt-worker evidence.
 
 To run it locally:
 

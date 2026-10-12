@@ -24,6 +24,40 @@ function setup() {
 }
 
 describe("diff worker ownership", () => {
+  it("keeps only successful module bytes across termination and sends them only to fresh workers", async () => {
+    const { engine, workers, run } = setup();
+    const bytes = new Uint8Array([0, 97, 115, 109]).buffer;
+    const first = run();
+    expect(workers[0]!.postMessage.mock.calls[0]![0].engine).toHaveProperty("url");
+    workers[0]!.reply({ engineBytes: bytes });
+    await first;
+    const reused = run();
+    expect(workers[0]!.postMessage.mock.calls[1]![0].engine).toBeUndefined();
+    workers[0]!.reply();
+    await reused;
+    engine.cancel();
+    const controller = new AbortController();
+    const cancelled = run(controller);
+    const stale = workers[1]!.onmessage!;
+    expect(workers[1]!.postMessage.mock.calls[0]![0].engine).toEqual({ bytes });
+    controller.abort();
+    await expect(cancelled).rejects.toMatchObject({ name: "AbortError" });
+    const fresh = run();
+    stale({ data: { id: 4, ok: true, json: JSON.stringify(result), ms: 1, engineSha256, engineBytes: new ArrayBuffer(1) } } as MessageEvent<WorkerResponse>);
+    expect(workers[2]!.postMessage.mock.calls[0]![0].engine).toEqual({ bytes });
+    workers[2]!.reply();
+    await fresh;
+  });
+  it("does not retain module bytes from an invalid report", async () => {
+    const { workers, run } = setup();
+    const first = run();
+    workers[0]!.reply({ json: "null", engineBytes: new ArrayBuffer(8) });
+    await expect(first).rejects.toThrow("incomplete report");
+    const retry = run();
+    expect(workers[1]!.postMessage.mock.calls[0]![0].engine).toHaveProperty("url");
+    workers[1]!.reply();
+    await retry;
+  });
   it.each(["omitted-groups", "wrong-pointer", "wrong-key-count", "missing-group-history", "nonstring-key"])("refuses a grouped comparison with %s evidence", async (failure) => {
     const { engine, workers } = setup();
     const pending = engine.run({ ...request, watch_fields: ["/status"], watch_by: ["/route"] }, new AbortController().signal);

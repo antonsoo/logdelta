@@ -1,6 +1,8 @@
 import type { DiffRequest, DiffResult } from "./types";
 import type { WorkerRequest, WorkerResponse } from "./worker";
 import { validRateEvidence } from "./rate-contract";
+import DiffWorker from "./worker?worker&inline";
+import wasmURL from "./generated/logdelta.wasm?url";
 
 export interface DiffOutcome {
   result: DiffResult;
@@ -25,8 +27,11 @@ export class DiffEngine {
   private worker: Worker | undefined;
   private job: Job | undefined;
   private nextId = 1;
+  // Executable bytes only. Cancelling a worker releases its log data and WASM
+  // memory, while a replacement can initialize without the HTTP cache/network.
+  private engineBytes: ArrayBuffer | undefined;
 
-  constructor(private readonly createWorker = () => new Worker(new URL("./worker.ts", import.meta.url), { type: "module" })) {}
+  constructor(private readonly createWorker = () => new DiffWorker()) {}
 
   private finish(error: unknown, outcome?: DiffOutcome): void {
     const job = this.job;
@@ -80,6 +85,12 @@ export class DiffEngine {
           if (fields.some((field) => !validRateEvidence(field, this.job!.watchRateChange))) {
             throw new Error("The diff engine did not return the requested rate evidence. Reload the page and compare again.");
           }
+          if (reply.engineBytes !== undefined) {
+            if (!(reply.engineBytes instanceof ArrayBuffer) || reply.engineBytes.byteLength === 0) {
+              throw new Error("The diff engine returned unreadable module bytes. Try comparing again.");
+            }
+            this.engineBytes = reply.engineBytes;
+          }
           this.finish(undefined, { result, ms: reply.ms, engineSha256: reply.engineSha256 });
         } else throw new Error("The diff engine returned an unreadable response. Try comparing again.");
       } catch (error) {
@@ -105,7 +116,10 @@ export class DiffEngine {
       this.job = { id, watchFields: [...(request.watch_fields ?? [])], watchBy: [...(request.watch_by ?? [])], watchRateChange: request.watch_rate_change, resolve, reject, cleanup: () => signal.removeEventListener("abort", abort) };
       signal.addEventListener("abort", abort, { once: true });
       try {
-        this.getWorker().postMessage({ id, request } satisfies WorkerRequest);
+        const fresh = !this.worker;
+        this.getWorker().postMessage({ id, request, ...(fresh ? {
+          engine: this.engineBytes ? { bytes: this.engineBytes } : { url: new URL(wasmURL, import.meta.url).href },
+        } : {}) } satisfies WorkerRequest);
       } catch (error) {
         this.cancel(error);
       }

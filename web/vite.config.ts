@@ -3,7 +3,7 @@ import { contentSecurityPolicy } from "./vite.csp.ts";
 
 export default defineConfig({
   base: "/logdelta/",
-  plugins: [contentSecurityPolicy({ "script-src": ["'wasm-unsafe-eval'"] })],
+  plugins: [contentSecurityPolicy({ "script-src": ["'wasm-unsafe-eval'"], "worker-src": ["blob:"] })],
   worker: { format: "es" },
   build: { target: "es2022" },
 });

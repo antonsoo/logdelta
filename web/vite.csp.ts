@@ -10,7 +10,8 @@ async function hashSource(script: string): Promise<string> {
  * Gives the built page a Content-Security-Policy.
  *
  * The page says nothing you give it leaves your browser. This makes the browser hold it to
- * that: scripts, styles, fonts and workers load from the page's own origin only, and
+ * that: scripts, styles and fonts load from the page's own origin only; workers
+ * also use locally created blobs so they can restart offline. The
  * `connect-src 'self'` means no script on the page, not even one injected through a bug in
  * how it renders your file, can send anything to another host. Inline scripts in index.html
  * are allowed by their hash; inline event handlers and `eval` are not allowed at all.

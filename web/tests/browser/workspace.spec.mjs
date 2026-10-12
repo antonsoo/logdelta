@@ -77,7 +77,7 @@ async function controlWorkers(page) {
     window.heldReplies = [];
     window.Worker = class extends NativeWorker {
       constructor(...args) {
-        if (window.failNextWorker) { window.failNextWorker = false; throw new Error("worker startup blocked"); }
+        if (window.failWorkerStartup) throw new Error("worker startup blocked");
         super(...args);
       }
       set onmessage(handler) {
@@ -234,9 +234,11 @@ test("editing during analysis cancels it; old grouped evidence and exports stay 
   await expect(page.locator("#report-status")).toContainText("matches the loaded logs");
 });
 
-test("cancel and reset discard pending worker replies and recover with a fresh worker", async ({ page }) => {
+test("cancel and reset discard pending worker replies and recover with a fresh worker offline", async ({ page, context }) => {
   await controlWorkers(page);
   await ready(page);
+  const digest = (await exported(page)).engine.wasm_sha256;
+  await context.setOffline(true);
   for (const action of ["Cancel", "New comparison"]) {
     await page.evaluate(() => { window.holdReplies = true; window.heldReplies = []; });
     await compare(page).click();
@@ -249,6 +251,7 @@ test("cancel and reset discard pending worker replies and recover with a fresh w
       await inputs(page);
     }
     await completed(page);
+    expect((await exported(page)).engine.wasm_sha256).toBe(digest);
   }
 });
 
@@ -256,17 +259,19 @@ test("worker startup failure is actionable and a retry works", async ({ page }) 
   await controlWorkers(page);
   await blank(page);
   await inputs(page);
-  await page.evaluate(() => { window.failNextWorker = true; });
+  await page.evaluate(() => { window.failWorkerStartup = true; });
   await compare(page).click();
   await expect(status(page)).toContainText("worker startup blocked");
   await expect(compare(page)).toBeEnabled();
+  await page.evaluate(() => { window.failWorkerStartup = false; });
   await completed(page);
 });
 
 test("WASM fetch failure is recoverable without reloading the page", async ({ page }) => {
-  await blank(page);
-  await inputs(page);
   await page.route("**/assets/logdelta-*.wasm", (route) => route.fulfill({ status: 503, body: "unavailable" }));
+  await page.goto("./");
+  await expect(status(page)).toContainText("Comparison failed");
+  await inputs(page);
   await compare(page).click();
   await expect(status(page)).toContainText("Comparison failed");
   await page.unroute("**/assets/logdelta-*.wasm");
@@ -292,9 +297,10 @@ test("report identifies the actual executed module and never requests the legacy
 
 for (const [name, bytes] of [["invalid", Buffer.from("not WebAssembly")], ["incompatible", Buffer.from([0, 97, 115, 109, 1, 0, 0, 0])]]) {
   test(`${name} engine module preserves inputs and a subsequent valid load recovers`, async ({ page }) => {
-    await blank(page);
-    await inputs(page);
     await page.route("**/assets/logdelta-*.wasm", (route) => route.fulfill({ status: 200, contentType: "application/wasm", body: bytes }));
+    await page.goto("./");
+    await expect(status(page)).toContainText("Comparison failed");
+    await inputs(page);
     await compare(page).click();
     await expect(status(page)).toContainText("Comparison failed");
     await expect(target(page)).toHaveValue("started\ncatastrophic failure\n");
@@ -404,6 +410,13 @@ test("a loaded engine compares and exports offline without persisting log conten
   expect((await exported(page)).sources.target).toMatchObject({ origin: "edited", name: "examples/pytest-fail.log (edited)" });
   const stored = await page.evaluate(() => ({ local: { ...localStorage }, session: { ...sessionStorage }, url: location.href }));
   expect(JSON.stringify(stored)).not.toContain("private");
+  const previous = await exported(page);
+  await page.getByRole("button", { name: "New comparison", exact: true }).click();
+  await inputs(page, "private baseline phrase\n", "private target phrase\n");
+  await completed(page);
+  const restarted = await exported(page);
+  expect(restarted.result).toEqual(previous.result);
+  expect(restarted.engine.wasm_sha256).toBe(previous.engine.wasm_sha256);
   await context.setOffline(false);
 });
 
@@ -458,16 +471,16 @@ test("a failed download keeps the report and can be retried", async ({ page }) =
   expect((await exported(page)).result.target_total).toBeGreaterThan(0);
 });
 
-test("a lost connection after reset keeps logs and recovers when site assets return", async ({ page, context }) => {
+test("a lost connection after reset keeps logs and compares without another HTTP request", async ({ page, context }) => {
   await blank(page);
+  const requests = [];
+  page.on("request", request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
   await context.setOffline(true);
   await inputs(page);
   await compare(page).click();
-  // Browsers may retain the worker assets in cache. Either outcome must be recoverable.
-  await expect(status(page)).toContainText(/Comparison complete|Comparison failed/);
+  await expect(status(page)).toContainText("Comparison complete");
   await expect(target(page)).toHaveValue("started\ncatastrophic failure\n");
-  await context.setOffline(false);
-  await completed(page);
+  expect(requests).toEqual([]);
 });
 
 test("blocked storage does not prevent loading, comparing or changing theme", async ({ page }) => {

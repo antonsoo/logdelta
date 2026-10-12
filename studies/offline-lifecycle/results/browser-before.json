@@ -1,0 +1,1221 @@
+{
+  "synthetic": true,
+  "inputs": {
+    "good": "{\"route\":\"/private-demo\",\"status\":200}\n",
+    "bad": "{\"route\":\"/private-demo\",\"status\":500}\n"
+  },
+  "results": [
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 1440,
+      "phase": "before",
+      "initial": {
+        "format": "logdelta-report",
+        "schema_version": 1,
+        "engine": {
+          "name": "logdelta",
+          "version": "0.3.4",
+          "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+        },
+        "completed_at": "2026-10-11T23:59:28.488Z",
+        "settings": {
+          "context": 2,
+          "masks": [],
+          "watch_fields": []
+        },
+        "sources": {
+          "baselines": [
+            {
+              "label": "Baseline 1",
+              "name": "examples/pytest-pass.log",
+              "origin": "example",
+              "lines": 28,
+              "utf8_bytes": 1564
+            }
+          ],
+          "target": {
+            "label": "Target",
+            "name": "examples/pytest-fail.log",
+            "origin": "example",
+            "lines": 23,
+            "utf8_bytes": 1156
+          },
+          "omitted_baselines": []
+        },
+        "result": {
+          "baseline_totals": [
+            28
+          ],
+          "target_total": 23,
+          "total_templates": 21,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=================================== FAILURES ====================================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 14,
+              "first_target_raw": "=================================== FAILURES ====================================",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "_________________________________ test_divide ____________________________________",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 15,
+              "first_target_raw": "_________________________________ test_divide ____________________________________",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "def test_divide():",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 17,
+              "first_target_raw": "    def test_divide():",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "result = divide(10, 0)",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 18,
+              "first_target_raw": "        result = divide(10, 0)",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "> assert result == 0",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 19,
+              "first_target_raw": ">       assert result == 0",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "E ZeroDivisionError: division by zero",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 20,
+              "first_target_raw": "E       ZeroDivisionError: division by zero",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "tests/test_math.py:23: ZeroDivisionError",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 22,
+              "first_target_raw": "tests/test_math.py:23: ZeroDivisionError",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=========================== 1 failed, 6 passed in <QTY> ==========================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 23,
+              "first_target_raw": "=========================== 1 failed, 6 passed in 0.51s ==========================",
+              "block": 0
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "============================== <*> passed in <QTY> ===============================",
+              "score": 1.1632236872362793,
+              "baseline_counts": [
+                2
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 14,
+              "first_baseline_raw": "============================== 7 passed in 0.42s ==============================="
+            }
+          ],
+          "blocks": [
+            {
+              "kind": "new",
+              "first_line_no": 14,
+              "last_line_no": 23,
+              "line_count": 8,
+              "lines_elsewhere": 0,
+              "score": 6.066940906967183,
+              "findings": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value_findings": [
+            {
+              "template": "tests/test_math.py::test_divide <*> <*>",
+              "position": 1,
+              "new_value": "FAILED",
+              "baseline_values": [
+                "PASSED"
+              ],
+              "first_target_line_no": 9,
+              "first_target_raw": "tests/test_math.py::test_divide FAILED                                  [ 57%]",
+              "established": 7,
+              "context": {
+                "before": [
+                  [
+                    7,
+                    "tests/test_math.py::test_subtract PASSED                                [ 28%]"
+                  ],
+                  [
+                    8,
+                    "tests/test_math.py::test_multiply PASSED                                [ 42%]"
+                  ]
+                ],
+                "after": [
+                  [
+                    10,
+                    "tests/test_strings.py::test_upper PASSED                                [ 71%]"
+                  ],
+                  [
+                    11,
+                    "tests/test_strings.py::test_lower PASSED                                [ 85%]"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "reports": [],
+      "transitions": [],
+      "finalStatus": "Comparison failed: The diff engine failed to load. Try comparing again. Correct the inputs or try comparing again.",
+      "initialAttemptStatus": "Comparison failed: The diff engine failed to load. Try comparing again. Correct the inputs or try comparing again.",
+      "workers": {
+        "created": 2,
+        "terminated": 2
+      },
+      "offlineRequests": [
+        {
+          "url": "ORIGIN/logdelta/assets/worker-O6f85cmR.js",
+          "method": "GET"
+        }
+      ],
+      "accessibility": [],
+      "screenshot": "chromium-1440-before.png",
+      "screenshotSha256": "c8f61ce2d2b617a0e7a4a2924139d8430cd9c622a078dee55b9b27b573bb32d1"
+    },
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 375,
+      "phase": "before",
+      "initial": {
+        "format": "logdelta-report",
+        "schema_version": 1,
+        "engine": {
+          "name": "logdelta",
+          "version": "0.3.4",
+          "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+        },
+        "completed_at": "2026-10-11T23:59:32.181Z",
+        "settings": {
+          "context": 2,
+          "masks": [],
+          "watch_fields": []
+        },
+        "sources": {
+          "baselines": [
+            {
+              "label": "Baseline 1",
+              "name": "examples/pytest-pass.log",
+              "origin": "example",
+              "lines": 28,
+              "utf8_bytes": 1564
+            }
+          ],
+          "target": {
+            "label": "Target",
+            "name": "examples/pytest-fail.log",
+            "origin": "example",
+            "lines": 23,
+            "utf8_bytes": 1156
+          },
+          "omitted_baselines": []
+        },
+        "result": {
+          "baseline_totals": [
+            28
+          ],
+          "target_total": 23,
+          "total_templates": 21,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=================================== FAILURES ====================================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 14,
+              "first_target_raw": "=================================== FAILURES ====================================",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "_________________________________ test_divide ____________________________________",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 15,
+              "first_target_raw": "_________________________________ test_divide ____________________________________",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "def test_divide():",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 17,
+              "first_target_raw": "    def test_divide():",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "result = divide(10, 0)",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 18,
+              "first_target_raw": "        result = divide(10, 0)",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "> assert result == 0",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 19,
+              "first_target_raw": ">       assert result == 0",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "E ZeroDivisionError: division by zero",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 20,
+              "first_target_raw": "E       ZeroDivisionError: division by zero",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "tests/test_math.py:23: ZeroDivisionError",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 22,
+              "first_target_raw": "tests/test_math.py:23: ZeroDivisionError",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=========================== 1 failed, 6 passed in <QTY> ==========================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 23,
+              "first_target_raw": "=========================== 1 failed, 6 passed in 0.51s ==========================",
+              "block": 0
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "============================== <*> passed in <QTY> ===============================",
+              "score": 1.1632236872362793,
+              "baseline_counts": [
+                2
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 14,
+              "first_baseline_raw": "============================== 7 passed in 0.42s ==============================="
+            }
+          ],
+          "blocks": [
+            {
+              "kind": "new",
+              "first_line_no": 14,
+              "last_line_no": 23,
+              "line_count": 8,
+              "lines_elsewhere": 0,
+              "score": 6.066940906967183,
+              "findings": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value_findings": [
+            {
+              "template": "tests/test_math.py::test_divide <*> <*>",
+              "position": 1,
+              "new_value": "FAILED",
+              "baseline_values": [
+                "PASSED"
+              ],
+              "first_target_line_no": 9,
+              "first_target_raw": "tests/test_math.py::test_divide FAILED                                  [ 57%]",
+              "established": 7,
+              "context": {
+                "before": [
+                  [
+                    7,
+                    "tests/test_math.py::test_subtract PASSED                                [ 28%]"
+                  ],
+                  [
+                    8,
+                    "tests/test_math.py::test_multiply PASSED                                [ 42%]"
+                  ]
+                ],
+                "after": [
+                  [
+                    10,
+                    "tests/test_strings.py::test_upper PASSED                                [ 71%]"
+                  ],
+                  [
+                    11,
+                    "tests/test_strings.py::test_lower PASSED                                [ 85%]"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "reports": [],
+      "transitions": [],
+      "finalStatus": "Comparison failed: The diff engine failed to load. Try comparing again. Correct the inputs or try comparing again.",
+      "initialAttemptStatus": "Comparison failed: The diff engine failed to load. Try comparing again. Correct the inputs or try comparing again.",
+      "workers": {
+        "created": 2,
+        "terminated": 2
+      },
+      "offlineRequests": [
+        {
+          "url": "ORIGIN/logdelta/assets/worker-O6f85cmR.js",
+          "method": "GET"
+        }
+      ],
+      "accessibility": [],
+      "screenshot": "chromium-375-before.png",
+      "screenshotSha256": "6035473741e6c209d926e7b9af3a8942cd1f8e28aed96073d37777396b063b1b"
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 1440,
+      "phase": "before",
+      "initial": {
+        "format": "logdelta-report",
+        "schema_version": 1,
+        "engine": {
+          "name": "logdelta",
+          "version": "0.3.4",
+          "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+        },
+        "completed_at": "2026-10-11T23:59:40.904Z",
+        "settings": {
+          "context": 2,
+          "masks": [],
+          "watch_fields": []
+        },
+        "sources": {
+          "baselines": [
+            {
+              "label": "Baseline 1",
+              "name": "examples/pytest-pass.log",
+              "origin": "example",
+              "lines": 28,
+              "utf8_bytes": 1564
+            }
+          ],
+          "target": {
+            "label": "Target",
+            "name": "examples/pytest-fail.log",
+            "origin": "example",
+            "lines": 23,
+            "utf8_bytes": 1156
+          },
+          "omitted_baselines": []
+        },
+        "result": {
+          "baseline_totals": [
+            28
+          ],
+          "target_total": 23,
+          "total_templates": 21,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=================================== FAILURES ====================================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 14,
+              "first_target_raw": "=================================== FAILURES ====================================",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "_________________________________ test_divide ____________________________________",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 15,
+              "first_target_raw": "_________________________________ test_divide ____________________________________",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "def test_divide():",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 17,
+              "first_target_raw": "    def test_divide():",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "result = divide(10, 0)",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 18,
+              "first_target_raw": "        result = divide(10, 0)",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "> assert result == 0",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 19,
+              "first_target_raw": ">       assert result == 0",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "E ZeroDivisionError: division by zero",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 20,
+              "first_target_raw": "E       ZeroDivisionError: division by zero",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "tests/test_math.py:23: ZeroDivisionError",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 22,
+              "first_target_raw": "tests/test_math.py:23: ZeroDivisionError",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=========================== 1 failed, 6 passed in <QTY> ==========================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 23,
+              "first_target_raw": "=========================== 1 failed, 6 passed in 0.51s ==========================",
+              "block": 0
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "============================== <*> passed in <QTY> ===============================",
+              "score": 1.1632236872362793,
+              "baseline_counts": [
+                2
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 14,
+              "first_baseline_raw": "============================== 7 passed in 0.42s ==============================="
+            }
+          ],
+          "blocks": [
+            {
+              "kind": "new",
+              "first_line_no": 14,
+              "last_line_no": 23,
+              "line_count": 8,
+              "lines_elsewhere": 0,
+              "score": 6.066940906967183,
+              "findings": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value_findings": [
+            {
+              "template": "tests/test_math.py::test_divide <*> <*>",
+              "position": 1,
+              "new_value": "FAILED",
+              "baseline_values": [
+                "PASSED"
+              ],
+              "first_target_line_no": 9,
+              "first_target_raw": "tests/test_math.py::test_divide FAILED                                  [ 57%]",
+              "established": 7,
+              "context": {
+                "before": [
+                  [
+                    7,
+                    "tests/test_math.py::test_subtract PASSED                                [ 28%]"
+                  ],
+                  [
+                    8,
+                    "tests/test_math.py::test_multiply PASSED                                [ 42%]"
+                  ]
+                ],
+                "after": [
+                  [
+                    10,
+                    "tests/test_strings.py::test_upper PASSED                                [ 71%]"
+                  ],
+                  [
+                    11,
+                    "tests/test_strings.py::test_lower PASSED                                [ 85%]"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "reports": [
+        {
+          "format": "logdelta-report",
+          "schema_version": 2,
+          "engine": {
+            "name": "logdelta",
+            "version": "0.3.4",
+            "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+          },
+          "completed_at": "2026-10-11T23:59:42.050Z",
+          "settings": {
+            "context": 2,
+            "masks": [],
+            "watch_fields": [
+              "/status"
+            ],
+            "watch_by": [
+              "/route"
+            ]
+          },
+          "sources": {
+            "baselines": [
+              {
+                "label": "Baseline 1",
+                "name": "baseline.gz",
+                "origin": "file",
+                "lines": 1,
+                "utf8_bytes": 39
+              }
+            ],
+            "target": {
+              "label": "Target",
+              "name": "target.gz",
+              "origin": "file",
+              "lines": 1,
+              "utf8_bytes": 39
+            },
+            "omitted_baselines": []
+          },
+          "result": {
+            "baseline_totals": [
+              1
+            ],
+            "target_total": 1,
+            "total_templates": 1,
+            "findings": [],
+            "blocks": [],
+            "value_findings": [],
+            "watched_fields": [
+              {
+                "pointer": "/status",
+                "group_by": [
+                  "/route"
+                ],
+                "complete": true,
+                "baselines": [
+                  {
+                    "lines": 1,
+                    "matched": 1,
+                    "missing": 0,
+                    "non_json": 0,
+                    "invalid_json": 0,
+                    "non_scalar": 0,
+                    "ambiguous": 0,
+                    "oversized_records": 0,
+                    "untracked": 0
+                  }
+                ],
+                "target": {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                },
+                "values": [
+                  {
+                    "value_json": "200",
+                    "group_values_json": [
+                      "\"/private-demo\""
+                    ],
+                    "group_seen_in_baseline": true,
+                    "baseline_counts": [
+                      1
+                    ],
+                    "target_count": 0,
+                    "is_new": false,
+                    "first_baseline": {
+                      "baseline_index": 0,
+                      "line_no": 1,
+                      "raw": "{\"route\":\"/private-demo\",\"status\":200}",
+                      "truncated": false
+                    }
+                  },
+                  {
+                    "value_json": "500",
+                    "group_values_json": [
+                      "\"/private-demo\""
+                    ],
+                    "group_seen_in_baseline": true,
+                    "baseline_counts": [
+                      0
+                    ],
+                    "target_count": 1,
+                    "is_new": true,
+                    "first_target": {
+                      "line_no": 1,
+                      "raw": "{\"route\":\"/private-demo\",\"status\":500}",
+                      "truncated": false
+                    },
+                    "context": {
+                      "before": [],
+                      "after": []
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "transitions": [],
+      "finalStatus": "Prepared logdelta-report.json for download.",
+      "initialAttemptStatus": "Comparison complete: 1 findings before block grouping.",
+      "workers": {
+        "created": 2,
+        "terminated": 1
+      },
+      "offlineRequests": [
+        {
+          "url": "ORIGIN/logdelta/assets/worker-O6f85cmR.js",
+          "method": "GET"
+        },
+        {
+          "url": "ORIGIN/logdelta/assets/logdelta-Dj5_ytal.wasm",
+          "method": "GET"
+        }
+      ],
+      "accessibility": [],
+      "screenshot": "firefox-1440-before.png",
+      "screenshotSha256": "bac353c945615136acc46371b16da9992bd4584ba7b9fa266969c77289cc42a2"
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 375,
+      "phase": "before",
+      "initial": {
+        "format": "logdelta-report",
+        "schema_version": 1,
+        "engine": {
+          "name": "logdelta",
+          "version": "0.3.4",
+          "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+        },
+        "completed_at": "2026-10-11T23:59:45.437Z",
+        "settings": {
+          "context": 2,
+          "masks": [],
+          "watch_fields": []
+        },
+        "sources": {
+          "baselines": [
+            {
+              "label": "Baseline 1",
+              "name": "examples/pytest-pass.log",
+              "origin": "example",
+              "lines": 28,
+              "utf8_bytes": 1564
+            }
+          ],
+          "target": {
+            "label": "Target",
+            "name": "examples/pytest-fail.log",
+            "origin": "example",
+            "lines": 23,
+            "utf8_bytes": 1156
+          },
+          "omitted_baselines": []
+        },
+        "result": {
+          "baseline_totals": [
+            28
+          ],
+          "target_total": 23,
+          "total_templates": 21,
+          "findings": [
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=================================== FAILURES ====================================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 14,
+              "first_target_raw": "=================================== FAILURES ====================================",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "_________________________________ test_divide ____________________________________",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 15,
+              "first_target_raw": "_________________________________ test_divide ____________________________________",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "def test_divide():",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 17,
+              "first_target_raw": "    def test_divide():",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "result = divide(10, 0)",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 18,
+              "first_target_raw": "        result = divide(10, 0)",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "> assert result == 0",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 19,
+              "first_target_raw": ">       assert result == 0",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "E ZeroDivisionError: division by zero",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 20,
+              "first_target_raw": "E       ZeroDivisionError: division by zero",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "tests/test_math.py:23: ZeroDivisionError",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 22,
+              "first_target_raw": "tests/test_math.py:23: ZeroDivisionError",
+              "block": 0
+            },
+            {
+              "kind": "new",
+              "direction": "up",
+              "template": "=========================== 1 failed, 6 passed in <QTY> ==========================",
+              "score": 0.7583676133708979,
+              "baseline_counts": [
+                0
+              ],
+              "target_count": 1,
+              "first_target_line_no": 23,
+              "first_target_raw": "=========================== 1 failed, 6 passed in 0.51s ==========================",
+              "block": 0
+            },
+            {
+              "kind": "gone",
+              "direction": "down",
+              "template": "============================== <*> passed in <QTY> ===============================",
+              "score": 1.1632236872362793,
+              "baseline_counts": [
+                2
+              ],
+              "target_count": 0,
+              "first_target_line_no": null,
+              "first_target_raw": null,
+              "first_baseline_line_no": 14,
+              "first_baseline_raw": "============================== 7 passed in 0.42s ==============================="
+            }
+          ],
+          "blocks": [
+            {
+              "kind": "new",
+              "first_line_no": 14,
+              "last_line_no": 23,
+              "line_count": 8,
+              "lines_elsewhere": 0,
+              "score": 6.066940906967183,
+              "findings": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value_findings": [
+            {
+              "template": "tests/test_math.py::test_divide <*> <*>",
+              "position": 1,
+              "new_value": "FAILED",
+              "baseline_values": [
+                "PASSED"
+              ],
+              "first_target_line_no": 9,
+              "first_target_raw": "tests/test_math.py::test_divide FAILED                                  [ 57%]",
+              "established": 7,
+              "context": {
+                "before": [
+                  [
+                    7,
+                    "tests/test_math.py::test_subtract PASSED                                [ 28%]"
+                  ],
+                  [
+                    8,
+                    "tests/test_math.py::test_multiply PASSED                                [ 42%]"
+                  ]
+                ],
+                "after": [
+                  [
+                    10,
+                    "tests/test_strings.py::test_upper PASSED                                [ 71%]"
+                  ],
+                  [
+                    11,
+                    "tests/test_strings.py::test_lower PASSED                                [ 85%]"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "reports": [
+        {
+          "format": "logdelta-report",
+          "schema_version": 2,
+          "engine": {
+            "name": "logdelta",
+            "version": "0.3.4",
+            "wasm_sha256": "2b7713c2d72c87a65f201f58d77e6923edd7edd86897281cde594d7d0eadda71"
+          },
+          "completed_at": "2026-10-11T23:59:46.439Z",
+          "settings": {
+            "context": 2,
+            "masks": [],
+            "watch_fields": [
+              "/status"
+            ],
+            "watch_by": [
+              "/route"
+            ]
+          },
+          "sources": {
+            "baselines": [
+              {
+                "label": "Baseline 1",
+                "name": "baseline.gz",
+                "origin": "file",
+                "lines": 1,
+                "utf8_bytes": 39
+              }
+            ],
+            "target": {
+              "label": "Target",
+              "name": "target.gz",
+              "origin": "file",
+              "lines": 1,
+              "utf8_bytes": 39
+            },
+            "omitted_baselines": []
+          },
+          "result": {
+            "baseline_totals": [
+              1
+            ],
+            "target_total": 1,
+            "total_templates": 1,
+            "findings": [],
+            "blocks": [],
+            "value_findings": [],
+            "watched_fields": [
+              {
+                "pointer": "/status",
+                "group_by": [
+                  "/route"
+                ],
+                "complete": true,
+                "baselines": [
+                  {
+                    "lines": 1,
+                    "matched": 1,
+                    "missing": 0,
+                    "non_json": 0,
+                    "invalid_json": 0,
+                    "non_scalar": 0,
+                    "ambiguous": 0,
+                    "oversized_records": 0,
+                    "untracked": 0
+                  }
+                ],
+                "target": {
+                  "lines": 1,
+                  "matched": 1,
+                  "missing": 0,
+                  "non_json": 0,
+                  "invalid_json": 0,
+                  "non_scalar": 0,
+                  "ambiguous": 0,
+                  "oversized_records": 0,
+                  "untracked": 0
+                },
+                "values": [
+                  {
+                    "value_json": "200",
+                    "group_values_json": [
+                      "\"/private-demo\""
+                    ],
+                    "group_seen_in_baseline": true,
+                    "baseline_counts": [
+                      1
+                    ],
+                    "target_count": 0,
+                    "is_new": false,
+                    "first_baseline": {
+                      "baseline_index": 0,
+                      "line_no": 1,
+                      "raw": "{\"route\":\"/private-demo\",\"status\":200}",
+                      "truncated": false
+                    }
+                  },
+                  {
+                    "value_json": "500",
+                    "group_values_json": [
+                      "\"/private-demo\""
+                    ],
+                    "group_seen_in_baseline": true,
+                    "baseline_counts": [
+                      0
+                    ],
+                    "target_count": 1,
+                    "is_new": true,
+                    "first_target": {
+                      "line_no": 1,
+                      "raw": "{\"route\":\"/private-demo\",\"status\":500}",
+                      "truncated": false
+                    },
+                    "context": {
+                      "before": [],
+                      "after": []
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "transitions": [],
+      "finalStatus": "Prepared logdelta-report.json for download.",
+      "initialAttemptStatus": "Comparison complete: 1 findings before block grouping.",
+      "workers": {
+        "created": 2,
+        "terminated": 1
+      },
+      "offlineRequests": [
+        {
+          "url": "ORIGIN/logdelta/assets/worker-O6f85cmR.js",
+          "method": "GET"
+        },
+        {
+          "url": "ORIGIN/logdelta/assets/logdelta-Dj5_ytal.wasm",
+          "method": "GET"
+        }
+      ],
+      "accessibility": [],
+      "screenshot": "firefox-375-before.png",
+      "screenshotSha256": "ea8337d4f8a8b0607a28207ccd9827ffe846cde3d5f8c83e8623777041e05b35"
+    }
+  ]
+}
