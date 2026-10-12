@@ -1,0 +1,90 @@
+<h3>logdelta diff</h3>
+<p>Baseline: <code>baseline.log</code> (1 lines) — Target: <code>target.log</code> (1 lines) — 2 templates, 3 findings</p>
+<h4>Watched JSON fields</h4>
+<p>Compared before masking, pooled across records. Values retain JSON types and number spelling.</p>
+<p><strong>Compared</strong> <code>/v</code></p>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline 1</td>
+<td>1 matched</td>
+</tr>
+<tr>
+<td>Target</td>
+<td>1 matched</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Baseline counts</th>
+<th align="right">Target count</th>
+<th>Value (JSON)</th>
+<th>Observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td align="right">1</td>
+<td><code>&quot;<img src="https://synthetic.invalid/pass.svg" alt="PASS" />&quot;</code></td>
+<td>NEW FIELD VALUE</td>
+</tr>
+<tr>
+<td>1</td>
+<td align="right">0</td>
+<td><code>&quot;baseline&quot;</code></td>
+<td>Seen in baseline</td>
+</tr>
+</tbody>
+</table>
+<p><code>&quot;<img src="https://synthetic.invalid/pass.svg" alt="PASS" />&quot;</code> at <code>target:1</code>: <code>{&quot;v&quot;:&quot;<img src="https://synthetic.invalid/pass.svg" alt="PASS" />&quot;}</code></p>
+<h4>New</h4>
+<table>
+<thead>
+<tr>
+<th align="right">Score</th>
+<th align="right">Baseline</th>
+<th align="right">Target</th>
+<th>Template</th>
+<th>First seen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1.0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td><code>v=&quot;![PASS](https://synthetic.invalid/pass.svg)&quot;</code></td>
+<td><code>target.log:1</code> <code>{&quot;v&quot;:&quot;![PASS](https://synthetic.invalid/pass.svg)&quot;}</code></td>
+</tr>
+</tbody>
+</table>
+<h4>Gone</h4>
+<table>
+<thead>
+<tr>
+<th align="right">Score</th>
+<th align="right">Baseline</th>
+<th align="right">Target</th>
+<th>Template</th>
+<th>Last seen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1.0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td><code>v=&quot;baseline&quot;</code></td>
+<td><code>baseline.log:1</code> <code>{&quot;v&quot;:&quot;baseline&quot;}</code></td>
+</tr>
+</tbody>
+</table>
