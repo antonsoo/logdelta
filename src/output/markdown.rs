@@ -9,11 +9,38 @@ use crate::output::{
     block_excerpt, block_lines, clip, items_of_kind, printable, ExcerptRow, Item, MAX_SHOWN_CHARS,
 };
 
-/// A template, value or log line as one table cell: without escape sequences, clipped (a PR
-/// comment holds 65,536 characters, and one minified line is longer than that), with `|`
-/// and newlines neutralized.
-fn escape(s: &str) -> String {
-    clip(&printable(s), MAX_SHOWN_CHARS).replace('|', "\\|")
+/// A real Markdown code span: HTML <code> wrappers still parse links/emphasis,
+/// and even entity-escaped email addresses can become GFM autolinks inside them.
+pub(super) fn code(text: &str) -> String {
+    literal(text, false)
+}
+
+/// GFM tables consume one backslash before a pipe, including inside code spans.
+/// Paragraph spans must not add that backslash because no table consumes it.
+pub(super) fn cell(text: &str) -> String {
+    literal(text, true)
+}
+
+fn literal(text: &str, in_table: bool) -> String {
+    let printable = printable(text);
+    let text = clip(&printable, MAX_SHOWN_CHARS);
+    if text.is_empty() {
+        return "<code></code>".into();
+    }
+    let longest = text.split(|c| c != '`').map(str::len).max().unwrap_or(0);
+    let delimiter = "`".repeat(longest + 1);
+    // Padding separates boundary backticks from the delimiter and preserves
+    // leading/trailing spaces that Markdown would otherwise trim once.
+    let pad = text.starts_with('`')
+        || text.ends_with('`')
+        || (text.starts_with(' ') && text.ends_with(' ') && !text.chars().all(|c| c == ' '));
+    let text = if in_table {
+        text.replace('|', "\\|")
+    } else {
+        text.into_owned()
+    };
+    let padding = if pad { " " } else { "" };
+    format!("{delimiter}{padding}{text}{padding}{delimiter}")
 }
 
 /// A fence no line of `lines` can close: one backtick longer than the longest run of
@@ -47,12 +74,14 @@ fn write_block<W: Write>(
     };
     writeln!(
         out,
-        "**{} templates, {} line{}** at `{path}:{}-{}`{elsewhere}, score {:.1}",
+        "**{} templates, {} line{}** at {}{elsewhere}, score {:.1}",
         lines.len(),
         block.line_count,
         if block.line_count == 1 { "" } else { "s" },
-        block.first_line_no,
-        block.last_line_no,
+        code(&format!(
+            "{path}:{}-{}",
+            block.first_line_no, block.last_line_no
+        )),
         block.score,
     )?;
     writeln!(out)?;
@@ -106,10 +135,14 @@ pub fn write_diff<W: Write>(
     writeln!(out)?;
     writeln!(
         out,
-        "Baseline: `{}` ({} lines) — Target: `{}` ({} lines) — {} templates, {} finding{}{ungrouped}",
-        baseline_paths.join("`, `"),
+        "Baseline: {} ({} lines) — Target: {} ({} lines) — {} templates, {} finding{}{ungrouped}",
+        baseline_paths
+            .iter()
+            .map(|path| code(path))
+            .collect::<Vec<_>>()
+            .join(", "),
         result.baseline_totals.iter().sum::<u64>(),
-        target_path,
+        code(target_path),
         result.target_total,
         result.total_templates,
         n_findings,
@@ -184,18 +217,22 @@ pub fn write_diff<W: Write>(
                 (f.first_target_line_no, &f.first_target_raw),
                 (f.first_baseline_line_no, &f.first_baseline_raw),
             ) {
-                ((Some(n), Some(raw)), _) => format!("`{target_path}:{n}` `{}`", escape(raw)),
+                ((Some(n), Some(raw)), _) => {
+                    format!("{} {}", cell(&format!("{target_path}:{n}")), cell(raw))
+                }
                 // Gone: the target has no such line, so point at the one the baseline had.
-                (_, (Some(n), Some(raw))) => format!("`{first_baseline}:{n}` `{}`", escape(raw)),
+                (_, (Some(n), Some(raw))) => {
+                    format!("{} {}", cell(&format!("{first_baseline}:{n}")), cell(raw))
+                }
                 _ => String::from("—"),
             };
             writeln!(
                 out,
-                "| {:.1} | {} | {} | `{}` | {} |",
+                "| {:.1} | {} | {} | {} | {} |",
                 f.score,
                 baseline.join("/"),
                 f.target_count,
-                escape(&f.template),
+                cell(&f.template),
                 first_seen,
             )?;
         }
@@ -212,16 +249,16 @@ pub fn write_diff<W: Write>(
         writeln!(out, "|---|---|---|---|")?;
         for v in result.ungrouped_values() {
             let first_seen = format!(
-                "`{target_path}:{}` `{}`",
-                v.first_target_line_no,
-                escape(&v.first_target_raw)
+                "{} {}",
+                cell(&format!("{target_path}:{}", v.first_target_line_no)),
+                cell(&v.first_target_raw)
             );
             writeln!(
                 out,
-                "| `{}` | `{}` | `{}` | {} |",
-                escape(&v.template),
-                escape(&v.new_value),
-                escape(&v.baseline_values.join(", ")),
+                "| {} | {} | {} | {} |",
+                cell(&v.template),
+                cell(&v.new_value),
+                cell(&v.baseline_values.join(", ")),
                 first_seen,
             )?;
         }
@@ -232,7 +269,7 @@ pub fn write_diff<W: Write>(
 
 #[cfg(test)]
 mod tests {
-    use super::{escape, fence};
+    use super::{cell, code, fence};
 
     #[test]
     fn a_fence_is_longer_than_any_backtick_run_inside_it() {
@@ -243,23 +280,38 @@ mod tests {
 
     #[test]
     fn escapes_pipes_so_they_dont_break_the_table() {
-        assert_eq!(escape("a | b"), "a \\| b");
+        assert_eq!(cell("a | b"), "`a \\| b`");
+        assert_eq!(cell(r"a\|b"), r"`a\\|b`");
+        assert_eq!(code(r"a\|b"), r"`a\|b`");
     }
 
     #[test]
     fn flattens_embedded_newlines() {
-        assert_eq!(escape("line one\nline two"), "line one line two");
+        assert_eq!(code("line one\nline two"), "`line one line two`");
     }
 
     #[test]
     fn clips_a_cell_that_would_swamp_the_table() {
-        let cell = escape(&"x".repeat(5000));
-        assert!(cell.starts_with(&"x".repeat(400)));
-        assert!(cell.ends_with("… (+4600 more characters)"));
+        let cell = cell(&"x".repeat(5000));
+        assert!(cell.starts_with(&format!("`{}", "x".repeat(400))));
+        assert!(cell.ends_with("… (+4600 more characters)`"));
     }
 
     #[test]
     fn leaves_ordinary_text_alone() {
-        assert_eq!(escape("nothing special here"), "nothing special here");
+        assert_eq!(code("nothing special here"), "`nothing special here`");
+    }
+
+    #[test]
+    fn preserves_boundary_backticks_spaces_and_markup_as_code() {
+        assert_eq!(
+            code("`![PASS](https://example.invalid)`"),
+            "`` `![PASS](https://example.invalid)` ``"
+        );
+        assert_eq!(code("a `` b ` c"), "```a `` b ` c```");
+        assert_eq!(code("  padded  "), "`   padded   `");
+        assert_eq!(code("   "), "`   `");
+        assert_eq!(code(""), "<code></code>");
+        assert_eq!(code("test@example.com"), "`test@example.com`");
     }
 }

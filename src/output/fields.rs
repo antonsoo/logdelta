@@ -1,6 +1,7 @@
 use std::io::{self, Write};
 
-use super::{clip, printable, MAX_SHOWN_CHARS};
+use super::markdown::{cell, code};
+use super::printable;
 use crate::fields::{FieldCoverage, FieldOccurrence, FieldValue, WatchedField};
 
 pub(super) fn counts(values: &[u64]) -> String {
@@ -208,17 +209,6 @@ pub fn human<W: Write>(out: &mut W, fields: &[WatchedField], width: usize) -> io
     Ok(())
 }
 
-/// HTML code spans keep backticks, links, angle brackets and table pipes inert.
-pub(super) fn code(text: &str) -> String {
-    let escaped = clip(&printable(text), MAX_SHOWN_CHARS)
-        .replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('|', "&#124;")
-        .replace('`', "&#96;");
-    format!("<code>{escaped}</code>")
-}
-
 pub fn markdown<W: Write>(out: &mut W, fields: &[WatchedField]) -> io::Result<()> {
     if fields.is_empty() {
         return Ok(());
@@ -247,7 +237,7 @@ pub fn markdown<W: Write>(out: &mut W, fields: &[WatchedField]) -> io::Result<()
         let groups = field
             .group_by
             .iter()
-            .map(|p| format!(" Group: {} |", code(p)))
+            .map(|p| format!(" Group: {} |", cell(p)))
             .collect::<String>();
         writeln!(out, "|{groups} Baseline counts | Target count | Value (JSON) | Observation |\n|{}---|---:|---|---|", "---|".repeat(field.group_by.len()))?;
         for value in &field.values {
@@ -260,14 +250,14 @@ pub fn markdown<W: Write>(out: &mut W, fields: &[WatchedField]) -> io::Result<()
             let groups = value
                 .group_values_json
                 .iter()
-                .map(|v| format!(" {} |", code(v)))
+                .map(|v| format!(" {} |", cell(v)))
                 .collect::<String>();
             writeln!(
                 out,
                 "|{groups} {} | {} | {} | {marker} |",
                 counts(&value.baseline_counts),
                 value.target_count,
-                code(&value.value_json)
+                cell(&value.value_json)
             )?;
         }
         writeln!(out)?;

@@ -616,8 +616,7 @@ fn grouping_configuration_and_human_reports_cannot_silently_drop_the_requested_s
             assert!(text.contains("NEW GROUP"));
         }
         if format == "--markdown" {
-            assert!(text.contains("&lt;b&gt;&#124;new"));
-            assert!(!text.contains("<b>"));
+            assert!(text.contains(r#"`"<b>\|new"`"#));
         }
     }
 }

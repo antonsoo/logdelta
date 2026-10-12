@@ -232,8 +232,7 @@ fn rate_evidence_and_requested_context_survive_json_and_markdown() {
         &[RATE_ARGS, &["--markdown"]].concat(),
     );
     assert!(markdown.contains("CHANGED RATES"));
-    assert!(markdown.contains("&#124;&lt;script&gt;bad&lt;/script&gt;"));
-    assert!(!markdown.contains("<script>"));
+    assert!(markdown.contains(r#"`"/checkout\|<script>bad</script>"`"#));
     assert!(markdown.contains("baseline 1000; target 1000"));
     assert!(markdown.contains("20.0000%"));
 }
@@ -256,10 +255,7 @@ fn a_known_value_falling_to_zero_keeps_its_baseline_source() {
         &target,
         &[RATE_ARGS, &["--markdown"]].concat(),
     );
-    assert!(
-        markdown.contains("<code>503</code> at <code>baseline 1:1</code>"),
-        "{markdown}"
-    );
+    assert!(markdown.contains("`503` at `baseline 1:1`"), "{markdown}");
     let (_, human) = run(&[&baseline], &target, RATE_ARGS);
     assert!(human.contains("First example baseline 1:1"));
 }

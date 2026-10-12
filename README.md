@@ -160,6 +160,9 @@ when it could not read its input (a missing file, or one that is not text), like
   lines truncated to the real terminal width instead of wrapping mid-word), `--json`, and
   `--markdown` for `$GITHUB_STEP_SUMMARY` or a PR comment. Reports print log lines without
   the log's own color codes and control characters; `--json` keeps every line as it was read.
+  In this source checkout, Markdown code spans keep backticks, links, images and
+  formatting in recorded text literal, including exact-field values and filenames.
+  [Reference-renderer reproduction](studies/markdown-literals/README.md).
 - Streams line-by-line: peak memory stays flat regardless of input size (see
   [Benchmarks](#benchmarks)).
 

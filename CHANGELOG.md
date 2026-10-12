@@ -5,6 +5,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Preserve literal evidence in Markdown reports. Backticks in source text cannot
+  close code spans, and watched-field values no longer become links, images or
+  formatting inside HTML code wrappers. Apply the same handling to source paths,
+  group keys, rate findings and incomplete evidence, with GFM table-pipe handling.
+  [Actual CLI/reference-renderer captures](studies/markdown-literals/README.md).
+
 - The built browser demo can recreate its diff worker offline after Cancel,
   editing or New comparison. It retains successfully executed module bytes in
   page memory, while still terminating workers and rehashing each replacement's

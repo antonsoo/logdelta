@@ -3,7 +3,8 @@ use std::io::{self, Write};
 use crate::field_rates::{FieldRateGroup, RateGroupStatus};
 use crate::fields::WatchedField;
 
-use super::fields::{code, counts, location, terminal_line};
+use super::fields::{counts, location, terminal_line};
+use super::markdown::{cell, code};
 
 fn label(field: &WatchedField, group: &FieldRateGroup) -> String {
     if field.group_by.is_empty() {
@@ -167,7 +168,7 @@ pub(super) fn markdown<W: Write>(out: &mut W, field: &WatchedField) -> io::Resul
             writeln!(
                 out,
                 "| {} | {} | {:.4}% | {:+.4} | {:.2} |",
-                code(&value.value_json),
+                cell(&value.value_json),
                 rates(&change.baseline_rates),
                 change.target_rate * 100.0,
                 change.range_distance_pp,
