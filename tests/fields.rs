@@ -275,6 +275,82 @@ fn envelopes_and_custom_masks_do_not_destroy_exact_observations() {
 }
 
 #[test]
+fn decoded_container_payloads_keep_styled_and_prefixed_observations() {
+    let styles = [
+        ("\x1b[31m", "\x1b[0m"),
+        ("\x1b]8;;https://example.test\x07", "\x1b]8;;\x07"),
+        ("2026-10-12T10:00:00Z stdout F ", ""),
+        ("Oct 12 10:00:00 host worker[42]: ", ""),
+        ("\x1b[31m2026-10-12T10:00:00Z stdout F ", "\x1b[0m"),
+        ("\x1b[31mOct 12 10:00:00 host worker[42]: ", "\x1b[0m"),
+    ];
+    let plain =
+        json!({"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}).to_string();
+    for (prefix, suffix) in styles {
+        for ending in ["\n", "\r\n"] {
+            let wrapped = |status| {
+                json!({"log":format!("{prefix}{{\"route\":\"/checkout\",\"status\":{status}}}{suffix}{ending}"),"stream":"stdout"})
+                    .to_string()
+            };
+            let baseline = format!("{plain}\n{}\n", wrapped(200));
+            let raw = wrapped(503);
+            let target = format!("{plain}\n{raw}\n");
+            let (exit, output) = diff(
+                &[&baseline],
+                &target,
+                &["/status"],
+                &["--watch-by", "/route", "--json", "--mask", "[0-9]+"],
+            );
+            assert_eq!(exit, 1, "{prefix:?} {ending:?}: {output}");
+            let report: Value = serde_json::from_str(&output).unwrap();
+            let field = &report["watched_fields"][0];
+            assert_eq!(field["complete"], true);
+            assert_eq!(field["target"]["matched"], 2);
+            assert_eq!(field["target"]["non_json"], 0);
+            assert_eq!(field["values"][1]["value_json"], "503");
+            assert_eq!(field["values"][1]["is_new"], true);
+            assert_eq!(field["values"][1]["first_target"]["raw"], raw);
+            assert_eq!(field["values"][1]["first_target"]["line_no"], 2);
+        }
+    }
+}
+
+#[test]
+fn styled_container_damage_cannot_disappear_as_an_unrelated_plain_text_line() {
+    let plain = "{\"status\":200}\n";
+    for (body, counter) in [
+        ("{\"status\":503,\"status\":200}", "ambiguous"),
+        ("{\"status\":503", "invalid_json"),
+    ] {
+        let raw = json!({"log":format!("\x1b[31m{body}\x1b[0m\n"),"stream":"stdout"}).to_string();
+        let (exit, result) = report(&[plain], &format!("{plain}{raw}\n"), &["/status"]);
+        assert_eq!(exit, 2);
+        let field = &result["watched_fields"][0];
+        assert_eq!(field["complete"], false);
+        assert_eq!(field["target"][counter], 1);
+        assert_eq!(field["target"]["first_problem"]["raw"], raw);
+    }
+}
+
+#[test]
+fn encoded_terminal_sequences_inside_json_values_remain_exact_data() {
+    let value = "\x1b[31m503\x1b[0m";
+    let body = json!({"status": value}).to_string();
+    let baseline = json!({"log":format!("{body}\n"),"stream":"stdout"}).to_string();
+    let wrapped = json!({"log":format!("\x1b[32m{body}\x1b[0m\n"),"stream":"stdout"}).to_string();
+    let (exit, result) = report(&[&baseline], &wrapped, &["/status"]);
+    assert_eq!(exit, 0);
+    let field = &result["watched_fields"][0];
+    assert_eq!(field["complete"], true);
+    assert_eq!(
+        field["values"][0]["value_json"],
+        serde_json::to_string(value).unwrap()
+    );
+    assert_eq!(field["values"][0]["target_count"], 1);
+    assert_eq!(field["values"][0]["is_new"], false);
+}
+
+#[test]
 fn large_field_context_is_bounded_and_clipping_is_visible_without_changing_values() {
     let line = |v| json!({"v":v,"padding":"界".repeat(3000)}).to_string();
     let baseline = line(0);

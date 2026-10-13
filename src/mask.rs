@@ -221,8 +221,17 @@ fn strip_leading_timestamp(s: &str) -> Option<String> {
 
 /// Recognizes CRI/containerd and journald/syslog headers, or else a bare leading timestamp,
 /// and strips it, returning any literal token worth keeping (e.g. the stream name) plus the
-/// remaining payload. A no-op (empty prefix, `s` returned unchanged) if nothing matches.
+/// remaining payload. Clean transport styling and line endings at this layer too: decoding
+/// a Docker `log` string can reveal ANSI escapes and its original trailing newline.
+/// JSON string escapes remain encoded here, so scalar values are not rewritten.
 pub(crate) fn strip_structural_prefix(s: &str) -> (Vec<String>, String) {
+    let clean = strip_escapes(s);
+    let s = clean.trim_end_matches(['\r', '\n']);
+    // A compact Docker envelope can contain `timestamp stdout F ...` inside
+    // its quoted `log` member. Those are JSON bytes, not an outer CRI header.
+    if s.trim_start().starts_with('{') {
+        return (Vec::new(), s.to_string());
+    }
     if let Some(caps) = CRI_PREFIX.captures(s) {
         return (vec![caps[1].to_string()], caps[2].to_string());
     }

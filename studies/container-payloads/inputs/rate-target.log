@@ -1,0 +1,100 @@
+{"log":"{\"route\":\"/checkout\",\"status\":503}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":503}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log":"{\"route\":\"/checkout\",\"status\":200}\n","stream":"stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":503}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}
+{"log": "\u001b[31m{\"route\":\"/checkout\",\"status\":200}\u001b[0m\n", "stream": "stdout"}

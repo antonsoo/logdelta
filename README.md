@@ -91,6 +91,10 @@ when it could not read its input (a missing file, or one that is not text), like
   [downloads retain the complete evidence](docs/verification-field-ledger.md).
   An unobserved field or a tracking limit produces an incomplete report, never a
   clean CI gate. See the [controlled HTTP example and field guide](docs/watched-fields.md).
+  The source checkout also keeps styled and prefixed JSON observations inside
+  Docker envelopes. A [26-case CLI replay](studies/container-payloads/README.md)
+  retains previously missed status changes and a 2% to 27% error-rate increase
+  hidden by skipped wrapped records. The inputs are synthetic; this is unreleased.
   Add `--watch-by /route` to compare outcomes separately for each route: an expected
   `503` from maintenance can no longer hide checkout's first `503`. Repeat it for a
   composite key, such as service and route. New groups are identified separately

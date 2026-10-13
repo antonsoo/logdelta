@@ -152,6 +152,10 @@ Use one [JSON Pointer](https://www.rfc-editor.org/rfc/rfc6901.html) per
 `--watch-field`, or one per line in the browser. Pointers start with `/` and are
 evaluated against a single-line JSON **object** after recognized log envelopes
 are removed. This includes Docker json-file, CRI, journald and leading timestamps.
+Terminal styling and trailing line endings are also normalized after decoding a
+Docker `log` string. Escaped terminal codes inside JSON scalar values remain data;
+the original envelope and source line number stay in the report. See the
+[controlled container-payload replay](../studies/container-payloads/README.md).
 There are no wildcards, JSONPath expressions or implicit nested-key searches.
 
 | Record | Pointer | Selected value |
@@ -168,8 +172,9 @@ so `"a"` and `"\u0061"` compare equal. Types and **number spelling** are retaine
 `200`, `200.0`, `2e2` and `"200"` are four distinct watched values. Large integers
 and exponents never pass through floating-point conversion. This is deliberate
 exact comparison, not numeric tolerance or a latency-regression detector.
-It compares the text supplied by the existing log decoder, including that
-decoder's replacement of malformed encoding.
+Native exact watches reject malformed text encoding. The browser can retain a
+lossily decoded log for exploratory template comparison, but refuses exact
+watches on that import until valid source text is loaded again.
 
 ## Coverage and limits
 

@@ -11,7 +11,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::value::RawValue;
 
 use crate::context::ContextWindow;
-use crate::mask::{strip_escapes, strip_structural_prefix};
+use crate::mask::strip_structural_prefix;
 
 pub const MAX_FIELDS: usize = 16;
 pub const MAX_VALUES: usize = 64;
@@ -467,8 +467,7 @@ fn payload(raw: &str) -> Result<String, Skip> {
     if raw.len() > MAX_RECORD_BYTES {
         return Err(Skip::Oversized);
     }
-    let clean = strip_escapes(raw);
-    let (_, text) = strip_structural_prefix(&clean);
+    let (_, text) = strip_structural_prefix(raw);
     if !text.trim_start().starts_with('{') {
         return Err(Skip::NonJson);
     }
