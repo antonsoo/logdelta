@@ -65,6 +65,46 @@ and Firefox at desktop and phone widths. Integer counts and source records must
 match native captures exactly; floating-point scores are compared at 12
 significant digits, as in the existing rate comparison checks.
 
+## Other log formats and the built engine
+
+The [cached public-log comparison](results/corpus.json) retains every input hash
+and before/after report hash: 264 Kubernetes failed-versus-passing comparisons
+and 16 Loghub template reports, covering 536 distinct cached inputs
+(429,474,908 bytes). All 280 complete native JSON reports are byte-identical.
+These are the repository's existing study inputs, not a new collection or
+held-out evaluation of container logs.
+
+The [WebAssembly replay](results/wasm.json) compares all 26 complete native
+reports with the actual compiled engine. After building the web project and
+running the CLI replay above, it can be repeated with:
+
+```sh
+node studies/container-payloads/replay-wasm.mjs web/src/generated/logdelta.wasm /tmp/logdelta-container-after
+```
+
+## Clean package and browser verification
+
+The [artifact receipt](results/verification.json) records a fresh archive of
+implementation `959ffbf35b3d01830748459c7afbd038db149b24`. Formatting, Clippy, release
+build and package creation passed. The archive passed 217 native checks, 146
+library-only checks, 218 Rust 1.85 checks including its doctest, three WASM-wrapper
+checks, web lint/types, 83 web tests, 20 WASM build-configuration checks and 128
+production-browser scenarios. All 300 tracked archive files stayed unchanged.
+
+The packaged crate was unpacked and installed with locked dependencies into
+separate prefixes using Rust 1.91.0 and 1.85.0. Each installed binary passed all
+26 cases with a capture exactly matching the committed after record. All 21
+runtime source/data files match the clean archive. The later evidence scripts
+and receipts do not change those runtime files.
+
+All 39 files served from the clean production build match their build bytes.
+The clean WebAssembly module is also byte-identical to the engine used for the
+four inspected browser images, and matches all 26 full native reports.
+
+The local `logdelta-0.3.4.crate` is 220,233 bytes, SHA-256
+`07db7f4027ce00a8d63226473ec5d5062822814a736931e2871eb083debf7718`.
+It was not published to crates.io.
+
 ## Limits
 
 This handles the already-supported single Docker envelope and recognized

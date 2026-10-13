@@ -1,0 +1,111 @@
+{
+  "engine_sha256": "1f564940c1064464cf381c9a1246187eab30177497de9c6581f70a9c1fd0e2e6",
+  "engine_bytes": 1266765,
+  "comparison": "Full reports; exact integers, strings and evidence; floating-point scores at 12 significant digits.",
+  "cases": [
+    {
+      "case": "grouped-plain-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-plain-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-sgr-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-sgr-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-osc-bel-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-osc-bel-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-osc-st-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-osc-st-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-cri-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-cri-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-journald-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-journald-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-sgr-cri-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-sgr-cri-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-sgr-journald-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-sgr-journald-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-timestamp-compact",
+      "matches_native": true
+    },
+    {
+      "case": "grouped-timestamp-spaced",
+      "matches_native": true
+    },
+    {
+      "case": "pooled-sgr",
+      "matches_native": true
+    },
+    {
+      "case": "rate-sgr",
+      "matches_native": true
+    },
+    {
+      "case": "rate-journald",
+      "matches_native": true
+    },
+    {
+      "case": "rate-cri",
+      "matches_native": true
+    },
+    {
+      "case": "duplicate",
+      "matches_native": true
+    },
+    {
+      "case": "malformed",
+      "matches_native": true
+    },
+    {
+      "case": "escaped-scalar",
+      "matches_native": true
+    },
+    {
+      "case": "ordinary-control",
+      "matches_native": true
+    }
+  ]
+}

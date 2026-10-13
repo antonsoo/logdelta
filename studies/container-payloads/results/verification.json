@@ -1,0 +1,351 @@
+{
+  "implementation": "959ffbf35b3d01830748459c7afbd038db149b24",
+  "checks": [
+    {
+      "name": "format",
+      "exit": 0,
+      "seconds": 0.27
+    },
+    {
+      "name": "clippy",
+      "exit": 0,
+      "seconds": 19.0
+    },
+    {
+      "name": "native-tests",
+      "exit": 0,
+      "seconds": 40.72
+    },
+    {
+      "name": "library-tests",
+      "exit": 0,
+      "seconds": 18.55
+    },
+    {
+      "name": "release",
+      "exit": 0,
+      "seconds": 57.51
+    },
+    {
+      "name": "minimum-tests",
+      "exit": 0,
+      "seconds": 47.61
+    },
+    {
+      "name": "wasm-format",
+      "exit": 0,
+      "seconds": 0.11
+    },
+    {
+      "name": "wasm-clippy",
+      "exit": 0,
+      "seconds": 9.64
+    },
+    {
+      "name": "wasm-tests",
+      "exit": 0,
+      "seconds": 6.76
+    },
+    {
+      "name": "web-install",
+      "exit": 0,
+      "seconds": 3.43
+    },
+    {
+      "name": "web-lint",
+      "exit": 0,
+      "seconds": 3.9
+    },
+    {
+      "name": "web-typecheck",
+      "exit": 0,
+      "seconds": 2.63
+    },
+    {
+      "name": "web-test",
+      "exit": 0,
+      "seconds": 2.33
+    },
+    {
+      "name": "web-verify-wasm",
+      "exit": 0,
+      "seconds": 331.97
+    },
+    {
+      "name": "web-build",
+      "exit": 0,
+      "seconds": 22.23
+    },
+    {
+      "name": "browser",
+      "exit": 0,
+      "seconds": 103.12
+    },
+    {
+      "name": "clean-replay",
+      "exit": 0,
+      "seconds": 0.27
+    },
+    {
+      "name": "package",
+      "exit": 0,
+      "seconds": 0.97
+    },
+    {
+      "name": "current-install",
+      "exit": 0,
+      "seconds": 0.22
+    },
+    {
+      "name": "current-replay",
+      "exit": 0,
+      "seconds": 0.21
+    },
+    {
+      "name": "minimum-install",
+      "exit": 0,
+      "seconds": 33.12
+    },
+    {
+      "name": "minimum-replay",
+      "exit": 0,
+      "seconds": 0.21
+    }
+  ],
+  "installed": [
+    {
+      "environment": "current",
+      "rustc": "rustc 1.91.0 (f8297e351 2025-10-28)",
+      "cases": 26,
+      "capture_matches": true,
+      "binary_sha256": "64fbfebd3fcb006eb87c5dd1ea08ffdab0ad557d488b3de53a9d2b8a990dd807"
+    },
+    {
+      "environment": "minimum",
+      "rustc": "rustc 1.85.0 (4d91de4e4 2025-02-17)",
+      "cases": 26,
+      "capture_matches": true,
+      "binary_sha256": "93fe47bbe4746e2e82f86bbe0dae544fdf7cd601db256af538e4a8cbec64352f"
+    }
+  ],
+  "scope": "Source and local artifacts only; no registry release or hosted deployment.",
+  "crate": {
+    "filename": "logdelta-0.3.4.crate",
+    "bytes": 220233,
+    "sha256": "07db7f4027ce00a8d63226473ec5d5062822814a736931e2871eb083debf7718"
+  },
+  "identical_packaged_library_files": 21,
+  "unchanged_archive_files": 300,
+  "native-tests": 217,
+  "library-tests": 146,
+  "minimum-tests": 218,
+  "wasm-tests": 3,
+  "web_tests": 83,
+  "browser_tests": 128,
+  "wasm": {
+    "filename": "logdelta-CttOiNmc.wasm",
+    "bytes": 1266765,
+    "sha256": "1f564940c1064464cf381c9a1246187eab30177497de9c6581f70a9c1fd0e2e6"
+  },
+  "screenshots_created_and_inspected": 4,
+  "served_assets": [
+    {
+      "path": "index.html",
+      "bytes": 8148,
+      "sha256": "f522c29bf5d07fbdfc3bd404008fbb29be29df986c2917e338827ac509084dda"
+    },
+    {
+      "path": "examples/pytest-fail.log",
+      "bytes": 1156,
+      "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+    },
+    {
+      "path": "examples/http-routes-failed.log",
+      "bytes": 6515,
+      "sha256": "0fd3ee9d378583aa7389e7343cdc246e904e33198386f30d22ecfdf8399ca103"
+    },
+    {
+      "path": "examples/http-routes-good.log",
+      "bytes": 6517,
+      "sha256": "b59721f12e56c9a71df1b35ad409f83c440d8fe462897cfc7179f092b32967a4"
+    },
+    {
+      "path": "examples/k8s-service.log",
+      "bytes": 922,
+      "sha256": "d4d2da992b4927935414cbf0fd72b079111aed57b0c511fb105c98a53c54ce2c"
+    },
+    {
+      "path": "examples/npm-build.log",
+      "bytes": 432,
+      "sha256": "33343ebf9cfb997893e9b60bb5f4b5dd980a5dfe01647e282664d1c9fefd35a4"
+    },
+    {
+      "path": "examples/http-good-2.log",
+      "bytes": 3258,
+      "sha256": "8d2d57bd6df4809e7da06995bec070261d6f4c13fb96a86781a654c502138c94"
+    },
+    {
+      "path": "examples/pytest-pass.log",
+      "bytes": 1564,
+      "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+    },
+    {
+      "path": "examples/k8s-service-incident.log",
+      "bytes": 981,
+      "sha256": "8690badd898dfb20cd791a7ac26d2dc540b032a57377afa4f08fb8d6cbfeacf9"
+    },
+    {
+      "path": "examples/http-routes-good-2.log",
+      "bytes": 6515,
+      "sha256": "9e6c7883e934e923f292a06258ab7ff245cff0a020d2dde66d38cd9c116af307"
+    },
+    {
+      "path": "examples/http-good.log",
+      "bytes": 3258,
+      "sha256": "3ee4f1523f70c2bae861de101de6e8780706248d027d92a08de82778406c328f"
+    },
+    {
+      "path": "examples/http-failed.log",
+      "bytes": 3255,
+      "sha256": "0f5b829c82f9380e866889c8179f72797af4e9e63dbe9a781fe73be043d23b29"
+    },
+    {
+      "path": "assets/barlow-600-latin-ext-B8NK_A3D.woff2",
+      "bytes": 14968,
+      "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+    },
+    {
+      "path": "assets/barlow-500-latin-ext-DOaysfXq.woff2",
+      "bytes": 14416,
+      "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+    },
+    {
+      "path": "assets/barlow-600-latin-DILqtrty.woff2",
+      "bytes": 22772,
+      "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+    },
+    {
+      "path": "assets/barlow-500-latin-BPAOfeC8.woff2",
+      "bytes": 22008,
+      "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+    },
+    {
+      "path": "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2",
+      "bytes": 7588,
+      "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+    },
+    {
+      "path": "assets/jetbrains-mono-cyrillic-Buze_B52.woff2",
+      "bytes": 8872,
+      "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2",
+      "bytes": 36488,
+      "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2",
+      "bytes": 11624,
+      "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+    },
+    {
+      "path": "assets/barlow-400-latin-ext-HxX4XjxC.woff2",
+      "bytes": 14268,
+      "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2",
+      "bytes": 30268,
+      "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+    },
+    {
+      "path": "assets/logdelta-CttOiNmc.wasm",
+      "bytes": 1266765,
+      "sha256": "1f564940c1064464cf381c9a1246187eab30177497de9c6581f70a9c1fd0e2e6"
+    },
+    {
+      "path": "assets/jetbrains-mono-greek-D3oMJlXt.woff2",
+      "bytes": 6836,
+      "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+    },
+    {
+      "path": "assets/jetbrains-mono-vietnamese-BehTv68k.woff2",
+      "bytes": 5888,
+      "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+    },
+    {
+      "path": "assets/index-D61Oky9c.css",
+      "bytes": 30067,
+      "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+    },
+    {
+      "path": "assets/barlow-400-latin-qiz4-Cze.woff2",
+      "bytes": 22196,
+      "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+    },
+    {
+      "path": "assets/index-KjTSQHoe.js",
+      "bytes": 58254,
+      "sha256": "f9b9d123f563b2f3c68e2d2fbff11548218d28b5ac87f6c0743787179b47d775"
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-6fWv1k7M.woff2",
+      "bytes": 31432,
+      "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+    },
+    {
+      "path": "assets/barlow-600-vietnamese-DcjprdFV.woff2",
+      "bytes": 7896,
+      "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2",
+      "bytes": 9868,
+      "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+    },
+    {
+      "path": "assets/barlow-500-vietnamese-zTViEIzf.woff2",
+      "bytes": 7668,
+      "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+    },
+    {
+      "path": "examples/http-rates/http-rate-good.log",
+      "bytes": 322823,
+      "sha256": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2"
+    },
+    {
+      "path": "examples/http-rates/http-rate-good-2.log",
+      "bytes": 322855,
+      "sha256": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89"
+    },
+    {
+      "path": "examples/http-rates/http-rate-failed.log",
+      "bytes": 322846,
+      "sha256": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437"
+    },
+    {
+      "path": "examples/large/baseline-3.log",
+      "bytes": 450456,
+      "sha256": "da1a43a63780f8e3cb33023a8ea0b7bed69316db6ca1300805cdb90c794c1f86"
+    },
+    {
+      "path": "examples/large/baseline-2.log",
+      "bytes": 496184,
+      "sha256": "362019fc11c931c88f45961c21174da770b4604b4b716acce1da043d0bab2af2"
+    },
+    {
+      "path": "examples/large/baseline-1.log",
+      "bytes": 421486,
+      "sha256": "41a9a5f37ea1a6fffaeb8af7eb72454b7efb8a3193d96af057a8827a1b703fbd"
+    },
+    {
+      "path": "examples/large/target-failure.log",
+      "bytes": 450505,
+      "sha256": "2711a6fb4f676821c3c8651de8414f9d5962a9b9ffd8987965f502edba9e7ebc"
+    }
+  ],
+  "wasm_build_checks": 20,
+  "clean_and_inspected_wasm_identical": true,
+  "runtime_source_still_matches_archive": true
+}
