@@ -1,0 +1,7 @@
+Repeated stdin: novel --baseline - (default target is also stdin)
+logdelta: stdin ('-') can only be used once; save separate input logs to files
+exit: 2; stdout: 0 bytes
+
+Single stdin: separate file baseline, piped target
+panic: unavailable database
+exit: 1; one novel line

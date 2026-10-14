@@ -1,0 +1,169 @@
+{
+  "sourceCommit": "0f672517e35dfb34468560a5225daf826c6183c6",
+  "baselineCommit": "9f20fb07b06fdf26766cc3089a5c0723fd65f08d",
+  "runtimeSourceFiles": 21,
+  "runtimeSha256": {
+    "src/analysis.rs": "322d9e1f720523a3515645ee26558bded6d61db17f99b7e2374ab7b51677f1fc",
+    "src/blocks.rs": "5dbf414acd6f2adec72c56ca2d7ba9f0ebe49592716049a567354e0e4bf5d555",
+    "src/cli.rs": "b213ae25cff24d206a32e3ec57ad736fabd82f0e5050439a41014351ed7d1342",
+    "src/context.rs": "68a1de50b754f60f9deabc5d2c4e4e860fe51b30e69729bf57780f205aa2b210",
+    "src/drain.rs": "b4ee4128a3180e4fbdb77977f17f17d458f1628fb9de3aaf3173b004c0519c79",
+    "src/field_rates.rs": "d4dcfc04835c74cad25530b6de62c64b391a71bd2439f6a888210aa9ce847b69",
+    "src/fields.rs": "59e221a62858701dba4ef50a355d01595da9343bb7f149d5bd43c344d42bf87b",
+    "src/io.rs": "ed3ce1ed85f2fd6defd85fa563f21aefa6100836eb6dc6cc390f95f66f805d2b",
+    "src/lib.rs": "418774a8d0168be44b9be0a6c67ada285c76ee04841c6d1ab529cb194ebc9486",
+    "src/main.rs": "c40b217e9bb1e792d1747cdb30813073e851896221f299ad9efaa28be8ce31d7",
+    "src/mask.rs": "0916694fa6b2c14f3c11b66c000658356a39ce898344d026a050b2ba0d3a537c",
+    "src/output/excerpt-patterns.json": "4ed4eab6a7b0e70edcd831fb295fed9553ef959a6504b1a66bb0851c22310b8b",
+    "src/output/excerpt.rs": "7cd77db34b5b87499f6cdb1944bbadbfe547fdf3b566c1c986934c3f3a1cd9e8",
+    "src/output/field_rates.rs": "49be9b62d7e6db0b97bad7695fec4d3d1b2f288a6edda77e40a2009e746ace14",
+    "src/output/fields.rs": "f1e1fa346dc532a3f8abdcd68356c5c5a2c425a58a4c19760b1a315a3e756f93",
+    "src/output/human.rs": "840043b5a60cd68ba76e386d0d09523120e452e49b22bb325f2347ad642c13a9",
+    "src/output/json.rs": "a90eeda50fd6baf42450a43dec3377119b881d72287a88669af1a020d9534c29",
+    "src/output/markdown.rs": "7b1fca120ecdaf1c20a72bff26f31610e26400c99c18611e64cc638483ac8d1e",
+    "src/output/mod.rs": "24630dfae092931313a934e35fa72c08f1c4fd7441617119bdf82f2e39f56e26",
+    "src/scoring.rs": "d8054a209214fc7a8d7e928cd75b7bc5387595b33ed03143dd6413d39976aef4",
+    "src/values.rs": "dc72a798f1dfe387a087c97882209557b4d1f303d3cad93a9c2317bcfe760f86"
+  },
+  "runtimeSourceMatches": [
+    "working source",
+    "clean git archive",
+    "extracted packaged crate"
+  ],
+  "cargoTomlOrigMatchesArchive": true,
+  "crate": {
+    "version": "0.3.4",
+    "bytes": 222112,
+    "sha256": "5755863057d833a01af69d2184aae5c8bc7695ea17bae809b85835f9568649b3"
+  },
+  "supportedControlStreamsUnchanged": 7,
+  "realPipeCases": 16,
+  "beforeDisagreements": 9,
+  "installedDisagreements": {
+    "rust1.91": 0,
+    "rust1.85": 0
+  },
+  "archiveNativeTests": 222,
+  "archiveMsrvTestsIncludingDoc": 223,
+  "packageMsrvTargetedTests": 5,
+  "packageFullTestBoundary": "The first full packaged-crate run failed three integration tests because examples/large is intentionally excluded. Its raw log remains retained; the full source archive and focused packaged-crate suite subsequently passed. No full packaged-suite pass is claimed.",
+  "wasmConformance": {
+    "cases": 20,
+    "reproducibleSha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a",
+    "reproducibleBytes": 1266765,
+    "results": [
+      {
+        "name": "warm Cargo cache with previous wrapper",
+        "sha256": "1c4690f2ced7e60382a1a48aa35a933a29de0014bdfb39a86b21d7a6d61f5745",
+        "bytes": 1266504
+      },
+      {
+        "name": "standard target layout after compiler-wrapper update",
+        "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a",
+        "bytes": 1266765
+      },
+      {
+        "name": "different checkout and CARGO_TARGET_DIR",
+        "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a",
+        "bytes": 1266765
+      },
+      {
+        "name": "Cargo-configured target directory",
+        "sha256": "6cd0dd7ca6299ac84ab0e5de06d4f4e8864d715ef108fbda52b1e3d79692b96c",
+        "bytes": 1266789,
+        "probe": 0
+      },
+      {
+        "name": "RUSTFLAGS",
+        "sha256": "f3972459571d452a00167176f61de6957ae985c06d8b49058f771dee93ba1bba",
+        "bytes": 1266978,
+        "probe": 1
+      },
+      {
+        "name": "encoded flags with spaces and priority",
+        "sha256": "2365f98d13d9522baf1575245e3ce797cb0d7fd203f98e73479d39530a39c5a7",
+        "bytes": 1266978,
+        "probe": 2
+      },
+      {
+        "name": "target environment flags",
+        "sha256": "67c290aa33520fa1af712abbd504d254f52c7ea88cbdbf365b43cb00033d0879",
+        "bytes": 1266528,
+        "probe": 4
+      },
+      {
+        "name": "build environment flags",
+        "sha256": "732a3de749a49c02668e6b7f189371018dae4f4eda186877a71c193d6538bdb9",
+        "bytes": 1267117,
+        "probe": 8
+      },
+      {
+        "name": "build config array",
+        "sha256": "732a3de749a49c02668e6b7f189371018dae4f4eda186877a71c193d6538bdb9",
+        "bytes": 1267117,
+        "probe": 8
+      },
+      {
+        "name": "build config string",
+        "sha256": "732a3de749a49c02668e6b7f189371018dae4f4eda186877a71c193d6538bdb9",
+        "bytes": 1267117,
+        "probe": 8
+      },
+      {
+        "name": "target config flags",
+        "sha256": "67c290aa33520fa1af712abbd504d254f52c7ea88cbdbf365b43cb00033d0879",
+        "bytes": 1266528,
+        "probe": 4
+      },
+      {
+        "name": "matching cfg flags",
+        "sha256": "af9ad6a798723eb41155a3036b38e6cde6c6e21e5ab133c60858b580aa9790a0",
+        "bytes": 1267093,
+        "probe": 16
+      },
+      {
+        "name": "joined target and cfg flags with build fallback excluded",
+        "sha256": "7beef7340921a59476b781f8b7fec516539168ef2e9218c2d10c1bc34610d892",
+        "bytes": 1266190,
+        "probe": 20
+      },
+      {
+        "name": "environment flags override config",
+        "sha256": "f3972459571d452a00167176f61de6957ae985c06d8b49058f771dee93ba1bba",
+        "bytes": 1266978,
+        "probe": 1
+      },
+      {
+        "name": "caller crate metadata",
+        "sha256": "55e7cfa948df83db04341d76ec7ba14e592df224c217fca50a7db6012d2faf02",
+        "bytes": 1266511,
+        "probe": 1
+      },
+      {
+        "name": "environment compiler wrappers retain caller metadata",
+        "sha256": "55e7cfa948df83db04341d76ec7ba14e592df224c217fca50a7db6012d2faf02",
+        "bytes": 1266511,
+        "probe": 1
+      },
+      {
+        "name": "configured compiler wrappers retain caller metadata",
+        "sha256": "55e7cfa948df83db04341d76ec7ba14e592df224c217fca50a7db6012d2faf02",
+        "bytes": 1266511,
+        "probe": 1
+      },
+      {
+        "name": "failed compilation retains staged engine",
+        "sha256": "55e7cfa948df83db04341d76ec7ba14e592df224c217fca50a7db6012d2faf02"
+      },
+      {
+        "name": "failed metadata retains staged engine",
+        "sha256": "55e7cfa948df83db04341d76ec7ba14e592df224c217fca50a7db6012d2faf02"
+      },
+      {
+        "name": "missing artifact retains staged engine",
+        "sha256": "55e7cfa948df83db04341d76ec7ba14e592df224c217fca50a7db6012d2faf02"
+      }
+    ]
+  },
+  "scope": "Source and locally built/installed artifacts. No registry release or hosted deployment."
+}

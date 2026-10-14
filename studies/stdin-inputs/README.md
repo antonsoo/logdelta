@@ -38,6 +38,9 @@ input is stopped after one second and recorded as waiting, not as a real exit.
 | Reject before reading an open pipe | 2 | 2 |
 | Total | 16 | 9 |
 
+The archived fixed binary and independently installed Rust 1.91/1.85 binaries
+agree in all 16 cases. The seven supported control streams remain unchanged.
+
 [Baseline capture](results/before.json) retains complete stdout/stderr and exit
 states. Binary hashes identify the exact builds. Fresh archive and independently
 installed verification are recorded in [verification.md](verification.md).
