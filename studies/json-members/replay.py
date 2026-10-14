@@ -35,7 +35,8 @@ def main() -> None:
         + ',default-features=false}\nserde_json="1"\n'
     )
     build = subprocess.run(
-        ["cargo", f"+{args.toolchain}", "build", "--release", "--offline"], cwd=consumer,
+        ["cargo", f"+{args.toolchain}", "build", "--release", "--offline",
+         "--target-dir", str(consumer / "target")], cwd=consumer,
         capture_output=True, text=True, timeout=300, check=True,
     )
     (scratch / "consumer-build.log").write_text(build.stdout + build.stderr)

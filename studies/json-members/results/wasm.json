@@ -1,0 +1,585 @@
+{
+  "node": "v26.7.0",
+  "moduleBytes": 1264990,
+  "moduleSha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda",
+  "workflows": 18,
+  "comparison": "Full public API reports; integers/text/source evidence exact, floating-point scores at 12 significant digits.",
+  "records": [
+    {
+      "id": "message",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "escaped-key",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "nested",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={message=\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "array-member",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "items=[{message=\"health check passed\"}]",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"items\":[{\"message\":\"health check passed\"}]}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "docker-log",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "docker-stream",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "docker-inner",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"{\\\"message\\\":\\\"database corruption detected\\\",\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"{\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "cri-message",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "ansi-message",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "\u001b[31m{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}\u001b[0m"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "\u001b[32m{\"message\":\"health check passed\"}\u001b[0m"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "late-nested-member",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={a=<NUM>,b=<NUM>,c=<NUM>,d=<NUM>,e=<NUM>,f=<NUM>,g=<NUM>,h=<NUM>,…}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "same-value-duplicate",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "unicode-key",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "é= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"é\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "unique-message",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "unique-docker",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "separate-objects",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "literal-json",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "distinct-unicode-keys",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    },
+    {
+      "id": "primitives",
+      "nativeMatches": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      }
+    }
+  ]
+}

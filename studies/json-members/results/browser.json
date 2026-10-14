@@ -1,0 +1,5651 @@
+{
+  "node": "v26.7.0",
+  "workflows": 144,
+  "beforeDisagreements": 48,
+  "afterDisagreements": 0,
+  "precision": "Integers/text/source evidence exact, floating-point scores at 12 significant digits.",
+  "records": [
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "nested",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "array-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "docker-log",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "cri-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "nested",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "array-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "docker-log",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "cri-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "width": 375,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "nested",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "array-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "docker-log",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "cri-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "nested",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "array-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "docker-log",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "cri-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": false,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "width": 375,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": false
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "nested",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={message=\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "array-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "items=[{message=\"health check passed\"}]",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"items\":[{\"message\":\"health check passed\"}]}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "docker-log",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"{\\\"message\\\":\\\"database corruption detected\\\",\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"{\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "cri-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "\u001b[31m{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}\u001b[0m"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "\u001b[32m{\"message\":\"health check passed\"}\u001b[0m"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={a=<NUM>,b=<NUM>,c=<NUM>,d=<NUM>,e=<NUM>,f=<NUM>,g=<NUM>,h=<NUM>,…}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "é= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"é\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 1440,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "nested",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={message=\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "array-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "items=[{message=\"health check passed\"}]",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"items\":[{\"message\":\"health check passed\"}]}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "docker-log",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"{\\\"message\\\":\\\"database corruption detected\\\",\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"{\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "cri-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "\u001b[31m{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}\u001b[0m"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "\u001b[32m{\"message\":\"health check passed\"}\u001b[0m"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={a=<NUM>,b=<NUM>,c=<NUM>,d=<NUM>,e=<NUM>,f=<NUM>,g=<NUM>,h=<NUM>,…}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "é= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"é\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "width": 375,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "nested",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={message=\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "array-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "items=[{message=\"health check passed\"}]",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"items\":[{\"message\":\"health check passed\"}]}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "docker-log",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"{\\\"message\\\":\\\"database corruption detected\\\",\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"{\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "cri-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "\u001b[31m{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}\u001b[0m"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "\u001b[32m{\"message\":\"health check passed\"}\u001b[0m"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={a=<NUM>,b=<NUM>,c=<NUM>,d=<NUM>,e=<NUM>,f=<NUM>,g=<NUM>,h=<NUM>,…}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "é= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"é\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 1440,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "escaped-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"database corruption detected\",\"\\u006dessage\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "nested",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={message=\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "array-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"items\":[{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}]}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "items=[{message=\"health check passed\"}]",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"items\":[{\"message\":\"health check passed\"}]}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "docker-log",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"database corruption detected\\n\",\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "docker-stream",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"<TS>\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stderr\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"health check passed\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-14T00:00:00Z\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "docker-inner",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"log\":\"{\\\"message\\\":\\\"database corruption detected\\\",\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"log\":\"{\\\"message\\\":\\\"health check passed\\\"}\\n\",\"stream\":\"stdout\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "cri-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "stdout {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"database corruption detected\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "stdout message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "2026-10-14T00:00:00Z stdout F {\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "ansi-message",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "\u001b[31m{\"message\":\"database corruption detected\",\"message\":\"health check passed\"}\u001b[0m"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "\u001b[32m{\"message\":\"health check passed\"}\u001b[0m"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "late-nested-member",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"database corruption detected\",\"message\":\"health check passed\"}}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "detail={a=<NUM>,b=<NUM>,c=<NUM>,d=<NUM>,e=<NUM>,f=<NUM>,g=<NUM>,h=<NUM>,…}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"detail\":{\"a\":0,\"b\":0,\"c\":0,\"d\":0,\"e\":0,\"f\":0,\"g\":0,\"h\":0,\"message\":\"health check passed\"}}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "same-value-duplicate",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"message\":\"health check passed\",\"message\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "message= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"message\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "unicode-key",
+      "control": false,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 2,
+        "findings": [
+          {
+            "kind": "new",
+            "direction": "up",
+            "template": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 12,
+            "first_target_line_no": 1,
+            "first_target_raw": "{\"é\":\"database corruption detected\",\"\\u00e9\":\"health check passed\"}"
+          },
+          {
+            "kind": "gone",
+            "direction": "down",
+            "template": "é= health check passed",
+            "score": 27.56642465541013,
+            "baseline_counts": [
+              12
+            ],
+            "target_count": 0,
+            "first_target_line_no": null,
+            "first_target_raw": null,
+            "first_baseline_line_no": 1,
+            "first_baseline_raw": "{\"é\":\"health check passed\"}"
+          }
+        ],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "unique-message",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "unique-docker",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "separate-objects",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "literal-json",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "distinct-unicode-keys",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "width": 375,
+      "id": "primitives",
+      "control": true,
+      "agrees": true,
+      "report": {
+        "baseline_totals": [
+          12
+        ],
+        "target_total": 12,
+        "total_templates": 1,
+        "findings": [],
+        "blocks": [],
+        "value_findings": []
+      },
+      "downloadedReportMatchesNative": true
+    }
+  ],
+  "views": [
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "browser": "153.0.8010.12",
+      "width": 1440,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "before",
+      "engine": "chromium",
+      "browser": "153.0.8010.12",
+      "width": 375,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "browser": "155.0",
+      "width": 1440,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "before",
+      "engine": "firefox",
+      "browser": "155.0",
+      "width": 375,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "e912821c4db06680f60eee83be45ea0de882bc2bb8b6868274d6aa99c29efcd7"
+        },
+        "assets/index-BWFvymNi.js": {
+          "bytes": 58254,
+          "sha256": "20b41a7d528c969401fbc8d813464301c5117a814fab931475e8f32c07ed23e9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-D0Exzrkv.wasm": {
+          "bytes": 1266765,
+          "sha256": "a97e64dddcaa8afa91da6fc48fa62a17fea3168b63045542d3db22dec6c8573a"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "browser": "153.0.8010.12",
+      "width": 1440,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "after",
+      "engine": "chromium",
+      "browser": "153.0.8010.12",
+      "width": 375,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "browser": "155.0",
+      "width": 1440,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    },
+    {
+      "phase": "after",
+      "engine": "firefox",
+      "browser": "155.0",
+      "width": 375,
+      "offlineAfterInitialLoad": true,
+      "served": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        }
+      },
+      "loaded": {
+        "index.html": {
+          "bytes": 8148,
+          "sha256": "0067c30fa34e487ac1ecb063cc4a2fa8679860f2c42e22fc0eb1e9046b0219f9"
+        },
+        "assets/index-BXSepF5k.js": {
+          "bytes": 58254,
+          "sha256": "a00bf3d06ec1dfa13b1848ca0ef4fb125b58631e59836894f7df11d83753506b"
+        },
+        "assets/index-D61Oky9c.css": {
+          "bytes": 30067,
+          "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29"
+        },
+        "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2": {
+          "bytes": 36488,
+          "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa"
+        },
+        "assets/barlow-400-latin-qiz4-Cze.woff2": {
+          "bytes": 22196,
+          "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b"
+        },
+        "assets/barlow-600-latin-DILqtrty.woff2": {
+          "bytes": 22772,
+          "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3"
+        },
+        "assets/jetbrains-mono-latin-6fWv1k7M.woff2": {
+          "bytes": 31432,
+          "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be"
+        },
+        "examples/pytest-fail.log": {
+          "bytes": 1156,
+          "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06"
+        },
+        "examples/pytest-pass.log": {
+          "bytes": 1564,
+          "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef"
+        },
+        "assets/logdelta-gaGy_9Va.wasm": {
+          "bytes": 1264990,
+          "sha256": "f8ef1931cd4e3a4d45f1ca564e407e0c55d96477f769cfb25f5f4809f198adda"
+        },
+        "assets/barlow-500-latin-BPAOfeC8.woff2": {
+          "bytes": 22008,
+          "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8"
+        },
+        "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2": {
+          "bytes": 7588,
+          "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10"
+        },
+        "assets/barlow-500-vietnamese-zTViEIzf.woff2": {
+          "bytes": 7668,
+          "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e"
+        },
+        "assets/barlow-400-latin-ext-HxX4XjxC.woff2": {
+          "bytes": 14268,
+          "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1"
+        },
+        "assets/barlow-600-latin-ext-B8NK_A3D.woff2": {
+          "bytes": 14968,
+          "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32"
+        },
+        "assets/barlow-600-vietnamese-DcjprdFV.woff2": {
+          "bytes": 7896,
+          "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943"
+        },
+        "assets/barlow-500-latin-ext-DOaysfXq.woff2": {
+          "bytes": 14416,
+          "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0"
+        },
+        "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2": {
+          "bytes": 9868,
+          "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3"
+        },
+        "assets/jetbrains-mono-greek-D3oMJlXt.woff2": {
+          "bytes": 6836,
+          "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66"
+        },
+        "assets/jetbrains-mono-cyrillic-Buze_B52.woff2": {
+          "bytes": 8872,
+          "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf"
+        },
+        "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2": {
+          "bytes": 11624,
+          "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52"
+        },
+        "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2": {
+          "bytes": 30268,
+          "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b"
+        },
+        "assets/jetbrains-mono-vietnamese-BehTv68k.woff2": {
+          "bytes": 5888,
+          "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2"
+        }
+      },
+      "pageErrors": [],
+      "externalRequests": [],
+      "lateRequests": [],
+      "policyViolations": [],
+      "axeViolations": [],
+      "overflow": false
+    }
+  ]
+}
