@@ -160,6 +160,10 @@ when it could not read its input (a missing file, or one that is not text), like
   Otherwise distinct damaged values could collapse to the same replacement
   character and pass the gate. Browser imports retain that warning through edits
   and report downloads. [Before/after replay](studies/text-integrity/README.md).
+  The source checkout rejects assigning `-` to more than one baseline/target
+  before reading the stream. In particular, `novel --baseline -` also selects
+  stdin as its default target and exits 2; save one sample to a file.
+  [Native pipe reproduction](studies/stdin-inputs/README.md).
 - **Output**: colored terminal output (TTY auto-detected, override with `--color`, raw
   lines truncated to the real terminal width instead of wrapping mid-word), `--json`, and
   `--markdown` for `$GITHUB_STEP_SUMMARY` or a PR comment. Reports print log lines without

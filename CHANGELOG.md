@@ -5,6 +5,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Reject repeated stdin (`-`) inputs before opening comparison sources, including
+  `novel --baseline -` with its default stdin target. An exhausted second reader
+  can no longer produce a successful empty novelty check or a fabricated gone
+  finding. Preserve single-stdin commands and independently re-read ordinary
+  files. [Native CLI replay](studies/stdin-inputs/README.md).
+
 - Normalize decoded Docker payloads before template mining and exact field
   watches. ANSI styling and embedded CR/LF no longer hide JSON records behind
   non-JSON coverage, and quoted payload text cannot masquerade as an outer CRI

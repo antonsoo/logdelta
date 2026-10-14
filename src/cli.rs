@@ -25,7 +25,7 @@ pub enum Command {
 #[derive(Parser, Debug)]
 pub struct DiffArgs {
     /// Baseline log file(s). With no --target, the LAST file here is used as the target
-    /// instead (so `logdelta diff good.log bad.log` works).
+    /// instead (so `logdelta diff good.log bad.log` works). Only one input may be "-".
     #[arg(required = true, num_args = 1..)]
     pub inputs: Vec<String>,
 
@@ -112,7 +112,7 @@ pub struct TemplatesArgs {
 
 #[derive(Parser, Debug)]
 pub struct NovelArgs {
-    /// Known-good baseline log file(s).
+    /// Known-good baseline log file(s). Only one baseline/target input may be "-".
     #[arg(long = "baseline", required = true, num_args = 1)]
     pub baselines: Vec<String>,
 

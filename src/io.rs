@@ -36,6 +36,27 @@ fn open_source_mode(path: &str, exact: bool) -> io::Result<Box<dyn BufRead>> {
 
 const GZIP_MAGIC: [u8; 2] = [0x1F, 0x8B];
 
+/// Reject assigning one stdin stream to multiple log inputs before opening any of them.
+///
+/// The first reader may consume or buffer the stream, leaving subsequent inputs
+/// empty. Separate baseline/target samples must be saved as separate files.
+/// Repeated ordinary file paths remain valid: each gets an independent reader.
+pub fn validate_stdin_uses<'a>(paths: impl IntoIterator<Item = &'a str>) -> io::Result<()> {
+    let mut seen = false;
+    for path in paths {
+        if path == "-" {
+            if seen {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "stdin ('-') can only be used once; save separate input logs to files",
+                ));
+            }
+            seen = true;
+        }
+    }
+    Ok(())
+}
+
 fn opened_mode<R: BufRead + 'static>(reader: R, exact: bool) -> io::Result<Box<dyn BufRead>> {
     let mut reader = complete_magic_prefix(reader, &[&GZIP_MAGIC])?;
     if reader.fill_buf()?.starts_with(&GZIP_MAGIC) {

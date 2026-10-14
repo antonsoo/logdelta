@@ -179,6 +179,12 @@ fn run_templates(args: TemplatesArgs) -> anyhow::Result<ExitCode> {
 }
 
 fn run_novel(args: NovelArgs) -> anyhow::Result<ExitCode> {
+    logdelta::io::validate_stdin_uses(
+        args.baselines
+            .iter()
+            .map(String::as_str)
+            .chain(std::iter::once(args.target.as_str())),
+    )?;
     validate_threshold(args.threshold)?;
     let masks = load_masks(&args.common)?;
     let mut drain = logdelta::drain::Drain::new(args.threshold);

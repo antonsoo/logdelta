@@ -1,0 +1,264 @@
+{
+  "python": "3.12.3",
+  "cliVersion": "logdelta 0.3.4",
+  "binarySha256": "f5a636270a640592f2f6e560d864cc32b77730cccce280794e7a4e12845e3efb",
+  "population": "Synthetic log lines through a native CLI and real OS pipes. File-only controls compare entire reports. No production-log or deployment claim.",
+  "count": 16,
+  "disagreements": 9,
+  "cases": [
+    {
+      "case": "diff-positional",
+      "args": [
+        "diff",
+        "-",
+        "-",
+        "--json"
+      ],
+      "agrees": false,
+      "exit": 1,
+      "stdout": "{\n  \"baseline_totals\": [\n    2\n  ],\n  \"target_total\": 0,\n  \"total_templates\": 2,\n  \"findings\": [\n    {\n      \"kind\": \"gone\",\n      \"direction\": \"down\",\n      \"template\": \"startup complete\",\n      \"score\": 0.0,\n      \"baseline_counts\": [\n        1\n      ],\n      \"target_count\": 0,\n      \"first_target_line_no\": null,\n      \"first_target_raw\": null,\n      \"first_baseline_line_no\": 1,\n      \"first_baseline_raw\": \"startup complete\",\n      \"block\": 0\n    },\n    {\n      \"kind\": \"gone\",\n      \"direction\": \"down\",\n      \"template\": \"panic: unavailable database\",\n      \"score\": 0.0,\n      \"baseline_counts\": [\n        1\n      ],\n      \"target_count\": 0,\n      \"first_target_line_no\": null,\n      \"first_target_raw\": null,\n      \"first_baseline_line_no\": 2,\n      \"first_baseline_raw\": \"panic: unavailable database\",\n      \"block\": 0\n    }\n  ],\n  \"blocks\": [\n    {\n      \"kind\": \"gone\",\n      \"first_line_no\": 1,\n      \"last_line_no\": 2,\n      \"line_count\": 2,\n      \"lines_elsewhere\": 0,\n      \"score\": 0.0,\n      \"findings\": [\n        0,\n        1\n      ]\n    }\n  ],\n  \"value_findings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "diff-explicit-target",
+      "args": [
+        "diff",
+        "-",
+        "--target",
+        "-",
+        "--json"
+      ],
+      "agrees": false,
+      "exit": 1,
+      "stdout": "{\n  \"baseline_totals\": [\n    2\n  ],\n  \"target_total\": 0,\n  \"total_templates\": 2,\n  \"findings\": [\n    {\n      \"kind\": \"gone\",\n      \"direction\": \"down\",\n      \"template\": \"startup complete\",\n      \"score\": 0.0,\n      \"baseline_counts\": [\n        1\n      ],\n      \"target_count\": 0,\n      \"first_target_line_no\": null,\n      \"first_target_raw\": null,\n      \"first_baseline_line_no\": 1,\n      \"first_baseline_raw\": \"startup complete\",\n      \"block\": 0\n    },\n    {\n      \"kind\": \"gone\",\n      \"direction\": \"down\",\n      \"template\": \"panic: unavailable database\",\n      \"score\": 0.0,\n      \"baseline_counts\": [\n        1\n      ],\n      \"target_count\": 0,\n      \"first_target_line_no\": null,\n      \"first_target_raw\": null,\n      \"first_baseline_line_no\": 2,\n      \"first_baseline_raw\": \"panic: unavailable database\",\n      \"block\": 0\n    }\n  ],\n  \"blocks\": [\n    {\n      \"kind\": \"gone\",\n      \"first_line_no\": 1,\n      \"last_line_no\": 2,\n      \"line_count\": 2,\n      \"lines_elsewhere\": 0,\n      \"score\": 0.0,\n      \"findings\": [\n        0,\n        1\n      ]\n    }\n  ],\n  \"value_findings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "diff-two-baselines",
+      "args": [
+        "diff",
+        "-",
+        "-",
+        "--target",
+        "<case-directory>/after.log",
+        "--json"
+      ],
+      "agrees": false,
+      "exit": 0,
+      "stdout": "{\n  \"baseline_totals\": [\n    2,\n    0\n  ],\n  \"target_total\": 2,\n  \"total_templates\": 2,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "diff-exact-watch",
+      "args": [
+        "diff",
+        "-",
+        "-",
+        "--watch-field",
+        "/status",
+        "--json"
+      ],
+      "agrees": false,
+      "exit": 2,
+      "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 0,\n  \"total_templates\": 1,\n  \"findings\": [\n    {\n      \"kind\": \"gone\",\n      \"direction\": \"down\",\n      \"template\": \"service=\\\"checkout\\\" status=<NUM>\",\n      \"score\": 0.18345007017375292,\n      \"baseline_counts\": [\n        1\n      ],\n      \"target_count\": 0,\n      \"first_target_line_no\": null,\n      \"first_target_raw\": null,\n      \"first_baseline_line_no\": 1,\n      \"first_baseline_raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":200}\"\n    }\n  ],\n  \"blocks\": [],\n  \"value_findings\": [],\n  \"watched_fields\": [\n    {\n      \"pointer\": \"/status\",\n      \"complete\": false,\n      \"baselines\": [\n        {\n          \"lines\": 1,\n          \"matched\": 1,\n          \"missing\": 0,\n          \"non_json\": 0,\n          \"invalid_json\": 0,\n          \"non_scalar\": 0,\n          \"ambiguous\": 0,\n          \"oversized_records\": 0,\n          \"untracked\": 0\n        }\n      ],\n      \"target\": {\n        \"lines\": 0,\n        \"matched\": 0,\n        \"missing\": 0,\n        \"non_json\": 0,\n        \"invalid_json\": 0,\n        \"non_scalar\": 0,\n        \"ambiguous\": 0,\n        \"oversized_records\": 0,\n        \"untracked\": 0\n      },\n      \"values\": [\n        {\n          \"value_json\": \"200\",\n          \"baseline_counts\": [\n            1\n          ],\n          \"target_count\": 0,\n          \"is_new\": null,\n          \"first_baseline\": {\n            \"baseline_index\": 0,\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":200}\",\n            \"truncated\": false\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "novel-default-target",
+      "args": [
+        "novel",
+        "--baseline",
+        "-"
+      ],
+      "agrees": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "case": "novel-explicit-target",
+      "args": [
+        "novel",
+        "--baseline",
+        "-",
+        "-"
+      ],
+      "agrees": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "case": "novel-two-baselines",
+      "args": [
+        "novel",
+        "--baseline",
+        "-",
+        "--baseline",
+        "-",
+        "<case-directory>/after.log"
+      ],
+      "agrees": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "case": "diff-stdin-baseline",
+      "args": [
+        "diff",
+        "-",
+        "<case-directory>/after.log",
+        "--json"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 1,
+        "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 2,\n  \"total_templates\": 2,\n  \"findings\": [\n    {\n      \"kind\": \"new\",\n      \"direction\": \"up\",\n      \"template\": \"panic: unavailable database\",\n      \"score\": 0.321893008257659,\n      \"baseline_counts\": [\n        0\n      ],\n      \"target_count\": 1,\n      \"first_target_line_no\": 2,\n      \"first_target_raw\": \"panic: unavailable database\"\n    }\n  ],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+        "stderr": ""
+      },
+      "exit": 1,
+      "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 2,\n  \"total_templates\": 2,\n  \"findings\": [\n    {\n      \"kind\": \"new\",\n      \"direction\": \"up\",\n      \"template\": \"panic: unavailable database\",\n      \"score\": 0.321893008257659,\n      \"baseline_counts\": [\n        0\n      ],\n      \"target_count\": 1,\n      \"first_target_line_no\": 2,\n      \"first_target_raw\": \"panic: unavailable database\"\n    }\n  ],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "diff-stdin-target",
+      "args": [
+        "diff",
+        "<case-directory>/before.log",
+        "-",
+        "--json"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 1,
+        "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 2,\n  \"total_templates\": 2,\n  \"findings\": [\n    {\n      \"kind\": \"new\",\n      \"direction\": \"up\",\n      \"template\": \"panic: unavailable database\",\n      \"score\": 0.321893008257659,\n      \"baseline_counts\": [\n        0\n      ],\n      \"target_count\": 1,\n      \"first_target_line_no\": 2,\n      \"first_target_raw\": \"panic: unavailable database\"\n    }\n  ],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+        "stderr": ""
+      },
+      "exit": 1,
+      "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 2,\n  \"total_templates\": 2,\n  \"findings\": [\n    {\n      \"kind\": \"new\",\n      \"direction\": \"up\",\n      \"template\": \"panic: unavailable database\",\n      \"score\": 0.321893008257659,\n      \"baseline_counts\": [\n        0\n      ],\n      \"target_count\": 1,\n      \"first_target_line_no\": 2,\n      \"first_target_raw\": \"panic: unavailable database\"\n    }\n  ],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "watch-stdin-baseline",
+      "args": [
+        "diff",
+        "-",
+        "<case-directory>/bad.jsonl",
+        "--watch-field",
+        "/status",
+        "--json"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 1,
+        "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 1,\n  \"total_templates\": 1,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": [],\n  \"watched_fields\": [\n    {\n      \"pointer\": \"/status\",\n      \"complete\": true,\n      \"baselines\": [\n        {\n          \"lines\": 1,\n          \"matched\": 1,\n          \"missing\": 0,\n          \"non_json\": 0,\n          \"invalid_json\": 0,\n          \"non_scalar\": 0,\n          \"ambiguous\": 0,\n          \"oversized_records\": 0,\n          \"untracked\": 0\n        }\n      ],\n      \"target\": {\n        \"lines\": 1,\n        \"matched\": 1,\n        \"missing\": 0,\n        \"non_json\": 0,\n        \"invalid_json\": 0,\n        \"non_scalar\": 0,\n        \"ambiguous\": 0,\n        \"oversized_records\": 0,\n        \"untracked\": 0\n      },\n      \"values\": [\n        {\n          \"value_json\": \"200\",\n          \"baseline_counts\": [\n            1\n          ],\n          \"target_count\": 0,\n          \"is_new\": false,\n          \"first_baseline\": {\n            \"baseline_index\": 0,\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":200}\",\n            \"truncated\": false\n          }\n        },\n        {\n          \"value_json\": \"500\",\n          \"baseline_counts\": [\n            0\n          ],\n          \"target_count\": 1,\n          \"is_new\": true,\n          \"first_target\": {\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":500}\",\n            \"truncated\": false\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+        "stderr": ""
+      },
+      "exit": 1,
+      "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 1,\n  \"total_templates\": 1,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": [],\n  \"watched_fields\": [\n    {\n      \"pointer\": \"/status\",\n      \"complete\": true,\n      \"baselines\": [\n        {\n          \"lines\": 1,\n          \"matched\": 1,\n          \"missing\": 0,\n          \"non_json\": 0,\n          \"invalid_json\": 0,\n          \"non_scalar\": 0,\n          \"ambiguous\": 0,\n          \"oversized_records\": 0,\n          \"untracked\": 0\n        }\n      ],\n      \"target\": {\n        \"lines\": 1,\n        \"matched\": 1,\n        \"missing\": 0,\n        \"non_json\": 0,\n        \"invalid_json\": 0,\n        \"non_scalar\": 0,\n        \"ambiguous\": 0,\n        \"oversized_records\": 0,\n        \"untracked\": 0\n      },\n      \"values\": [\n        {\n          \"value_json\": \"200\",\n          \"baseline_counts\": [\n            1\n          ],\n          \"target_count\": 0,\n          \"is_new\": false,\n          \"first_baseline\": {\n            \"baseline_index\": 0,\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":200}\",\n            \"truncated\": false\n          }\n        },\n        {\n          \"value_json\": \"500\",\n          \"baseline_counts\": [\n            0\n          ],\n          \"target_count\": 1,\n          \"is_new\": true,\n          \"first_target\": {\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":500}\",\n            \"truncated\": false\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "watch-stdin-target",
+      "args": [
+        "diff",
+        "<case-directory>/good.jsonl",
+        "-",
+        "--watch-field",
+        "/status",
+        "--json"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 1,
+        "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 1,\n  \"total_templates\": 1,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": [],\n  \"watched_fields\": [\n    {\n      \"pointer\": \"/status\",\n      \"complete\": true,\n      \"baselines\": [\n        {\n          \"lines\": 1,\n          \"matched\": 1,\n          \"missing\": 0,\n          \"non_json\": 0,\n          \"invalid_json\": 0,\n          \"non_scalar\": 0,\n          \"ambiguous\": 0,\n          \"oversized_records\": 0,\n          \"untracked\": 0\n        }\n      ],\n      \"target\": {\n        \"lines\": 1,\n        \"matched\": 1,\n        \"missing\": 0,\n        \"non_json\": 0,\n        \"invalid_json\": 0,\n        \"non_scalar\": 0,\n        \"ambiguous\": 0,\n        \"oversized_records\": 0,\n        \"untracked\": 0\n      },\n      \"values\": [\n        {\n          \"value_json\": \"200\",\n          \"baseline_counts\": [\n            1\n          ],\n          \"target_count\": 0,\n          \"is_new\": false,\n          \"first_baseline\": {\n            \"baseline_index\": 0,\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":200}\",\n            \"truncated\": false\n          }\n        },\n        {\n          \"value_json\": \"500\",\n          \"baseline_counts\": [\n            0\n          ],\n          \"target_count\": 1,\n          \"is_new\": true,\n          \"first_target\": {\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":500}\",\n            \"truncated\": false\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+        "stderr": ""
+      },
+      "exit": 1,
+      "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 1,\n  \"total_templates\": 1,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": [],\n  \"watched_fields\": [\n    {\n      \"pointer\": \"/status\",\n      \"complete\": true,\n      \"baselines\": [\n        {\n          \"lines\": 1,\n          \"matched\": 1,\n          \"missing\": 0,\n          \"non_json\": 0,\n          \"invalid_json\": 0,\n          \"non_scalar\": 0,\n          \"ambiguous\": 0,\n          \"oversized_records\": 0,\n          \"untracked\": 0\n        }\n      ],\n      \"target\": {\n        \"lines\": 1,\n        \"matched\": 1,\n        \"missing\": 0,\n        \"non_json\": 0,\n        \"invalid_json\": 0,\n        \"non_scalar\": 0,\n        \"ambiguous\": 0,\n        \"oversized_records\": 0,\n        \"untracked\": 0\n      },\n      \"values\": [\n        {\n          \"value_json\": \"200\",\n          \"baseline_counts\": [\n            1\n          ],\n          \"target_count\": 0,\n          \"is_new\": false,\n          \"first_baseline\": {\n            \"baseline_index\": 0,\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":200}\",\n            \"truncated\": false\n          }\n        },\n        {\n          \"value_json\": \"500\",\n          \"baseline_counts\": [\n            0\n          ],\n          \"target_count\": 1,\n          \"is_new\": true,\n          \"first_target\": {\n            \"line_no\": 1,\n            \"raw\": \"{\\\"service\\\":\\\"checkout\\\",\\\"status\\\":500}\",\n            \"truncated\": false\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "novel-stdin-baseline",
+      "args": [
+        "novel",
+        "--baseline",
+        "-",
+        "<case-directory>/after.log"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 1,
+        "stdout": "panic: unavailable database\n",
+        "stderr": ""
+      },
+      "exit": 1,
+      "stdout": "panic: unavailable database\n",
+      "stderr": ""
+    },
+    {
+      "case": "novel-stdin-target",
+      "args": [
+        "novel",
+        "--baseline",
+        "<case-directory>/before.log"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 1,
+        "stdout": "panic: unavailable database\n",
+        "stderr": ""
+      },
+      "exit": 1,
+      "stdout": "panic: unavailable database\n",
+      "stderr": ""
+    },
+    {
+      "case": "diff-repeated-file",
+      "args": [
+        "diff",
+        "<case-directory>/before.log",
+        "<case-directory>/before.log",
+        "<case-directory>/before.log",
+        "--json"
+      ],
+      "agrees": true,
+      "fileOnlyOracle": {
+        "exit": 0,
+        "stdout": "{\n  \"baseline_totals\": [\n    1\n  ],\n  \"target_total\": 1,\n  \"total_templates\": 1,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+        "stderr": ""
+      },
+      "exit": 0,
+      "stdout": "{\n  \"baseline_totals\": [\n    1,\n    1\n  ],\n  \"target_total\": 1,\n  \"total_templates\": 1,\n  \"findings\": [],\n  \"blocks\": [],\n  \"value_findings\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "case": "diff-open-pipe",
+      "args": [
+        "diff",
+        "-",
+        "-",
+        "--json"
+      ],
+      "agrees": false,
+      "exit": null,
+      "waitedForStdin": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "case": "novel-open-pipe",
+      "args": [
+        "novel",
+        "--baseline",
+        "-"
+      ],
+      "agrees": false,
+      "exit": null,
+      "waitedForStdin": true,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

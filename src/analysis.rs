@@ -271,6 +271,7 @@ pub fn diff_runs(
     custom: &[CustomMask],
     opts: &DiffOptions,
 ) -> io::Result<DiffResult> {
+    crate::io::validate_stdin_uses(baselines.iter().copied().chain(std::iter::once(target)))?;
     crate::field_rates::validate_options(
         &opts.watch_fields,
         opts.watch_rate_change,
