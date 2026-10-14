@@ -255,6 +255,13 @@ does the same over file paths. The [API docs](https://docs.rs/logdelta) open wit
 
 ## Web demo
 
+The source checkout preserves **repeated JSON member names** in the masked
+raw-text path. Choosing the last `message` or Docker `log` member previously
+hid an earlier diagnostic and could produce exit 0 with no findings.
+[Native library/CLI reproduction](studies/json-members/README.md) documents this
+unreleased correction. Exact field watches still report ambiguous lookups as
+incomplete; ordinary unambiguous JSON keeps its existing normalization.
+
 <p align="center"><img src="docs/assets/web-demo.png" width="820" alt="The logdelta web demo on the three-baseline CI example: 18,350 baseline lines to 6,042 target lines, 16 templates, 5 findings (8 before grouping), printed on greenbar paper: a new circuit-breaker line, a new structured error event with its UUID masked, a block of four new traceback lines shown as the target reads there, the failing test's status flip, and a gone health check for the one instance that stopped, with the baseline line it stands for"></p>
 
 [antonsoo.github.io/logdelta](https://antonsoo.github.io/logdelta/) is a static page in `web/`.

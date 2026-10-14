@@ -52,6 +52,7 @@ pub mod drain;
 pub mod field_rates;
 pub mod fields;
 pub mod io;
+mod json_value;
 pub mod mask;
 pub mod output;
 pub mod scoring;

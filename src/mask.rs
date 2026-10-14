@@ -185,7 +185,7 @@ fn strip_docker_wrapper(s: &str) -> (Vec<String>, String) {
     if !trimmed.starts_with('{') {
         return (Vec::new(), s.to_string());
     }
-    let Ok(Value::Object(map)) = serde_json::from_str::<Value>(trimmed) else {
+    let Ok(Value::Object(map)) = crate::json_value::parse(trimmed) else {
         return (Vec::new(), s.to_string());
     };
     let has_envelope_shape = map.contains_key("stream") || map.contains_key("time");
@@ -286,7 +286,7 @@ fn flatten_json_line(payload: &str) -> Option<Vec<String>> {
     if !trimmed.starts_with('{') {
         return None;
     }
-    let Value::Object(map) = serde_json::from_str::<Value>(trimmed).ok()? else {
+    let Value::Object(map) = crate::json_value::parse(trimmed).ok()? else {
         return None;
     };
     if map.is_empty() {

@@ -5,6 +5,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Preserve earlier values when JSON object member names repeat. Ambiguous
+  records use the existing masked raw-text path instead of choosing one member
+  during Docker unwrapping or JSON flattening, including nested/escaped names.
+  Unambiguous JSON and exact-field lookup semantics remain unchanged.
+  [Native consumer and CLI replay](studies/json-members/README.md).
+
 - Reject repeated stdin (`-`) inputs before opening comparison sources, including
   `novel --baseline -` with its default stdin target. An exhausted second reader
   can no longer produce a successful empty novelty check or a fabricated gone
