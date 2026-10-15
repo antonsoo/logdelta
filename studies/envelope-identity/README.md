@@ -146,5 +146,9 @@ search at multiple depths and no recursive transport decoding. Existing CRI,
 journald, styling, mixed-event missing-field and bounded-ledger policies remain
 in effect.
 
-The correction is in source and locally built packages. No registry release or
-manual hosted deployment is included.
+The correction and evidence are public at
+[`95ff304`](https://github.com/antonsoo/logdelta/commit/95ff3045c9624eafd03cd048ace9175733d37326).
+The [publication receipt](results/publication.json) verifies the remote branch
+identity and all 38 changed files against pinned public raw bytes. Locally built
+packages retain version 0.3.4; no registry release or manual hosted deployment
+is included.

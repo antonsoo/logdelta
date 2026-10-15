@@ -1,0 +1,241 @@
+{
+  "recorded_utc": "2026-10-15T19:49:33.243247+00:00",
+  "baseline_revision": "fad282595b202c1be1153015ec0a52fb9061f09a",
+  "source_revision": "95ff3045c9624eafd03cd048ace9175733d37326",
+  "remote_heads": [
+    "95ff3045c9624eafd03cd048ace9175733d37326\tHEAD",
+    "95ff3045c9624eafd03cd048ace9175733d37326\trefs/heads/main"
+  ],
+  "local_tree_clean_at_verification": true,
+  "pinned_raw_files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 29522,
+      "sha256": "7eed2bfcd0f4b011fa1c37f22e7be03a8cc0d12c212a79389f0058dc42a3a1aa",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/CHANGELOG.md"
+    },
+    {
+      "path": "README.md",
+      "bytes": 43280,
+      "sha256": "714d7cb593b914de9b0e566b8e04a4b25665c9b59f621f25e4911deeada2efc1",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/README.md"
+    },
+    {
+      "path": "docs/assets/envelope-identity/chromium-1440.png",
+      "bytes": 132380,
+      "sha256": "9afc837ebe716ddb4757c38a774a00754ce00406f10b182f85b4c7ac804985a9",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/docs/assets/envelope-identity/chromium-1440.png"
+    },
+    {
+      "path": "docs/assets/envelope-identity/chromium-375.png",
+      "bytes": 113921,
+      "sha256": "849cbb8810937ebd5279dc9c28ae513558e80e0b4893fc4a7355155e4a87641f",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/docs/assets/envelope-identity/chromium-375.png"
+    },
+    {
+      "path": "docs/assets/envelope-identity/firefox-1440.png",
+      "bytes": 192634,
+      "sha256": "c52f2ad87f0beee933ba737f430836b7feeb1ad35c0806ceb10ab4880ad2fd50",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/docs/assets/envelope-identity/firefox-1440.png"
+    },
+    {
+      "path": "docs/assets/envelope-identity/firefox-375.png",
+      "bytes": 163491,
+      "sha256": "2bece50449544486ba2e953c449a528720dbb5de83cce587f0dbe0b2ab07424c",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/docs/assets/envelope-identity/firefox-375.png"
+    },
+    {
+      "path": "docs/watched-fields.md",
+      "bytes": 16749,
+      "sha256": "aef88d12fc8185d8a7a417cb5d7e23851629e4a4f79f5d9f01c6a66d6042419b",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/docs/watched-fields.md"
+    },
+    {
+      "path": "src/envelope.rs",
+      "bytes": 1513,
+      "sha256": "da1804a436caf18e1cf0d1c27b3e21e995fd99b61e91c6e4608a717dad75e195",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/src/envelope.rs"
+    },
+    {
+      "path": "src/fields.rs",
+      "bytes": 20024,
+      "sha256": "7f22db15bc7c98e3f94852e0aa82cde04143b3f8b7093c90d2f849bf7e535eb5",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/src/fields.rs"
+    },
+    {
+      "path": "src/lib.rs",
+      "bytes": 2310,
+      "sha256": "ea4a22216f5d669b749569db191d9ba5dac24ce7e1615c1b2fc4c9f178d70827",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/src/lib.rs"
+    },
+    {
+      "path": "src/mask.rs",
+      "bytes": 46105,
+      "sha256": "6a12468b0d33b9de16dcd99b03e9f1cce9ca2be6b73a7d94cde46f9db71de0bc",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/src/mask.rs"
+    },
+    {
+      "path": "studies/envelope-identity/README.md",
+      "bytes": 8618,
+      "sha256": "a777fb24327c992c8694d74add0408180aa8af3bdc186b1c75c1136b16861c46",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/README.md"
+    },
+    {
+      "path": "studies/envelope-identity/capture_logger.py",
+      "bytes": 2623,
+      "sha256": "e2171c2296737c1c9c251f9724ac2d7695844320d2753de777e11b6d65b69283",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/capture_logger.py"
+    },
+    {
+      "path": "studies/envelope-identity/inputs/native-baseline.log",
+      "bytes": 225,
+      "sha256": "c032e2e2eb52f52fa59e7faa2f9127175249106c359dd9f5ca32604cb2210136",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/inputs/native-baseline.log"
+    },
+    {
+      "path": "studies/envelope-identity/inputs/native-shadow-baseline.log",
+      "bytes": 235,
+      "sha256": "9deacf7e10b5e3dcfbbee002da8bfe687bd179310da1ba79afed56a635316f2e",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/inputs/native-shadow-baseline.log"
+    },
+    {
+      "path": "studies/envelope-identity/inputs/native-shadow-target.log",
+      "bytes": 235,
+      "sha256": "c8ed8b4b415095ed2819607dd2f42cf67011e9b55fe2e4924fd8ece5044a78d4",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/inputs/native-shadow-target.log"
+    },
+    {
+      "path": "studies/envelope-identity/inputs/native-target.log",
+      "bytes": 225,
+      "sha256": "c67cfc218f50888a6e0c36792e959355cecf64604b802f377b917cf1ab959767",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/inputs/native-target.log"
+    },
+    {
+      "path": "studies/envelope-identity/replay-wasm.mjs",
+      "bytes": 2367,
+      "sha256": "70dc6072fc02f692fea4c56c42c8dfd2083e3647e7b3d62bf567b7c4d45cf4b9",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/replay-wasm.mjs"
+    },
+    {
+      "path": "studies/envelope-identity/replay.py",
+      "bytes": 6854,
+      "sha256": "ebdae2be637bf883774dc7f324df6e3ce3bb07c886eb3054f7807d2ffc657550",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/replay.py"
+    },
+    {
+      "path": "studies/envelope-identity/results/after.json",
+      "bytes": 48312,
+      "sha256": "d3e139e1e017a03c4a164a6f4400b35055f8bccad84ca3781c4a40804d83ccf3",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/after.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/artifacts.json",
+      "bytes": 4085,
+      "sha256": "496df2cf97ae9a7bbe738340b0a55702c367aec5997a85020d1e0d39794d7523",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/artifacts.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/before.json",
+      "bytes": 44961,
+      "sha256": "a5c6cf872a38f9867cae6f628fa48742a57f961059d67ed7e4d4ccf6659f4c11",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/before.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/chromium-1440.json",
+      "bytes": 4366,
+      "sha256": "8a00b1e0bec8887bc223121ec8f3a416a4daa71d6290bda0b2026f098297eb8e",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/chromium-1440.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/chromium-375.json",
+      "bytes": 4365,
+      "sha256": "0249b0b036dee9de6a822450e5a71122964d1d580ede2e3765a26ae66d56b7d0",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/chromium-375.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/container-controls.json",
+      "bytes": 338,
+      "sha256": "72d816827fe5ee46e1e71315065ddd7eec4bd15c0bf6fb13f399978b0fea15f6",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/container-controls.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/corpus.json",
+      "bytes": 301154,
+      "sha256": "71a83fc306cd6bc6749cec9a79c6ba6e7f8d7307c6b9afa526338cf9cdabc739",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/corpus.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/firefox-1440.json",
+      "bytes": 4365,
+      "sha256": "2f906ebebc26125cc6314947854751f9cfe9d56a88ce6b768ebaa9c25fb0d06a",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/firefox-1440.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/firefox-375.json",
+      "bytes": 4364,
+      "sha256": "ce0714e42b3687278e222afaee22098772857776248840e62057d2b64d0579c4",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/firefox-375.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/installed-current.json",
+      "bytes": 48312,
+      "sha256": "d3e139e1e017a03c4a164a6f4400b35055f8bccad84ca3781c4a40804d83ccf3",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/installed-current.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/installed-floor.json",
+      "bytes": 48312,
+      "sha256": "d3e139e1e017a03c4a164a6f4400b35055f8bccad84ca3781c4a40804d83ccf3",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/installed-floor.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/logger.json",
+      "bytes": 830,
+      "sha256": "46c4c09e23a224eddc84912ed2d9c6c89e1b371607ef2fc3997eaaac7e66f44c",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/logger.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/served.json",
+      "bytes": 6843,
+      "sha256": "e370347b2844ae8a480ea5b9f54e158eb768b353c3fb1b7dc7340fe21890ab73",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/served.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/throughput.json",
+      "bytes": 1436,
+      "sha256": "995271efa24f2ab9e0d2816499cd30226aebc55f61d2472a9e983d4b62e59285",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/throughput.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/verification.json",
+      "bytes": 5942,
+      "sha256": "23e06c9acc323767e22bc20bcedb3d0535989a1c59f945ecbf4f7f6c13a90997",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/verification.json"
+    },
+    {
+      "path": "studies/envelope-identity/results/wasm.json",
+      "bytes": 1802,
+      "sha256": "fd17fc4a130bff0b885d6ca826bd3b4808a7995b2ed6a8d5a78cba3bf0f7b6c7",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/results/wasm.json"
+    },
+    {
+      "path": "studies/envelope-identity/throughput.py",
+      "bytes": 2199,
+      "sha256": "16c170f465a7473be7bbe2c53362a336cd454f43afd7ce1813e8f27148e454b7",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/studies/envelope-identity/throughput.py"
+    },
+    {
+      "path": "tests/fields.rs",
+      "bytes": 30069,
+      "sha256": "12afd7d98d92224b44c55d194b180a952fae82650c31e1e93eff8bb95b6cfd78",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/tests/fields.rs"
+    },
+    {
+      "path": "web/tests/browser/envelope-identity.spec.mjs",
+      "bytes": 3624,
+      "sha256": "c1e204813d55e92ec89b29155d382628bd74693c1e955f2a95362d63aa74e1c6",
+      "url": "https://raw.githubusercontent.com/antonsoo/logdelta/95ff3045c9624eafd03cd048ace9175733d37326/web/tests/browser/envelope-identity.spec.mjs"
+    }
+  ],
+  "scope": "Public source and evidence only; no registry release, tag or manual hosted deployment."
+}
