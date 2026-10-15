@@ -472,17 +472,25 @@ fn payload(raw: &str) -> Result<String, Skip> {
         return Err(Skip::NonJson);
     }
     let object: Object<'_> = serde_json::from_str(&text).map_err(|_| Skip::InvalidJson)?;
-    // Match the existing Docker-envelope heuristic, but reject ambiguous envelope keys.
-    let log = object.get("log")?;
-    if let Some(log) = log.filter(|v| v.get().starts_with('"')) {
-        if object.get("stream")?.is_some() || object.get("time")?.is_some() {
-            let inner: String = serde_json::from_str(log.get()).map_err(|_| Skip::InvalidJson)?;
-            let (_, inner) = strip_structural_prefix(&inner);
-            if !inner.trim_start().starts_with('{') {
-                return Err(Skip::NonJson);
-            }
-            return Ok(inner);
+    // A duplicate wrapper member must not turn an unassessed payload into a
+    // missing-field observation. Application objects keep selected-path rules.
+    if object
+        .0
+        .iter()
+        .all(|(key, _)| crate::envelope::is_docker_key(key))
+        && object.0.iter().any(|(key, _)| key == "log")
+        && object.0.iter().any(|(key, _)| key == "stream")
+    {
+        for key in ["log", "stream", "time", "attrs"] {
+            object.get(key)?;
         }
+    }
+    if let Some(envelope) = crate::envelope::docker(&text).map_err(|_| Skip::Ambiguous)? {
+        let (_, inner) = strip_structural_prefix(&envelope.log);
+        if !inner.trim_start().starts_with('{') {
+            return Err(Skip::NonJson);
+        }
+        return Ok(inner);
     }
     Ok(text)
 }

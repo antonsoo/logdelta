@@ -95,6 +95,10 @@ when it could not read its input (a missing file, or one that is not text), like
   Docker envelopes. A [26-case CLI replay](studies/container-payloads/README.md)
   retains previously missed status changes and a 2% to 27% error-rate increase
   hidden by skipped wrapped records. The inputs are synthetic; this is unreleased.
+  Application fields alongside `log` and `time` are preserved rather than
+  guessed to be Docker metadata; the
+  [native formatter replay](studies/envelope-identity/README.md) retains the
+  outer status even when the message contains conflicting JSON.
   Add `--watch-by /route` to compare outcomes separately for each route: an expected
   `503` from maintenance can no longer hide checkout's first `503`. Repeat it for a
   composite key, such as service and route. New groups are identified separately

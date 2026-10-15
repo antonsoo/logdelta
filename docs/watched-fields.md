@@ -156,6 +156,15 @@ Terminal styling and trailing line endings are also normalized after decoding a
 Docker `log` string. Escaped terminal codes inside JSON scalar values remain data;
 the original envelope and source line number stay in the report. See the
 [controlled container-payload replay](../studies/container-payloads/README.md).
+Docker recognition requires a string `log` and a `stdout` or `stderr` stream;
+only `log`, `stream`, optional string `time`, and optional string-valued `attrs`
+are allowed at the wrapper level. Additional application fields keep the whole
+object intact. A `log`/`time` application event is therefore selected at its
+outer fields rather than its message. Repeated wrapper members or attributes
+make exact coverage incomplete. Content alone cannot distinguish an application
+object that exactly copies the accepted wrapper shape; in that case pointers
+address the decoded payload.
+[Native logger capture and identity boundaries](../studies/envelope-identity/README.md).
 There are no wildcards, JSONPath expressions or implicit nested-key searches.
 
 | Record | Pointer | Selected value |

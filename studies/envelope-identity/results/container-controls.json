@@ -1,0 +1,7 @@
+{
+  "scope": "All 26 existing container-payload cases rerun on current baseline and correction; complete captures and full report hashes match.",
+  "cases": 26,
+  "identical": true,
+  "capture_sha256": "0bf43b1ec159fa22c103b88c105a30faca0c2814a9ef03c0ca2fbeff3e2e8308",
+  "baseline_revision": "fad282595b202c1be1153015ec0a52fb9061f09a"
+}

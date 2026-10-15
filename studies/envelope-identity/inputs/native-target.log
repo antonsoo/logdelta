@@ -1,0 +1,2 @@
+{"asctime": "2026-10-15T12:00:00Z", "message": "health check passed", "route": "/checkout", "http": {"status": 200}}
+{"time": "2026-10-15T12:00:01Z", "log": "request completed", "route": "/checkout", "http": {"status": 503}}

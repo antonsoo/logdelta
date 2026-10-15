@@ -1,0 +1,152 @@
+{
+  "engine": "chromium",
+  "width": 1440,
+  "offlineBeforeFirstComparison": true,
+  "networkRequests": [],
+  "pageErrors": [],
+  "workflows": [
+    {
+      "case": "native-grouped",
+      "watch": {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"time\": \"2026-10-15T12:00:01Z\", \"log\": \"request completed\", \"route\": \"/checkout\", \"http\": {\"status\": 503}}",
+              "truncated": false
+            }
+          }
+        ]
+      },
+      "matchesNative": true
+    },
+    {
+      "case": "native-shadow-pooled",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"time\": \"2026-10-15T12:00:01Z\", \"log\": \"{\\\"http\\\":{\\\"status\\\":200}}\", \"route\": \"/checkout\", \"http\": {\"status\": 503}}",
+              "truncated": false
+            }
+          }
+        ]
+      },
+      "matchesNative": true
+    }
+  ]
+}

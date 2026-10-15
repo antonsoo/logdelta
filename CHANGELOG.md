@@ -5,6 +5,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Preserve outer application fields when records contain `log` and `time` or
+  `stream`. Docker unwrapping now requires a `stdout`/`stderr` stream and only
+  known wrapper keys, shared by template mining and exact watches. Ambiguous
+  wrapper metadata makes a watch incomplete. Retain native formatter captures,
+  CLI replay and packaged/browser checks in
+  [the envelope study](studies/envelope-identity/README.md).
+
 - Preserve earlier values when JSON object member names repeat. Ambiguous
   records use the existing masked raw-text path instead of choosing one member
   during Docker unwrapping or JSON flattening, including nested/escaped names.

@@ -1,0 +1,27 @@
+{
+  "scope": "Controlled Python logging calls; fixed timestamps, constructed statuses; no incident or Docker daemon.",
+  "python": "3.14.7",
+  "python_json_logger": "4.2.0",
+  "renamed_fields": {
+    "asctime": "time",
+    "message": "log"
+  },
+  "inputs": {
+    "native-baseline.log": {
+      "bytes": 225,
+      "sha256": "c032e2e2eb52f52fa59e7faa2f9127175249106c359dd9f5ca32604cb2210136"
+    },
+    "native-target.log": {
+      "bytes": 225,
+      "sha256": "c67cfc218f50888a6e0c36792e959355cecf64604b802f377b917cf1ab959767"
+    },
+    "native-shadow-baseline.log": {
+      "bytes": 235,
+      "sha256": "9deacf7e10b5e3dcfbbee002da8bfe687bd179310da1ba79afed56a635316f2e"
+    },
+    "native-shadow-target.log": {
+      "bytes": 235,
+      "sha256": "c8ed8b4b415095ed2819607dd2f42cf67011e9b55fe2e4924fd8ece5044a78d4"
+    }
+  }
+}

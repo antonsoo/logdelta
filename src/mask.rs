@@ -177,29 +177,20 @@ lazy_re!(PID_BRACKET, r"\[\d+\]");
 
 /// Strips a Docker `json-file` log driver envelope (`{"log":"...","stream":"stdout","time":
 /// "..."}`) if `s` is one, returning the stream name as a leading token and the unwrapped
-/// `log` text as the remaining payload. Requires both `log` and (`stream` or `time`) so an
-/// arbitrary application JSON log that happens to have a `log` field isn't misread as this
-/// specific envelope format.
+/// `log` text as the remaining payload. The shared detector requires a known stream
+/// and refuses additional application fields, which must survive template mining.
 fn strip_docker_wrapper(s: &str) -> (Vec<String>, String) {
     let trimmed = s.trim_start();
     if !trimmed.starts_with('{') {
         return (Vec::new(), s.to_string());
     }
-    let Ok(Value::Object(map)) = crate::json_value::parse(trimmed) else {
+    let Ok(Some(envelope)) = crate::envelope::docker(trimmed) else {
         return (Vec::new(), s.to_string());
     };
-    let has_envelope_shape = map.contains_key("stream") || map.contains_key("time");
-    match map.get("log") {
-        Some(Value::String(log)) if has_envelope_shape => {
-            let prefix = map
-                .get("stream")
-                .and_then(Value::as_str)
-                .map(|s| vec![s.to_string()])
-                .unwrap_or_default();
-            (prefix, log.trim_end_matches('\n').to_string())
-        }
-        _ => (Vec::new(), s.to_string()),
-    }
+    (
+        vec![envelope.stream.as_str().to_string()],
+        envelope.log.trim_end_matches('\n').to_string(),
+    )
 }
 
 /// A leading timestamp with nothing else structural around it (GitHub Actions' raw step
@@ -1043,6 +1034,23 @@ mod tests {
         let line =
             r#"{"log":"listening on :8080\n","stream":"stdout","time":"2024-01-15T10:23:45Z"}"#;
         assert_eq!(tok(line), vec!["stdout", "listening", "on", ":<NUM>"]);
+    }
+
+    #[test]
+    fn application_fields_survive_a_docker_looking_message() {
+        for metadata in [r#""time":"2026-10-15T12:00:00Z""#, r#""stream":"stdout""#] {
+            let row =
+                format!(r#"{{"log":"request completed",{metadata},"level":"error","status":503}}"#);
+            let tokens = tok(&row);
+            assert!(
+                tokens.contains(&"level=\"error\"".to_string()),
+                "{tokens:?}"
+            );
+            assert!(tokens.contains(&"status=<NUM>".to_string()), "{tokens:?}");
+            assert!(tokens.contains(&"log=".to_string()), "{tokens:?}");
+        }
+        let ordinary = tok(r#"{"log":"request completed","stream":"payments"}"#);
+        assert!(ordinary.contains(&"stream=\"payments\"".to_string()));
     }
 
     #[test]

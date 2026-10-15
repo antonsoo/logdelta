@@ -1,0 +1,1555 @@
+{
+  "phase": "before",
+  "scope": "Controlled application records and synthetic Docker-compatible wrappers; not production incidents.",
+  "baseline_revision": "fad282595b202c1be1153015ec0a52fb9061f09a",
+  "cases": [
+    {
+      "case": "native-pooled",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 225,
+          "records": 2,
+          "sha256": "c032e2e2eb52f52fa59e7faa2f9127175249106c359dd9f5ca32604cb2210136"
+        },
+        "target": {
+          "bytes": 225,
+          "records": 2,
+          "sha256": "c67cfc218f50888a6e0c36792e959355cecf64604b802f377b917cf1ab959767"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "d795ea9aefc45b37235313dfb9bc4b21d1639b9fce60eba341fceb5c35b0ba8b",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 1,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "native-grouped",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status",
+        "--watch-by",
+        "/route"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 225,
+          "records": 2,
+          "sha256": "c032e2e2eb52f52fa59e7faa2f9127175249106c359dd9f5ca32604cb2210136"
+        },
+        "target": {
+          "bytes": 225,
+          "records": 2,
+          "sha256": "c67cfc218f50888a6e0c36792e959355cecf64604b802f377b917cf1ab959767"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "5eb6c35bdac9f24dbca55794156ab659c324b30eae7e82bc657f82f319414e19",
+      "watch": {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 1,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "native-shadow-pooled",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 235,
+          "records": 2,
+          "sha256": "9deacf7e10b5e3dcfbbee002da8bfe687bd179310da1ba79afed56a635316f2e"
+        },
+        "target": {
+          "bytes": 235,
+          "records": 2,
+          "sha256": "c8ed8b4b415095ed2819607dd2f42cf67011e9b55fe2e4924fd8ece5044a78d4"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "267d056167a42fb29d7104e6546cf53209625540bca5e67bed8e3c1b33fc0d10",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 2,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "native-shadow-grouped",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status",
+        "--watch-by",
+        "/route"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 235,
+          "records": 2,
+          "sha256": "9deacf7e10b5e3dcfbbee002da8bfe687bd179310da1ba79afed56a635316f2e"
+        },
+        "target": {
+          "bytes": 235,
+          "records": 2,
+          "sha256": "c8ed8b4b415095ed2819607dd2f42cf67011e9b55fe2e4924fd8ece5044a78d4"
+        }
+      },
+      "exit": 2,
+      "report_sha256": "6810ac9ce55a629b94c12284d5ebdfc08214ef617a4731250a5c3902f45c69b1",
+      "watch": {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": false,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0,
+            "group_missing": 1,
+            "first_problem": {
+              "baseline_index": 0,
+              "line_no": 2,
+              "raw": "{\"time\": \"2026-10-15T12:00:01Z\", \"log\": \"{\\\"http\\\":{\\\"status\\\":200}}\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0,
+          "group_missing": 1,
+          "first_problem": {
+            "line_no": 2,
+            "raw": "{\"time\": \"2026-10-15T12:00:01Z\", \"log\": \"{\\\"http\\\":{\\\"status\\\":200}}\", \"route\": \"/checkout\", \"http\": {\"status\": 503}}",
+            "truncated": false
+          }
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": null,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "application-stdout-text",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 162,
+          "records": 2,
+          "sha256": "9eecefd15c9b0631987345b6dc1fb0ca2779da6049186d04cee742eed7781a74"
+        },
+        "target": {
+          "bytes": 162,
+          "records": 2,
+          "sha256": "125fcc37a64be8dfbc3f5496a6d009be914d37c38747c899a48b4893b378668a"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "20f868a2cc346dc0d93a2a07f9167811c836eae35de60a00f7fb2680e15c584b",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 1,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "application-stdout-shadow",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 196,
+          "records": 2,
+          "sha256": "b55ccab3291267bce6ccaeb405cf52388b4978ff3a6bad0c5454aa5abab58004"
+        },
+        "target": {
+          "bytes": 196,
+          "records": 2,
+          "sha256": "53b72ae74c5baef64d967963b23b6ac7bcc0351ddbd024f3f9903abba2582c72"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "ae570ab97fd4ccb4df137753351df92ece1586d49fcd8d7beb393367fc9b64aa",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 2,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "application-payments-text",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 164,
+          "records": 2,
+          "sha256": "db07275bfcbe3f211c33e91797f22cc42ffd7dc9e87f147a129c08144dc450e3"
+        },
+        "target": {
+          "bytes": 164,
+          "records": 2,
+          "sha256": "3fd038652ca0de4fb15616e2eaf737d0a3e84224e724e1bc7b0b219c9ad6d4a6"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "20f868a2cc346dc0d93a2a07f9167811c836eae35de60a00f7fb2680e15c584b",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 1,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "application-payments-shadow",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 198,
+          "records": 2,
+          "sha256": "4931a4d2eccc798fff9444da987eb13fc4d44f18b90a830bb267a62254e11535"
+        },
+        "target": {
+          "bytes": 198,
+          "records": 2,
+          "sha256": "6f68ce17eae109e2453d482a7821be12c6ab26bee27e555a6d7cdf5dccb5c648"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "ae570ab97fd4ccb4df137753351df92ece1586d49fcd8d7beb393367fc9b64aa",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 2,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "docker-wrapped-native",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status",
+        "--watch-by",
+        "/route"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 423,
+          "records": 2,
+          "sha256": "1bbd0093973174da143419a9933b02518ee5aa2b6fb8be04137536d4b6075db6"
+        },
+        "target": {
+          "bytes": 423,
+          "records": 2,
+          "sha256": "03c03e4f95d67d74515aa40118446188aab4bf2add4922f8ac25ff8a3db29ef2"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "9b55e897bbf87d85a476d2c8ff7d6fd42d0c58f0b1eaf98db9d23629c1b7d043",
+      "watch": {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"asctime\\\":\\\"2026-10-15T12:00:00Z\\\",\\\"message\\\":\\\"health check passed\\\",\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":200}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"asctime\\\":\\\"2026-10-15T12:00:00Z\\\",\\\"message\\\":\\\"health check passed\\\",\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":200}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"log\":\"{\\\"time\\\":\\\"2026-10-15T12:00:01Z\\\",\\\"log\\\":\\\"request completed\\\",\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "docker-wrapped-native-shadow",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status",
+        "--watch-by",
+        "/route"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 441,
+          "records": 2,
+          "sha256": "277b7971933ee4115557bb8caa68e26aefcee208fbb6c6785b46bd9219fa2f8f"
+        },
+        "target": {
+          "bytes": 441,
+          "records": 2,
+          "sha256": "3887ab969246e77d6b0f62b464e3b95c47a2c6c14f463f2a027a30c9a0890399"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "ba656941373e258029c28c94bf14618de3a27e2ede102e34e53625a6f4ae84b4",
+      "watch": {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 2,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"asctime\\\":\\\"2026-10-15T12:00:00Z\\\",\\\"message\\\":\\\"health check passed\\\",\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":200}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"asctime\\\":\\\"2026-10-15T12:00:00Z\\\",\\\"message\\\":\\\"health check passed\\\",\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":200}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"log\":\"{\\\"time\\\":\\\"2026-10-15T12:00:01Z\\\",\\\"log\\\":\\\"{\\\\\\\"http\\\\\\\":{\\\\\\\"status\\\\\\\":200}}\\\",\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "docker-control-minimal",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 82,
+          "records": 1,
+          "sha256": "ce381250295c5f3ac14a8a04dc9448e0c23c3d82da0e1a5df78448479aa6d951"
+        },
+        "target": {
+          "bytes": 82,
+          "records": 1,
+          "sha256": "abb33ea50d84a57ac58809a074cb48ac61ae53d970ef7732e1d5edf8797d5c84"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "cf73ab10cc0e81c766979a4a1cd85e9e1a74ed4f1743a3cfe35149bbf8d091d8",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 1,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 0,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":200}}\\n\",\"stream\":\"stdout\"}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\"}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "docker-control-full",
+      "kind": "novelty",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 143,
+          "records": 1,
+          "sha256": "54cd2226cf666f303d4fbcd91547b0abf95062b6213a4de29dd805de2f1f73cd"
+        },
+        "target": {
+          "bytes": 143,
+          "records": 1,
+          "sha256": "8d46fde358f70207ac1d2b6be44736a45013f075a3fc6fa5ade1706ecd81f075"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "9139268f5ab82a81c39d47800afe608ce1b16478ab14fbe18c4efb0102161c95",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 1,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 0,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":200}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{\"service\":\"checkout\"}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "application-rate",
+      "kind": "rate",
+      "flags": [
+        "--watch-field",
+        "/http/status",
+        "--watch-by",
+        "/route",
+        "--watch-rate-change",
+        "5"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 7200,
+          "records": 100,
+          "sha256": "8f129fd3043c6f021c608ffa250fc287b4fcde64a71c0b1f6f98cbf938db6a62"
+        },
+        "target": {
+          "bytes": 7200,
+          "records": 100,
+          "sha256": "76ffee87ae3d712be51bcc3d6639af1bb779179746df2af4de0b9c26b33b6284"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "baeef0a50ea69df6a8b56465018aa2f730f4857a9475005251d610bb39854657",
+      "watch": {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 100,
+            "matched": 50,
+            "missing": 0,
+            "non_json": 50,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 100,
+          "matched": 50,
+          "missing": 0,
+          "non_json": 50,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              48
+            ],
+            "target_count": 48,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 3,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 3,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              2
+            ],
+            "target_count": 2,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":503}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":503}}",
+              "truncated": false
+            }
+          }
+        ],
+        "rate_comparison": {
+          "min_change_pp": 5.0,
+          "significance": 10.83,
+          "complete": true,
+          "groups": [
+            {
+              "group_values_json": [
+                "\"/checkout\""
+              ],
+              "baseline_totals": [
+                50
+              ],
+              "target_total": 50,
+              "status": "compared",
+              "changes": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "duplicate-wrapper-log",
+      "kind": "incomplete",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 44,
+          "records": 1,
+          "sha256": "260d11082af0a92e2ff79ee583040307c953efecc939850c415ba731c06ae670"
+        },
+        "target": {
+          "bytes": 178,
+          "records": 2,
+          "sha256": "b2f7cf08fa69533502fe85cd1547b170c01ccd1d3edfb180f36ee548e27c54a9"
+        }
+      },
+      "exit": 2,
+      "report_sha256": "e7b2ce56d1e9dcd07375ec1fb628e1942a5be92f05feec2e3e88391cf310ada9",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": false,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 1,
+          "oversized_records": 0,
+          "untracked": 0,
+          "first_problem": {
+            "line_no": 2,
+            "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{},\"log\":\"{}\"}",
+            "truncated": false
+          }
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": null,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "duplicate-wrapper-stream",
+      "kind": "incomplete",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 44,
+          "records": 1,
+          "sha256": "260d11082af0a92e2ff79ee583040307c953efecc939850c415ba731c06ae670"
+        },
+        "target": {
+          "bytes": 185,
+          "records": 2,
+          "sha256": "c48d4b1561ef47fc183509ae51ed193fffec7f313db362d590ac3964f55ce5e9"
+        }
+      },
+      "exit": 2,
+      "report_sha256": "22911e5399732da51f9ae94bb257616dae5d4e3da9546018a56d809df7f3c014",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": false,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 1,
+          "oversized_records": 0,
+          "untracked": 0,
+          "first_problem": {
+            "line_no": 2,
+            "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{},\"stream\":\"stderr\"}",
+            "truncated": false
+          }
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": null,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "duplicate-wrapper-time",
+      "kind": "incomplete",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 44,
+          "records": 1,
+          "sha256": "260d11082af0a92e2ff79ee583040307c953efecc939850c415ba731c06ae670"
+        },
+        "target": {
+          "bytes": 182,
+          "records": 2,
+          "sha256": "626aad24502b0812cc559e436533f8889992b45ce4fa469dfdb61a8386b2e744"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "dad39a18c7472a06f91b614d58cf372f7f6f9a3d7660d3d2157ec93097d67ddd",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{},\"time\":\"later\"}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "duplicate-wrapper-attrs",
+      "kind": "incomplete",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 44,
+          "records": 1,
+          "sha256": "260d11082af0a92e2ff79ee583040307c953efecc939850c415ba731c06ae670"
+        },
+        "target": {
+          "bytes": 178,
+          "records": 2,
+          "sha256": "dc59e2f10659c9f8b9e26de2fa7a65ace249705514b27043e4dd32c915685498"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "dcb4a256208510e4bca4fa2945ebc99415c8c98c1e2c88e2bbcbd3dd6132ea20",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\",\"attrs\":{},\"attrs\":{}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "duplicate-attribute-name",
+      "kind": "incomplete",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 44,
+          "records": 1,
+          "sha256": "260d11082af0a92e2ff79ee583040307c953efecc939850c415ba731c06ae670"
+        },
+        "target": {
+          "bytes": 175,
+          "records": 2,
+          "sha256": "c8055d65a9aea12636fc0f63456dbfbeb52bda0f931e00d775e1a4dd19159af1"
+        }
+      },
+      "exit": 1,
+      "report_sha256": "3ca000820f9dc864040478bf573851fcf2d9849189e71ee234e4596de403a322",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 1,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 0,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 2,
+          "missing": 0,
+          "non_json": 0,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"route\":\"/checkout\",\"http\":{\"status\":200}}",
+              "truncated": false
+            }
+          },
+          {
+            "value_json": "503",
+            "baseline_counts": [
+              0
+            ],
+            "target_count": 1,
+            "is_new": true,
+            "first_target": {
+              "line_no": 2,
+              "raw": "{\"log\":\"{\\\"route\\\":\\\"/checkout\\\",\\\"http\\\":{\\\"status\\\":503}}\\n\",\"stream\":\"stdout\",\"attrs\":{\"service\":\"checkout\",\"service\":\"other\"}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "unchanged-application",
+      "kind": "unchanged",
+      "flags": [
+        "--watch-field",
+        "/http/status"
+      ],
+      "inputs": {
+        "baseline": {
+          "bytes": 225,
+          "records": 2,
+          "sha256": "c032e2e2eb52f52fa59e7faa2f9127175249106c359dd9f5ca32604cb2210136"
+        },
+        "target": {
+          "bytes": 225,
+          "records": 2,
+          "sha256": "c032e2e2eb52f52fa59e7faa2f9127175249106c359dd9f5ca32604cb2210136"
+        }
+      },
+      "exit": 0,
+      "report_sha256": "d795ea9aefc45b37235313dfb9bc4b21d1639b9fce60eba341fceb5c35b0ba8b",
+      "watch": {
+        "pointer": "/http/status",
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 1,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

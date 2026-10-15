@@ -1,0 +1,135 @@
+{
+  "crate": {
+    "name": "logdelta-0.3.4.crate",
+    "bytes": 225671,
+    "sha256": "6c59d2b0039465f63d67975584e70057eb6e3c57da7848c9674f8fad45f77f85"
+  },
+  "source_files_match": [
+    {
+      "path": "Cargo.lock",
+      "bytes": 15367,
+      "sha256": "900d2b4d5ff835c7f48491c2fad82dce5dca8900258b22ca9317f3347b84427a"
+    },
+    {
+      "path": "Cargo.toml",
+      "bytes": 1787,
+      "sha256": "544e5b607f1c0a13f827f6e17635e8edf006d96329ada1d87caea48eeecaac37"
+    },
+    {
+      "path": "src/analysis.rs",
+      "bytes": 35455,
+      "sha256": "322d9e1f720523a3515645ee26558bded6d61db17f99b7e2374ab7b51677f1fc"
+    },
+    {
+      "path": "src/blocks.rs",
+      "bytes": 20564,
+      "sha256": "5dbf414acd6f2adec72c56ca2d7ba9f0ebe49592716049a567354e0e4bf5d555"
+    },
+    {
+      "path": "src/cli.rs",
+      "bytes": 5446,
+      "sha256": "b213ae25cff24d206a32e3ec57ad736fabd82f0e5050439a41014351ed7d1342"
+    },
+    {
+      "path": "src/context.rs",
+      "bytes": 4239,
+      "sha256": "68a1de50b754f60f9deabc5d2c4e4e860fe51b30e69729bf57780f205aa2b210"
+    },
+    {
+      "path": "src/drain.rs",
+      "bytes": 32776,
+      "sha256": "b4ee4128a3180e4fbdb77977f17f17d458f1628fb9de3aaf3173b004c0519c79"
+    },
+    {
+      "path": "src/envelope.rs",
+      "bytes": 1513,
+      "sha256": "da1804a436caf18e1cf0d1c27b3e21e995fd99b61e91c6e4608a717dad75e195"
+    },
+    {
+      "path": "src/field_rates.rs",
+      "bytes": 6655,
+      "sha256": "d4dcfc04835c74cad25530b6de62c64b391a71bd2439f6a888210aa9ce847b69"
+    },
+    {
+      "path": "src/fields.rs",
+      "bytes": 20024,
+      "sha256": "7f22db15bc7c98e3f94852e0aa82cde04143b3f8b7093c90d2f849bf7e535eb5"
+    },
+    {
+      "path": "src/io.rs",
+      "bytes": 24312,
+      "sha256": "ed3ce1ed85f2fd6defd85fa563f21aefa6100836eb6dc6cc390f95f66f805d2b"
+    },
+    {
+      "path": "src/json_value.rs",
+      "bytes": 3262,
+      "sha256": "8d9ba3ec71159ba06f35c4145509333e6c3cf8a6a1691112746be4cd75d2beb0"
+    },
+    {
+      "path": "src/lib.rs",
+      "bytes": 2310,
+      "sha256": "ea4a22216f5d669b749569db191d9ba5dac24ce7e1615c1b2fc4c9f178d70827"
+    },
+    {
+      "path": "src/main.rs",
+      "bytes": 7604,
+      "sha256": "c40b217e9bb1e792d1747cdb30813073e851896221f299ad9efaa28be8ce31d7"
+    },
+    {
+      "path": "src/mask.rs",
+      "bytes": 46105,
+      "sha256": "6a12468b0d33b9de16dcd99b03e9f1cce9ca2be6b73a7d94cde46f9db71de0bc"
+    },
+    {
+      "path": "src/output/excerpt-patterns.json",
+      "bytes": 380,
+      "sha256": "4ed4eab6a7b0e70edcd831fb295fed9553ef959a6504b1a66bb0851c22310b8b"
+    },
+    {
+      "path": "src/output/excerpt.rs",
+      "bytes": 8111,
+      "sha256": "7cd77db34b5b87499f6cdb1944bbadbfe547fdf3b566c1c986934c3f3a1cd9e8"
+    },
+    {
+      "path": "src/output/field_rates.rs",
+      "bytes": 5978,
+      "sha256": "49be9b62d7e6db0b97bad7695fec4d3d1b2f288a6edda77e40a2009e746ace14"
+    },
+    {
+      "path": "src/output/fields.rs",
+      "bytes": 10238,
+      "sha256": "f1e1fa346dc532a3f8abdcd68356c5c5a2c425a58a4c19760b1a315a3e756f93"
+    },
+    {
+      "path": "src/output/human.rs",
+      "bytes": 18344,
+      "sha256": "840043b5a60cd68ba76e386d0d09523120e452e49b22bb325f2347ad642c13a9"
+    },
+    {
+      "path": "src/output/json.rs",
+      "bytes": 2547,
+      "sha256": "a90eeda50fd6baf42450a43dec3377119b881d72287a88669af1a020d9534c29"
+    },
+    {
+      "path": "src/output/markdown.rs",
+      "bytes": 10471,
+      "sha256": "7b1fca120ecdaf1c20a72bff26f31610e26400c99c18611e64cc638483ac8d1e"
+    },
+    {
+      "path": "src/output/mod.rs",
+      "bytes": 7896,
+      "sha256": "24630dfae092931313a934e35fa72c08f1c4fd7441617119bdf82f2e39f56e26"
+    },
+    {
+      "path": "src/scoring.rs",
+      "bytes": 9137,
+      "sha256": "d8054a209214fc7a8d7e928cd75b7bc5387595b33ed03143dd6413d39976aef4"
+    },
+    {
+      "path": "src/values.rs",
+      "bytes": 20181,
+      "sha256": "dc72a798f1dfe387a087c97882209557b4d1f303d3cad93a9c2317bcfe760f86"
+    }
+  ],
+  "scope": "Runtime source and original manifest/lock match workspace; later study/documentation receipts are separate."
+}

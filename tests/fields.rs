@@ -36,6 +36,85 @@ fn report(baselines: &[&str], target: &str, pointers: &[&str]) -> (i32, Value) {
 }
 
 #[test]
+fn application_log_members_cannot_hide_outer_watched_fields() {
+    let companion = json!({"route":"/checkout", "http":{"status":200}}).to_string();
+    for metadata in [
+        json!({"time":"2026-10-15T12:00:00Z"}),
+        json!({"stream":"stdout", "time":"2026-10-15T12:00:00Z"}),
+        json!({"stream":"payments"}),
+    ] {
+        for message in ["request completed", r#"{"http":{"status":200}}"#] {
+            let event = |status| {
+                let mut row = metadata.clone();
+                row["log"] = json!(message);
+                row["route"] = json!("/checkout");
+                row["http"] = json!({"status":status});
+                format!("{companion}\n{row}\n")
+            };
+            let (code, text) = diff(
+                &[&event(200)],
+                &event(503),
+                &["/http/status"],
+                &["--watch-by", "/route", "--json"],
+            );
+            let result: Value = serde_json::from_str(&text).unwrap();
+            let field = &result["watched_fields"][0];
+            assert_eq!(code, 1, "{metadata}: {message}");
+            assert_eq!(field["complete"], true);
+            assert_eq!(field["target"]["matched"], 2);
+            let new = field["values"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|v| v["value_json"] == "503")
+                .unwrap();
+            assert_eq!(new["is_new"], true);
+            assert_eq!(new["first_target"]["line_no"], 2);
+            assert!(new["first_target"]["raw"].as_str().unwrap().contains("503"));
+        }
+    }
+}
+
+#[test]
+fn docker_metadata_is_optional_but_ambiguous_wrapper_members_are_incomplete() {
+    let plain = "{\"status\":200}\n";
+    for metadata in [
+        json!({}),
+        json!({"time":"2026-10-15T12:00:00Z", "attrs":{"service":"checkout"}}),
+    ] {
+        let wrapped = |status| {
+            let mut row = metadata.clone();
+            row["log"] = json!(format!("{{\"status\":{status}}}\n"));
+            row["stream"] = json!("stderr");
+            row.to_string()
+        };
+        let (code, result) = report(&[&wrapped(200)], &wrapped(503), &["/status"]);
+        assert_eq!(code, 1);
+        assert_eq!(result["watched_fields"][0]["target"]["matched"], 1);
+    }
+    for duplicate in [
+        r#""log":"{\"status\":200}""#,
+        r#""stream":"stderr""#,
+        r#""time":"2026-10-15T12:01:00Z""#,
+        r#""attrs":{"service":"other"}"#,
+    ] {
+        let raw = format!(
+            r#"{{"log":"{{\"status\":503}}","stream":"stdout","time":"2026-10-15T12:00:00Z","attrs":{{"service":"checkout"}},{duplicate}}}"#
+        );
+        let (code, result) = report(&[plain], &format!("{plain}{raw}\n"), &["/status"]);
+        assert_eq!(code, 2);
+        let field = &result["watched_fields"][0];
+        assert_eq!(field["complete"], false);
+        assert_eq!(field["target"]["ambiguous"], 1);
+        assert_eq!(field["target"]["first_problem"]["raw"], raw);
+    }
+    let raw = r#"{"log":"{\"status\":503}","stream":"stdout","attrs":{"service":"checkout","service":"other"}}"#;
+    let (code, result) = report(&[plain], &format!("{plain}{raw}\n"), &["/status"]);
+    assert_eq!(code, 2);
+    assert_eq!(result["watched_fields"][0]["target"]["ambiguous"], 1);
+}
+
+#[test]
 fn lossy_input_cannot_pass_an_exact_field_watch_but_literal_replacement_text_can() {
     use std::io::Write;
     let dir = tempfile::tempdir().unwrap();

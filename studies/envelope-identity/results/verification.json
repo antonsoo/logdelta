@@ -1,0 +1,129 @@
+{
+  "recorded_utc": "2026-10-15T19:48:15.502918+00:00",
+  "baseline_revision": "fad282595b202c1be1153015ec0a52fb9061f09a",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "checks": [
+    {
+      "command": "cargo fmt --all --check; cargo clippy --locked --all-targets -- -D warnings",
+      "result": "pass"
+    },
+    {
+      "command": "cargo test --locked",
+      "toolchain": "Rust 1.91.0, clean source snapshot",
+      "passed": 230,
+      "skipped": 0
+    },
+    {
+      "command": "cargo test --locked --no-default-features --lib",
+      "passed": 148,
+      "skipped": 0
+    },
+    {
+      "command": "cargo +1.85.0 test --locked",
+      "toolchain": "Rust 1.85.0, separate build directory",
+      "passed": 230,
+      "skipped": 0
+    },
+    {
+      "command": "cargo build --locked --release; cargo package --locked",
+      "result": "pass",
+      "packaged_files": 106
+    },
+    {
+      "command": "cargo install --locked --path <unpacked-crate> --root <isolated-prefix>",
+      "result": "pass",
+      "toolchains": [
+        "1.91.0",
+        "1.85.0"
+      ],
+      "identity_cases_each": 19,
+      "container_controls_each": 26,
+      "captures_match_native": true
+    },
+    {
+      "command": "npm ci; npm run typecheck; npm run lint; npm test; npm run build",
+      "result": "pass",
+      "web_checks": 83,
+      "node": "26.7.0"
+    },
+    {
+      "command": "npx playwright test --output <temporary-results>",
+      "scope": "all 128 existing workflows pass; initial new Chromium assertions counted local blob downloads as HTTP traffic",
+      "existing_passed": 128
+    },
+    {
+      "command": "npx playwright test tests/browser/envelope-identity.spec.mjs --output <separate-temporary-results>",
+      "passed": 4,
+      "engines": [
+        "Chromium",
+        "Firefox"
+      ],
+      "widths": [
+        1440,
+        375
+      ],
+      "offline_before_first_new_comparison": true,
+      "after_disconnect_http_requests": 0,
+      "page_errors": 0
+    },
+    {
+      "command": "python3 studies/json-members/replay-corpus.py BEFORE AFTER OUTPUT",
+      "input_files": 536,
+      "input_bytes": 429474908,
+      "reports": 280,
+      "changed_reports_or_exits": 0
+    },
+    {
+      "command": "node studies/envelope-identity/replay-wasm.mjs ENGINE NATIVE_DIRECTORY",
+      "full_reports_match": 19,
+      "floating_scores_significant_digits": 12
+    },
+    {
+      "command": "installed logdelta diff examples/large/baseline-{1,2,3}.log --target examples/large/target-failure.log --json",
+      "exit": 1,
+      "result": "pass"
+    },
+    {
+      "command": "cargo test --locked --manifest-path wasm/Cargo.toml",
+      "passed": 3,
+      "skipped": 0
+    }
+  ],
+  "runtime_source_sha256": {
+    "Cargo.lock": "900d2b4d5ff835c7f48491c2fad82dce5dca8900258b22ca9317f3347b84427a",
+    "Cargo.toml": "544e5b607f1c0a13f827f6e17635e8edf006d96329ada1d87caea48eeecaac37",
+    "src/analysis.rs": "322d9e1f720523a3515645ee26558bded6d61db17f99b7e2374ab7b51677f1fc",
+    "src/blocks.rs": "5dbf414acd6f2adec72c56ca2d7ba9f0ebe49592716049a567354e0e4bf5d555",
+    "src/cli.rs": "b213ae25cff24d206a32e3ec57ad736fabd82f0e5050439a41014351ed7d1342",
+    "src/context.rs": "68a1de50b754f60f9deabc5d2c4e4e860fe51b30e69729bf57780f205aa2b210",
+    "src/drain.rs": "b4ee4128a3180e4fbdb77977f17f17d458f1628fb9de3aaf3173b004c0519c79",
+    "src/envelope.rs": "da1804a436caf18e1cf0d1c27b3e21e995fd99b61e91c6e4608a717dad75e195",
+    "src/field_rates.rs": "d4dcfc04835c74cad25530b6de62c64b391a71bd2439f6a888210aa9ce847b69",
+    "src/fields.rs": "7f22db15bc7c98e3f94852e0aa82cde04143b3f8b7093c90d2f849bf7e535eb5",
+    "src/io.rs": "ed3ce1ed85f2fd6defd85fa563f21aefa6100836eb6dc6cc390f95f66f805d2b",
+    "src/json_value.rs": "8d9ba3ec71159ba06f35c4145509333e6c3cf8a6a1691112746be4cd75d2beb0",
+    "src/lib.rs": "ea4a22216f5d669b749569db191d9ba5dac24ce7e1615c1b2fc4c9f178d70827",
+    "src/main.rs": "c40b217e9bb1e792d1747cdb30813073e851896221f299ad9efaa28be8ce31d7",
+    "src/mask.rs": "6a12468b0d33b9de16dcd99b03e9f1cce9ca2be6b73a7d94cde46f9db71de0bc",
+    "src/output/excerpt-patterns.json": "4ed4eab6a7b0e70edcd831fb295fed9553ef959a6504b1a66bb0851c22310b8b",
+    "src/output/excerpt.rs": "7cd77db34b5b87499f6cdb1944bbadbfe547fdf3b566c1c986934c3f3a1cd9e8",
+    "src/output/field_rates.rs": "49be9b62d7e6db0b97bad7695fec4d3d1b2f288a6edda77e40a2009e746ace14",
+    "src/output/fields.rs": "f1e1fa346dc532a3f8abdcd68356c5c5a2c425a58a4c19760b1a315a3e756f93",
+    "src/output/human.rs": "840043b5a60cd68ba76e386d0d09523120e452e49b22bb325f2347ad642c13a9",
+    "src/output/json.rs": "a90eeda50fd6baf42450a43dec3377119b881d72287a88669af1a020d9534c29",
+    "src/output/markdown.rs": "7b1fca120ecdaf1c20a72bff26f31610e26400c99c18611e64cc638483ac8d1e",
+    "src/output/mod.rs": "24630dfae092931313a934e35fa72c08f1c4fd7441617119bdf82f2e39f56e26",
+    "src/scoring.rs": "d8054a209214fc7a8d7e928cd75b7bc5387595b33ed03143dd6413d39976aef4",
+    "src/values.rs": "dc72a798f1dfe387a087c97882209557b4d1f303d3cad93a9c2317bcfe760f86"
+  },
+  "corrected_harness_assertion": "The initial new Chromium request assertion counted a local blob: download as networking. It now tracks only HTTP/HTTPS; all four identity workflows were rerun successfully. Product evidence comparisons already passed.",
+  "build_config_check": {
+    "command": "npm run verify:wasm",
+    "result": "pass",
+    "cases": 20,
+    "reproducible_engine_sha256": "be02eca56a0aac5faa211fbdeb01ff62f6b8fe8632b130a572e5ea839057b5fc",
+    "scope": "Same source/toolchain produces the same engine bytes across distinct checkout/output paths; caller flags and wrappers preserved; injected failures retain previous engine."
+  },
+  "source_publication": "Not yet published when local checks were recorded; later source verification is recorded in publication.json.",
+  "release_scope": "Locally built 0.3.4 crate only; no registry release, tag or manual hosted deployment."
+}

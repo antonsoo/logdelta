@@ -1,0 +1,46 @@
+{
+  "scope": "Synthetic 100,000-record genuine Docker-wrapper control; serial alternating CLI calls on shared WSL2. No universal speed claim.",
+  "input": {
+    "records": 100000,
+    "bytes": 13100000,
+    "sha256": "fca4e4a8226fd4ada4cebbfeb39b207e3e07732d88b766625d8b1d403bf167b7",
+    "line": "{\"log\":\"{\\\"level\\\": \\\"info\\\", \\\"msg\\\": \\\"request completed\\\", \\\"status\\\": 200}\\n\",\"stream\":\"stdout\",\"time\":\"2026-10-15T12:00:00Z\"}"
+  },
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "runs": {
+    "baseline": [
+      {
+        "wall_seconds": 0.2943364160018973,
+        "cpu_seconds": 0.293999
+      },
+      {
+        "wall_seconds": 0.28809720699791797,
+        "cpu_seconds": 0.28789499999999996
+      },
+      {
+        "wall_seconds": 0.3164541689911857,
+        "cpu_seconds": 0.31406600000000007
+      }
+    ],
+    "current": [
+      {
+        "wall_seconds": 0.30270502500934526,
+        "cpu_seconds": 0.30246000000000006
+      },
+      {
+        "wall_seconds": 0.3284844800073188,
+        "cpu_seconds": 0.328264
+      },
+      {
+        "wall_seconds": 0.33591529200202785,
+        "cpu_seconds": 0.335676
+      }
+    ]
+  },
+  "median_wall_seconds": {
+    "baseline": 0.2943364160018973,
+    "current": 0.3284844800073188
+  },
+  "all_template_reports_identical": true,
+  "report_sha256": "cd2222a73f8e7d1cca2f93e84bbe7e7bdbad03e4ef221801ef989f5dfcc16496"
+}
