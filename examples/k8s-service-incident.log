@@ -1,0 +1,10 @@
+2024-03-02T09:40:00.111111111Z stdout F {"level":"info","msg":"server listening","addr":"0.0.0.0:8080"}
+2024-03-02T09:40:01.211111222Z stdout F 10.244.2.5 - - "GET /healthz HTTP/1.1" 200 2
+2024-03-02T09:40:02.311111333Z stdout F 10.244.2.7 - - "GET /api/v1/orders/42 HTTP/1.1" 200 512
+2024-03-02T09:40:03.411111444Z stdout F 10.244.2.9 - - "POST /api/v1/orders HTTP/1.1" 201 128
+2024-03-02T09:40:04.511111555Z stdout F 10.244.2.5 - - "GET /healthz HTTP/1.1" 200 2
+2024-03-02T09:40:05.611111666Z stderr F {"level":"error","msg":"database connection failed","addr":"10.244.0.2:5432","retries":3}
+2024-03-02T09:40:05.711111777Z stderr F panic: runtime error: invalid memory address or nil pointer dereference
+2024-03-02T09:40:05.811111888Z stderr F goroutine 42 [running]:
+2024-03-02T09:40:05.911111999Z stderr F main.(*OrderHandler).ServeHTTP(0xc0001a2000, {0x9f4b20, 0xc0002a4000}, 0xc0002a6000)
+2024-03-02T09:40:06.011112000Z stdout F 10.244.2.5 - - "GET /healthz HTTP/1.1" 503 21
