@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "node": "v24.21.0",
+  "requestTimeoutMs": 10000,
+  "retryWindowMs": 0,
+  "pollIntervalMs": 5000,
+  "concurrency": 6,
+  "baseURL": "https://antonsoo.github.io/logdelta/",
+  "state": "mismatch",
+  "attempts": 1,
+  "startedAtUtc": "2026-10-17T05:27:01.346Z",
+  "checkedAtUtc": "2026-10-17T05:27:01.901Z",
+  "buildManifestSha256": "2c7a40a50db8b2760cf4c0fb71ffc4fa69f46d5e4779e37473e2dacd8be4a329",
+  "expectedFileCount": 39,
+  "checkedFileCount": 0,
+  "verifiedFileCount": 0,
+  "rootBefore": {
+    "path": "index.html",
+    "bytes": 8148,
+    "sha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+    "url": "https://antonsoo.github.io/logdelta/",
+    "httpStatus": 200,
+    "observedBytes": 8142,
+    "observedSha256": "a595a06181a121df92ec72c33a64d600e458c1916dc31d3564f7133f72a38b44",
+    "state": "mismatch"
+  },
+  "rootAfter": null,
+  "files": [],
+  "scope": "Compares canonical responses with this captured build inventory during the recorded pass. Extra hosted files, browser behavior, public source, registry releases and deployment provenance are not established."
+}

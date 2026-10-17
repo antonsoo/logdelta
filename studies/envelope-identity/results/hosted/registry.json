@@ -1,0 +1,8 @@
+{
+  "checkedAtUtc": "2026-10-17T05:38:41.509721+00:00",
+  "api": "https://crates.io/api/v1/crates/logdelta",
+  "newestVersion": "0.3.4",
+  "runtimeArchivePackageVersion": "0.3.4",
+  "registryReleasePerformed": false,
+  "scope": "Public registry version observation only; this follow-up builds existing source and updates a static site."
+}

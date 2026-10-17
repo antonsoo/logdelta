@@ -1,0 +1,107 @@
+{
+  "format": "logdelta-report",
+  "schema_version": 2,
+  "engine": {
+    "name": "logdelta",
+    "version": "0.3.4",
+    "wasm_sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+  },
+  "completed_at": "2026-10-17T05:28:41.065Z",
+  "settings": {
+    "context": 0,
+    "masks": [],
+    "watch_fields": [
+      "/http/status"
+    ],
+    "watch_by": [
+      "/route"
+    ]
+  },
+  "sources": {
+    "baselines": [
+      {
+        "label": "Baseline 1",
+        "name": "Pasted log",
+        "origin": "pasted",
+        "lines": 2,
+        "utf8_bytes": 225
+      }
+    ],
+    "target": {
+      "label": "Target",
+      "name": "Pasted log",
+      "origin": "pasted",
+      "lines": 2,
+      "utf8_bytes": 225
+    },
+    "omitted_baselines": []
+  },
+  "result": {
+    "baseline_totals": [
+      2
+    ],
+    "target_total": 2,
+    "total_templates": 2,
+    "findings": [],
+    "blocks": [],
+    "value_findings": [],
+    "watched_fields": [
+      {
+        "pointer": "/http/status",
+        "group_by": [
+          "/route"
+        ],
+        "complete": true,
+        "baselines": [
+          {
+            "lines": 2,
+            "matched": 1,
+            "missing": 0,
+            "non_json": 1,
+            "invalid_json": 0,
+            "non_scalar": 0,
+            "ambiguous": 0,
+            "oversized_records": 0,
+            "untracked": 0
+          }
+        ],
+        "target": {
+          "lines": 2,
+          "matched": 1,
+          "missing": 0,
+          "non_json": 1,
+          "invalid_json": 0,
+          "non_scalar": 0,
+          "ambiguous": 0,
+          "oversized_records": 0,
+          "untracked": 0
+        },
+        "values": [
+          {
+            "value_json": "200",
+            "group_values_json": [
+              "\"/checkout\""
+            ],
+            "group_seen_in_baseline": true,
+            "baseline_counts": [
+              1
+            ],
+            "target_count": 1,
+            "is_new": false,
+            "first_baseline": {
+              "baseline_index": 0,
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            },
+            "first_target": {
+              "line_no": 1,
+              "raw": "{\"asctime\": \"2026-10-15T12:00:00Z\", \"message\": \"health check passed\", \"route\": \"/checkout\", \"http\": {\"status\": 200}}",
+              "truncated": false
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -152,3 +152,14 @@ The [publication receipt](results/publication.json) verifies the remote branch
 identity and all 38 changed files against pinned public raw bytes. Locally built
 packages retain version 0.3.4; no registry release or manual hosted deployment
 is included.
+
+
+## Public browser follow-up
+
+The [fresh public replay and clean-build deployment](hosted.md) finds the
+older live engine still hiding both native formatter failures, then verifies
+the existing correction in the actual public page. It retains canonical build
+bytes, 76 full downloaded report comparisons after disconnecting, and desktop/
+phone before-and-after screenshots. This later static deployment does not change
+the source-only scope of the original publication receipt above or release a
+new crate.

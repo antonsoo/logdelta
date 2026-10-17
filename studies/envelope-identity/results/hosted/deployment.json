@@ -1,0 +1,10 @@
+{
+  "runtimeSourceCommit": "f4530200b26853887641a4b4cab6ab6cd27a9263",
+  "ghPagesCommit": "a80e0bea04cbf95b7f001b851e05fa7d950de5f3",
+  "buildFiles": 39,
+  "ghPagesAddsNojekyll": true,
+  "canonicalReceipt": "canonical-after.json",
+  "browserReceipt": "after/receipt.json",
+  "registryReleasePerformed": false,
+  "scope": "Existing corrected source, rebuilt from a clean archive and manually deployed; canonical bytes and actual public offline reports checked separately. Remote CI execution is not inferred."
+}

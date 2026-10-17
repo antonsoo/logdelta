@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "node": "v24.21.0",
+  "requestTimeoutMs": 10000,
+  "retryWindowMs": 180000,
+  "pollIntervalMs": 5000,
+  "concurrency": 6,
+  "baseURL": "https://antonsoo.github.io/logdelta/",
+  "state": "verified",
+  "attempts": 1,
+  "startedAtUtc": "2026-10-17T05:33:05.581Z",
+  "checkedAtUtc": "2026-10-17T05:33:10.811Z",
+  "buildManifestSha256": "2c7a40a50db8b2760cf4c0fb71ffc4fa69f46d5e4779e37473e2dacd8be4a329",
+  "expectedFileCount": 39,
+  "checkedFileCount": 39,
+  "verifiedFileCount": 39,
+  "rootBefore": {
+    "path": "index.html",
+    "bytes": 8148,
+    "sha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+    "url": "https://antonsoo.github.io/logdelta/",
+    "httpStatus": 200,
+    "observedBytes": 8148,
+    "observedSha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+    "state": "verified"
+  },
+  "rootAfter": {
+    "path": "index.html",
+    "bytes": 8148,
+    "sha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+    "url": "https://antonsoo.github.io/logdelta/",
+    "httpStatus": 200,
+    "observedBytes": 8148,
+    "observedSha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+    "state": "verified"
+  },
+  "files": [
+    {
+      "path": "assets/barlow-400-latin-ext-HxX4XjxC.woff2",
+      "bytes": 14268,
+      "sha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-400-latin-ext-HxX4XjxC.woff2",
+      "httpStatus": 200,
+      "observedBytes": 14268,
+      "observedSha256": "122b24bc2a90b0abe189f5229768bf2e9ba641324fe2459b48850079625934f1",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-400-latin-qiz4-Cze.woff2",
+      "bytes": 22196,
+      "sha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-400-latin-qiz4-Cze.woff2",
+      "httpStatus": 200,
+      "observedBytes": 22196,
+      "observedSha256": "b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-400-vietnamese-Dpl4UHAZ.woff2",
+      "bytes": 7588,
+      "sha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-400-vietnamese-Dpl4UHAZ.woff2",
+      "httpStatus": 200,
+      "observedBytes": 7588,
+      "observedSha256": "fef1e3c39d06f701c21120978484610a6848dc357d1ec603421927d709016b10",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-500-latin-BPAOfeC8.woff2",
+      "bytes": 22008,
+      "sha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-500-latin-BPAOfeC8.woff2",
+      "httpStatus": 200,
+      "observedBytes": 22008,
+      "observedSha256": "cd759df8ef9efc98fee14307b4eb5ba27f08b1f8f2f3ad2872432e25c89907a8",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-500-latin-ext-DOaysfXq.woff2",
+      "bytes": 14416,
+      "sha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-500-latin-ext-DOaysfXq.woff2",
+      "httpStatus": 200,
+      "observedBytes": 14416,
+      "observedSha256": "3facdf66b60778c7e64693013be7799e6686b2488dad65525b4036e211ab03e0",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-500-vietnamese-zTViEIzf.woff2",
+      "bytes": 7668,
+      "sha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-500-vietnamese-zTViEIzf.woff2",
+      "httpStatus": 200,
+      "observedBytes": 7668,
+      "observedSha256": "ba426fe513fa9e7e053ae6cf15132bb0ee3a076c634d0a02a0d221c66d74ea5e",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-600-latin-DILqtrty.woff2",
+      "bytes": 22772,
+      "sha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-600-latin-DILqtrty.woff2",
+      "httpStatus": 200,
+      "observedBytes": 22772,
+      "observedSha256": "4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-600-latin-ext-B8NK_A3D.woff2",
+      "bytes": 14968,
+      "sha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-600-latin-ext-B8NK_A3D.woff2",
+      "httpStatus": 200,
+      "observedBytes": 14968,
+      "observedSha256": "b7f099c421968b583734bc631e6706bff8fc23908112a219f5f0e37f59b03b32",
+      "state": "verified"
+    },
+    {
+      "path": "assets/barlow-600-vietnamese-DcjprdFV.woff2",
+      "bytes": 7896,
+      "sha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943",
+      "url": "https://antonsoo.github.io/logdelta/assets/barlow-600-vietnamese-DcjprdFV.woff2",
+      "httpStatus": 200,
+      "observedBytes": 7896,
+      "observedSha256": "d9bb523921d15e2b3fca0b22860af8b6f4a878a54c0bddd7c522588988253943",
+      "state": "verified"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2",
+      "bytes": 30268,
+      "sha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b",
+      "url": "https://antonsoo.github.io/logdelta/assets/big-shoulders-stencil-display-latin-ext-Bwa4hfvR.woff2",
+      "httpStatus": 200,
+      "observedBytes": 30268,
+      "observedSha256": "08e54ed569d321df808a6be8567048ed709bbb176ae9d829f8699afdb5a1105b",
+      "state": "verified"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2",
+      "bytes": 36488,
+      "sha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa",
+      "url": "https://antonsoo.github.io/logdelta/assets/big-shoulders-stencil-display-latin-qmspCb8z.woff2",
+      "httpStatus": 200,
+      "observedBytes": 36488,
+      "observedSha256": "4835f34fffcf06d01c083da9e7cda74abfea924b0a980fe7661bd936497c43aa",
+      "state": "verified"
+    },
+    {
+      "path": "assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2",
+      "bytes": 9868,
+      "sha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3",
+      "url": "https://antonsoo.github.io/logdelta/assets/big-shoulders-stencil-display-vietnamese-CzmlL6-t.woff2",
+      "httpStatus": 200,
+      "observedBytes": 9868,
+      "observedSha256": "f5c32f37fc35dfa2886a4ae630ae62a8b1b7d8de22401200560794f9c2a624b3",
+      "state": "verified"
+    },
+    {
+      "path": "assets/index-CAvweRfQ.js",
+      "bytes": 58254,
+      "sha256": "614846eafa1bea74aa9cceb5be4bdc2e2155298e08ae88837978570d11ec19d6",
+      "url": "https://antonsoo.github.io/logdelta/assets/index-CAvweRfQ.js",
+      "httpStatus": 200,
+      "observedBytes": 58254,
+      "observedSha256": "614846eafa1bea74aa9cceb5be4bdc2e2155298e08ae88837978570d11ec19d6",
+      "state": "verified"
+    },
+    {
+      "path": "assets/index-D61Oky9c.css",
+      "bytes": 30067,
+      "sha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29",
+      "url": "https://antonsoo.github.io/logdelta/assets/index-D61Oky9c.css",
+      "httpStatus": 200,
+      "observedBytes": 30067,
+      "observedSha256": "2dc771e340185c7e21f0c198c26828e41f45d8cb65290a0e46908dccf6c68a29",
+      "state": "verified"
+    },
+    {
+      "path": "assets/jetbrains-mono-cyrillic-Buze_B52.woff2",
+      "bytes": 8872,
+      "sha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf",
+      "url": "https://antonsoo.github.io/logdelta/assets/jetbrains-mono-cyrillic-Buze_B52.woff2",
+      "httpStatus": 200,
+      "observedBytes": 8872,
+      "observedSha256": "e17cfd15fb96909d64095015f958207063a0c07191da3512df7d560a781aebdf",
+      "state": "verified"
+    },
+    {
+      "path": "assets/jetbrains-mono-greek-D3oMJlXt.woff2",
+      "bytes": 6836,
+      "sha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66",
+      "url": "https://antonsoo.github.io/logdelta/assets/jetbrains-mono-greek-D3oMJlXt.woff2",
+      "httpStatus": 200,
+      "observedBytes": 6836,
+      "observedSha256": "0a557721b1f8b36d3f3f84442689a71ca4a744300abcb46a1953f51bfc663b66",
+      "state": "verified"
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-6fWv1k7M.woff2",
+      "bytes": 31432,
+      "sha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be",
+      "url": "https://antonsoo.github.io/logdelta/assets/jetbrains-mono-latin-6fWv1k7M.woff2",
+      "httpStatus": 200,
+      "observedBytes": 31432,
+      "observedSha256": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be",
+      "state": "verified"
+    },
+    {
+      "path": "assets/jetbrains-mono-latin-ext-DIC32ArD.woff2",
+      "bytes": 11624,
+      "sha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52",
+      "url": "https://antonsoo.github.io/logdelta/assets/jetbrains-mono-latin-ext-DIC32ArD.woff2",
+      "httpStatus": 200,
+      "observedBytes": 11624,
+      "observedSha256": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52",
+      "state": "verified"
+    },
+    {
+      "path": "assets/jetbrains-mono-vietnamese-BehTv68k.woff2",
+      "bytes": 5888,
+      "sha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2",
+      "url": "https://antonsoo.github.io/logdelta/assets/jetbrains-mono-vietnamese-BehTv68k.woff2",
+      "httpStatus": 200,
+      "observedBytes": 5888,
+      "observedSha256": "c89b9cc0bc6262bd4f8d8494b6961601f3aefa829d08c2e3635f4d501d3a47c2",
+      "state": "verified"
+    },
+    {
+      "path": "assets/logdelta-D4iuPctI.wasm",
+      "bytes": 1276572,
+      "sha256": "be02eca56a0aac5faa211fbdeb01ff62f6b8fe8632b130a572e5ea839057b5fc",
+      "url": "https://antonsoo.github.io/logdelta/assets/logdelta-D4iuPctI.wasm",
+      "httpStatus": 200,
+      "observedBytes": 1276572,
+      "observedSha256": "be02eca56a0aac5faa211fbdeb01ff62f6b8fe8632b130a572e5ea839057b5fc",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-failed.log",
+      "bytes": 3255,
+      "sha256": "0f5b829c82f9380e866889c8179f72797af4e9e63dbe9a781fe73be043d23b29",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-failed.log",
+      "httpStatus": 200,
+      "observedBytes": 3255,
+      "observedSha256": "0f5b829c82f9380e866889c8179f72797af4e9e63dbe9a781fe73be043d23b29",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-good-2.log",
+      "bytes": 3258,
+      "sha256": "8d2d57bd6df4809e7da06995bec070261d6f4c13fb96a86781a654c502138c94",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-good-2.log",
+      "httpStatus": 200,
+      "observedBytes": 3258,
+      "observedSha256": "8d2d57bd6df4809e7da06995bec070261d6f4c13fb96a86781a654c502138c94",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-good.log",
+      "bytes": 3258,
+      "sha256": "3ee4f1523f70c2bae861de101de6e8780706248d027d92a08de82778406c328f",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-good.log",
+      "httpStatus": 200,
+      "observedBytes": 3258,
+      "observedSha256": "3ee4f1523f70c2bae861de101de6e8780706248d027d92a08de82778406c328f",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-rates/http-rate-failed.log",
+      "bytes": 322846,
+      "sha256": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-rates/http-rate-failed.log",
+      "httpStatus": 200,
+      "observedBytes": 322846,
+      "observedSha256": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-rates/http-rate-good-2.log",
+      "bytes": 322855,
+      "sha256": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-rates/http-rate-good-2.log",
+      "httpStatus": 200,
+      "observedBytes": 322855,
+      "observedSha256": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-rates/http-rate-good.log",
+      "bytes": 322823,
+      "sha256": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-rates/http-rate-good.log",
+      "httpStatus": 200,
+      "observedBytes": 322823,
+      "observedSha256": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-routes-failed.log",
+      "bytes": 6515,
+      "sha256": "0fd3ee9d378583aa7389e7343cdc246e904e33198386f30d22ecfdf8399ca103",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-routes-failed.log",
+      "httpStatus": 200,
+      "observedBytes": 6515,
+      "observedSha256": "0fd3ee9d378583aa7389e7343cdc246e904e33198386f30d22ecfdf8399ca103",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-routes-good-2.log",
+      "bytes": 6515,
+      "sha256": "9e6c7883e934e923f292a06258ab7ff245cff0a020d2dde66d38cd9c116af307",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-routes-good-2.log",
+      "httpStatus": 200,
+      "observedBytes": 6515,
+      "observedSha256": "9e6c7883e934e923f292a06258ab7ff245cff0a020d2dde66d38cd9c116af307",
+      "state": "verified"
+    },
+    {
+      "path": "examples/http-routes-good.log",
+      "bytes": 6517,
+      "sha256": "b59721f12e56c9a71df1b35ad409f83c440d8fe462897cfc7179f092b32967a4",
+      "url": "https://antonsoo.github.io/logdelta/examples/http-routes-good.log",
+      "httpStatus": 200,
+      "observedBytes": 6517,
+      "observedSha256": "b59721f12e56c9a71df1b35ad409f83c440d8fe462897cfc7179f092b32967a4",
+      "state": "verified"
+    },
+    {
+      "path": "examples/k8s-service-incident.log",
+      "bytes": 981,
+      "sha256": "8690badd898dfb20cd791a7ac26d2dc540b032a57377afa4f08fb8d6cbfeacf9",
+      "url": "https://antonsoo.github.io/logdelta/examples/k8s-service-incident.log",
+      "httpStatus": 200,
+      "observedBytes": 981,
+      "observedSha256": "8690badd898dfb20cd791a7ac26d2dc540b032a57377afa4f08fb8d6cbfeacf9",
+      "state": "verified"
+    },
+    {
+      "path": "examples/k8s-service.log",
+      "bytes": 922,
+      "sha256": "d4d2da992b4927935414cbf0fd72b079111aed57b0c511fb105c98a53c54ce2c",
+      "url": "https://antonsoo.github.io/logdelta/examples/k8s-service.log",
+      "httpStatus": 200,
+      "observedBytes": 922,
+      "observedSha256": "d4d2da992b4927935414cbf0fd72b079111aed57b0c511fb105c98a53c54ce2c",
+      "state": "verified"
+    },
+    {
+      "path": "examples/large/baseline-1.log",
+      "bytes": 421486,
+      "sha256": "41a9a5f37ea1a6fffaeb8af7eb72454b7efb8a3193d96af057a8827a1b703fbd",
+      "url": "https://antonsoo.github.io/logdelta/examples/large/baseline-1.log",
+      "httpStatus": 200,
+      "observedBytes": 421486,
+      "observedSha256": "41a9a5f37ea1a6fffaeb8af7eb72454b7efb8a3193d96af057a8827a1b703fbd",
+      "state": "verified"
+    },
+    {
+      "path": "examples/large/baseline-2.log",
+      "bytes": 496184,
+      "sha256": "362019fc11c931c88f45961c21174da770b4604b4b716acce1da043d0bab2af2",
+      "url": "https://antonsoo.github.io/logdelta/examples/large/baseline-2.log",
+      "httpStatus": 200,
+      "observedBytes": 496184,
+      "observedSha256": "362019fc11c931c88f45961c21174da770b4604b4b716acce1da043d0bab2af2",
+      "state": "verified"
+    },
+    {
+      "path": "examples/large/baseline-3.log",
+      "bytes": 450456,
+      "sha256": "da1a43a63780f8e3cb33023a8ea0b7bed69316db6ca1300805cdb90c794c1f86",
+      "url": "https://antonsoo.github.io/logdelta/examples/large/baseline-3.log",
+      "httpStatus": 200,
+      "observedBytes": 450456,
+      "observedSha256": "da1a43a63780f8e3cb33023a8ea0b7bed69316db6ca1300805cdb90c794c1f86",
+      "state": "verified"
+    },
+    {
+      "path": "examples/large/target-failure.log",
+      "bytes": 450505,
+      "sha256": "2711a6fb4f676821c3c8651de8414f9d5962a9b9ffd8987965f502edba9e7ebc",
+      "url": "https://antonsoo.github.io/logdelta/examples/large/target-failure.log",
+      "httpStatus": 200,
+      "observedBytes": 450505,
+      "observedSha256": "2711a6fb4f676821c3c8651de8414f9d5962a9b9ffd8987965f502edba9e7ebc",
+      "state": "verified"
+    },
+    {
+      "path": "examples/npm-build.log",
+      "bytes": 432,
+      "sha256": "33343ebf9cfb997893e9b60bb5f4b5dd980a5dfe01647e282664d1c9fefd35a4",
+      "url": "https://antonsoo.github.io/logdelta/examples/npm-build.log",
+      "httpStatus": 200,
+      "observedBytes": 432,
+      "observedSha256": "33343ebf9cfb997893e9b60bb5f4b5dd980a5dfe01647e282664d1c9fefd35a4",
+      "state": "verified"
+    },
+    {
+      "path": "examples/pytest-fail.log",
+      "bytes": 1156,
+      "sha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06",
+      "url": "https://antonsoo.github.io/logdelta/examples/pytest-fail.log",
+      "httpStatus": 200,
+      "observedBytes": 1156,
+      "observedSha256": "4519c70bc5675bf58461b2fa395f039021cd494b54e070b1546a7409f4a69a06",
+      "state": "verified"
+    },
+    {
+      "path": "examples/pytest-pass.log",
+      "bytes": 1564,
+      "sha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef",
+      "url": "https://antonsoo.github.io/logdelta/examples/pytest-pass.log",
+      "httpStatus": 200,
+      "observedBytes": 1564,
+      "observedSha256": "52a71d563289a7bd801e28395a6194ff86f9408ded55e517ee819dfc532176ef",
+      "state": "verified"
+    },
+    {
+      "path": "index.html",
+      "bytes": 8148,
+      "sha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+      "url": "https://antonsoo.github.io/logdelta/index.html",
+      "httpStatus": 200,
+      "observedBytes": 8148,
+      "observedSha256": "502b4faffebf0948673b4076f01a342be5d94c24279c500c7fda6e62d3de2b85",
+      "state": "verified"
+    }
+  ],
+  "scope": "Compares canonical responses with this captured build inventory during the recorded pass. Extra hosted files, browser behavior, public source, registry releases and deployment provenance are not established."
+}

@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "f4530200b26853887641a4b4cab6ab6cd27a9263",
+  "cleanGitArchive": true,
+  "node": "v24.21.0",
+  "rust": "rustc 1.91.0 (f8297e351 2025-10-28)",
+  "commands": {
+    "cargo fmt --all --check": 0,
+    "cargo clippy --locked --all-targets -- -D warnings": 0,
+    "cargo test --locked": 0,
+    "cargo build --locked --release": 0,
+    "npm ci (web)": 0,
+    "npm run lint (web)": 0,
+    "npm run typecheck (web)": 0,
+    "npm test (web)": 0,
+    "npm run build (web)": 0,
+    "npx playwright test (web)": 143,
+    "LOGDELTA_BASE_URL=<existing-local-preview> npx playwright test (web)": 0,
+    "npx playwright test --config <isolated-cache-config> (web)": 0
+  },
+  "rustChecksIncludingDoctest": 230,
+  "webChecks": 83,
+  "nativeIdentityCases": 19,
+  "wasmFullReportsMatchNative": 19,
+  "wasmBytes": 1276572,
+  "wasmSha256": "be02eca56a0aac5faa211fbdeb01ff62f6b8fe8632b130a572e5ea839057b5fc",
+  "staticBuildFiles": 39,
+  "scope": "Fresh local builds and controls, using the existing source correction. Remote CI execution and a new registry release are not established.",
+  "browserWorkflows": 132,
+  "focusedLocalComparisons": 76,
+  "focusedLocalFullDownloadsMatchNative": 76,
+  "initialBrowserHarness": "The initial invocation printed132 passed, then exited143. Its process exit is retained rather than recorded as successful.",
+  "browserVerification": {
+    "persistentPreview": {
+      "passed": 130,
+      "skipped": 2,
+      "exit": 0,
+      "skipReason": "The two local two-build/cache fixtures intentionally skip when LOGDELTA_BASE_URL is set."
+    },
+    "isolatedCacheFixtures": {
+      "passed": 2,
+      "skipped": 0,
+      "exit": 0,
+      "config": "cache-only.config.mjs",
+      "scope": "Original cache.spec.mjs, no global preview and no LOGDELTA_BASE_URL."
+    }
+  }
+}

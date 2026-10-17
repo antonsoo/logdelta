@@ -1,0 +1,83 @@
+{
+  "engine_sha256": "be02eca56a0aac5faa211fbdeb01ff62f6b8fe8632b130a572e5ea839057b5fc",
+  "engine_bytes": 1276572,
+  "comparison": "Full reports; exact integers, strings and evidence; floating-point scores at 12 significant digits.",
+  "cases": [
+    {
+      "case": "native-pooled",
+      "matches_native": true
+    },
+    {
+      "case": "native-grouped",
+      "matches_native": true
+    },
+    {
+      "case": "native-shadow-pooled",
+      "matches_native": true
+    },
+    {
+      "case": "native-shadow-grouped",
+      "matches_native": true
+    },
+    {
+      "case": "application-stdout-text",
+      "matches_native": true
+    },
+    {
+      "case": "application-stdout-shadow",
+      "matches_native": true
+    },
+    {
+      "case": "application-payments-text",
+      "matches_native": true
+    },
+    {
+      "case": "application-payments-shadow",
+      "matches_native": true
+    },
+    {
+      "case": "docker-wrapped-native",
+      "matches_native": true
+    },
+    {
+      "case": "docker-wrapped-native-shadow",
+      "matches_native": true
+    },
+    {
+      "case": "docker-control-minimal",
+      "matches_native": true
+    },
+    {
+      "case": "docker-control-full",
+      "matches_native": true
+    },
+    {
+      "case": "application-rate",
+      "matches_native": true
+    },
+    {
+      "case": "duplicate-wrapper-log",
+      "matches_native": true
+    },
+    {
+      "case": "duplicate-wrapper-stream",
+      "matches_native": true
+    },
+    {
+      "case": "duplicate-wrapper-time",
+      "matches_native": true
+    },
+    {
+      "case": "duplicate-wrapper-attrs",
+      "matches_native": true
+    },
+    {
+      "case": "duplicate-attribute-name",
+      "matches_native": true
+    },
+    {
+      "case": "unchanged-application",
+      "matches_native": true
+    }
+  ]
+}

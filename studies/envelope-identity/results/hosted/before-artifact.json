@@ -1,0 +1,11 @@
+{
+  "ghPagesCommit": "f8c1e783c0d9b7e024f8d6c9f4ca554e389d4bdb",
+  "module": {
+    "url": "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm",
+    "httpStatus": 200,
+    "bytes": 1266415,
+    "sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+  },
+  "pinnedRawModuleEqualsCanonicalResponse": true,
+  "scope": "Public module observation before replacement, matching the module observed by all four browser sessions; no older main-source mapping is inferred."
+}

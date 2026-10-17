@@ -1,0 +1,207 @@
+{
+  "phase": "before",
+  "node": "v24.21.0",
+  "fullResultComparison": "Integers, strings and evidence exact; floating scores at 12 significant digits.",
+  "sessions": [
+    {
+      "base": "https://antonsoo.github.io/logdelta/",
+      "phase": "before",
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "offlineBeforeFirstNativeComparison": true,
+      "engineAssets": [
+        {
+          "url": "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm",
+          "httpStatus": 200,
+          "bytes": 1266415,
+          "sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+        }
+      ],
+      "errors": [],
+      "network": [
+        "https://antonsoo.github.io/logdelta/assets/worker-DDK7dOJU.js",
+        "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm"
+      ],
+      "noPageOverflow": true,
+      "observations": [
+        {
+          "case": "native-grouped",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 1,
+          "fieldFindingCards": 0,
+          "reportBytes": 2576,
+          "reportSha256": "77ba2d39b3baeaaa037e2ecf17157125a8b0cfeedb45f676e1e16af6d00773ab",
+          "fullResultMatchesFreshNative": false,
+          "download": "chromium-1440-native-grouped.json"
+        },
+        {
+          "case": "native-shadow-pooled",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 2,
+          "fieldFindingCards": 0,
+          "reportBytes": 2360,
+          "reportSha256": "67f813c088a2d76899fd2a257e88bacf1e81e16cbb7e3a28bc845e1505fcb655",
+          "fullResultMatchesFreshNative": false,
+          "download": "chromium-1440-native-shadow-pooled.json"
+        }
+      ]
+    },
+    {
+      "base": "https://antonsoo.github.io/logdelta/",
+      "phase": "before",
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "offlineBeforeFirstNativeComparison": true,
+      "engineAssets": [
+        {
+          "url": "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm",
+          "httpStatus": 200,
+          "bytes": 1266415,
+          "sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+        }
+      ],
+      "errors": [],
+      "network": [
+        "https://antonsoo.github.io/logdelta/assets/worker-DDK7dOJU.js",
+        "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm"
+      ],
+      "noPageOverflow": true,
+      "observations": [
+        {
+          "case": "native-grouped",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 1,
+          "fieldFindingCards": 0,
+          "reportBytes": 2576,
+          "reportSha256": "f75ee8800ee248f32564da30b99484757979b83fd4609f5a5136ee389932e709",
+          "fullResultMatchesFreshNative": false,
+          "download": "chromium-375-native-grouped.json"
+        },
+        {
+          "case": "native-shadow-pooled",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 2,
+          "fieldFindingCards": 0,
+          "reportBytes": 2360,
+          "reportSha256": "79adb8496211877fa1c4903bff89c70f1d293c6983ba318e29cd7c7c8a71153e",
+          "fullResultMatchesFreshNative": false,
+          "download": "chromium-375-native-shadow-pooled.json"
+        }
+      ]
+    },
+    {
+      "base": "https://antonsoo.github.io/logdelta/",
+      "phase": "before",
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "offlineBeforeFirstNativeComparison": true,
+      "engineAssets": [
+        {
+          "url": "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm",
+          "httpStatus": 200,
+          "bytes": 1266415,
+          "sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+        }
+      ],
+      "errors": [],
+      "network": [
+        "https://antonsoo.github.io/logdelta/assets/worker-DDK7dOJU.js",
+        "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm"
+      ],
+      "noPageOverflow": true,
+      "observations": [
+        {
+          "case": "native-grouped",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 1,
+          "fieldFindingCards": 0,
+          "reportBytes": 2576,
+          "reportSha256": "97404625fc4617e82adb47c0c3f80edac32aca2a400aafcb6e7a51b791c7514c",
+          "fullResultMatchesFreshNative": false,
+          "download": "firefox-1440-native-grouped.json"
+        },
+        {
+          "case": "native-shadow-pooled",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 2,
+          "fieldFindingCards": 0,
+          "reportBytes": 2360,
+          "reportSha256": "2c17a1218cbefe91df0a06449ff82f23d2cbb6f7181d40ac1b10e72763d7a84c",
+          "fullResultMatchesFreshNative": false,
+          "download": "firefox-1440-native-shadow-pooled.json"
+        }
+      ]
+    },
+    {
+      "base": "https://antonsoo.github.io/logdelta/",
+      "phase": "before",
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "offlineBeforeFirstNativeComparison": true,
+      "engineAssets": [
+        {
+          "url": "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm",
+          "httpStatus": 200,
+          "bytes": 1266415,
+          "sha256": "3f08f442b55baf3d2d88a7386824a13a4b2de9cdf0f8da9be62c0ddbe6e799cd"
+        }
+      ],
+      "errors": [],
+      "network": [
+        "https://antonsoo.github.io/logdelta/assets/worker-DDK7dOJU.js",
+        "https://antonsoo.github.io/logdelta/assets/logdelta-BWh2dEar.wasm"
+      ],
+      "noPageOverflow": true,
+      "observations": [
+        {
+          "case": "native-grouped",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 1,
+          "fieldFindingCards": 0,
+          "reportBytes": 2576,
+          "reportSha256": "fea545e291bc4dcfc1dd96224ab43e480de2706fd1b3cb2561b0e1ae885bed71",
+          "fullResultMatchesFreshNative": false,
+          "download": "firefox-375-native-grouped.json"
+        },
+        {
+          "case": "native-shadow-pooled",
+          "kind": "novelty",
+          "baselineRecords": 2,
+          "targetRecords": 2,
+          "complete": true,
+          "matched": 2,
+          "fieldFindingCards": 0,
+          "reportBytes": 2360,
+          "reportSha256": "ffbe12e6fc621069935f9980f59dd20e3830ad7af8e954b3d1f6e12e9c3e6bfc",
+          "fullResultMatchesFreshNative": false,
+          "download": "firefox-375-native-shadow-pooled.json"
+        }
+      ]
+    }
+  ]
+}

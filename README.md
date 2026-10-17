@@ -84,7 +84,7 @@ when it could not read its input (a missing file, or one that is not text), like
 
 ## Features
 
-- **Exact JSON field watches (unreleased)**: `--watch-field /http/status` catches a
+- **Exact JSON field watches (source and demo; unreleased crate)**: `--watch-field /http/status` catches a
   `200` to `503` change that numeric masking would hide. Select one or more scalar
   fields; inspect per-run counts, source lines and coverage in the CLI or browser.
   Browser ledgers offer search, paged counts, and source excerpts for the visible rows;
@@ -99,6 +99,10 @@ when it could not read its input (a missing file, or one that is not text), like
   guessed to be Docker metadata; the
   [native formatter replay](studies/envelope-identity/README.md) retains the
   outer status even when the message contains conflicting JSON.
+  A [fresh public browser replay](studies/envelope-identity/hosted.md) now
+  verifies the existing correction in the deployed WASM engine: both native
+  formatter examples retain their previously hidden outer 503. The crates.io
+  release remains unchanged.
   Add `--watch-by /route` to compare outcomes separately for each route: an expected
   `503` from maintenance can no longer hide checkout's first `503`. Repeat it for a
   composite key, such as service and route. New groups are identified separately
