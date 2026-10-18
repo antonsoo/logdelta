@@ -1,4 +1,5 @@
 import { decodeLogInput, type DecodedLog } from "./decode";
+import { engine } from "./engine";
 
 export const MAX_LOG_BYTES = 25 * 1024 * 1024;
 export const MAX_COMPARISON_BYTES = 50 * 1024 * 1024;
@@ -24,7 +25,7 @@ function tooLarge(): Error {
 }
 
 /** Bound the stream as it is read, including decompressor output, and release it on every exit. */
-export async function readBounded(stream: ReadableStream<Uint8Array>, limit: number, signal: AbortSignal): Promise<Uint8Array> {
+export async function readBounded(stream: ReadableStream<Uint8Array>, limit: number, signal: AbortSignal): Promise<Uint8Array<ArrayBuffer>> {
   signal.throwIfAborted();
   const reader = stream.getReader();
   const cancel = () => { void reader.cancel().catch(() => {}); };
@@ -66,10 +67,14 @@ export async function readLogFileInput(file: File, signal: AbortSignal): Promise
   if (file.size > MAX_LOG_BYTES) throw tooLarge();
   const header = new Uint8Array(await file.slice(0, 2).arrayBuffer());
   signal.throwIfAborted();
-  let stream = file.stream();
+  let bytes = await readBounded(file.stream(), MAX_LOG_BYTES, signal);
   // Like the CLI, recognize gzip by magic bytes, regardless of the filename.
-  if (header[0] === 0x1f && header[1] === 0x8b) stream = stream.pipeThrough(new DecompressionStream("gzip"));
-  const input = decodeLogInput(await readBounded(stream, MAX_LOG_BYTES, signal));
+  // DecompressionStream accepts only one gzip member. Use the CLI's multi-member
+  // decoder off-thread, then decode the entire byte stream (not each member).
+  if (header[0] === 0x1f && header[1] === 0x8b) bytes = await engine.gunzip(bytes, signal);
+  signal.throwIfAborted();
+  if (bytes.byteLength > MAX_LOG_BYTES) throw tooLarge();
+  const input = decodeLogInput(bytes);
   if (textBytes(input.text) > MAX_LOG_BYTES) throw tooLarge();
   return input;
 }

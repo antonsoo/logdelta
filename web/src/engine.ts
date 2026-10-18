@@ -22,7 +22,7 @@ interface Job {
   cleanup: () => void;
 }
 
-/** One active comparison. Termination is necessary to interrupt synchronous WASM work. */
+/** One active comparison and independent file decoders. Termination interrupts WASM work. */
 export class DiffEngine {
   private worker: Worker | undefined;
   private job: Job | undefined;
@@ -64,7 +64,7 @@ export class DiffEngine {
         if (!reply || typeof reply.id !== "number") throw new Error("The diff engine returned an unreadable response. Try comparing again.");
         if (reply.id !== this.job.id) return;
         if (reply.ok === false && typeof reply.error === "string") this.finish(new Error(reply.error));
-        else if (reply.ok === true && Number.isFinite(reply.ms) && reply.ms >= 0 && typeof reply.engineSha256 === "string" && /^[0-9a-f]{64}$/.test(reply.engineSha256)) {
+        else if (reply.ok === true && "json" in reply && typeof reply.json === "string" && Number.isFinite(reply.ms) && reply.ms >= 0 && typeof reply.engineSha256 === "string" && /^[0-9a-f]{64}$/.test(reply.engineSha256)) {
           const result = JSON.parse(reply.json) as DiffResult | null;
           if (!result || !Array.isArray(result.baseline_totals) || !Array.isArray(result.findings) || !Array.isArray(result.blocks) || !Array.isArray(result.value_findings) || !Number.isSafeInteger(result.target_total) || !Number.isSafeInteger(result.total_templates)) {
             throw new Error("The diff engine returned an incomplete report. Try comparing again.");
@@ -85,12 +85,7 @@ export class DiffEngine {
           if (fields.some((field) => !validRateEvidence(field, this.job!.watchRateChange))) {
             throw new Error("The diff engine did not return the requested rate evidence. Reload the page and compare again.");
           }
-          if (reply.engineBytes !== undefined) {
-            if (!(reply.engineBytes instanceof ArrayBuffer) || reply.engineBytes.byteLength === 0) {
-              throw new Error("The diff engine returned unreadable module bytes. Try comparing again.");
-            }
-            this.engineBytes = reply.engineBytes;
-          }
+          this.rememberModule(reply.engineBytes);
           this.finish(undefined, { result, ms: reply.ms, engineSha256: reply.engineSha256 });
         } else throw new Error("The diff engine returned an unreadable response. Try comparing again.");
       } catch (error) {
@@ -105,6 +100,58 @@ export class DiffEngine {
       if (this.worker === worker) this.cancel(new Error("Could not read the diff engine response. Try comparing again."));
     };
     return worker;
+  }
+
+  private rememberModule(bytes: ArrayBuffer | undefined): void {
+    if (bytes === undefined) return;
+    if (!(bytes instanceof ArrayBuffer) || bytes.byteLength === 0) {
+      throw new Error("The diff engine returned unreadable module bytes. Try comparing again.");
+    }
+    this.engineBytes = bytes;
+  }
+
+  /** Each file owns a worker: baseline and target imports can finish independently. */
+  gunzip(bytes: Uint8Array<ArrayBuffer>, signal: AbortSignal): Promise<Uint8Array<ArrayBuffer>> {
+    if (signal.aborted) return Promise.reject(signal.reason);
+    const id = this.nextId++;
+    return new Promise((resolve, reject) => {
+      let worker: Worker | undefined;
+      let settled = false;
+      const finish = (error: unknown, output?: ArrayBuffer) => {
+        if (settled) return;
+        settled = true;
+        signal.removeEventListener("abort", abort);
+        if (worker) {
+          worker.onmessage = null;
+          worker.onerror = null;
+          worker.onmessageerror = null;
+          worker.terminate(); // Release the file's compressed data and WASM memory.
+        }
+        if (output !== undefined) resolve(new Uint8Array(output));
+        else reject(error);
+      };
+      const abort = () => finish(signal.reason);
+      signal.addEventListener("abort", abort, { once: true });
+      try {
+        worker = this.createWorker();
+        worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
+          if (settled) return;
+          const reply = event.data;
+          if (!reply || typeof reply.id !== "number") { finish(new Error("The gzip decoder returned an unreadable response. Try opening the file again.")); return; }
+          if (reply.id !== id) return;
+          if (reply.ok === false && typeof reply.error === "string") finish(new Error(reply.error));
+          else if (reply.ok === true && "bytes" in reply && reply.bytes instanceof ArrayBuffer &&
+            Number.isFinite(reply.ms) && reply.ms >= 0 && typeof reply.engineSha256 === "string" && /^[0-9a-f]{64}$/.test(reply.engineSha256)) {
+            try { this.rememberModule(reply.engineBytes); finish(undefined, reply.bytes); }
+            catch (error) { finish(error); }
+          } else finish(new Error("The gzip decoder returned an unreadable response. Try opening the file again."));
+        };
+        worker.onerror = (event) => { event.preventDefault(); finish(new Error(event.message || "The gzip decoder failed to load. Try opening the file again.")); };
+        worker.onmessageerror = () => finish(new Error("Could not read the gzip decoder response. Try opening the file again."));
+        const input = bytes.byteOffset === 0 && bytes.byteLength === bytes.buffer.byteLength ? bytes : bytes.slice();
+        worker.postMessage({ id, gzip: input.buffer, engine: this.engineBytes ? { bytes: this.engineBytes } : { url: new URL(wasmURL, import.meta.url).href } } satisfies WorkerRequest, [input.buffer]);
+      } catch (error) { finish(error); }
+    });
   }
 
   run(request: DiffRequest, signal: AbortSignal): Promise<DiffOutcome> {

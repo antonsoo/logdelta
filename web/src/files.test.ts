@@ -1,9 +1,22 @@
-import { describe, expect, it, vi } from "vitest";
-import { gzipSync } from "node:zlib";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { gunzipSync, gzipSync } from "node:zlib";
 import { MAX_LOG_BYTES, readBounded, readLogFile, readLogFileInput, textBytes } from "./files";
+import { engine } from "./engine";
 
 const signal = () => new AbortController().signal;
 const utf8 = (text: string) => new TextEncoder().encode(text);
+
+// Node has no browser Worker. These tests isolate file/encoding gates; actual
+// Rust/WASM expansion, corruption and worker cancellation run in browser tests.
+beforeAll(() => { vi.spyOn(engine, "gunzip").mockImplementation(async (bytes, abort) => {
+  abort.throwIfAborted();
+  try { return new Uint8Array(gunzipSync(bytes, { maxOutputLength: MAX_LOG_BYTES })); }
+  catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ERR_BUFFER_TOO_LARGE") throw new Error("25 MiB", { cause: error });
+    throw error;
+  }
+}); });
+afterAll(() => vi.restoreAllMocks());
 
 describe("bounded log imports", () => {
   it("carries gzip decoding loss without confusing a literal replacement character", async () => {

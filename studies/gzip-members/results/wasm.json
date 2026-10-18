@@ -1,0 +1,169 @@
+{
+  "scope": "Real CLI binary, compiled WASM C ABI, retained GNU gzip members; no browser transport mocked here",
+  "wasm_sha256": "7e480e9629640ae39aa96234057b98877aa5339a22a70e97129413e80ea2843c",
+  "module_bytes": 1318570,
+  "cases": [
+    {
+      "file": "good.single.gz",
+      "accepted": true,
+      "output_bytes": 322823,
+      "output_sha256": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "good.multi.gz",
+      "accepted": true,
+      "output_bytes": 322823,
+      "output_sha256": "101be20231af5625972dbf537319a9aa7827ad312aa26506edd40a64c5dd88e2",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "good-2.single.gz",
+      "accepted": true,
+      "output_bytes": 322855,
+      "output_sha256": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "good-2.multi.gz",
+      "accepted": true,
+      "output_bytes": 322855,
+      "output_sha256": "a3c2bca545bc5b09a5690a419f56bfc80691e8e9bb9ca5d161c9a3cda5704a89",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "failed.single.gz",
+      "accepted": true,
+      "output_bytes": 322846,
+      "output_sha256": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "failed.multi.gz",
+      "accepted": true,
+      "output_bytes": 322846,
+      "output_sha256": "55b416015b36465b3162dde7bad37256ea30e62812afe77747e7bb12e867d437",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "bad-second-crc.gz",
+      "accepted": false,
+      "output_bytes": null,
+      "output_sha256": null,
+      "error": "Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum",
+      "complete_bytes_equal_gnu_gunzip": false
+    },
+    {
+      "file": "bad-last-size.gz",
+      "accepted": false,
+      "output_bytes": null,
+      "output_sha256": null,
+      "error": "Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum",
+      "complete_bytes_equal_gnu_gunzip": false
+    },
+    {
+      "file": "truncated-last-member.gz",
+      "accepted": false,
+      "output_bytes": null,
+      "output_sha256": null,
+      "error": "Could not open gzip (25 MiB expanded limit): unexpected end of file",
+      "complete_bytes_equal_gnu_gunzip": false
+    },
+    {
+      "file": "trailing-junk.gz",
+      "accepted": false,
+      "output_bytes": null,
+      "output_sha256": null,
+      "error": "Could not open gzip (25 MiB expanded limit): unexpected end of file",
+      "complete_bytes_equal_gnu_gunzip": false
+    },
+    {
+      "file": "utf8-split.multi.gz",
+      "accepted": true,
+      "output_bytes": 40,
+      "output_sha256": "acc0b65a9660389874ffe43fac6aa86a36f358b6f10aeed1ec345c613ac21eac",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "utf16-split-bom.multi.gz",
+      "accepted": true,
+      "output_bytes": 76,
+      "output_sha256": "1ac309b4fe8da036738aa2de31b4e3bc15e412d4d64f0f4a94ce506de0cce404",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "utf16-split-unit.multi.gz",
+      "accepted": true,
+      "output_bytes": 76,
+      "output_sha256": "1ac309b4fe8da036738aa2de31b4e3bc15e412d4d64f0f4a94ce506de0cce404",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "literal-replacement.multi.gz",
+      "accepted": true,
+      "output_bytes": 5,
+      "output_sha256": "ac8d6e1e901dac0630c12b995618b09b5711fe14ca07c2cd6dc97e0bb4f92616",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "malformed-utf8.multi.gz",
+      "accepted": true,
+      "output_bytes": 3,
+      "output_sha256": "ba35dc0ae977a525da3dce526ea3488a8c3f537d01bf8db91ab63fa7474eeacb",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    },
+    {
+      "file": "expanded-over-limit.multi.gz",
+      "accepted": false,
+      "output_bytes": null,
+      "output_sha256": null,
+      "error": "Could not open gzip (25 MiB expanded limit): Expanded gzip exceeds the 26214400-byte limit. Use the CLI for larger logs.",
+      "complete_bytes_equal_gnu_gunzip": false
+    },
+    {
+      "file": "decoded-over-limit.multi.gz",
+      "accepted": true,
+      "output_bytes": 26214400,
+      "output_sha256": "6cec978a51f921d4ce2d4150b21e48276d2e7cafe4e9f15105d4658748218e12",
+      "error": null,
+      "complete_bytes_equal_gnu_gunzip": true
+    }
+  ],
+  "oversized_compressed_input_rejected": true,
+  "independent_client_ledger_sha256": "7ed6bb240f3023d9956b3c0b0f9c03267acba8927eb106bf99a10655b9814439",
+  "captured_http_responses_checked": 6000,
+  "original_client_status_counts_preserved_after_each_gzip_representation": true,
+  "runs": [
+    {
+      "kind": "single",
+      "native_exit": 1,
+      "complete_wasm_and_native_reports_match_frozen_native_result": true,
+      "baseline_totals": [
+        2002,
+        2002
+      ],
+      "target_total": 2002
+    },
+    {
+      "kind": "multi",
+      "native_exit": 1,
+      "complete_wasm_and_native_reports_match_frozen_native_result": true,
+      "baseline_totals": [
+        2002,
+        2002
+      ],
+      "target_total": 2002
+    }
+  ]
+}

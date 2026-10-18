@@ -164,3 +164,76 @@ describe("diff worker ownership", () => {
     await expect(second).resolves.toMatchObject({ result });
   });
 });
+
+describe("gzip worker ownership", () => {
+  const input = () => new Uint8Array([31, 139, 8, 0]);
+  const output = () => new TextEncoder().encode("all members\n").buffer;
+  const reply = (worker: FakeWorker, overrides: object = {}) => worker.reply({ bytes: output(), ...overrides } as Partial<WorkerResponse>);
+
+  it("loads files independently of each other and of a comparison, retaining executable bytes only", async () => {
+    const { engine, workers, run } = setup();
+    const baseline = engine.gunzip(input(), new AbortController().signal);
+    const target = engine.gunzip(input(), new AbortController().signal);
+    const comparison = run();
+    const module = new Uint8Array([0, 97, 115, 109]).buffer;
+    reply(workers[1]!, { engineBytes: module });
+    expect(new TextDecoder().decode(await target)).toBe("all members\n");
+    expect(workers[1]!.terminate).toHaveBeenCalledOnce();
+    expect(workers[0]!.terminate).not.toHaveBeenCalled();
+    expect(workers[2]!.terminate).not.toHaveBeenCalled();
+    workers[2]!.reply(); await comparison;
+    reply(workers[0]!); await baseline;
+    const next = engine.gunzip(input(), new AbortController().signal);
+    expect(workers[3]!.postMessage.mock.calls[0]![0].engine).toEqual({ bytes: module });
+    reply(workers[3]!); await next;
+  });
+
+  it("terminates only the cancelled file, ignores queued replies and releases listeners", async () => {
+    const { engine, workers, run } = setup();
+    const controller = new AbortController();
+    const cancelled = engine.gunzip(input(), controller.signal);
+    const stale = workers[0]!.onmessage!;
+    const pending = engine.gunzip(input(), new AbortController().signal);
+    controller.abort();
+    await expect(cancelled).rejects.toMatchObject({ name: "AbortError" });
+    const comparison = run();
+    stale({ data: { id: 3, ok: true, bytes: output(), ms: 1, engineSha256, engineBytes: new ArrayBuffer(1) } } as MessageEvent<WorkerResponse>);
+    expect(workers[2]!.postMessage.mock.calls[0]![0].engine).toHaveProperty("url");
+    expect(workers[1]!.terminate).not.toHaveBeenCalled();
+    workers[2]!.reply(); await comparison;
+    reply(workers[1]!); await pending;
+    expect(workers[0]!.terminate).toHaveBeenCalledOnce();
+  });
+
+  it("does not create a worker for a cancelled import", async () => {
+    const { engine, factory } = setup();
+    const controller = new AbortController(); controller.abort();
+    await expect(engine.gunzip(input(), controller.signal)).rejects.toMatchObject({ name: "AbortError" });
+    expect(factory).not.toHaveBeenCalled();
+  });
+
+  it.each(["constructor", "post", "error", "messageerror", "wrong-kind", "invalid-digest", "invalid-module", "invalid-time", "unreadable", "gzip-error"])("settles %s without retaining file data or invalid module bytes", async (failure) => {
+    const { engine, factory, workers } = setup();
+    if (failure === "constructor") factory.mockImplementationOnce(() => { throw new Error("blocked"); });
+    if (failure === "post") factory.mockImplementationOnce(() => {
+      const worker = new FakeWorker(); workers.push(worker);
+      worker.postMessage.mockImplementation(() => { throw new Error("cannot clone"); });
+      return worker as unknown as Worker;
+    });
+    const pending = engine.gunzip(input(), new AbortController().signal);
+    if (failure === "error") workers[0]!.onerror?.({ message: "crashed", preventDefault: vi.fn() } as unknown as ErrorEvent);
+    if (failure === "messageerror") workers[0]!.onmessageerror?.();
+    if (failure === "wrong-kind") workers[0]!.reply();
+    if (failure === "invalid-digest") reply(workers[0]!, { engineSha256: "bad", engineBytes: new ArrayBuffer(8) });
+    if (failure === "invalid-module") reply(workers[0]!, { engineBytes: new ArrayBuffer(0) });
+    if (failure === "invalid-time") reply(workers[0]!, { ms: NaN, engineBytes: new ArrayBuffer(8) });
+    if (failure === "unreadable") workers[0]!.onmessage?.({ data: null } as unknown as MessageEvent<WorkerResponse>);
+    if (failure === "gzip-error") workers[0]!.reply({ ok: false, error: "checksum failed" });
+    await expect(pending).rejects.toBeInstanceOf(Error);
+    if (failure !== "constructor") expect(workers[0]!.terminate).toHaveBeenCalledOnce();
+    const next = engine.gunzip(input(), new AbortController().signal);
+    const latest = workers.at(-1)!;
+    expect(latest.postMessage.mock.calls[0]![0].engine).toHaveProperty("url");
+    reply(latest); await next;
+  });
+});

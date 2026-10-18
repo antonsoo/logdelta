@@ -36,6 +36,34 @@ fn open_source_mode(path: &str, exact: bool) -> io::Result<Box<dyn BufRead>> {
 
 const GZIP_MAGIC: [u8; 2] = [0x1F, 0x8B];
 
+/// Expand every gzip member, validating its checksum and trailer before returning bytes.
+///
+/// Browser imports need a bounded, all-or-nothing result before text decoding: a member
+/// boundary can split a BOM or Unicode character. The CLI continues to stream through
+/// `open_source`; this entry point shares its decoder without retaining a partial import.
+pub fn gunzip_bounded(input: &[u8], limit: usize) -> io::Result<Vec<u8>> {
+    let probe_limit = u64::try_from(limit)
+        .ok()
+        .and_then(|n| n.checked_add(1))
+        .ok_or_else(|| {
+            io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "gzip output limit is too large",
+            )
+        })?;
+    let mut output = Vec::new();
+    MultiGzDecoder::new(input)
+        .take(probe_limit)
+        .read_to_end(&mut output)?;
+    if output.len() > limit {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            format!("Expanded gzip exceeds the {limit}-byte limit. Use the CLI for larger logs."),
+        ));
+    }
+    Ok(output)
+}
+
 /// Reject assigning one stdin stream to multiple log inputs before opening any of them.
 ///
 /// The first reader may consume or buffer the stream, leaving subsequent inputs
@@ -478,6 +506,40 @@ mod tests {
             .collect::<io::Result<_>>()
             .unwrap();
         assert_eq!(lines, vec!["first", "second"]);
+    }
+
+    #[test]
+    fn bounded_gzip_validates_all_members_before_returning_exact_bytes() {
+        let plain = b"\xFF\xFEh\0i\0\n\0";
+        for boundary in 0..=plain.len() {
+            let compressed = [gzip(&plain[..boundary]), gzip(&plain[boundary..])].concat();
+            assert_eq!(gunzip_bounded(&compressed, plain.len()).unwrap(), plain);
+            assert!(gunzip_bounded(&compressed, plain.len() - 1).is_err());
+        }
+        assert_eq!(gunzip_bounded(&gzip(b""), 0).unwrap(), b"");
+        let first = gzip(b"first\n");
+        let second = gzip(b"second\n");
+        for damage in [0, 1, 2, 3] {
+            let mut damaged = second.clone();
+            match damage {
+                0 => {
+                    let i = damaged.len() - 8;
+                    damaged[i] ^= 1;
+                } // CRC32
+                1 => {
+                    let i = damaged.len() - 1;
+                    damaged[i] ^= 1;
+                } // ISIZE
+                2 => {
+                    damaged.truncate(damaged.len() - 1);
+                }
+                _ => damaged.extend_from_slice(b"junk"),
+            }
+            let compressed = [first.as_slice(), &damaged].concat();
+            // Even exactly-at-limit output must read through the final trailer.
+            assert!(gunzip_bounded(&compressed, 13).is_err(), "damage {damage}");
+        }
+        assert!(gunzip_bounded(&[], 0).is_err());
     }
 
     #[test]

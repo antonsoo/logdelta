@@ -7,17 +7,17 @@ interface Exports {
   memory: WebAssembly.Memory;
   ld_alloc(len: number): number;
   ld_diff(ptr: number, len: number): number;
+  ld_gunzip?(ptr: number, len: number): number;
   ld_result_ptr(): number;
   ld_result_len(): number;
 }
 
-export interface WorkerRequest {
-  id: number;
-  request: DiffRequest;
-  engine?: { url: string } | { bytes: ArrayBuffer };
-}
+export type EngineSource = { url: string } | { bytes: ArrayBuffer };
+export type WorkerRequest = { id: number; engine?: EngineSource } &
+  ({ request: DiffRequest } | { gzip: ArrayBuffer });
 
-export type WorkerResponse = { id: number; ok: true; json: string; ms: number; engineSha256: string; engineBytes?: ArrayBuffer } | { id: number; ok: false; error: string };
+export type WorkerResponse = ({ id: number; ok: true; ms: number; engineSha256: string; engineBytes?: ArrayBuffer } &
+  ({ json: string } | { bytes: ArrayBuffer })) | { id: number; ok: false; error: string };
 
 interface LoadedEngine { exports: Exports; sha256: string; bytes: ArrayBuffer }
 let engine: Promise<LoadedEngine> | undefined;
@@ -60,17 +60,33 @@ function diff(e: Exports, request: DiffRequest): { ok: boolean; json: string } {
   return { ok: code === 0, json };
 }
 
+function gunzip(e: Exports, bytes: ArrayBuffer): ArrayBuffer {
+  if (typeof e.ld_gunzip !== "function") throw new Error("This engine cannot open gzip. Reload the page to load the current engine.");
+  const ptr = e.ld_alloc(bytes.byteLength);
+  new Uint8Array(e.memory.buffer, ptr, bytes.byteLength).set(new Uint8Array(bytes));
+  const code = e.ld_gunzip(ptr, bytes.byteLength);
+  const output = new Uint8Array(e.memory.buffer, e.ld_result_ptr(), e.ld_result_len());
+  if (code !== 0) throw new Error((JSON.parse(new TextDecoder().decode(output)) as { error: string }).error);
+  // Copy out of WASM memory; only this bounded result buffer is transferred to the page.
+  return new Uint8Array(output).buffer;
+}
+
 self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
-  const { id, request } = event.data;
+  const { id } = event.data;
   if (event.data.engine) source = event.data.engine;
   try {
     const e = await load();
     const started = performance.now();
-    const { ok, json } = diff(e.exports, request);
-    const ms = performance.now() - started;
-    const reply: WorkerResponse = ok ? { id, ok, json, ms, engineSha256: e.sha256, ...(!announced ? { engineBytes: e.bytes } : {}) } : { id, ok: false, error: (JSON.parse(json) as { error: string }).error };
-    self.postMessage(reply);
-    if (ok) announced = true;
+    const metadata = () => ({ id, ok: true as const, ms: performance.now() - started, engineSha256: e.sha256, ...(!announced ? { engineBytes: e.bytes } : {}) });
+    if ("gzip" in event.data) {
+      const bytes = gunzip(e.exports, event.data.gzip);
+      self.postMessage({ ...metadata(), bytes } satisfies WorkerResponse, [bytes]);
+      announced = true;
+    } else {
+      const { ok, json } = diff(e.exports, event.data.request);
+      self.postMessage(ok ? { ...metadata(), json } satisfies WorkerResponse : { id, ok: false, error: (JSON.parse(json) as { error: string }).error } satisfies WorkerResponse);
+      if (ok) announced = true;
+    }
   } catch (err) {
     // A panic aborts the module (panic = "abort"); start from a fresh instance next time.
     engine = undefined;

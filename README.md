@@ -277,7 +277,7 @@ incomplete; ordinary unambiguous JSON keeps its existing normalization.
 wasm-bindgen), `cargo build --target wasm32-unknown-unknown` compiles it, and a Web Worker runs
 it off the main thread. It is the same masking, mining and scoring code as the CLI: on the
 three-baseline example it reports the same 16 templates, 8 findings and one block as
-`logdelta diff ... --json`, in under a second once the 1.2 MB module has loaded. The
+`logdelta diff ... --json`, in under a second once the module has loaded. The
 library builds without the command-line dependencies (`default-features = false`; `clap` and
 `terminal_size` sit behind the default `cli` feature), and `diff_lines` / `mine_lines` take any
 line iterator, so the page diffs pasted text directly.
@@ -300,6 +300,13 @@ one line of the first good run per template. NEW VALUE findings are listed right
 lines. The counts and the blocks are the engine's. Files can be dropped or opened, `.gz`
 included. Each import stays assigned to the log where it began, even if you switch baseline
 tabs. Newer imports, typing, Clear and removing a baseline supersede its pending read.
+
+Gzip imports in the current browser build read **every concatenated member**, just like
+the CLI. The Rust decoder validates each member before the file replaces an input;
+Unicode decoding follows expansion, so a member boundary may split a BOM or character.
+Each import owns a cancellable worker, including when baseline and target files open
+together. [GNU gzip captures and actual browser replay](studies/gzip-members/README.md)
+retain the earlier rejection, complete CLI/report comparison, and corruption/size gates.
 
 **Cancel** stops pending imports, example downloads and comparisons while keeping loaded
 logs and the last completed report. Editing a log or an option also cancels an unfinished

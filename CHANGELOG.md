@@ -5,6 +5,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Open concatenated gzip files in the browser with the CLI's multi-member Rust
+  decoder. Validate all member checksums and trailers before accepting the file,
+  retain the compressed/expanded/decoded size limits and encoding provenance,
+  and terminate each import worker on completion or cancellation. Baseline and
+  target imports remain independent and work offline after the engine loads.
+  [Native GNU gzip and browser evidence](studies/gzip-members/README.md).
+
 - Preserve outer application fields when records contain `log` and `time` or
   `stream`. Docker unwrapping now requires a `stdout`/`stderr` stream and only
   known wrapper keys, shared by template mining and exact watches. Ambiguous

@@ -1,11 +1,13 @@
 //! A plain C-ABI wrapper around the logdelta library for the browser demo, so the page runs
 //! the real masking, template mining and diff code rather than a JavaScript re-creation of it.
-//! No wasm-bindgen: requests and results cross the boundary as JSON in linear memory.
+//! No wasm-bindgen: requests and results cross the boundary in linear memory.
 //!
 //! Protocol: the page calls `ld_alloc(len)`, writes a UTF-8 JSON request into that buffer,
 //! calls `ld_diff` or `ld_templates` with the pointer and length (which takes ownership of the
 //! buffer), and reads the UTF-8 JSON result from `ld_result_ptr()` / `ld_result_len()`. The
 //! return value is 0 on success and 1 when the result is `{"error": "..."}`.
+//! `ld_gunzip` instead consumes compressed bytes and returns raw expanded bytes on success;
+//! errors use the same JSON envelope. Text decoding happens after all members are validated.
 
 use std::alloc::{alloc, dealloc, Layout};
 use std::cell::RefCell;
@@ -132,7 +134,7 @@ pub extern "C" fn ld_alloc(len: usize) -> *mut u8 {
 }
 
 /// # Safety
-/// `ptr`/`len` must come from `ld_alloc(len)` and not have been passed to `ld_diff`/`ld_templates`.
+/// `ptr`/`len` must come from `ld_alloc(len)` and not have been passed to any consuming export.
 #[no_mangle]
 pub unsafe extern "C" fn ld_free(ptr: *mut u8, len: usize) {
     if len != 0 {
@@ -152,6 +154,33 @@ pub unsafe extern "C" fn ld_diff(ptr: *mut u8, len: usize) -> i32 {
 #[no_mangle]
 pub unsafe extern "C" fn ld_templates(ptr: *mut u8, len: usize) -> i32 {
     with_request(ptr, len, templates)
+}
+
+const MAX_LOG_BYTES: usize = 25 * 1024 * 1024;
+
+/// # Safety
+/// `ptr`/`len` must come from one unconsumed `ld_alloc(len)` call.
+#[no_mangle]
+pub unsafe extern "C" fn ld_gunzip(ptr: *mut u8, len: usize) -> i32 {
+    let bytes = if len == 0 {
+        Vec::new()
+    } else {
+        Vec::from_raw_parts(ptr, len, len)
+    };
+    if bytes.len() > MAX_LOG_BYTES {
+        return respond(Err(
+            "Gzip input exceeds the 25 MiB browser limit. Use the CLI for larger logs.".into(),
+        ));
+    }
+    match logdelta::io::gunzip_bounded(&bytes, MAX_LOG_BYTES) {
+        Ok(output) => {
+            RESULT.with(|r| *r.borrow_mut() = output);
+            0
+        }
+        Err(error) => respond(Err(format!(
+            "Could not open gzip (25 MiB expanded limit): {error}"
+        ))),
+    }
 }
 
 #[no_mangle]
