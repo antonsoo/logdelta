@@ -1,0 +1,140 @@
+{
+  "workflows": [
+    {
+      "browser": "chromium",
+      "version": "153.0.8010.12",
+      "width": 1440,
+      "phase": "before",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": false,
+      "previous_input_preserved_on_failure": true,
+      "complete_native_result_matches": false,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "downloads": [
+        {
+          "file": "chromium-1440-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "194ee10f6fc6424f05bbcb6c97ec325661f52bb9b682756b636a089d196cdf17"
+        },
+        {
+          "file": "chromium-1440-after-rejected-import.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "194ee10f6fc6424f05bbcb6c97ec325661f52bb9b682756b636a089d196cdf17"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "failed.multi.gz: Junk found after end of compressed data. Previous input kept.",
+      "status": "Prepared logdelta-report.json for download."
+    },
+    {
+      "browser": "chromium",
+      "version": "153.0.8010.12",
+      "width": 375,
+      "phase": "before",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": false,
+      "previous_input_preserved_on_failure": true,
+      "complete_native_result_matches": false,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "downloads": [
+        {
+          "file": "chromium-375-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "1b0d24eaf58b2f323468997d76ccbf7eac75c2c5d7fb254cf271e465b9f112dd"
+        },
+        {
+          "file": "chromium-375-after-rejected-import.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "1b0d24eaf58b2f323468997d76ccbf7eac75c2c5d7fb254cf271e465b9f112dd"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "failed.multi.gz: Junk found after end of compressed data. Previous input kept.",
+      "status": "Prepared logdelta-report.json for download."
+    },
+    {
+      "browser": "firefox",
+      "version": "155.0",
+      "width": 1440,
+      "phase": "before",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": false,
+      "previous_input_preserved_on_failure": true,
+      "complete_native_result_matches": false,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "downloads": [
+        {
+          "file": "firefox-1440-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "35b126a737621402d2abe0f83849e093ca37fe125aa7110e33588c1aee36f98e"
+        },
+        {
+          "file": "firefox-1440-after-rejected-import.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "35b126a737621402d2abe0f83849e093ca37fe125aa7110e33588c1aee36f98e"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "failed.multi.gz: Unexpected input after the end of stream Previous input kept.",
+      "status": "Prepared logdelta-report.json for download."
+    },
+    {
+      "browser": "firefox",
+      "version": "155.0",
+      "width": 375,
+      "phase": "before",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": false,
+      "previous_input_preserved_on_failure": true,
+      "complete_native_result_matches": false,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "downloads": [
+        {
+          "file": "firefox-375-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "c6d5d5b25854830d3c317ee7c2f6ddedb01ef5eacd7bf33436e4a08ffb52dcab"
+        },
+        {
+          "file": "firefox-375-after-rejected-import.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "c6d5d5b25854830d3c317ee7c2f6ddedb01ef5eacd7bf33436e4a08ffb52dcab"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "failed.multi.gz: Unexpected input after the end of stream Previous input kept.",
+      "status": "Prepared logdelta-report.json for download."
+    }
+  ]
+}

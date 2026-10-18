@@ -1,0 +1,44 @@
+{
+  "format": "logdelta-report",
+  "schema_version": 1,
+  "engine": {
+    "name": "logdelta",
+    "version": "0.3.4",
+    "wasm_sha256": "7e480e9629640ae39aa96234057b98877aa5339a22a70e97129413e80ea2843c"
+  },
+  "completed_at": "2026-10-18T01:43:15.724Z",
+  "settings": {
+    "context": 2,
+    "masks": [],
+    "watch_fields": []
+  },
+  "sources": {
+    "baselines": [
+      {
+        "label": "Baseline 1",
+        "name": "Pasted log",
+        "origin": "pasted",
+        "lines": 1,
+        "utf8_bytes": 13
+      }
+    ],
+    "target": {
+      "label": "Target",
+      "name": "Pasted log",
+      "origin": "pasted",
+      "lines": 1,
+      "utf8_bytes": 11
+    },
+    "omitted_baselines": []
+  },
+  "result": {
+    "baseline_totals": [
+      1
+    ],
+    "target_total": 1,
+    "total_templates": 1,
+    "findings": [],
+    "blocks": [],
+    "value_findings": []
+  }
+}

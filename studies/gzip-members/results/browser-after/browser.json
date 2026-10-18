@@ -1,0 +1,716 @@
+{
+  "workflows": [
+    {
+      "browser": "chromium",
+      "version": "153.0.8010.12",
+      "width": 1440,
+      "phase": "after",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": true,
+      "previous_input_preserved_on_failure": false,
+      "complete_native_result_matches": true,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "guards": {
+        "rejected": [
+          {
+            "file": "bad-second-crc.gz",
+            "status": "bad-second-crc.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "bad-last-size.gz",
+            "status": "bad-last-size.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "truncated-last-member.gz",
+            "status": "truncated-last-member.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "trailing-junk.gz",
+            "status": "trailing-junk.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "expanded-over-limit.multi.gz",
+            "status": "expanded-over-limit.multi.gz: Could not open gzip (25 MiB expanded limit): Expanded gzip exceeds the 26214400-byte limit. Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "decoded-over-limit.multi.gz",
+            "status": "decoded-over-limit.multi.gz: Log exceeds the 25 MiB browser limit (including expanded gzip and decoded text). Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          }
+        ],
+        "encodings": [
+          {
+            "file": "utf8-split.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-bom.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-unit.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          }
+        ],
+        "malformed_utf8_retains_provenance_and_blocks_exact_watches": true,
+        "literal_replacement_is_valid": true
+      },
+      "concurrency": {
+        "independent_baseline_and_target": true,
+        "cancelled_target_preserved": true,
+        "typing_and_reset_ignore_queued_replies": true,
+        "import_workers_terminated": 4,
+        "offline_comparison_recovery_uses_same_module": true
+      },
+      "downloads": [
+        {
+          "file": "chromium-1440-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "d2400409099bdb23d53b3bf83735d24ffbd21fac2a160dd6b6e73762774a0002"
+        },
+        {
+          "file": "chromium-1440-multi.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-rejected-bad-second-crc.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-rejected-bad-last-size.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-rejected-truncated-last-member.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-rejected-trailing-junk.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-rejected-expanded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-rejected-decoded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-blocked-exact.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "4d5cd90e53932fb5705478cc92ac44c01f13428eb39f01e47e8b414395ea714e"
+        },
+        {
+          "file": "chromium-1440-lossy-exploration.json",
+          "kind": "Download report",
+          "bytes": 3232,
+          "sha256": "39b5e7d9e70a9b379c6a59de90db44cde032a452487e48d1f1c19b85f57d8b77"
+        },
+        {
+          "file": "chromium-1440-literal-replacement.json",
+          "kind": "Download report",
+          "bytes": 3205,
+          "sha256": "0ece8078e75ff3859292e100413434f5bbadcfcaa4bfe78e407e28ff5c75082d"
+        },
+        {
+          "file": "chromium-1440-all-multi.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "b964abd4f865b7ceb5e202403958f4f49218bc63fab2a03a84c50c3531153776"
+        },
+        {
+          "file": "chromium-1440-all-multi-raw.json",
+          "kind": "Download JSON",
+          "bytes": 5288,
+          "sha256": "6fc46adf35b8b9aa94a081372033ebece1a4d518daa240069e15650d38913be5"
+        },
+        {
+          "file": "chromium-1440-cancelled-target.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "b964abd4f865b7ceb5e202403958f4f49218bc63fab2a03a84c50c3531153776"
+        },
+        {
+          "file": "chromium-1440-superseded-import.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "b964abd4f865b7ceb5e202403958f4f49218bc63fab2a03a84c50c3531153776"
+        },
+        {
+          "file": "chromium-1440-recovery.json",
+          "kind": "Download report",
+          "bytes": 872,
+          "sha256": "f55a83cd029b09db8434a67d5f29273968142ab5813997a58993508e06864f98"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "Opened failed.multi.gz. Compare runs to update the findings.",
+      "status": "Prepared logdelta-report.json for download."
+    },
+    {
+      "browser": "chromium",
+      "version": "153.0.8010.12",
+      "width": 375,
+      "phase": "after",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": true,
+      "previous_input_preserved_on_failure": false,
+      "complete_native_result_matches": true,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "guards": {
+        "rejected": [
+          {
+            "file": "bad-second-crc.gz",
+            "status": "bad-second-crc.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "bad-last-size.gz",
+            "status": "bad-last-size.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "truncated-last-member.gz",
+            "status": "truncated-last-member.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "trailing-junk.gz",
+            "status": "trailing-junk.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "expanded-over-limit.multi.gz",
+            "status": "expanded-over-limit.multi.gz: Could not open gzip (25 MiB expanded limit): Expanded gzip exceeds the 26214400-byte limit. Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "decoded-over-limit.multi.gz",
+            "status": "decoded-over-limit.multi.gz: Log exceeds the 25 MiB browser limit (including expanded gzip and decoded text). Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          }
+        ],
+        "encodings": [
+          {
+            "file": "utf8-split.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-bom.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-unit.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          }
+        ],
+        "malformed_utf8_retains_provenance_and_blocks_exact_watches": true,
+        "literal_replacement_is_valid": true
+      },
+      "concurrency": {
+        "independent_baseline_and_target": true,
+        "cancelled_target_preserved": true,
+        "typing_and_reset_ignore_queued_replies": true,
+        "import_workers_terminated": 4,
+        "offline_comparison_recovery_uses_same_module": true
+      },
+      "downloads": [
+        {
+          "file": "chromium-375-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "87631f6c43d96b91ed2c4e401229b081dd68c1f1e2209bc605205cbe5509ac7e"
+        },
+        {
+          "file": "chromium-375-multi.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-rejected-bad-second-crc.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-rejected-bad-last-size.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-rejected-truncated-last-member.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-rejected-trailing-junk.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-rejected-expanded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-rejected-decoded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-blocked-exact.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "8208138640cb34ead7dec3f5a2e66c2c0d067af71c49708eb26c821f5dc329aa"
+        },
+        {
+          "file": "chromium-375-lossy-exploration.json",
+          "kind": "Download report",
+          "bytes": 3232,
+          "sha256": "e5c72609312b6b5104dec2824661ff0f95d87b34385cd718b38aaefc2fa43082"
+        },
+        {
+          "file": "chromium-375-literal-replacement.json",
+          "kind": "Download report",
+          "bytes": 3205,
+          "sha256": "9a28c9d814a9356452954698f43d8d56f39a902161ee163dd936d9f57a785748"
+        },
+        {
+          "file": "chromium-375-all-multi.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "25de48654d6d7ab63fae6c6cb79b0e284340336c3f4b5542c38c92fcff7af0ab"
+        },
+        {
+          "file": "chromium-375-all-multi-raw.json",
+          "kind": "Download JSON",
+          "bytes": 5288,
+          "sha256": "6fc46adf35b8b9aa94a081372033ebece1a4d518daa240069e15650d38913be5"
+        },
+        {
+          "file": "chromium-375-cancelled-target.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "25de48654d6d7ab63fae6c6cb79b0e284340336c3f4b5542c38c92fcff7af0ab"
+        },
+        {
+          "file": "chromium-375-superseded-import.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "25de48654d6d7ab63fae6c6cb79b0e284340336c3f4b5542c38c92fcff7af0ab"
+        },
+        {
+          "file": "chromium-375-recovery.json",
+          "kind": "Download report",
+          "bytes": 872,
+          "sha256": "dd5f67be7484acef6df173bb333e681d57bb1c7c11790a1b5c9f4eadeeacfcc0"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "Opened failed.multi.gz. Compare runs to update the findings.",
+      "status": "Prepared logdelta-report.json for download."
+    },
+    {
+      "browser": "firefox",
+      "version": "155.0",
+      "width": 1440,
+      "phase": "after",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": true,
+      "previous_input_preserved_on_failure": false,
+      "complete_native_result_matches": true,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "guards": {
+        "rejected": [
+          {
+            "file": "bad-second-crc.gz",
+            "status": "bad-second-crc.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "bad-last-size.gz",
+            "status": "bad-last-size.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "truncated-last-member.gz",
+            "status": "truncated-last-member.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "trailing-junk.gz",
+            "status": "trailing-junk.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "expanded-over-limit.multi.gz",
+            "status": "expanded-over-limit.multi.gz: Could not open gzip (25 MiB expanded limit): Expanded gzip exceeds the 26214400-byte limit. Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "decoded-over-limit.multi.gz",
+            "status": "decoded-over-limit.multi.gz: Log exceeds the 25 MiB browser limit (including expanded gzip and decoded text). Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          }
+        ],
+        "encodings": [
+          {
+            "file": "utf8-split.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-bom.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-unit.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          }
+        ],
+        "malformed_utf8_retains_provenance_and_blocks_exact_watches": true,
+        "literal_replacement_is_valid": true
+      },
+      "concurrency": {
+        "independent_baseline_and_target": true,
+        "cancelled_target_preserved": true,
+        "typing_and_reset_ignore_queued_replies": true,
+        "import_workers_terminated": 4,
+        "offline_comparison_recovery_uses_same_module": true
+      },
+      "downloads": [
+        {
+          "file": "firefox-1440-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "3cb3e459b5e6d2827ff4f3dbe7ede70b6e0b08cfd0c4bd72f60234170b83ac2d"
+        },
+        {
+          "file": "firefox-1440-multi.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-rejected-bad-second-crc.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-rejected-bad-last-size.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-rejected-truncated-last-member.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-rejected-trailing-junk.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-rejected-expanded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-rejected-decoded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-blocked-exact.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "dccc8da74c8f0a336cbc59488068822567f6e38292d2a2e2e326ded14564de2a"
+        },
+        {
+          "file": "firefox-1440-lossy-exploration.json",
+          "kind": "Download report",
+          "bytes": 3232,
+          "sha256": "6a42bc2d5e2706eccbdda84525f4d21a28033ba8642f95ae50598cb991ddfac4"
+        },
+        {
+          "file": "firefox-1440-literal-replacement.json",
+          "kind": "Download report",
+          "bytes": 3205,
+          "sha256": "d5da05189d8ea4b353de11f6f0a97620c7af1c1121cfeb5a4b2f88294d36541b"
+        },
+        {
+          "file": "firefox-1440-all-multi.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "f19ecc90eb2070fc57bcf0a11ad506dad8ed4ef595cda2333dff55d75ab1210e"
+        },
+        {
+          "file": "firefox-1440-all-multi-raw.json",
+          "kind": "Download JSON",
+          "bytes": 5288,
+          "sha256": "6fc46adf35b8b9aa94a081372033ebece1a4d518daa240069e15650d38913be5"
+        },
+        {
+          "file": "firefox-1440-cancelled-target.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "f19ecc90eb2070fc57bcf0a11ad506dad8ed4ef595cda2333dff55d75ab1210e"
+        },
+        {
+          "file": "firefox-1440-superseded-import.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "f19ecc90eb2070fc57bcf0a11ad506dad8ed4ef595cda2333dff55d75ab1210e"
+        },
+        {
+          "file": "firefox-1440-recovery.json",
+          "kind": "Download report",
+          "bytes": 872,
+          "sha256": "d0934bb1ca400966dfc88311f25f4540fbe0c0d541c9db823324142a4a29a5f6"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "Opened failed.multi.gz. Compare runs to update the findings.",
+      "status": "Prepared logdelta-report.json for download."
+    },
+    {
+      "browser": "firefox",
+      "version": "155.0",
+      "width": 375,
+      "phase": "after",
+      "capture_sha256": "e99a02aec1157ad22844da364c0d20958590ab63f1181afd26dd08137827d659",
+      "member_file": "failed.multi.gz",
+      "opened": true,
+      "previous_input_preserved_on_failure": false,
+      "complete_native_result_matches": true,
+      "offline": true,
+      "errors": [],
+      "requests": [],
+      "guards": {
+        "rejected": [
+          {
+            "file": "bad-second-crc.gz",
+            "status": "bad-second-crc.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "bad-last-size.gz",
+            "status": "bad-last-size.gz: Could not open gzip (25 MiB expanded limit): corrupt gzip stream does not have a matching checksum Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "truncated-last-member.gz",
+            "status": "truncated-last-member.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "trailing-junk.gz",
+            "status": "trailing-junk.gz: Could not open gzip (25 MiB expanded limit): unexpected end of file Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "expanded-over-limit.multi.gz",
+            "status": "expanded-over-limit.multi.gz: Could not open gzip (25 MiB expanded limit): Expanded gzip exceeds the 26214400-byte limit. Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          },
+          {
+            "file": "decoded-over-limit.multi.gz",
+            "status": "decoded-over-limit.multi.gz: Log exceeds the 25 MiB browser limit (including expanded gzip and decoded text). Use the CLI for larger logs. Previous input kept.",
+            "previous_input_and_complete_report_preserved": true
+          }
+        ],
+        "encodings": [
+          {
+            "file": "utf8-split.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-bom.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          },
+          {
+            "file": "utf16-split-unit.multi.gz",
+            "text_preserved": true,
+            "decoding_loss": false
+          }
+        ],
+        "malformed_utf8_retains_provenance_and_blocks_exact_watches": true,
+        "literal_replacement_is_valid": true
+      },
+      "concurrency": {
+        "independent_baseline_and_target": true,
+        "cancelled_target_preserved": true,
+        "typing_and_reset_ignore_queued_replies": true,
+        "import_workers_terminated": 4,
+        "offline_comparison_recovery_uses_same_module": true
+      },
+      "downloads": [
+        {
+          "file": "firefox-375-previous.json",
+          "kind": "Download report",
+          "bytes": 5982,
+          "sha256": "a4989d648a4e191e5e20660e37b548200c8bc211cd25fb006755f510c0e12bcc"
+        },
+        {
+          "file": "firefox-375-multi.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-rejected-bad-second-crc.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-rejected-bad-last-size.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-rejected-truncated-last-member.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-rejected-trailing-junk.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-rejected-expanded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-rejected-decoded-over-limit.multi.gz.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-blocked-exact.json",
+          "kind": "Download report",
+          "bytes": 6638,
+          "sha256": "3d24e90ccbdd7b97e3522bf1f6f8ab24a02daceac0e7298dec52e51a0b5e11a3"
+        },
+        {
+          "file": "firefox-375-lossy-exploration.json",
+          "kind": "Download report",
+          "bytes": 3232,
+          "sha256": "37d9bf409eb7834ddf822e18a3a5091a4cd6160d752cef9b0beabcb39281d10a"
+        },
+        {
+          "file": "firefox-375-literal-replacement.json",
+          "kind": "Download report",
+          "bytes": 3205,
+          "sha256": "85952e1b1477aa5f465841b36bd763d4025d18f52f0fbb122c1121e44c914831"
+        },
+        {
+          "file": "firefox-375-all-multi.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "6fc62a7fe4a2e2553a0d45ec6b6287b8c650d05be159d8c89def3a7f04bc0e35"
+        },
+        {
+          "file": "firefox-375-all-multi-raw.json",
+          "kind": "Download JSON",
+          "bytes": 5288,
+          "sha256": "6fc46adf35b8b9aa94a081372033ebece1a4d518daa240069e15650d38913be5"
+        },
+        {
+          "file": "firefox-375-cancelled-target.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "6fc62a7fe4a2e2553a0d45ec6b6287b8c650d05be159d8c89def3a7f04bc0e35"
+        },
+        {
+          "file": "firefox-375-superseded-import.json",
+          "kind": "Download report",
+          "bytes": 6636,
+          "sha256": "6fc62a7fe4a2e2553a0d45ec6b6287b8c650d05be159d8c89def3a7f04bc0e35"
+        },
+        {
+          "file": "firefox-375-recovery.json",
+          "kind": "Download report",
+          "bytes": 872,
+          "sha256": "b663916219b3db4802b82497a159c0a0abc86186a626573fab0fe79f7b369cf0"
+        }
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "import_status": "Opened failed.multi.gz. Compare runs to update the findings.",
+      "status": "Prepared logdelta-report.json for download."
+    }
+  ]
+}

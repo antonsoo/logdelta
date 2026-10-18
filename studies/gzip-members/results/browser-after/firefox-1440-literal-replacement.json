@@ -1,0 +1,128 @@
+{
+  "format": "logdelta-report",
+  "schema_version": 1,
+  "engine": {
+    "name": "logdelta",
+    "version": "0.3.4",
+    "wasm_sha256": "7e480e9629640ae39aa96234057b98877aa5339a22a70e97129413e80ea2843c"
+  },
+  "completed_at": "2026-10-18T01:43:13.619Z",
+  "settings": {
+    "context": 0,
+    "masks": [],
+    "watch_fields": []
+  },
+  "sources": {
+    "baselines": [
+      {
+        "label": "Baseline 1",
+        "name": "good.single.gz",
+        "origin": "file",
+        "lines": 2002,
+        "utf8_bytes": 322823
+      },
+      {
+        "label": "Baseline 2",
+        "name": "good-2.single.gz",
+        "origin": "file",
+        "lines": 2002,
+        "utf8_bytes": 322855
+      }
+    ],
+    "target": {
+      "label": "Target",
+      "name": "literal-replacement.multi.gz",
+      "origin": "file",
+      "lines": 1,
+      "utf8_bytes": 5
+    },
+    "omitted_baselines": []
+  },
+  "result": {
+    "baseline_totals": [
+      2002,
+      2002
+    ],
+    "target_total": 1,
+    "total_templates": 4,
+    "findings": [
+      {
+        "kind": "new",
+        "direction": "up",
+        "template": "a�",
+        "score": 22.17188110715297,
+        "baseline_counts": [
+          0,
+          0
+        ],
+        "target_count": 1,
+        "first_target_line_no": 1,
+        "first_target_raw": "a�"
+      },
+      {
+        "kind": "gone",
+        "direction": "down",
+        "template": "elapsed_ms=<NUM> event=\"request_complete\" http={status=<NUM>} request_id=<NUM> route=<*> ts=\"<TS>\"",
+        "score": 17.674199263259773,
+        "baseline_counts": [
+          2000,
+          2000
+        ],
+        "target_count": 0,
+        "first_target_line_no": null,
+        "first_target_raw": null,
+        "first_baseline_line_no": 2,
+        "first_baseline_raw": "{\"ts\":\"2026-10-09T09:04:02.146373+00:00\",\"event\":\"request_complete\",\"route\":\"/checkout\",\"http\":{\"status\":503},\"elapsed_ms\":0.091,\"request_id\":9007199254740993}",
+        "block": 0
+      },
+      {
+        "kind": "gone",
+        "direction": "down",
+        "template": "checkout service ready",
+        "score": 5.038047959190045,
+        "baseline_counts": [
+          1,
+          1
+        ],
+        "target_count": 0,
+        "first_target_line_no": null,
+        "first_target_raw": null,
+        "first_baseline_line_no": 1,
+        "first_baseline_raw": "checkout service ready",
+        "block": 0
+      },
+      {
+        "kind": "gone",
+        "direction": "down",
+        "template": "event=\"worker_exit\" exit_code=<NUM>",
+        "score": 5.038047959190045,
+        "baseline_counts": [
+          1,
+          1
+        ],
+        "target_count": 0,
+        "first_target_line_no": null,
+        "first_target_raw": null,
+        "first_baseline_line_no": 2002,
+        "first_baseline_raw": "{\"event\":\"worker_exit\",\"exit_code\":0}",
+        "block": 0
+      }
+    ],
+    "blocks": [
+      {
+        "kind": "gone",
+        "first_line_no": 1,
+        "last_line_no": 2002,
+        "line_count": 2002,
+        "lines_elsewhere": 0,
+        "score": 27.750295181639864,
+        "findings": [
+          2,
+          1,
+          3
+        ]
+      }
+    ],
+    "value_findings": []
+  }
+}

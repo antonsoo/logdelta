@@ -20,7 +20,7 @@ Single-member and six-member forms decompress to the exact same original bytes.
 | --- | --- | --- | --- |
 | Single-member HTTP log | Opens | Opens | Opens |
 | Six-member failing HTTP log | Rejects; keeps previous input/report | Opens all 2,002 lines | Opens all 2,002 lines |
-| Corrupt later checksum, corrupt size, truncated trailer, trailing junk | Not the acceptance claim of this study | Rejects the complete import; keeps previous input/report | Decoder already validates members |
+| Corrupt later checksum, corrupt size, truncated trailer, trailing junk | Not replayed individually | Rejects the complete import; keeps previous input/report | Exits 2; no partial report |
 | Expanded bytes or decoded UTF-8 over 25 MiB | Existing size policy | Rejects; keeps previous input/report | Browser cap does not apply |
 
 With both good runs and the failing run loaded, the full downloaded result

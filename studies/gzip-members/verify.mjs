@@ -68,6 +68,15 @@ for (const value of native.result.watched_fields[0].values) {
 }
 const normalize = value => JSON.parse(JSON.stringify(value, (_, n) => typeof n === 'number' && !Number.isInteger(n) ? Number(n.toPrecision(12)) : n));
 const runs = [];
+const rejectedNative = [];
+for (const file of ['bad-second-crc.gz', 'bad-last-size.gz', 'truncated-last-member.gz', 'trailing-junk.gz']) {
+  const cli = spawnSync(resolve(binary), ['diff', 'good.single.gz', '--target', file, '--json'], {
+    cwd: fileURLToPath(new URL('captures/', import.meta.url)), encoding: 'utf8', maxBuffer: 1024 * 1024,
+  });
+  assert.equal(cli.status, 2, cli.stderr);
+  assert.equal(cli.stdout, '');
+  rejectedNative.push({ file, exit: cli.status, stderr: cli.stderr, no_partial_report: true });
+}
 for (const kind of ['single', 'multi']) {
   const paths = ['good', 'good-2', 'failed'].map(label => fileURLToPath(new URL(`captures/${label}.${kind}.gz`, import.meta.url)));
   const request = { baselines: [], target: '', context: 0, masks: [], watch_fields: ['/http/status'], watch_by: ['/route'], watch_rate_change: 5 };
@@ -100,5 +109,5 @@ for (const kind of ['single', 'multi']) {
 await writeFile(resolve(output), JSON.stringify({ scope: 'Real CLI binary, compiled WASM C ABI, retained GNU gzip members; no browser transport mocked here',
   wasm_sha256: sha256(module), module_bytes: module.length, cases, oversized_compressed_input_rejected: true,
   independent_client_ledger_sha256: sha256(observedBytes), captured_http_responses_checked: 6000,
-  original_client_status_counts_preserved_after_each_gzip_representation: true, runs }, null, 2) + '\n');
+  original_client_status_counts_preserved_after_each_gzip_representation: true, rejected_native: rejectedNative, runs }, null, 2) + '\n');
 console.log(JSON.stringify({ captures: cases.length, reports: runs.length, wasm_sha256: sha256(module) }));
