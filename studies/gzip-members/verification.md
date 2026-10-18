@@ -65,3 +65,33 @@ itself does not overflow.
 Public-byte and logged-out browser verification are recorded separately after
 publication. A source commit or successful local build alone is not a public
 workflow check.
+
+## Published build
+
+The source correction and verification commit were pushed normally. The tested
+site was pushed to `gh-pages` at
+`7d06e1c8e9e1b89d06fd26f327902f1c35782de1`.
+Canonical public responses matched all 39 build files and the root entrypoint
+[before](results/hosted-before.json) and [after](results/hosted-after.json) the
+browser replay. [52 immutable public source files](results/public-source.json)
+match the source used to build the runtime.
+
+[Public browser replay](results/browser-hosted/browser.json) ran the same four
+fresh browser/viewport contexts against `https://antonsoo.github.io/logdelta/`.
+All 64 downloads were saved and inspected by the replay: 60 portable reports
+identify the exact tested WASM hash, and 4 raw JSON files match the native result.
+Corruption, size, encoding and worker-ownership gates still passed with zero
+analysis HTTP requests, page errors, CSP violations or unhandled rejections.
+The four focused production-browser cases also passed publicly, including a
+failed first module fetch followed by a successful gzip import and offline
+comparison. Their processes exited 0.
+
+The existing two-build cache regression passed in both browsers locally: a warm
+fixed-name legacy cache cannot supply the fingerprinted engine of the subsequent
+production build. Public-byte identity and the downloaded module hash are the
+separate checks on the hosted build. Neither check proves arbitrary browser
+cache state or correctness for all possible inputs. The public page is not an
+offline installation; reloading it still requires its assets.
+
+[Publication receipt](results/publication.json). No crates.io release or tag was
+made; the registry CLI already reads concatenated members.

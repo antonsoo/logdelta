@@ -1,0 +1,15 @@
+{
+  "source_revision": "0066277f86fa5f02998689832aead2228128a14b",
+  "verification_commit": "48b2e49c3934fc56bc3b1e02816293ab2935e34d",
+  "pages_revision": "7d06e1c8e9e1b89d06fd26f327902f1c35782de1",
+  "site": "https://antonsoo.github.io/logdelta/",
+  "verified_public_source_files": 52,
+  "verified_site_files_before_and_after": 39,
+  "browser_contexts": 4,
+  "actual_saved_downloads": 64,
+  "portable_downloads_identifying_tested_module": 60,
+  "raw_native_json_downloads": 4,
+  "targeted_public_production_browser_cases": 4,
+  "registry_release": false,
+  "tag_created": false
+}

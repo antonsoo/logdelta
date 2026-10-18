@@ -1,0 +1,213 @@
+{
+  "revision": "0066277f86fa5f02998689832aead2228128a14b",
+  "files": [
+    {
+      "path": "src/analysis.rs",
+      "sha256": "322d9e1f720523a3515645ee26558bded6d61db17f99b7e2374ab7b51677f1fc"
+    },
+    {
+      "path": "src/blocks.rs",
+      "sha256": "5dbf414acd6f2adec72c56ca2d7ba9f0ebe49592716049a567354e0e4bf5d555"
+    },
+    {
+      "path": "src/cli.rs",
+      "sha256": "b213ae25cff24d206a32e3ec57ad736fabd82f0e5050439a41014351ed7d1342"
+    },
+    {
+      "path": "src/context.rs",
+      "sha256": "68a1de50b754f60f9deabc5d2c4e4e860fe51b30e69729bf57780f205aa2b210"
+    },
+    {
+      "path": "src/drain.rs",
+      "sha256": "b4ee4128a3180e4fbdb77977f17f17d458f1628fb9de3aaf3173b004c0519c79"
+    },
+    {
+      "path": "src/envelope.rs",
+      "sha256": "da1804a436caf18e1cf0d1c27b3e21e995fd99b61e91c6e4608a717dad75e195"
+    },
+    {
+      "path": "src/field_rates.rs",
+      "sha256": "d4dcfc04835c74cad25530b6de62c64b391a71bd2439f6a888210aa9ce847b69"
+    },
+    {
+      "path": "src/fields.rs",
+      "sha256": "7f22db15bc7c98e3f94852e0aa82cde04143b3f8b7093c90d2f849bf7e535eb5"
+    },
+    {
+      "path": "src/io.rs",
+      "sha256": "183c15566a7bd0a8968f0c73308d66f5ce0e389f6414613ee49679d3b965cb4b"
+    },
+    {
+      "path": "src/json_value.rs",
+      "sha256": "8d9ba3ec71159ba06f35c4145509333e6c3cf8a6a1691112746be4cd75d2beb0"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "ea4a22216f5d669b749569db191d9ba5dac24ce7e1615c1b2fc4c9f178d70827"
+    },
+    {
+      "path": "src/main.rs",
+      "sha256": "c40b217e9bb1e792d1747cdb30813073e851896221f299ad9efaa28be8ce31d7"
+    },
+    {
+      "path": "src/mask.rs",
+      "sha256": "6a12468b0d33b9de16dcd99b03e9f1cce9ca2be6b73a7d94cde46f9db71de0bc"
+    },
+    {
+      "path": "src/output/excerpt-patterns.json",
+      "sha256": "4ed4eab6a7b0e70edcd831fb295fed9553ef959a6504b1a66bb0851c22310b8b"
+    },
+    {
+      "path": "src/output/excerpt.rs",
+      "sha256": "7cd77db34b5b87499f6cdb1944bbadbfe547fdf3b566c1c986934c3f3a1cd9e8"
+    },
+    {
+      "path": "src/output/field_rates.rs",
+      "sha256": "49be9b62d7e6db0b97bad7695fec4d3d1b2f288a6edda77e40a2009e746ace14"
+    },
+    {
+      "path": "src/output/fields.rs",
+      "sha256": "f1e1fa346dc532a3f8abdcd68356c5c5a2c425a58a4c19760b1a315a3e756f93"
+    },
+    {
+      "path": "src/output/human.rs",
+      "sha256": "840043b5a60cd68ba76e386d0d09523120e452e49b22bb325f2347ad642c13a9"
+    },
+    {
+      "path": "src/output/json.rs",
+      "sha256": "a90eeda50fd6baf42450a43dec3377119b881d72287a88669af1a020d9534c29"
+    },
+    {
+      "path": "src/output/markdown.rs",
+      "sha256": "7b1fca120ecdaf1c20a72bff26f31610e26400c99c18611e64cc638483ac8d1e"
+    },
+    {
+      "path": "src/output/mod.rs",
+      "sha256": "24630dfae092931313a934e35fa72c08f1c4fd7441617119bdf82f2e39f56e26"
+    },
+    {
+      "path": "src/scoring.rs",
+      "sha256": "d8054a209214fc7a8d7e928cd75b7bc5387595b33ed03143dd6413d39976aef4"
+    },
+    {
+      "path": "src/values.rs",
+      "sha256": "dc72a798f1dfe387a087c97882209557b4d1f303d3cad93a9c2317bcfe760f86"
+    },
+    {
+      "path": "web/scripts/build-wasm.mjs",
+      "sha256": "9d70fbe7cd60cd7f162c29683f38ea9418718c2d04c91718faf90826f2d223e7"
+    },
+    {
+      "path": "web/scripts/canonical-metadata.rs",
+      "sha256": "a66672c476ab7d3d78304cd77087c5970304007ee3e1fbfe74c96b9d720fb598"
+    },
+    {
+      "path": "web/scripts/capture-grouped-evidence.mjs",
+      "sha256": "afa0fe8ff38087227ef94a633911750c08a3064e042208ea6d5f0ad558695610"
+    },
+    {
+      "path": "web/scripts/capture-rates.mjs",
+      "sha256": "7cc3c85cd08fbcf8db676ff10d9157122cfa278e71482d8d31cb229d7b265a7a"
+    },
+    {
+      "path": "web/scripts/verify-excerpts.mjs",
+      "sha256": "120559578732d7d2de6d04c02b843dda2087b963b32ccffb130316f02538ad6e"
+    },
+    {
+      "path": "web/scripts/verify-hosted.mjs",
+      "sha256": "a9b15ba79f191257bf7ad6f9b56d35a782012d30fcd913f68eb8fe5d1374f457"
+    },
+    {
+      "path": "web/scripts/verify-ledger.mjs",
+      "sha256": "6e54cb981c6553bfa7a30c8a55abbba1fad0d4eced8bd1d3d5ffa26e4379d96e"
+    },
+    {
+      "path": "web/scripts/verify-paste.mjs",
+      "sha256": "030c58a36f23e435a9f414c484934b1ca0b83d0030d6179335a8b17555c599e9"
+    },
+    {
+      "path": "web/scripts/verify-wasm.mjs",
+      "sha256": "e845f44bcfb6dcbe302bb81601ca85a4e701b2b3fbb18a84c80b6d8faf07d1a2"
+    },
+    {
+      "path": "web/src/decode.ts",
+      "sha256": "9432aad924d41b943632cc03c1445418a66ffdaa88c8e916cdcd45849396ff78"
+    },
+    {
+      "path": "web/src/engine.ts",
+      "sha256": "0d67ffc13cf8fbe5c55c3a29720adab55ada990d021c6e2ad6840a8b85096ff1"
+    },
+    {
+      "path": "web/src/examples.ts",
+      "sha256": "7c07c4ebf4dd13a4e9fdeb43b4004d98975e01adc3235e8eec6fbd7178a4f8ed"
+    },
+    {
+      "path": "web/src/excerpt.ts",
+      "sha256": "283ddee22fdfe6de8120a25f15da6354b9331e6f6b1fea15747ca3d7a71c042c"
+    },
+    {
+      "path": "web/src/field-ledger.ts",
+      "sha256": "af96858c2ada912f92d5d72d881271eb263a1a9e12df507ebab01216625dc0ee"
+    },
+    {
+      "path": "web/src/field-rates.ts",
+      "sha256": "1194d6657a4827f02f363c9f158e9581eb6268017440deb81d58829a0b380f0f"
+    },
+    {
+      "path": "web/src/files.ts",
+      "sha256": "6e78994426a7fcd435a9b6c6bcdf8a9c405d05ab8d2f7ba4c92e171adc20c5f7"
+    },
+    {
+      "path": "web/src/html.ts",
+      "sha256": "6d1ba95a083d68051662f9dcbfe64f19d530628c57f1c2957142d7aa4d74e4f9"
+    },
+    {
+      "path": "web/src/main.ts",
+      "sha256": "0522a2488e4c01f380d1652eb0c1f8352f57d0e5938795648352597e60b3a4d8"
+    },
+    {
+      "path": "web/src/rate-contract.ts",
+      "sha256": "554c13f74266ae9ed6797d539ee278b6d0de32b242927619342d1160389fb431"
+    },
+    {
+      "path": "web/src/report.ts",
+      "sha256": "4524ca03ee16e8c32b8d29e5c8b5d760848123b88971c7a74db9377f563027bc"
+    },
+    {
+      "path": "web/src/template.ts",
+      "sha256": "ca5ff08f8a8b151bafdb8b7e504996c816d454250dd58be91a669e0f6d57a35a"
+    },
+    {
+      "path": "web/src/types.ts",
+      "sha256": "3a93d29f5b8de48a37d4aa7ec725201125616fdac6653ed9107707ae33214958"
+    },
+    {
+      "path": "web/src/worker.ts",
+      "sha256": "18527ce9968f4cbc06a6f0262a8e33a9fe5c8f3d17ab1639b824eb96b1e3801a"
+    },
+    {
+      "path": "web/wasm/Cargo.lock",
+      "sha256": "6aa5380f31a31a037abd631ba4da64616b31b00f79afc40e4b60352e341c997d"
+    },
+    {
+      "path": "web/wasm/Cargo.toml",
+      "sha256": "7c0bcb63aed8de2a51566d5754bfe49fe5d150c7bdbaed5335e8c088b19f6a62"
+    },
+    {
+      "path": "web/wasm/build.rs",
+      "sha256": "75c6ade2cdf6fae12b47c2cf9801dd710011d1d9f3d647a8046d7bb98e857350"
+    },
+    {
+      "path": "web/wasm/src/lib.rs",
+      "sha256": "b88bc49762a83e6e5f2d2d4e98d1975a1eaeb5785d1cbe6ca8a4aa697f81609d"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "544e5b607f1c0a13f827f6e17635e8edf006d96329ada1d87caea48eeecaac37"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "900d2b4d5ff835c7f48491c2fad82dce5dca8900258b22ca9317f3347b84427a"
+    }
+  ]
+}

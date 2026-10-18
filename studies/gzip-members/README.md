@@ -93,3 +93,6 @@ gunzip and checks both gzip forms against the native result and client ledger.
 Browser receipts record actual saved downloads, their hashes, rejected-import
 messages, worker ownership checks, and offline requests/errors. Verification
 and publication receipts are added after the clean build and public replay.
+
+[Clean packaging, browser, cache and public verification](verification.md)
+records the completed checks and their limits.
