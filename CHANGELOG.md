@@ -5,6 +5,11 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## [0.4.0] - 2026-11-26
+
+- Package metadata names Anthony Mercer (anthony@praviel.com) as the author.
+- The browser engine is built with a pinned Rust 1.100.0 (web/wasm/rust-toolchain.toml), so the published module is reproducible.
+
 - Open concatenated gzip files in the browser with the CLI's multi-member Rust
   decoder. Validate all member checksums and trailers before accepting the file,
   retain the compressed/expanded/decoded size limits and encoding provenance,

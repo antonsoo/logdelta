@@ -1,7 +1,8 @@
 # Field-rate verification, 9 October 2026
 
-Local work only. The package version remains 0.3.4; these changes are unreleased.
-No repository, package or site was published. Implementation: `ee45551`; retained
+At the time this was local work only: the package version remained 0.3.4 and
+no repository, package or site was published. The changes were released in 0.4.0
+on 2026-11-26. Implementation: `ee45551`; retained
 captures and replay drivers: `daa34a7`. The starting checkout was `17fb1d3`.
 
 ## The reproduced gap

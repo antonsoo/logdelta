@@ -1,7 +1,7 @@
 # Finding the assertion inside a long block
 
 The source checkout keeps source diagnostics and error markers in abbreviated block
-reports. This is unreleased; the published 0.3.4 package uses the previous head/tail view.
+reports. Released in 0.4.0 (2026-11-26); 0.3.4 used the previous head/tail view.
 
 In Kubernetes integration build `2076510297404739584`, the failed test says
 `versioning_test.go:250: context deadline exceeded` at log line 118. Logdelta already

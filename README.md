@@ -25,7 +25,7 @@ against each other give 0 or 1: the one is its retry line, which the three runs 
 ## On real logs
 
 Two studies in this repository run logdelta on public data with a known answer. The numbers
-are the released 0.3.4 against this checkout.
+compare the 0.3.4 release with the fixes released in 0.4.0.
 
 - **[264 failed Kubernetes builds, each against a passing build of the same commit](studies/kubernetes-ci/README.md).**
   Same code, one run failed: what differs between the two logs is the failure. Naming the
