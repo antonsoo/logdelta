@@ -4,8 +4,7 @@ From `web/`, `npm run wasm` compiles the locked Rust engine and stages it for
 Vite. `npm run build` then produces the complete site in `web/dist/`.
 
 ```sh
-rustup target add wasm32-unknown-unknown
-cd web
+cd web   # rustup installs the pinned compiler and wasm32 target on first use
 npm ci
 npm run build
 npm run verify:wasm
@@ -87,3 +86,16 @@ and effective flags produce the same bytes across checkout paths. Different
 compilers, sysroots, intentional compiler flags or custom wrapper behavior can
 change the module. The checksum in `engine.wasm_sha256` identifies the exact
 bytes executed by a worker; it is not a source attestation or signature.
+
+## Pinned compiler
+
+`web/wasm/rust-toolchain.toml` pins the engine's compiler to Rust 1.100.0 with
+the `wasm32-unknown-unknown` target; rustup installs it on first use. The pin
+applies only to the browser engine; the command-line crate keeps its own
+toolchain. On 2026-11-25 two fresh clones built byte-identical sites with that
+compiler, while the same commit compiled with 1.99.0 gave a different module,
+and the engine published on 2026-10-17 (`logdelta-Lfh8E99L.wasm`) matched
+neither; its compiler was not recorded. The 2026-10-29 metadata change did not
+alter the module: commit `0066277` and the later main both build
+`logdelta-fZOFh842.wasm` with 1.100.0. To move to a newer compiler, change the
+pin, rebuild, run `npm run verify:wasm` and redeploy.

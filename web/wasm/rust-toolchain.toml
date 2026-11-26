@@ -1,0 +1,8 @@
+# The browser engine's bytes depend on the compiler release: the same commit
+# builds a different module under 1.99.0 and 1.100.0. Pin the compiler for the
+# published engine so two builds of one commit are identical. Bump deliberately
+# (and redeploy) to move to a newer release.
+[toolchain]
+channel = "1.100.0"
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"

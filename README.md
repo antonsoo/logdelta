@@ -350,7 +350,7 @@ the rebuilt-worker evidence.
 To run it locally:
 
 ```console
-$ cd web && npm ci && npm run dev    # needs the wasm32-unknown-unknown target: rustup target add wasm32-unknown-unknown
+$ cd web && npm ci && npm run dev    # rustup installs the pinned Rust 1.100.0 + wasm32 target (web/wasm/rust-toolchain.toml)
 ```
 
 ## How it works
