@@ -363,8 +363,8 @@
           "sha256": "e9419e339389f9d047e73196a8a49eaaa6fb56be614c50462038b5823da732f6"
         },
         "docs/field-rate-evidence/report.md": {
-          "bytes": 2245,
-          "sha256": "bc12e2a96900defed07d9f56873d31d313cb0c1bb6317f5ebb0f175c1f7884dc"
+          "bytes": 2149,
+          "sha256": "e177cc9263a65290f394c68f9ea044ebdebab0bb59bbbbb479b01f5e947c431f"
         },
         "docs/field-rate-evidence/terminal.ansi": {
           "bytes": 1482,
@@ -812,7 +812,7 @@
         },
         "studies/markdown-literals/results/artifacts.json": {
           "bytes": 31008,
-          "sha256": "2797633434ab32e7252a20d1cc018efac1f99924fe99b65fe7633e14989434a3"
+          "sha256": "4fba7319f1718623a6e7e3c803cd26ab2f90f3ff28f7322f5da76996ee607fac"
         },
         "studies/markdown-literals/results/before.json": {
           "bytes": 28730,
@@ -1632,8 +1632,8 @@
           "sha256": "e9419e339389f9d047e73196a8a49eaaa6fb56be614c50462038b5823da732f6"
         },
         "docs/field-rate-evidence/report.md": {
-          "bytes": 2245,
-          "sha256": "bc12e2a96900defed07d9f56873d31d313cb0c1bb6317f5ebb0f175c1f7884dc"
+          "bytes": 2149,
+          "sha256": "e177cc9263a65290f394c68f9ea044ebdebab0bb59bbbbb479b01f5e947c431f"
         },
         "docs/field-rate-evidence/terminal.ansi": {
           "bytes": 1482,
@@ -2101,7 +2101,7 @@
         },
         "studies/markdown-literals/results/artifacts.json": {
           "bytes": 31008,
-          "sha256": "2797633434ab32e7252a20d1cc018efac1f99924fe99b65fe7633e14989434a3"
+          "sha256": "4fba7319f1718623a6e7e3c803cd26ab2f90f3ff28f7322f5da76996ee607fac"
         },
         "studies/markdown-literals/results/before.json": {
           "bytes": 28730,

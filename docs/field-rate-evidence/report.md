@@ -1,6 +1,6 @@
 ### logdelta diff
 
-Baseline: `/home/antonsoloviev/work/projects/showcases/logdelta/examples/http-rates/http-rate-good.log`, `/home/antonsoloviev/work/projects/showcases/logdelta/examples/http-rates/http-rate-good-2.log` (4004 lines) — Target: `/home/antonsoloviev/work/projects/showcases/logdelta/examples/http-rates/http-rate-failed.log` (2002 lines) — 3 templates, 1 finding
+Baseline: `<workspace>/logdelta/examples/http-rates/http-rate-good.log`, `<workspace>/logdelta/examples/http-rates/http-rate-good-2.log` (4004 lines) — Target: `<workspace>/logdelta/examples/http-rates/http-rate-failed.log` (2002 lines) — 3 templates, 1 finding
 
 
 #### Watched JSON fields
