@@ -451,7 +451,7 @@ pub fn write_templates<W: Write>(
     use_color: bool,
 ) -> io::Result<()> {
     let mut clusters: Vec<_> = summary.clusters.iter().collect();
-    clusters.sort_by(|a, b| b.count.cmp(&a.count));
+    clusters.sort_by_key(|c| std::cmp::Reverse(c.count));
 
     writeln!(
         out,
